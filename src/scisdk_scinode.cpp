@@ -1,7 +1,7 @@
 #include "scisdk_scinode.h"
 
 NI_RESULT SciSDK_Node::SetParamU32(string name, uint32_t value) {
-	SciSDK_Paramcb *p;
+	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, p)) {
 		switch (p->type) {
 			case SciSDK_Paramcb::Type::I32:

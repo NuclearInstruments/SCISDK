@@ -34,7 +34,7 @@ NI_RESULT SciSDK_Device::Connect() {
 				if (res == NI_OK) {
 					connected = true;
 				}
-
+				SetRegister("/Registers/res", 1);
 
 			}
 			else {
@@ -47,7 +47,7 @@ NI_RESULT SciSDK_Device::Connect() {
 			return NI_INVALID_CFG_JSON;
 		}
 
-		SetParameter("Page0/Registers.error", "10");
+		SetParameter("Registers.error", "10");
 	}
 	return NI_OK;
 }
@@ -85,9 +85,34 @@ NI_RESULT SciSDK_Device::GetParameter(string Path, string value) {
 
 	return NI_OK;
 }
+
+NI_RESULT SciSDK_Device::SetRegister(string Path, uint32_t value) {
+	SciSDK_Register *reg = NULL;
+	FindMMC(Path, (SciSDK_Node **) &reg);
+	reg->SetValueU32(value);
+	return NI_OK;
+}
+
+NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
+
+	return NI_OK;
+}
+
+
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 
 	return NI_OK;
+}
+
+NI_RESULT SciSDK_Device::FindMMC(string Path, SciSDK_Node **node) {
+	auto f = std::find(mmcs.begin(), mmcs.end(), Path);
+	if (f != mmcs.end()) {
+		*node = &(*f);
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 std::vector<std::string> SciSDK_Device::SplitPath(string path, char separator) {
@@ -115,7 +140,7 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 				{
 					cout << parent << "/" << it.key() << "/" << (string) r.at("Name")<< endl;
 
-					mmcs.push_back(new SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
+					mmcs.push_back(SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
 				}
 			}
 			else {

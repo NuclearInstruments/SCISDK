@@ -13,27 +13,29 @@ using json = nlohmann::json;
 
 using namespace std;
 
-class SciSDK_Paramcb {
-public:
 
-	string Name;
-	string Description;
-	enum class Type{
-		I32, U32, I64, U64, d, str
-	} type;
-	SciSDK_Node *caller;
-
-	SciSDK_Paramcb(string _name, string _desc, Type _type, SciSDK_Node *_caller) {
-		Name = _name;
-		Description = _desc;
-		type = _type;
-		caller = _caller;
-	}
-	bool operator==(const string rhs) const { return this->Name == rhs; }
-};
 
 class SciSDK_Node {
 public:
+	class SciSDK_Paramcb {
+	public:
+
+		string Name;
+		string Description;
+		enum class Type {
+			I32, U32, I64, U64, d, str
+		} type;
+		SciSDK_Node *caller;
+
+		SciSDK_Paramcb(string _name, string _desc, Type _type, SciSDK_Node *_caller) {
+			Name = _name;
+			Description = _desc;
+			type = _type;
+			caller = _caller;
+		}
+		bool operator==(const string rhs) const { return this->Name == rhs; }
+	};
+
 	SciSDK_Node(SciSDK_HAL *hal, json j, string path)  {
 		_path = path;
 		_hal = hal;
@@ -44,6 +46,8 @@ public:
 			type = "Register";
 		}
 	}
+
+	bool operator==(const string rhs) const { return (this->_path + "/" + this->name) == rhs; }
 
 	string GetPath() {
 		return _path + "/" + name;
@@ -59,7 +63,7 @@ public:
 	}
 
 	virtual NI_RESULT SetValueU32(uint32_t value)  {return NI_NOT_IMPLEMENTED;}
-	virtual NI_RESULT GetValueU23(uint32_t *value)  { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT GetValueU32(uint32_t *value)  { return NI_NOT_IMPLEMENTED; }
 	NI_RESULT SetParamU32(string name, uint32_t value);
 	virtual NI_RESULT GetParamU32(string name, uint32_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT SetParamU64(string name, uint64_t value) { return NI_NOT_IMPLEMENTED; }

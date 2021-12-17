@@ -20,7 +20,7 @@ public:
 	
 	NI_RESULT SetValueU32(uint32_t value) override;
 
-	NI_RESULT GetValueU23(uint32_t *value) override;
+	NI_RESULT GetValueU32(uint32_t *value) override;
 
 private:
 

@@ -1,0 +1,267 @@
+{"Registers":[
+{
+  "Name": "cnt",
+  "Address": 1031,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "res",
+  "Address": 1032,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "spe",
+  "Address": 131078,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 0,
+  "Version": "1.0.0.0",
+  "nsamples": 1024,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 1024,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Address": 1025,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 1026,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 1027,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 1028,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 1029,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 1030,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 1
+},
+{
+  "Name": "List_0",
+  "Type": "ListModule",
+  "Address": 1034,
+  "Version": "1.1.0.0",
+  "WordSize": 0,
+  "Channels": 1,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 1035,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 1036,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+},
+{
+  "Name": "CP_0",
+  "Type": "CustomPacket",
+  "Address": 1038,
+  "Version": "1.1.0.0",
+  "Channels": 0,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 1039,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_VALID_WORDS",
+      "Address": 1040,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 1041,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "UseDMA": false
+},
+{
+  "Name": "Spectrum_0",
+  "Type": "Spectrum",
+  "Address": 65536,
+  "Version": "1.0.0.0",
+  "bins": 1024,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 131072,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 131073,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_LIMIT",
+      "Address": 131074,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_REBIN",
+      "Address": 131075,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_MIN",
+      "Address": 131076,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_MAX",
+      "Address": 131077,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "CountsBit": 16
+},
+{
+  "Name": "Digitizer_0",
+  "Type": "WaveDump",
+  "Address": 33554436,
+  "Version": "1.1.0.0",
+  "WordSize": 0,
+  "Channels": 1,
+  "nsamples": 1024,
+  "UseDMA": false,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 33554437,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "INFO",
+      "Address": 33554438,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 33554439,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "ACQ_LEN",
+      "Address": 33554440,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+},
+{
+  "Name": "fftmon_0",
+  "Type": "FFTMonitor",
+  "Address": 16777216,
+  "Version": "1.0.0.0",
+  "nsamples": 1024,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 33554432,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 33554433,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 33554434,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 1
+}],"Device":"SCIDK","Project":"SCISDKTester"}

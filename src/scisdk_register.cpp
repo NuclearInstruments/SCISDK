@@ -8,7 +8,7 @@ NI_RESULT SciSDK_Register::SetValueU32(uint32_t value) {
 	return res;
 }
 
-NI_RESULT SciSDK_Register::GetValueU23(uint32_t *value) {
+NI_RESULT SciSDK_Register::GetValueU32(uint32_t *value) {
 	uint32_t reg_address=0;
 	uint32_t v;
 	/*_elem.getAddress(&reg_address);
