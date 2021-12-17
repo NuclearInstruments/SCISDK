@@ -18,7 +18,7 @@ public:
 		cout << "Oscilloscope: " << name << " addr: " << address << endl;
 	}
 
-
+	NI_RESULT ISetParamU32(string name, int32_t value);
 private:
 
 	uint32_t address;

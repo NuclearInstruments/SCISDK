@@ -87,11 +87,11 @@ protected:
 	}
 
 	virtual NI_RESULT ISetParamI32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT IGetParamI32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT ISetParamU32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamU32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamU64(string name, uint64_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamU64(string name, uint64_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT ISetParamI32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT IGetParamI32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamI64(string name, int64_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamI64(string name, int64_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamDouble(string name, double value) { return NI_NOT_IMPLEMENTED; }

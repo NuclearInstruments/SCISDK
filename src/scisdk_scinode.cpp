@@ -9,8 +9,14 @@ NI_RESULT SciSDK_Node::SetParamU32(string name, uint32_t value) {
 			case SciSDK_Paramcb::Type::U32:
 				p->caller->ISetParamU32(name, value); break;
 			case SciSDK_Paramcb::Type::I64:
+				p->caller->ISetParamI64(name, value); break;
 			case SciSDK_Paramcb::Type::U64:
+				p->caller->ISetParamU64(name, value); break;
 			case SciSDK_Paramcb::Type::d:
+				p->caller->ISetParamDouble(name, (double) value); break;
+			case SciSDK_Paramcb::Type::str:
+				p->caller->ISetParamString(name, std::to_string(value)); break;
+
 				//p->
 			break;
 		}
