@@ -1,4 +1,4 @@
-#include "scidk_oscilloscope.h"
+#include "scisdk_oscilloscope.h"
 
 NI_RESULT SciSDK_Oscilloscope::ISetParamU32(string name, int32_t value) {
 

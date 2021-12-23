@@ -8,7 +8,7 @@ SciSDK sdk;
 
 int main()
 {
-	sdk.AddNewDevice("usb:0004", "dt1260", "SCIDKTester.json", "board0");
+	sdk.AddNewDevice("usb:0006", "dt1260", "SCIDKTester.json", "board0");
 	
     return 0;
 }

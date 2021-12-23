@@ -19,7 +19,8 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	case BOARD_MODEL::DT1260:
 		_handle = malloc(sizeof(SCIDK_HANDLE));
 		if (p[0] == "usb") {
-			return SCIDK_ConnectUSB((char*)p[1].c_str(), (SCIDK_HANDLE*) _handle);
+			NI_RESULT r = SCIDK_ConnectUSB((char*)p[1].c_str(), (SCIDK_HANDLE*) _handle);
+			return r;
 		}
 		break;
 	case BOARD_MODEL::DT5550X:

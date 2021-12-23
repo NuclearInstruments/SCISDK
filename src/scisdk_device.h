@@ -26,7 +26,7 @@ public:
 	NI_RESULT Connect();
 
 	NI_RESULT SetParameter(string Path, string value);
-	NI_RESULT GetParameter(string Path, string value);
+	NI_RESULT GetParameter(string Path, uint32_t *value);
 	NI_RESULT SetRegister(string Path, uint32_t value);
 	NI_RESULT GetRegister(string Path, uint32_t *value);
 
@@ -38,8 +38,8 @@ private:
 	std::vector<std::string> SplitPath(string path, char separator);
 	NI_RESULT FindElement(string Path, SciElement *param);
 	NI_RESULT BuildTree(json rs, string parent);
-	NI_RESULT FindMMC(string Path, SciSDK_Node **node);
-	std::vector<SciSDK_Node> mmcs;
+	SciSDK_Node * FindMMC(string Path);
+	std::vector<SciSDK_Node *> mmcs;
 
 	string _Name;
 	string _DeviceModel;

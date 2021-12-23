@@ -20,6 +20,7 @@ public:
 	class SciSDK_Paramcb {
 	public:
 
+		list<string> lstrpar;
 		string Name;
 		string Description;
 		enum class Type {
@@ -33,6 +34,15 @@ public:
 			type = _type;
 			caller = _caller;
 		}
+
+		SciSDK_Paramcb(string _name, string _desc, Type _type, list<string> _lstrpar, SciSDK_Node *_caller) {
+			Name = _name;
+			Description = _desc;
+			type = _type;
+			caller = _caller;
+			lstrpar = _lstrpar;
+		}
+
 		bool operator==(const string rhs) const { return this->Name == rhs; }
 	};
 
@@ -47,7 +57,7 @@ public:
 		}
 	}
 
-	bool operator==(const string rhs) const { return (this->_path + "/" + this->name) == rhs; }
+	//bool operator==(const string rhs) const { return (this->_path + "/" + this->name) == rhs; }
 
 	string GetPath() {
 		return _path + "/" + name;
@@ -88,6 +98,10 @@ protected:
 
 	void RegisterParameter(string name, string description, SciSDK_Paramcb::Type type, SciSDK_Node *caller) {
 		params.push_back(SciSDK_Paramcb(name, description, type, caller));
+	}
+
+	void RegisterParameter(string name, string description, SciSDK_Paramcb::Type type, list<string> _lstrpar, SciSDK_Node *caller) {
+		params.push_back(SciSDK_Paramcb(name, description, type, _lstrpar, caller));
 	}
 
 	virtual NI_RESULT ISetParamI32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }

@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\headers\SCIDK_API_C.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
-    <ClInclude Include="..\..\src\scidk_oscilloscope.h" />
+    <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_core.h" />
     <ClInclude Include="..\..\src\scisdk_device.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
@@ -159,7 +159,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\scidk_oscilloscope.cpp" />
+    <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_device.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />

@@ -22,9 +22,10 @@ public:
 
 	NI_RESULT GetValueU32(uint32_t *value) override;
 
+	uint32_t address;
 private:
 
-	uint32_t address;
+	
 
 };
 #endif 

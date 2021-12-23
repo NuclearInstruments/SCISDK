@@ -16,11 +16,20 @@ public:
 	{
 		address = (uint32_t)j.at("Address");
 		cout << "Oscilloscope: " << name << " addr: " << address << endl;
+		RegisterParameter("decimator", "set x-axis decimation factor", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("pretrigger", "set pretrigger memory length", SciSDK_Paramcb::Type::U32, this);
+		const std::list<std::string> listOfTriggers = { "self","analog","ext","digital" };
+		RegisterParameter("trigger_mode", "set trigger mode", SciSDK_Paramcb::Type::str, listOfTriggers, this);
+
 	}
+
 
 	NI_RESULT ISetParamU32(string name, int32_t value);
 private:
+	uint32_t decimator;
+	uint32_t pretrigger;
 
+	NI_RESULT ConfigureOscilloscope();
 	uint32_t address;
 
 };

@@ -48,7 +48,7 @@
     <ClInclude Include="..\..\src\scisdk_scinode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\scidk_oscilloscope.h">
+    <ClInclude Include="..\..\src\scisdk_oscilloscope.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClCompile Include="..\..\src\scisdk_scinode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\scidk_oscilloscope.cpp">
+    <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

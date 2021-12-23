@@ -7,6 +7,7 @@
 #include <algorithm>
 	
 #include "scisdk_register.h"
+#include "scisdk_oscilloscope.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -27,14 +28,20 @@ NI_RESULT SciSDK_Device::Connect() {
 			std::ifstream ifile(_JSONFwFilePath);
 			if (ifile) {
 				ifile >> jcfg;
-				BuildTree(jcfg, "");
 				_hal = new SciSDK_HAL();
+				BuildTree(jcfg, "");
 				NI_RESULT res = _hal->Connect(_DevicePath, _DeviceModel);
 
 				if (res == NI_OK) {
 					connected = true;
 				}
 				SetRegister("/Registers/res", 1);
+				SetRegister("/Registers/res", 0);
+				while (1) {
+					uint32_t v;
+					GetRegister("/Registers/cnt", &v);
+					std::cout << v << std::endl;
+				}
 
 			}
 			else {
@@ -81,20 +88,25 @@ NI_RESULT SciSDK_Device::SetParameter(string Path, string value) {
 
 	return NI_OK;
 }
-NI_RESULT SciSDK_Device::GetParameter(string Path, string value) {
-
+NI_RESULT SciSDK_Device::GetParameter(string Path, uint32_t *value) {
 	return NI_OK;
 }
 
 NI_RESULT SciSDK_Device::SetRegister(string Path, uint32_t value) {
+	SciSDK_Node *node = NULL;
 	SciSDK_Register *reg = NULL;
-	FindMMC(Path, (SciSDK_Node **) &reg);
+	node = FindMMC(Path);
+	reg = dynamic_cast<SciSDK_Register*> (node);
 	reg->SetValueU32(value);
 	return NI_OK;
 }
 
 NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
-
+	SciSDK_Node *node = NULL;
+	SciSDK_Register *reg = NULL;
+	node = FindMMC(Path);
+	reg = dynamic_cast<SciSDK_Register*> (node);
+	reg->GetValueU32(value);
 	return NI_OK;
 }
 
@@ -104,15 +116,22 @@ NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 	return NI_OK;
 }
 
-NI_RESULT SciSDK_Device::FindMMC(string Path, SciSDK_Node **node) {
-	auto f = std::find(mmcs.begin(), mmcs.end(), Path);
+SciSDK_Node * SciSDK_Device::FindMMC(string Path) {
+/*	auto f = std::find(mmcs.begin(), mmcs.end(), Path);
 	if (f != mmcs.end()) {
-		*node = &(*f);
+		*node = *f;
 		return true;
 	}
 	else {
 		return false;
+	}*/
+	for (auto n : mmcs) {
+		if ((n->GetPath() == Path))
+		{
+			return n;
+		}
 	}
+	return NULL;
 }
 
 std::vector<std::string> SciSDK_Device::SplitPath(string path, char separator) {
@@ -140,14 +159,17 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 				{
 					cout << parent << "/" << it.key() << "/" << (string) r.at("Name")<< endl;
 
-					mmcs.push_back(SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
+					mmcs.push_back(new SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
 				}
 			}
 			else {
 				if (StartWith(ToUpper(it.key()), ToUpper("MMCComponents"))==true) {
 					for each (json r in rs.at(it.key()))
 					{
-						cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << "<" << (string) r.at("Type") << ">" << endl;
+						cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << "<" << (string)r.at("Type") << ">" << endl;
+						if (ToUpper(r.at("Type")) == "OSCILLOSCOPE") {
+							mmcs.push_back(new SciSDK_Oscilloscope(_hal, r, parent + "/" + (string)it.key()));
+						}
 					}
 				}
 				else {
