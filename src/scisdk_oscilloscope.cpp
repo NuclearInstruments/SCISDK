@@ -377,21 +377,21 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 	bool running = false;
 
 	CheckOscilloscopeStatus(&ready, &armed, &running);
-	if ((!armed) || (!ready) || (!running)) {
+	if ((!armed) && (!ready) && (!running)) {
 		if (!auto_arm) {
 			return NI_NOT_ARMED;
 		}
 		else {
 			CmdArm();
 			CheckOscilloscopeStatus(&ready, &armed, &running);
-			if ((!armed) || (!ready) || (!running)) return NI_NOT_ARMED;
+			if ((!armed) && (!ready) && (!running)) return NI_NOT_ARMED;
 		}
 	}
 
 	if (acq_mode == ACQ_MODE::BLOCKING) {
 		auto t_start = std::chrono::high_resolution_clock::now();
 		double elapsed_time_ms = 0;
-		while (ready || ((timeout >= 0) && (elapsed_time_ms > timeout))) {
+		while (!ready || ((timeout >= 0) && (elapsed_time_ms > timeout))) {
 			auto t_end = std::chrono::high_resolution_clock::now();
 			elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 			CheckOscilloscopeStatus(&ready, &armed, &running);

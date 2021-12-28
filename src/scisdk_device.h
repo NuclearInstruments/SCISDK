@@ -26,11 +26,24 @@ public:
 	NI_RESULT Connect();
 
 	NI_RESULT SetParameter(string Path, string value);
+	NI_RESULT GetParameter(string Path, string *value);
+	NI_RESULT SetParameter(string Path, uint32_t value);
 	NI_RESULT GetParameter(string Path, uint32_t *value);
+	NI_RESULT SetParameter(string Path, int32_t value);
+	NI_RESULT GetParameter(string Path, int32_t *value);
+	NI_RESULT SetParameter(string Path, uint64_t value);
+	NI_RESULT GetParameter(string Path, uint64_t *value);
+	NI_RESULT SetParameter(string Path, int64_t value);
+	NI_RESULT GetParameter(string Path, int64_t *value);
+	NI_RESULT SetParameter(string Path, double value);
+	NI_RESULT GetParameter(string Path, double *value);
 	NI_RESULT SetRegister(string Path, uint32_t value);
 	NI_RESULT GetRegister(string Path, uint32_t *value);
 
 	NI_RESULT ExecuteCommand(string Path);
+
+	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
+	NI_RESULT ReadData(string Path, void *buffer);
 
 	string GetName() { return _Name;  };
 
@@ -38,6 +51,7 @@ private:
 	std::vector<std::string> SplitPath(string path, char separator);
 	NI_RESULT FindElement(string Path, SciElement *param);
 	NI_RESULT BuildTree(json rs, string parent);
+	NI_RESULT LocateParameter(string Path, string *name, SciSDK_Node **node);
 	SciSDK_Node * FindMMC(string Path);
 	std::vector<SciSDK_Node *> mmcs;
 

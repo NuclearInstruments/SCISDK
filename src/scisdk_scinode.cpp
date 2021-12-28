@@ -2,7 +2,7 @@
 
 NI_RESULT SciSDK_Node::SetParam(string name, uint32_t value) {
 	SciSDK_Paramcb *p = NULL;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 			case SciSDK_Paramcb::Type::I32:
 				return p->caller->ISetParamI32(name, value); break;
@@ -26,7 +26,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, uint32_t value) {
 
 NI_RESULT SciSDK_Node::SetParam(string name, int32_t value) {
 	SciSDK_Paramcb *p = NULL;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -50,7 +50,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, int32_t value) {
 
 NI_RESULT SciSDK_Node::SetParam(string name, uint64_t value) {
 	SciSDK_Paramcb *p = NULL;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -74,7 +74,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, uint64_t value) {
 
 NI_RESULT SciSDK_Node::SetParam(string name, int64_t value) {
 	SciSDK_Paramcb *p = NULL;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -98,7 +98,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, int64_t value) {
 
 NI_RESULT SciSDK_Node::SetParam(string name, double value) {
 	SciSDK_Paramcb *p = NULL;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -123,7 +123,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, double value) {
 NI_RESULT SciSDK_Node::SetParam(string name, string value) {
 	SciSDK_Paramcb *p = NULL;
 
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, std::stol(value)); break;
@@ -153,7 +153,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint32_t *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = (uint32_t) i32; break;
@@ -183,7 +183,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, int32_t *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = (int32_t)i32; break;
@@ -213,7 +213,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint64_t *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = (uint64_t)i32; break;
@@ -243,7 +243,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, int64_t *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = (int64_t)i32; break;
@@ -273,7 +273,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, double *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = (double)i32; break;
@@ -303,7 +303,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 	int64_t i64;
 	double d;
 	string s;
-	if (FindParameterByName(name, p)) {
+	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->IGetParamI32(name, &i32); *value = std::to_string(i32); break;
@@ -324,10 +324,10 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 		return NI_NOT_FOUND;
 	}
 }
-bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb *p) {
+bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {
 	auto f = std::find(params.begin(), params.end(), name);
 	if (f != params.end()) {
-		p = &(*f);
+		*p = &(*f);
 		return true;
 	}
 	else {

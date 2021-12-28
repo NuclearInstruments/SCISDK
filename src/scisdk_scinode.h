@@ -128,6 +128,6 @@ protected:
 
 private:
 	vector<SciSDK_Paramcb> params;
-	bool FindParameterByName(string name, SciSDK_Paramcb *p);
+	bool FindParameterByName(string name, SciSDK_Paramcb **p);
 };
 #endif 

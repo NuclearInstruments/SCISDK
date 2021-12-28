@@ -37,11 +37,24 @@ NI_RESULT SciSDK_Device::Connect() {
 				}
 				SetRegister("/Registers/res", 1);
 				SetRegister("/Registers/res", 0);
+				SetParameter("/MMCComponents/Oscilloscope_0.trigger_mode", "self");
+				SetParameter("/MMCComponents/Oscilloscope_0.decimator", 10);
+				SetParameter("/MMCComponents/Oscilloscope_0.data_processing", "decode");
+				SetParameter("/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
+				SetParameter("/MMCComponents/Oscilloscope_0.timeout", 5000);
+				SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+				AllocateBuffer("/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob);
 				while (1) {
+					ReadData("/MMCComponents/Oscilloscope_0", (void *)ob);
+					for (int i = 0; i < 100; i++) {
+						cout << ob->analog[i] << endl;
+					}
+				}
+					/*{
 					uint32_t v;
 					GetRegister("/Registers/cnt", &v);
 					std::cout << v << std::endl;
-				}
+				}*/
 
 			}
 			else {
@@ -73,23 +86,100 @@ bool StartWith(string str, string starts) {
 		return false;
 	}
 }
-NI_RESULT SciSDK_Device::SetParameter(string Path, string value) {
-	/*SciElement spm;
-	NI_RESULT res = FindElement(Path, &spm);
-	if (res != NI_OK) return res;
 
-	if (spm.type == MMC_ELEMENT::REGISTER) {
-		uint32_t v = stoul(value);
-		SciSDK_Register r(spm, _hal);
-		return r.SetRegister(v);
-	} else {
-			return NI_INVALID_TYPE;
-	}*/
-
+NI_RESULT SciSDK_Device::LocateParameter(string Path, string *name, SciSDK_Node **node) {
+	vector<string> qPP = SplitPath(Path, '.');
+	if (qPP.size() != 2) return NI_INVALID_PATH;
+	string path = qPP[0];
+	*name = qPP[1];
+	*node = FindMMC(path);
+	if (!node) return NI_NOT_FOUND;
 	return NI_OK;
 }
+
+NI_RESULT SciSDK_Device::SetParameter(string Path, string value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
+NI_RESULT SciSDK_Device::GetParameter(string Path, string *value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
+}
+NI_RESULT SciSDK_Device::SetParameter(string Path, uint32_t value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
 NI_RESULT SciSDK_Device::GetParameter(string Path, uint32_t *value) {
-	return NI_OK;
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
+}
+NI_RESULT SciSDK_Device::SetParameter(string Path, int32_t value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
+NI_RESULT SciSDK_Device::GetParameter(string Path, int32_t *value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
+}
+NI_RESULT SciSDK_Device::SetParameter(string Path, uint64_t value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
+NI_RESULT SciSDK_Device::GetParameter(string Path, uint64_t *value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
+}
+NI_RESULT SciSDK_Device::SetParameter(string Path, int64_t value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
+NI_RESULT SciSDK_Device::GetParameter(string Path, int64_t *value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
+}
+NI_RESULT SciSDK_Device::SetParameter(string Path, double value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->SetParam(name, value);
+}
+NI_RESULT SciSDK_Device::GetParameter(string Path, double *value) {
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->GetParam(name, value);
 }
 
 NI_RESULT SciSDK_Device::SetRegister(string Path, uint32_t value) {
@@ -110,6 +200,22 @@ NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt,  void **buffer) {
+	SciSDK_Node *node = NULL;
+	node = FindMMC(Path);
+	if (!node) return NI_NOT_FOUND;
+	return node->AllocateBuffer(bt, buffer);
+
+}
+
+NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
+	SciSDK_Node *node = NULL;
+	node = FindMMC(Path);
+	if (!node) return NI_NOT_FOUND;
+	return node->ReadData(buffer);
+
+}
+
 
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 
@@ -126,6 +232,7 @@ SciSDK_Node * SciSDK_Device::FindMMC(string Path) {
 		return false;
 	}*/
 	for (auto n : mmcs) {
+		cout << " ### " << n->GetPath() << endl;
 		if ((n->GetPath() == Path))
 		{
 			return n;

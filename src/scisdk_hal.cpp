@@ -151,10 +151,18 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	uint32_t address,
 	uint32_t timeout_ms,
 	uint32_t *read_data) {
-
+	uint32_t rd, vd;
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
+		SCIDK_ReadData(value,
+			length,
+			address,
+			REG_ACCESS,
+			timeout_ms,
+			(SCIDK_HANDLE*)_handle,
+			&rd,
+			read_data);
 		break;
 	case BOARD_MODEL::DT5550X:
 		break;
