@@ -7,6 +7,8 @@
 #include "scisdk_SciElement.h"
 #include "scisdk_hal.h"
 #include "json.hpp"
+#include "scisdk_defines.h"
+#include "magic_numbers.h"
 
 
 using json = nlohmann::json;
@@ -74,21 +76,28 @@ public:
 
 	virtual NI_RESULT SetValueU32(uint32_t value)  {return NI_NOT_IMPLEMENTED;}
 	virtual NI_RESULT GetValueU32(uint32_t *value)  { return NI_NOT_IMPLEMENTED; }
-	NI_RESULT SetParamU32(string name, uint32_t value);
-	virtual NI_RESULT GetParamU32(string name, uint32_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetParamU64(string name, uint64_t value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetParamU64(string name, uint64_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetParamI32(string name, int32_t value)  { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetParamI32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetParamI64(string name, int64_t value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetParamI64(string name, int64_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetParamDouble(string name, double value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetParamString(string name, string value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetParamDouble(string name, double *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetParamString(string name, string *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT SetConfig(string cfg) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT GetConfig(string *cfg) { return NI_NOT_IMPLEMENTED; }
+	NI_RESULT SetParam(string name, uint32_t value);
+	NI_RESULT GetParam(string name, uint32_t *value);
+	NI_RESULT SetParam(string name, uint64_t value) ;
+	NI_RESULT GetParam(string name, uint64_t *value);
+	NI_RESULT SetParam(string name, int32_t value)  ;
+	NI_RESULT GetParam(string name, int32_t *value) ;
+	NI_RESULT SetParam(string name, int64_t value) ;
+	NI_RESULT GetParam(string name, int64_t *value) ;
+	NI_RESULT SetParam(string name, double value);
+	NI_RESULT SetParam(string name, string value);
+	NI_RESULT GetParam(string name, double *value);
+	NI_RESULT GetParam(string name, string *value);
+	NI_RESULT SetConfig(string cfg) { return NI_NOT_IMPLEMENTED; }
+	NI_RESULT GetConfig(string *cfg) { return NI_NOT_IMPLEMENTED; }
 
+	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
+
+	virtual NI_RESULT ReadData(void *buffer) { return NI_NOT_IMPLEMENTED; }
+
+	virtual NI_RESULT ExecuteCommand(string cmd, string param) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT ReadStatus(void *buffer) { return NI_NOT_IMPLEMENTED; }
 
 protected:
 	string type;
@@ -106,8 +115,8 @@ protected:
 
 	virtual NI_RESULT ISetParamI32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamI32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT ISetParamU32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
-	virtual NI_RESULT IGetParamU32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT ISetParamU32(string name, uint32_t value) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT IGetParamU32(string name, uint32_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamU64(string name, uint64_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamU64(string name, uint64_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamI64(string name, int64_t value) { return NI_NOT_IMPLEMENTED; }

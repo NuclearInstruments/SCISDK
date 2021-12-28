@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <list>
 
+#include "scisdk_defines.h"
 #include "scisdk_device.h"
 #include "NIErrorCode.h"
 
@@ -22,7 +23,18 @@ public:
 
 	NI_RESULT AddNewDevice(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name);
 	NI_RESULT DetachDevice(string Name);
-
+	NI_RESULT SetRegister(string Path, uint32_t value);
+	NI_RESULT GetRegister(string Path, uint32_t *value);
+	NI_RESULT StrobeRegister(string Path, string strobe_polarity);
+	NI_RESULT SetParameter(string Path, uint32_t value);
+	NI_RESULT GetParameter(string Path, uint32_t *value);
+	NI_RESULT SetParameter(string Path, string value);
+	NI_RESULT GetParameter(string Path, string *value);
+	NI_RESULT ExecuteCommand(string Path, string parameter);
+	NI_RESULT AllocateBuffer(string Path, string parameter, void **buffer);
+	NI_RESULT ReleaseBuffer(void *buffer);
+	NI_RESULT ReadData(string Path, void *buffer);
+	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 
 private:
 	list<SciSDK_Device *> devs;

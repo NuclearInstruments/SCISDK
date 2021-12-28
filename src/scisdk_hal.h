@@ -36,17 +36,14 @@ public:
 	NI_RESULT WriteData(uint32_t *value,
 		uint32_t length,
 		uint32_t address,
-		uint32_t BusMode,
 		uint32_t timeout_ms,
 		uint32_t *written_data);
 
 	NI_RESULT ReadData(uint32_t *value,
 		uint32_t length,
 		uint32_t address,
-		uint32_t BusMode,
 		uint32_t timeout_ms,
-		uint32_t *read_data,
-		uint32_t *valid_data);
+		uint32_t *read_data);
 
 	string ReadFirmwareInformationApp();
 

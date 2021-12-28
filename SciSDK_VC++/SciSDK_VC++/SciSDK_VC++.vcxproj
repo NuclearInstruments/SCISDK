@@ -147,7 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\headers\SCIDK_API_C.h" />
+    <ClInclude Include="..\..\src\magic_numbers.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
+    <ClInclude Include="..\..\src\scisdk_defines.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_core.h" />
     <ClInclude Include="..\..\src\scisdk_device.h" />
