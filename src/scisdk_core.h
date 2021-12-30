@@ -28,11 +28,19 @@ public:
 	NI_RESULT StrobeRegister(string Path, string strobe_polarity);
 	NI_RESULT SetParameter(string Path, uint32_t value);
 	NI_RESULT GetParameter(string Path, uint32_t *value);
+	NI_RESULT SetParameter(string Path, int32_t value);
+	NI_RESULT GetParameter(string Path, int32_t *value);
+	NI_RESULT SetParameter(string Path, uint64_t value);
+	NI_RESULT GetParameter(string Path, uint64_t *value);
+	NI_RESULT SetParameter(string Path, int64_t value);
+	NI_RESULT GetParameter(string Path, int64_t *value);
+	NI_RESULT SetParameter(string Path, double value);
+	NI_RESULT GetParameter(string Path, double *value);
 	NI_RESULT SetParameter(string Path, string value);
 	NI_RESULT GetParameter(string Path, string *value);
 	NI_RESULT ExecuteCommand(string Path, string parameter);
-	NI_RESULT AllocateBuffer(string Path, string parameter, void **buffer);
-	NI_RESULT ReleaseBuffer(void *buffer);
+	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
+	NI_RESULT FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
 	NI_RESULT ReadData(string Path, void *buffer);
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 
@@ -40,6 +48,7 @@ private:
 	list<SciSDK_Device *> devs;
 	
 	SciSDK_Device * FindDeviceByName(string Name);
-	
+	std::vector<std::string> SplitPath(string path, char separator);
+	NI_RESULT SciSDK::LocateDevice(string path, SciSDK_Device **dev, string *subpath);
 };
 #endif

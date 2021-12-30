@@ -1,5 +1,7 @@
 #include "scisdk_device.h"
 
+#include <fstream>
+#include <iostream>
 
 #include <string>
 #include <vector>
@@ -35,21 +37,41 @@ NI_RESULT SciSDK_Device::Connect() {
 				if (res == NI_OK) {
 					connected = true;
 				}
-				SetRegister("/Registers/res", 1);
-				SetRegister("/Registers/res", 0);
-				SetParameter("/MMCComponents/Oscilloscope_0.trigger_mode", "self");
-				SetParameter("/MMCComponents/Oscilloscope_0.decimator", 10);
-				SetParameter("/MMCComponents/Oscilloscope_0.data_processing", "decode");
-				SetParameter("/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
-				SetParameter("/MMCComponents/Oscilloscope_0.timeout", 5000);
-				SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-				AllocateBuffer("/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob);
-				while (1) {
+				//SetRegister("/Registers/res", 1);
+				//SetRegister("/Registers/res", 0);
+				//SetParameter("/MMCComponents/Oscilloscope_0.trigger_mode", "analog");
+				//SetParameter("/MMCComponents/Oscilloscope_0.trigger_level", 3000);
+				//SetParameter("/MMCComponents/Oscilloscope_0.pretrigger", 150);
+				//SetParameter("/MMCComponents/Oscilloscope_0.decimator", 10);
+				//SetParameter("/MMCComponents/Oscilloscope_0.data_processing", "decode");
+				////SetParameter("/MMCComponents/Oscilloscope_0.data_processing", "raw");
+				//SetParameter("/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
+				//SetParameter("/MMCComponents/Oscilloscope_0.timeout", 5000);
+				//SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+				//SCISDK_OSCILLOSCOPE_RAW_BUFFER *rb;
+				//AllocateBuffer("/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob);
+				//AllocateBuffer("/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
+				//ExecuteCommand("/MMCComponents/Oscilloscope_0.reset_read_valid_flag");
+				//
+				/*while (1) {
+					std::ofstream out("c:/temp/output.txt");
 					ReadData("/MMCComponents/Oscilloscope_0", (void *)ob);
-					for (int i = 0; i < 100; i++) {
-						cout << ob->analog[i] << endl;
+
+					for (int i = 0; i < ob->info.samples_analog; i++) {
+						out << ob->analog[i] << endl;
 					}
-				}
+					out.close();
+				}*/
+				/*while (1) {
+					std::ofstream out("c:/temp/output.txt");
+					ReadData("/MMCComponents/Oscilloscope_0", (void *)rb);
+
+					for (int i = 0; i < rb->info.buffer_size; i++) {
+						out << rb->data[i] << endl;
+					}
+					out.close();
+				}*/
+
 					/*{
 					uint32_t v;
 					GetRegister("/Registers/cnt", &v);
@@ -93,7 +115,7 @@ NI_RESULT SciSDK_Device::LocateParameter(string Path, string *name, SciSDK_Node 
 	string path = qPP[0];
 	*name = qPP[1];
 	*node = FindMMC(path);
-	if (!node) return NI_NOT_FOUND;
+	if (!*node) return NI_NOT_FOUND;
 	return NI_OK;
 }
 
@@ -208,6 +230,13 @@ NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt,  void **b
 
 }
 
+NI_RESULT SciSDK_Device::FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
+	SciSDK_Node *node = NULL;
+	node = FindMMC(Path);
+	if (!node) return NI_NOT_FOUND;
+	return node->FreeBuffer(bt, buffer);
+}
+
 NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
 	SciSDK_Node *node = NULL;
 	node = FindMMC(Path);
@@ -218,8 +247,11 @@ NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
 
 
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
-
-	return NI_OK;
+	SciSDK_Node *node = NULL;
+	string name;
+	int ret;
+	if ((ret = LocateParameter(Path, &name, &node)) != 0) return ret;
+	return node->ExecuteCommand(name, "");
 }
 
 SciSDK_Node * SciSDK_Device::FindMMC(string Path) {

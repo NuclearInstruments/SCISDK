@@ -59,24 +59,19 @@ NI_RESULT SciSDK_Oscilloscope::ISetParamU32(string name, uint32_t value) {
 
 	if (name == "decimator") {
 		decimator = value;
-		ConfigureOscilloscope();
-		return NI_OK;
+		return ConfigureOscilloscope();
 	} else if (name == "pretrigger") {
 		pretrigger = value;
-		ConfigureOscilloscope();
-		return NI_OK;
+		return ConfigureOscilloscope();
 	} else if (name == "trigger_level") {
 		trigger_level = value;
-		ConfigureOscilloscope();
-		return NI_OK;
+		return ConfigureOscilloscope();
 	} else if (name == "trigger_channel") {
 		trigger_channel = value;
-		ConfigureOscilloscope();
-		return NI_OK;
+		return ConfigureOscilloscope();
 	} else if (name == "trigger_dtrack") {
 		trigger_dtrack = value;
-		ConfigureOscilloscope();
-		return NI_OK;
+		return ConfigureOscilloscope();
 	} else if (name == "auto_arm") {
 		auto_arm = value ? true : false;
 		return NI_OK;
@@ -100,26 +95,21 @@ NI_RESULT SciSDK_Oscilloscope::ISetParamString(string name, string value) {
 	if (name == "trigger_mode") {
 		if (value == "disabled") {
 			trigger = TRIGGER_TYPE::DISABLED;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		} else if (value == "self") {
 			trigger = TRIGGER_TYPE::SELF;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		} else if (value == "analog") {
 			trigger = TRIGGER_TYPE::ANALOG;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		}
 		else if (value == "ext") {
 			trigger = TRIGGER_TYPE::EXT;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		}
 		else if (value == "digital") {
 			trigger = TRIGGER_TYPE::DIGITAL_TRACK;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	} else if (name == "data_processing") {
@@ -145,13 +135,11 @@ NI_RESULT SciSDK_Oscilloscope::ISetParamString(string name, string value) {
 	} else if (name == "trigger_polarity") {
 		if (value == "pos") {
 			trigger_polarity = TRIGGER_POLARITY::POSITIVE;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		}
 		else if (value == "neg") {
 			trigger_polarity = TRIGGER_POLARITY::NEGATIVE;
-			ConfigureOscilloscope();
-			return NI_OK;
+			return ConfigureOscilloscope();
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
@@ -391,7 +379,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 	if (acq_mode == ACQ_MODE::BLOCKING) {
 		auto t_start = std::chrono::high_resolution_clock::now();
 		double elapsed_time_ms = 0;
-		while (!ready || ((timeout >= 0) && (elapsed_time_ms > timeout))) {
+		while (!ready && ((timeout >= 0) && (elapsed_time_ms < timeout))) {
 			auto t_end = std::chrono::high_resolution_clock::now();
 			elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 			CheckOscilloscopeStatus(&ready, &armed, &running);
@@ -436,6 +424,14 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		//download data
 		uint32_t buffer_size = settings.nchannels * settings.nsamples;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
+		for (int i = 0; i < 4; i++) {
+			cout << __buffer[i] << endl;
+		}
+		cout << "..." << endl;
+		for (int i = buffer_size-4; i < buffer_size; i++) {
+			cout << __buffer[i] << endl;
+		}
+		cout << "----" << endl;
 		CmdResetReadValidFlag();
 		if (dv < buffer_size) {
 			return NI_INCOMPLETE_READ;
@@ -446,18 +442,18 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 
 		for (int n = 0; n< settings.nchannels; n++)
 		{
-			int current = zero_posizition - pretrigger;
+			int current = zero_posizition - pretrigger + 1;
 			if (current > 0)
 			{
 				int k = 0;
-				for (int i = current; i < settings.nsamples - 1; i++)
+				for (int i = current; i < settings.nsamples; i++)
 				{
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d=0;d<settings.ndigital;d++)
 						p->digital[k + (settings.nsamples*(n+d))] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
 					k++;
 				}
-				for (int i = 0; i < current - 1; i++)
+				for (int i = 0; i < current; i++)
 				{
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d = 0; d<settings.ndigital; d++)
@@ -468,7 +464,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 			else
 			{
 				int k = 0;
-				for (int i = settings.nsamples + current; i < settings.nsamples - 1; i++)
+				for (int i = settings.nsamples + current; i < settings.nsamples ; i++)
 				{
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d = 0; d<settings.ndigital; d++)
@@ -476,7 +472,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 
 					k++;
 				}
-				for (int i = 0; i < settings.nsamples + current - 1; i++)
+				for (int i = 0; i < settings.nsamples + current ; i++)
 				{
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d = 0; d<settings.ndigital; d++)
@@ -500,7 +496,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 			return NI_INCOMPLETE_READ;
 		}
 		p->trigger_position = pretrigger;
-		p->zero_position = zero_posizition;
+		p->zero_position = zero_posizition+1;
 		p->timecode = timestamp;
 		return NI_OK;
 	}
@@ -546,10 +542,14 @@ NI_RESULT SciSDK_Oscilloscope::ConfigureOscilloscope() {
 	trigger_reg += (trigger_channel & 0xFF) << 8;
 	ret |= _hal->WriteReg(trigger_reg, address.cfg_trigger_mode);
 
+	
+
 	if (ret)
 		return NI_ERROR_INTERFACE;
-	else
+	else{
+		CmdResetReadValidFlag();
 		return NI_OK;
+	}
 }
 
 NI_RESULT SciSDK_Oscilloscope::CmdArm() {

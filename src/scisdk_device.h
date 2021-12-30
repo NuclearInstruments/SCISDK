@@ -43,6 +43,7 @@ public:
 	NI_RESULT ExecuteCommand(string Path);
 
 	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
+	NI_RESULT FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
 	NI_RESULT ReadData(string Path, void *buffer);
 
 	string GetName() { return _Name;  };

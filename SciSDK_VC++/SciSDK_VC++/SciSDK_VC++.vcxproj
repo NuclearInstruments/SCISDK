@@ -150,6 +150,7 @@
     <ClInclude Include="..\..\src\magic_numbers.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
     <ClInclude Include="..\..\src\scisdk_defines.h" />
+    <ClInclude Include="..\..\src\scisdk_digitizer.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_core.h" />
     <ClInclude Include="..\..\src\scisdk_device.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\scisdk_digitizer.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_device.cpp" />
