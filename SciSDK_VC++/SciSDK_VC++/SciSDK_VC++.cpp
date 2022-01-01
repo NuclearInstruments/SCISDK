@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "../../src/scisdk_core.h"
-
+#include <bitset>
 SciSDK sdk;
 
 void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
@@ -43,6 +43,44 @@ int main()
 	//}
 		sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
 		sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
+
+	//SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+	//sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb);
+	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
+	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 10);
+	//sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+	//while (1) {
+	//	int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+	//	if (ret == NI_OK) {
+	//		for (int i = 0; i < ddb->info.valid_samples; i++) {
+	//			cout << ddb->analog[i] << endl;
+	//		}
+
+	//		/*for (int i = 0; i < ddb->info.valid_samples; i++) {
+	//			cout << ddb->analog[i + ddb->info.samples] << endl;
+	//		}*/
+	//	}
+	//}
+
+	SCISDK_DIGITIZER_RAW_BUFFER *ddb;
+	sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 100);
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "raw");
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 10);
+	sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+	while (1) {
+		int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		if (ret == NI_OK) {
+			for (int i = 0; i < ddb->info.valid_samples; i++) {
+				cout << std::hex  << ddb->data[i] << endl;
+			}
+
+			/*for (int i = 0; i < ddb->info.valid_samples; i++) {
+			cout << ddb->analog[i + ddb->info.samples] << endl;
+			}*/
+		}
+	}
 	return 0;
 }
 

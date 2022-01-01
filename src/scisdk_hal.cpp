@@ -17,9 +17,9 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
-		_handle = malloc(sizeof(SCIDK_HANDLE));
+		_handle = malloc(sizeof(SCISDK::NI_HANDLE));
 		if (p[0] == "usb") {
-			NI_RESULT r = SCIDK_ConnectUSB((char*)p[1].c_str(), (SCIDK_HANDLE*) _handle);
+			NI_RESULT r = SCISDK::SCIDK_ConnectUSB((char*)p[1].c_str(), (SCISDK::NI_HANDLE*) _handle);
 			return r;
 		}
 		break;
@@ -42,7 +42,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
-		SCIDK_CloseConnection((SCIDK_HANDLE*) _handle);
+		SCISDK::NI_CloseConnection((SCISDK::NI_HANDLE*) _handle);
 		free(_handle);
 		break;
 	case BOARD_MODEL::DT5550X:
@@ -84,7 +84,7 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
-		SCIDK_WriteReg(value, address, (SCIDK_HANDLE*)_handle);
+		SCISDK::NI_WriteReg(value, address, (SCISDK::NI_HANDLE*)_handle);
 		break;
 	case BOARD_MODEL::DT5550X:
 		break;
@@ -106,7 +106,7 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
-		SCIDK_ReadReg(value, address, (SCIDK_HANDLE*)_handle);
+		SCISDK::NI_ReadReg(value, address, (SCISDK::NI_HANDLE*)_handle);
 		break;
 	case BOARD_MODEL::DT5550X:
 		break;
@@ -155,14 +155,75 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	switch (_model)
 	{
 	case BOARD_MODEL::DT1260:
-		SCIDK_ReadData(value,
+		SCISDK::NI_ReadData(value,
 			length,
 			address,
 			REG_ACCESS,
 			timeout_ms,
-			(SCIDK_HANDLE*)_handle,
+			(SCISDK::NI_HANDLE*)_handle,
 			&rd,
 			read_data);
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
+	uint32_t length,
+	uint32_t address,
+	uint32_t addressStatus,
+	uint32_t timeout_ms,
+	uint32_t *read_data) {
+	uint32_t rd, vd;
+	switch (_model)
+	{
+	case BOARD_MODEL::DT1260:
+		SCISDK::NI_ReadFIFO(value,
+			length,
+			address,
+			STREAMING,
+			timeout_ms,
+			(SCISDK::NI_HANDLE*)_handle,
+			&rd,
+			read_data);
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+NI_RESULT SciSDK_HAL::ReadFIFODMA(uint32_t *value,
+	uint32_t length,
+	uint32_t address,
+	uint32_t addressStatus,
+	uint32_t timeout_ms,
+	uint32_t *read_data) {
+	uint32_t rd, vd;
+	switch (_model)
+	{
+	case BOARD_MODEL::DT1260:
+		return NI_NOT_IMPLEMENTED;
 		break;
 	case BOARD_MODEL::DT5550X:
 		break;

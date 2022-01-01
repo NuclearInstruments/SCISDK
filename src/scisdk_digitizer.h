@@ -6,7 +6,9 @@
 #include "scisdk_scinode.h"
 
 #include <mutex>
-
+#include <thread>  
+#include <queue>
+#include <atomic> 
 using json = nlohmann::json;
 
 using namespace std;
@@ -25,6 +27,7 @@ public:
 	NI_RESULT IGetParamString(string name, string *value);
 
 	NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer);
+	NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size);
 	NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer);
 
 	NI_RESULT ReadData(void *buffer);
@@ -37,6 +40,7 @@ private:
 	uint32_t acq_len;
 	int32_t timeout;
 	uint32_t threaded_buffer_size;
+	uint32_t transfer_size;
 	enum class ACQ_MODE {
 		BLOCKING,
 		NON_BLOCKING,
@@ -65,7 +69,19 @@ private:
 
 	uint32_t *__buffer;
 
-	NI_RESULT ConfigureDigitizer();
+	struct {	
+		std::thread *t;
+		std::atomic<bool> canRun;
+		std::atomic<bool> isRunning;
+	} producer;
 
+	NI_RESULT ConfigureDigitizer();
+	NI_RESULT CmdStart();
+	NI_RESULT CmdStop();
+
+	void producer_thread();
+
+	std::mutex h_mutex;
+	std::queue<uint32_t> pQ;
 };
 #endif 

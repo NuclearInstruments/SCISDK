@@ -38,7 +38,33 @@
 		bool ready;
 		bool running;
 	}SCISDK_OSCILLOSCOPE_STATUS;
+
+
+	typedef struct {
+		uint32_t magic;
+		int32_t *analog;
+		uint64_t hits;
+		uint64_t timecode;
+		uint32_t counter;
+		uint32_t user;
+		struct {
+			uint32_t samples;
+			uint32_t valid_samples;
+			uint32_t channels;
+		} info;
+	}SCISDK_DIGITIZER_DECODED_BUFFER;
 	
+	typedef struct {
+		uint32_t magic;
+		int32_t *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t samples;
+			uint32_t valid_samples;
+			uint32_t channels;
+		} info;
+	}SCISDK_DIGITIZER_RAW_BUFFER;
+
 	typedef enum {
 		T_BUFFER_TYPE_RAW,
 		T_BUFFER_TYPE_DECODED

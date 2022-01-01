@@ -40,6 +40,7 @@ public:
 	NI_RESULT GetParameter(string Path, string *value);
 	NI_RESULT ExecuteCommand(string Path, string parameter);
 	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
+	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer, int size);
 	NI_RESULT FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
 	NI_RESULT ReadData(string Path, void *buffer);
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);

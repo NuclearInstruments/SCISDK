@@ -45,6 +45,20 @@ public:
 		uint32_t timeout_ms,
 		uint32_t *read_data);
 
+	NI_RESULT ReadFIFO(uint32_t *value,
+		uint32_t length,
+		uint32_t address,
+		uint32_t addressStatus,
+		uint32_t timeout_ms,
+		uint32_t *read_data);
+
+	NI_RESULT ReadFIFODMA(uint32_t *value,
+		uint32_t length,
+		uint32_t address,
+		uint32_t addressStatus,
+		uint32_t timeout_ms,
+		uint32_t *read_data);
+
 	string ReadFirmwareInformationApp();
 
 private:

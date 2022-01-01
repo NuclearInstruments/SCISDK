@@ -200,7 +200,7 @@
   "Address": 33554436,
   "Version": "1.1.0.0",
   "WordSize": 0,
-  "Channels": 1,
+  "Channels": 2,
   "nsamples": 1024,
   "UseDMA": false,
   "Registers": [

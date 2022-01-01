@@ -184,6 +184,14 @@ NI_RESULT SciSDK::AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
 	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
 	return dev->AllocateBuffer(subpath, bt, buffer);
 }
+
+NI_RESULT SciSDK::AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer, int size) {
+	SciSDK_Device * dev;
+	string subpath;
+	int ret;
+	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
+	return dev->AllocateBuffer(subpath, bt, buffer,size);
+}
 NI_RESULT SciSDK::FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
 	SciSDK_Device * dev;
 	string subpath;

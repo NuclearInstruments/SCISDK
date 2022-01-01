@@ -10,6 +10,7 @@
 	
 #include "scisdk_register.h"
 #include "scisdk_oscilloscope.h"
+#include "scisdk_digitizer.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -227,7 +228,13 @@ NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt,  void **b
 	node = FindMMC(Path);
 	if (!node) return NI_NOT_FOUND;
 	return node->AllocateBuffer(bt, buffer);
+}
 
+NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer, int size) {
+	SciSDK_Node *node = NULL;
+	node = FindMMC(Path);
+	if (!node) return NI_NOT_FOUND;
+	return node->AllocateBuffer(bt, buffer, size);
 }
 
 NI_RESULT SciSDK_Device::FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
@@ -308,6 +315,8 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << "<" << (string)r.at("Type") << ">" << endl;
 						if (ToUpper(r.at("Type")) == "OSCILLOSCOPE") {
 							mmcs.push_back(new SciSDK_Oscilloscope(_hal, r, parent + "/" + (string)it.key()));
+						} else 	if (ToUpper(r.at("Type")) == "WAVEDUMP") {
+							mmcs.push_back(new SciSDK_Digitizer(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}

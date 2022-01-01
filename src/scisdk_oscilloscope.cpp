@@ -363,7 +363,9 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 	bool ready = false;
 	bool armed = false;
 	bool running = false;
-
+	if (buffer == NULL) {
+		return NI_INVALID_BUFFER;
+	}
 	CheckOscilloscopeStatus(&ready, &armed, &running);
 	if ((!armed) && (!ready) && (!running)) {
 		if (!auto_arm) {

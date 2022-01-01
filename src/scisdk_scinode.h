@@ -92,6 +92,7 @@ public:
 	NI_RESULT GetConfig(string *cfg) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT ReadData(void *buffer) { return NI_NOT_IMPLEMENTED; }
