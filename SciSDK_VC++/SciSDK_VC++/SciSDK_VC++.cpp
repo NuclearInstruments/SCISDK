@@ -6,6 +6,7 @@
 #include <bitset>
 SciSDK sdk;
 
+
 void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
 
 }
@@ -14,23 +15,23 @@ int main()
 {
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data;
 
-	sdk.AddNewDevice("usb:0004", "dt1260", "SCIDKTester.json", "board0");
-	sdk.SetRegister("board0:/Registers/res", 1);
-	sdk.SetRegister("board0:/Registers/res", 0);
+	sdk.p_error(sdk.AddNewDevice("usb:0004", "dt1260", "SCIDKTester.json", "board0"));
+	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
+	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
 
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog");
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000);
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150);
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 10);
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode");
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 10));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
 	//sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
-	sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000);
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
 	SCISDK_OSCILLOSCOPE_RAW_BUFFER *rb;
-	sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob);
-	sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
-	sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "");
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
 	
 	//while (1) {
 		std::ofstream out("c:/temp/output.txt");
@@ -49,6 +50,7 @@ int main()
 	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
 	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
 	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 10);
+	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100);
 	//sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
 	//while (1) {
 	//	int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
@@ -56,7 +58,6 @@ int main()
 	//		for (int i = 0; i < ddb->info.valid_samples; i++) {
 	//			cout << ddb->analog[i] << endl;
 	//		}
-
 	//		/*for (int i = 0; i < ddb->info.valid_samples; i++) {
 	//			cout << ddb->analog[i + ddb->info.samples] << endl;
 	//		}*/
@@ -64,22 +65,20 @@ int main()
 	//}
 
 	SCISDK_DIGITIZER_RAW_BUFFER *ddb;
-	sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 100);
-	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "raw");
-	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
-	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 10);
-	sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 100));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "raw"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1));
+	sdk.p_error(__LINE__, sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_mode", "non-blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 10000));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", ""));
 	while (1) {
-		int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		/*int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
 		if (ret == NI_OK) {
 			for (int i = 0; i < ddb->info.valid_samples; i++) {
 				cout << std::hex  << ddb->data[i] << endl;
-			}
-
-			/*for (int i = 0; i < ddb->info.valid_samples; i++) {
-			cout << ddb->analog[i + ddb->info.samples] << endl;
-			}*/
-		}
+			}	
+		}*/
 	}
 	return 0;
 }

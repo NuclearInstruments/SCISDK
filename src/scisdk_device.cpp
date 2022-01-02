@@ -271,7 +271,7 @@ SciSDK_Node * SciSDK_Device::FindMMC(string Path) {
 		return false;
 	}*/
 	for (auto n : mmcs) {
-		cout << " ### " << n->GetPath() << endl;
+		//cout << " ### " << n->GetPath() << endl;
 		if ((n->GetPath() == Path))
 		{
 			return n;

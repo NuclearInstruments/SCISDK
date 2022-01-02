@@ -21,8 +21,10 @@ class SciSDK_Node {
 public:
 	class SciSDK_Paramcb {
 	public:
-
+		bool minmax = false;
+		double min, max;
 		list<string> lstrpar;
+		list<int> lintpar;
 		string Name;
 		string Description;
 		enum class Type {
@@ -35,6 +37,7 @@ public:
 			Description = _desc;
 			type = _type;
 			caller = _caller;
+			minmax = false;
 		}
 
 		SciSDK_Paramcb(string _name, string _desc, Type _type, list<string> _lstrpar, SciSDK_Node *_caller) {
@@ -43,6 +46,26 @@ public:
 			type = _type;
 			caller = _caller;
 			lstrpar = _lstrpar;
+			minmax = false;
+		}
+
+		SciSDK_Paramcb(string _name, string _desc, Type _type, list<int> _lintpar, SciSDK_Node *_caller) {
+			Name = _name;
+			Description = _desc;
+			type = _type;
+			caller = _caller;
+			lintpar = _lintpar;
+			minmax = false;
+		}
+
+		SciSDK_Paramcb(string _name, string _desc, Type _type, double _min, double _max, SciSDK_Node *_caller) {
+			Name = _name;
+			Description = _desc;
+			type = _type;
+			caller = _caller;
+			min = _min;
+			max = _max;
+			minmax = true;
 		}
 
 		bool operator==(const string rhs) const { return this->Name == rhs; }
@@ -114,6 +137,14 @@ protected:
 		params.push_back(SciSDK_Paramcb(name, description, type, _lstrpar, caller));
 	}
 
+	void RegisterParameter(string name, string description, SciSDK_Paramcb::Type type, list<int> _lintpar, SciSDK_Node *caller) {
+		params.push_back(SciSDK_Paramcb(name, description, type, _lintpar, caller));
+	}
+
+	void RegisterParameter(string name, string description, SciSDK_Paramcb::Type type, int min, int max, SciSDK_Node *caller) {
+		params.push_back(SciSDK_Paramcb(name, description, type, min, max, caller));
+	}
+
 	virtual NI_RESULT ISetParamI32(string name, int32_t value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamI32(string name, int32_t *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ISetParamU32(string name, uint32_t value) { return NI_NOT_IMPLEMENTED; }
@@ -130,5 +161,7 @@ protected:
 private:
 	vector<SciSDK_Paramcb> params;
 	bool FindParameterByName(string name, SciSDK_Paramcb **p);
+	bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, double value);
+	bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, string value);
 };
 #endif 

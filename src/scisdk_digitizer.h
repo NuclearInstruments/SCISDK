@@ -43,8 +43,7 @@ private:
 	uint32_t transfer_size;
 	enum class ACQ_MODE {
 		BLOCKING,
-		NON_BLOCKING,
-		THREADED
+		NON_BLOCKING
 	} acq_mode;
 
 	enum class DATA_PROCESSING {

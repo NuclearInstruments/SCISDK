@@ -11,6 +11,7 @@
 #include "NIErrorCode.h"
 
 
+
 using namespace std;
 
 
@@ -45,6 +46,11 @@ public:
 	NI_RESULT ReadData(string Path, void *buffer);
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 
+	string s_error(int err_no);
+	void p_error(int err_no);
+	void p_error(string fnc, int err_no);
+	void p_error(int fnc, int err_no);
+	void p_error(string file, int line, int err_no);
 private:
 	list<SciSDK_Device *> devs;
 	

@@ -33,22 +33,29 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	default:
 		break;
 	}
-	acq_mode = ACQ_MODE::THREADED;
+	acq_mode = ACQ_MODE::BLOCKING;
 	transfer_size = settings.nchannels * settings.nsamples ;
+	threaded_buffer_size = 100000;
 	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
 
 	cout << "Digitizer: " << name << " addr: " << address.base << endl;
 
-
-	RegisterParameter("enabledch", "enabled channels selector", SciSDK_Paramcb::Type::U32, this);
-	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, this);
+	std::list<int> listOfchannels;
+	int q=0, qi = 0;
+	while (qi <= settings.nchannels) {
+		qi = 1 << q; q++;
+		listOfchannels.push_back(qi);
+	}
+	
+	RegisterParameter("enabledch", "enabled channels selector", SciSDK_Paramcb::Type::U32, listOfchannels, this);
+	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) settings.nsamples,   this);
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
-	//const std::list<std::string> listOfAcqMode = { "blocking","non-blocking","threaded" };
-	//RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
+	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
+	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
 
-	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32, this);
+	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
 
 }
 
@@ -96,10 +103,6 @@ NI_RESULT SciSDK_Digitizer::ISetParamString(string name, string value) {
 		}
 		else if (value == "non-blocking") {
 			acq_mode = ACQ_MODE::NON_BLOCKING;
-			return NI_OK;
-		}
-		else if (value == "threaded") {
-			acq_mode = ACQ_MODE::THREADED;
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -151,10 +154,6 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 		}
 		else if (acq_mode == ACQ_MODE::NON_BLOCKING) {
 			*value = "non-blocking";
-			return NI_OK;
-		}
-		else if (acq_mode == ACQ_MODE::THREADED) {
-			*value = "threaded";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -288,12 +287,26 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
 		if (p->info.samples != settings.nsamples) return NI_INCOMPATIBLE_BUFFER;
 
-		h_mutex.lock();
 		int pQ_minsize = 7 + acq_len * enabledch *  1 / settings.wordsize;
-		
+
+		h_mutex.lock();
 		while ( (pQ.size()>0) && (pQ.front() != 0xFFFFFFFF)) pQ.pop();
+		h_mutex.unlock();
+
+		auto t_start = std::chrono::high_resolution_clock::now();
+		double elapsed_time_ms = 0;
+		if (acq_mode == ACQ_MODE::BLOCKING) {
+			int s = pQ.size();
+			while (!(s >= pQ_minsize) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+				auto t_end = std::chrono::high_resolution_clock::now();
+				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				h_mutex.lock(); s = pQ.size(); h_mutex.unlock();
+			}
+		}
 
 		if (pQ.size() >= pQ_minsize) {
+			h_mutex.lock();
 			int pQi = 0;
 			int pQs = 0;
 			int pQt = enabledch/2;
@@ -348,7 +361,6 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			return NI_OK;
 		} else {
 			p->info.valid_samples = 0;
-			h_mutex.unlock();
 			return NI_NO_DATA_AVAILABLE;
 		}
 		
@@ -362,8 +374,22 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
 		if (p->info.samples != settings.nsamples) return NI_INCOMPATIBLE_BUFFER;
 
-		h_mutex.lock();
+		auto t_start = std::chrono::high_resolution_clock::now();
+		double elapsed_time_ms = 0;
+		if (acq_mode == ACQ_MODE::BLOCKING) {
+			int s = pQ.size();
+			while ((s < p->info.buffer_size) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+				auto t_end = std::chrono::high_resolution_clock::now();
+				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				h_mutex.lock(); s = pQ.size(); h_mutex.unlock();
+				cout << "." << endl;
+			}
+		}
+
+
 		if (pQ.size() > 0) {
+			h_mutex.lock();
 			ii = 0;
 			while ((pQ.size() > 0) && (ii < p->info.buffer_size)) {
 				p->data[ii++] = pQ.front();
@@ -374,7 +400,6 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			return NI_OK;
 		}
 		else {
-			h_mutex.unlock();
 			return NI_NO_DATA_AVAILABLE;
 		}
 		
@@ -412,6 +437,7 @@ NI_RESULT SciSDK_Digitizer::CmdStart() {
 
 	//Critical section : configure and clear list
 	h_mutex.lock();
+	while (!pQ.empty()) pQ.pop();
 	_hal->WriteReg(acq_len - 1, address.cfg_acqlen);
 	_hal->WriteReg(2 + (enabledch << 8), address.cfg_global);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -419,7 +445,6 @@ NI_RESULT SciSDK_Digitizer::CmdStart() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	_hal->WriteReg(1 + (enabledch << 8), address.cfg_global);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	while (!pQ.empty()) pQ.pop();
 	h_mutex.unlock();
 
 	producer.canRun = true;
@@ -447,6 +472,16 @@ void SciSDK_Digitizer::producer_thread() {
 	bool toTarget = false;
 	while (!toTarget && producer.canRun) {
 		uint32_t vd=0;
+		bool go = false;
+		do {
+			h_mutex.lock();
+			go = pQ.size() < threaded_buffer_size ? true : false;
+			h_mutex.unlock();
+			if (!go) {
+				std::this_thread::sleep_for(std::chrono::microseconds(100));
+			}
+		} while (go == false);
+
 		NI_RESULT ret = _hal->ReadFIFO(__buffer, transfer_size, address.base, 0, 100, &vd);
 		if (ret == NI_OK) {
 			if (vd > 0) {

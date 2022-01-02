@@ -1,8 +1,38 @@
 #include "scisdk_scinode.h"
 
+bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, double value) {
+	if ((p->minmax) && ((value > p->max) || (value < p->min))) {
+		return true;
+	}
+	if (p->lintpar.size()) {
+		bool found = (std::find(p->lintpar.begin(), p->lintpar.end(), value) != p->lintpar.end());
+		if (!found) return true;
+	}
+	if (p->lstrpar.size()) {
+		bool found = (std::find(p->lstrpar.begin(), p->lstrpar.end(), std::to_string(value)) != p->lstrpar.end());
+		if (!found) return true;
+	}
+	return false;
+}
+
+bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, string value) {
+	if ((p->minmax) && ((std::stol(value) > p->max) || (std::stol(value) < p->min))) {
+		return true;
+	}
+	if (p->lintpar.size()) {
+		bool found = (std::find(p->lintpar.begin(), p->lintpar.end(), std::stol(value)) != p->lintpar.end());
+		if (!found) return true;
+	}
+	if (p->lstrpar.size()) {
+		bool found = (std::find(p->lstrpar.begin(), p->lstrpar.end(), value) != p->lstrpar.end());
+		if (!found) return true;
+	}
+	return false;
+}
 NI_RESULT SciSDK_Node::SetParam(string name, uint32_t value) {
 	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, (double)value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 			case SciSDK_Paramcb::Type::I32:
 				return p->caller->ISetParamI32(name, value); break;
@@ -27,6 +57,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, uint32_t value) {
 NI_RESULT SciSDK_Node::SetParam(string name, int32_t value) {
 	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, (double)value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -51,6 +82,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, int32_t value) {
 NI_RESULT SciSDK_Node::SetParam(string name, uint64_t value) {
 	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, (double)value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -75,6 +107,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, uint64_t value) {
 NI_RESULT SciSDK_Node::SetParam(string name, int64_t value) {
 	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, (double)value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -99,6 +132,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, int64_t value) {
 NI_RESULT SciSDK_Node::SetParam(string name, double value) {
 	SciSDK_Paramcb *p = NULL;
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, (double)value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, value); break;
@@ -124,6 +158,7 @@ NI_RESULT SciSDK_Node::SetParam(string name, string value) {
 	SciSDK_Paramcb *p = NULL;
 
 	if (FindParameterByName(name, &p)) {
+		if (OutOfRange(p, value)) return NI_PARAMETER_OUT_OF_RANGE;
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			return p->caller->ISetParamI32(name, std::stol(value)); break;

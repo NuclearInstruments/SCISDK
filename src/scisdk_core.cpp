@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <thread>
+#include <iostream>
 SciSDK::SciSDK() {
 
 }
@@ -246,4 +247,109 @@ NI_RESULT SciSDK::LocateDevice(string path, SciSDK_Device **dev, string *subpath
 	*dev = FindDeviceByName(devname);
 	if (!*dev) return NI_NOT_FOUND;
 	return NI_OK;
+}
+
+string SciSDK::s_error(int err_no) {
+
+	switch (err_no) {
+		case NI_OK:
+			return "";
+		case NI_ERROR_GENERIC:
+			return "generic error";
+		case NI_ERROR_INTERFACE:
+			return "hardware interface error";
+		case NI_ERROR_FPGA:
+			return "fpga core return an error";
+		case NI_ERROR_TRANSFER_MAX_LENGTH:
+			return "transfer length exeed maximum limit";
+		case NI_ERROR_NOTCONNECTED:
+			return "hardware not connected";
+		case NI_NO_DATA_AVAILABLE:
+			return "no data available";
+		case NI_TOO_MANY_DEVICES_CONNECTED:
+			return "too many device connected";
+		case NI_INVALID_HANDLE:
+			return "handle is not valid";
+		case NI_INVALID_KEY:
+			return "json key not valid, error in json file";
+		case NI_INVALID_PARAMETER:
+			return "parameter does not exists";
+		case NI_PARAMETER_OUT_OF_RANGE:
+			return "parameter out of range";
+		case NI_INCOMPLETE_READ:
+			return "read not completed";
+		case NI_INVALID_COMMAND:
+			return "invalid command";
+		case NI_ALREADY_CONNECTED:
+			return "already connected to hardware";
+		case NI_ALLOC_FAILED:
+			return "alloc failed, out of memory";
+		case NI_MEMORY_NOT_ALLOCATED:
+			return "memory is not allocated, nullptr";
+		case NI_INVALID_BUFFER_TYPE:
+			return "invalid buffer type";
+		case NI_INVALID_BUFFER_SIZE:
+			return "invalid buffer size";
+		case NI_INCOMPATIBLE_BUFFER:
+			return "incompatible buffer specs";
+		case NI_INVALID_BUFFER:
+			return "invalid buffer";
+		case NI_TIMEOUT:
+			return "timeous";
+		case NI_INVALID_CFG_JSON:
+			return "config json is not valid, error in file";
+		case NI_CFG_JSON_NOT_FOUND:
+			return "config json not found";
+		case NI_DEVICE_NAME_ALREADY_EXISTS:
+			return "device name already exists";
+		case NI_INVALID_PATH:
+			return "invalid path";
+		case NI_NOT_FOUND:
+			return "not found";
+		case NI_INVALID_TYPE:
+			return "invalid type";
+		case NI_ALREADY_RUNNING:
+			return "already running";
+		case NI_NOT_RUNNING:
+			return "not running";
+		case NI_NOT_ARMED:
+			return "not armed";
+		case NI_SPECIFIC_ERROR:
+			return "specific error";
+	}
+
+
+
+}
+
+void SciSDK::p_error(int err_no) {
+	if (err_no != NI_OK) {
+		cerr << "0x" << std::hex << err_no;
+		cerr << " - " << s_error(err_no) << endl;
+	}
+}
+
+void SciSDK::p_error(string fnc, int err_no) {
+	if (err_no != NI_OK) {
+		cerr << fnc << " : ";
+		cerr << "0x" << std::hex << err_no;
+		cerr << " - " << s_error(err_no) << endl;
+	}
+}
+
+void SciSDK::p_error(int line, int err_no) {
+	if (err_no != NI_OK) {
+		cerr << "LINE " << line << " : ";
+		cerr << "0x" << std::hex << err_no;
+		cerr << " - " << s_error(err_no) << endl;
+	}
+}
+
+void SciSDK::p_error(string file, int line, int err_no) {
+	if (err_no != NI_OK) {
+		cerr << file << " : ";
+		cerr << "LINE " << line << " : ";
+		cerr << "0x" << std::hex << err_no;
+		cerr << " - " << s_error(err_no) << endl;
+	}
 }
