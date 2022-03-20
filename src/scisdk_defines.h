@@ -65,6 +65,19 @@
 		} info;
 	}SCISDK_DIGITIZER_RAW_BUFFER;
 
+
+
+	typedef struct {
+		uint32_t magic;
+		char *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t samples;
+			uint32_t valid_samples;
+			uint32_t channels;
+		} info;
+	}SCISDK_LIST_RAW_BUFFER;
+
 	typedef enum {
 		T_BUFFER_TYPE_RAW,
 		T_BUFFER_TYPE_DECODED

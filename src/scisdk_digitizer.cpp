@@ -37,7 +37,8 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	transfer_size = settings.nchannels * settings.nsamples ;
 	threaded_buffer_size = 100000;
 	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
-
+	threaded = false;
+	high_performance = false;
 	cout << "Digitizer: " << name << " addr: " << address.base << endl;
 
 	std::list<int> listOfchannels;
@@ -54,7 +55,8 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
-
+	RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
+	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
 
 }
@@ -103,6 +105,27 @@ NI_RESULT SciSDK_Digitizer::ISetParamString(string name, string value) {
 		}
 		else if (value == "non-blocking") {
 			acq_mode = ACQ_MODE::NON_BLOCKING;
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	} else if (name == "thread") {
+		if (value == "true") {
+			threaded = true;
+			return NI_OK;
+		}
+		else if (value == "false") {
+			threaded = false;
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "high_performance") {
+		if (value == "true") {
+			high_performance = true;
+			return NI_OK;
+		}
+		else if (value == "false") {
+			high_performance = false;
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -157,6 +180,24 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
+	} else if (name == "thread") {
+		if (threaded == true) {
+			*value = "true";
+			return NI_OK;
+		}
+		else {
+			*value = "false";
+			return NI_OK;
+		}
+	} else if (name == "high_performance") {
+		if (high_performance == true) {
+			*value = "true";
+			return NI_OK;
+		}
+		else {
+			*value = "false";
+			return NI_OK;
+		}
 	}
 
 	return NI_INVALID_PARAMETER;
@@ -463,6 +504,7 @@ NI_RESULT SciSDK_Digitizer::CmdStop() {
 	producer.canRun = false;
 
 	producer.t->join();
+
 	_hal->WriteReg(0 + (enabledch << 8), address.cfg_global);
 	producer.isRunning = false;
 	return NI_OK;
@@ -493,5 +535,5 @@ void SciSDK_Digitizer::producer_thread() {
 			}
 		}
 	}
-	_hal->WriteReg(0 + (enabledch << 8), address.cfg_global);
+	
 }

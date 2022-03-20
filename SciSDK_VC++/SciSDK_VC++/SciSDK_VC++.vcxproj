@@ -152,6 +152,7 @@
     <ClInclude Include="..\..\src\NIErrorCode.h" />
     <ClInclude Include="..\..\src\scisdk_defines.h" />
     <ClInclude Include="..\..\src\scisdk_digitizer.h" />
+    <ClInclude Include="..\..\src\scisdk_list.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_core.h" />
     <ClInclude Include="..\..\src\scisdk_device.h" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\scisdk_digitizer.cpp" />
+    <ClCompile Include="..\..\src\scisdk_list.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_device.cpp" />

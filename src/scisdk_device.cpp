@@ -11,6 +11,7 @@
 #include "scisdk_register.h"
 #include "scisdk_oscilloscope.h"
 #include "scisdk_digitizer.h"
+#include "scisdk_list.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -317,6 +318,8 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 							mmcs.push_back(new SciSDK_Oscilloscope(_hal, r, parent + "/" + (string)it.key()));
 						} else 	if (ToUpper(r.at("Type")) == "WAVEDUMP") {
 							mmcs.push_back(new SciSDK_Digitizer(_hal, r, parent + "/" + (string)it.key()));
+						} else if (ToUpper(r.at("Type")) == "LISTMODULE") {
+							mmcs.push_back(new SciSDK_List(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}

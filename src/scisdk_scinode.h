@@ -158,6 +158,8 @@ protected:
 	virtual NI_RESULT IGetParamDouble(string name, double *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamString(string name, string *value) { return NI_NOT_IMPLEMENTED; }
 
+	const std::list<std::string> listOfBool = { "true","false" };
+
 private:
 	vector<SciSDK_Paramcb> params;
 	bool FindParameterByName(string name, SciSDK_Paramcb **p);
