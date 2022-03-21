@@ -80,22 +80,23 @@ int main()
 	//	}
 	//}
 
-	SCISDK_LIST_RAW_BUFFER *ddb;
-	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 1000));
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "non-blocking"));
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.thread", "true"));
-	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", ""));
+	//SCISDK_LIST_RAW_BUFFER *ddb;
+	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 1000));
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "non-blocking"));
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.thread", "true"));
+	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", ""));
 
-	while (1) {
-		int ret = sdk.ReadData("board0:/MMCComponents/List_0", (void *)ddb);
-		if (ret == NI_OK) {
-			for (int i = 0; i < ddb->info.valid_samples; i++) {
-				uint32_t *p;
-				p =(uint32_t *) ddb->data;
-				cout << std::hex  << p[i] << endl;
-			}	
-		}
-	}
+	//while (1) {
+	//	int ret = sdk.ReadData("board0:/MMCComponents/List_0", (void *)ddb);
+	//	if (ret == NI_OK) {
+	//		uint32_t *p;
+	//		p = (uint32_t *)ddb->data;
+	//		cout << "----- " << ddb->info.valid_samples / 4 << " -----" << endl;
+	//		for (int i = 0; i < ddb->info.valid_samples/4; i++) {
+	//			cout << std::hex  << p[i] << endl;
+	//		}	
+	//	}
+	//}
 	return 0;
 }
 

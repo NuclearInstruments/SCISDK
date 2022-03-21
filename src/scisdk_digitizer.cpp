@@ -55,7 +55,7 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
-	RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
+	//RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
 
@@ -514,6 +514,7 @@ void SciSDK_Digitizer::producer_thread() {
 	bool toTarget = false;
 	while (!toTarget && producer.canRun) {
 		uint32_t vd=0;
+		uint32_t _size = 0;
 		bool go = false;
 		do {
 			h_mutex.lock();
@@ -524,15 +525,29 @@ void SciSDK_Digitizer::producer_thread() {
 			}
 		} while (go == false);
 
-		NI_RESULT ret = _hal->ReadFIFO(__buffer, transfer_size, address.base, 0, 100, &vd);
-		if (ret == NI_OK) {
-			if (vd > 0) {
-				h_mutex.lock();
-				for (int i = 0; i < vd; i++) {
-					pQ.push(__buffer[i]);
+		if (!high_performance) {
+			uint32_t status;
+			NI_RESULT ret = _hal->ReadReg(&status, address.status);
+			_size = (status >> 8) & 0xFFFFFF;
+		}
+		else {
+			_size = transfer_size;
+		}
+		_size = _size > transfer_size ? transfer_size : _size;
+		if (_size > 0) {
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			if (ret == NI_OK) {
+				if (vd > 0) {
+					h_mutex.lock();
+					for (int i = 0; i < vd; i++) {
+						pQ.push(__buffer[i]);
+					}
+					h_mutex.unlock();
 				}
-				h_mutex.unlock();
 			}
+		}
+		else {
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
 		}
 	}
 	

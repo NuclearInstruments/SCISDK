@@ -36,6 +36,7 @@ SciSDK_List::SciSDK_List(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	__buffer = NULL;
 	cout << "List: " << name << " addr: " << address.base << endl;
 
+	timeout = 100;
 	
 	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) 1024*1024* 1024,   this);
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
@@ -230,38 +231,67 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 
 	if (p->magic != BUFFER_TYPE_LIST_RAW) return NI_INVALID_BUFFER_TYPE;
 	if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
+	uint32_t buffer_size_dw = p->info.buffer_size/4;
 
-
-	auto t_start = std::chrono::high_resolution_clock::now();
-	double elapsed_time_ms = 0;
-	if (acq_mode == ACQ_MODE::BLOCKING) {
-		int s = pQ.size();
-		while ((s < p->info.buffer_size) && ((timeout <0) || (elapsed_time_ms < timeout))) {
-			auto t_end = std::chrono::high_resolution_clock::now();
-			elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-			std::this_thread::sleep_for(std::chrono::microseconds (10));
-			h_mutex.lock(); s = pQ.size(); h_mutex.unlock();
+	if (threaded) {
+		//Threaded data download. Take data from the internal queue and transfer data 
+		//to user without interaction with the hardware.
+		auto t_start = std::chrono::high_resolution_clock::now();
+		double elapsed_time_ms = 0;
+		if (acq_mode == ACQ_MODE::BLOCKING) {
+			int s = pQ.size();
+			while ((s < buffer_size_dw) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+				auto t_end = std::chrono::high_resolution_clock::now();
+				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+				std::this_thread::sleep_for(std::chrono::microseconds (10));
+				h_mutex.lock(); s = pQ.size(); h_mutex.unlock();
+			}
 		}
-	}
 
 
-	if (pQ.size() > 0) {
-		h_mutex.lock();
-		ii = 0;
-		uint32_t *data;
-		data = (uint32_t*)p->data;
-		while ((pQ.size() > 0) && (ii < p->info.buffer_size)) {
-			data[ii++] = pQ.front();
-			pQ.pop();
+		if (pQ.size() > 0) {
+			h_mutex.lock();
+			ii = 0;
+			uint32_t *data;
+			data = (uint32_t*)p->data;
+			while ((pQ.size() > 0) && (ii < buffer_size_dw)) {
+				data[ii++] = pQ.front();
+				pQ.pop();
+			}
+			p->info.valid_samples = ii*4;
+			h_mutex.unlock();
+			return NI_OK;
 		}
-		p->info.valid_samples = ii;
-		h_mutex.unlock();
-		return NI_OK;
+		else {
+			return NI_NO_DATA_AVAILABLE;
+		}
 	}
 	else {
-		return NI_NO_DATA_AVAILABLE;
+		//Non threaded mode: data are downloaded under the control of the user
+		uint32_t vd;
+		uint32_t _size;
+		if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+			uint32_t status;
+			NI_RESULT ret = _hal->ReadReg(&status, address.status);
+			_size = (status >> 8) & 0xFFFFFF;
+		} else {
+			_size = buffer_size_dw;
+		}
+		_size = buffer_size_dw > _size ? _size : buffer_size_dw;
+		uint32_t chunk_size = (settings.nchannels * settings.wordsize) / 4;
+		_size = floor(_size / chunk_size) * chunk_size;
+		if (_size > 0) {
+			uint32_t *data;
+			data = (uint32_t*)p->data;
+			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, 0, timeout, &vd);
+			p->info.valid_samples = vd * 4;
+			if (vd==0) return NI_NO_DATA_AVAILABLE;
+			else return NI_OK;
+		}
+		else {
+			return NI_NO_DATA_AVAILABLE;
+		}
 	}
-		
 	
 
 
@@ -328,7 +358,7 @@ NI_RESULT SciSDK_List::CmdStop() {
 	//Critical section : set stop
 	producer.canRun = false;
 	producer.t->join();
-
+	_hal->WriteReg(0, address.config);
 	if (__buffer)
 		free(__buffer);
 
@@ -360,8 +390,13 @@ void SciSDK_List::producer_thread() {
 		else {
 			_size = transfer_size;
 		}
+		_size = _size > transfer_size ? transfer_size : _size;
+		uint32_t chunk_size = (settings.nchannels * settings.wordsize)/4;
+		_size = floor(_size / chunk_size) * chunk_size;
+		
 		if (_size > 0) {
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, transfer_size, address.base, 0, 100, &vd);
+
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();
@@ -372,6 +407,9 @@ void SciSDK_List::producer_thread() {
 				}
 			}
 		}
+		else {
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
+		}
 	}
-	_hal->WriteReg(0, address.config);
+	
 }
