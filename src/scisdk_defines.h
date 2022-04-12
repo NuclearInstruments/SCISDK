@@ -82,4 +82,18 @@
 		T_BUFFER_TYPE_RAW,
 		T_BUFFER_TYPE_DECODED
 	} T_BUFFER_TYPE;
+
+
+	typedef struct {
+		uint32_t magic;
+		uint32_t *data;
+		uint64_t timecode;
+		uint32_t inttime;
+		struct {
+			uint32_t buffer_size;
+			uint32_t total_bins;
+			uint32_t valid_bins;
+		} info;
+	}SCISDK_SPECTRUM_DECODED_BUFFER;
+
 #endif

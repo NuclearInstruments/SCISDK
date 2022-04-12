@@ -16,7 +16,9 @@ enum class MMC_ELEMENT {
 	REGISTER,
 	OSCILLOSCOPE,
 	WAVEDUMP,
-	LIST
+	LIST,
+	SPECTRUM,
+
 };
 
 class SciElement {
