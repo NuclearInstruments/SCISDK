@@ -152,6 +152,7 @@
     <ClInclude Include="..\..\src\NIErrorCode.h" />
     <ClInclude Include="..\..\src\scisdk_defines.h" />
     <ClInclude Include="..\..\src\scisdk_digitizer.h" />
+    <ClInclude Include="..\..\src\scisdk_fftmon.h" />
     <ClInclude Include="..\..\src\scisdk_list.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_core.h" />
@@ -160,11 +161,13 @@
     <ClInclude Include="..\..\src\scisdk_register.h" />
     <ClInclude Include="..\..\src\scisdk_SciElement.h" />
     <ClInclude Include="..\..\src\scisdk_scinode.h" />
+    <ClInclude Include="..\..\src\scisdk_spectrum.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\scisdk_digitizer.cpp" />
+    <ClCompile Include="..\..\src\scisdk_fftmon.cpp" />
     <ClCompile Include="..\..\src\scisdk_list.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
@@ -173,6 +176,7 @@
     <ClCompile Include="..\..\src\scisdk_register.cpp" />
     <ClCompile Include="..\..\src\scisdk_SciElement.cpp" />
     <ClCompile Include="..\..\src\scisdk_scinode.cpp" />
+    <ClCompile Include="..\..\src\scisdk_spectrum.cpp" />
     <ClCompile Include="SciSDK_VC++.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

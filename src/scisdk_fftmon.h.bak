@@ -11,9 +11,9 @@ using json = nlohmann::json;
 
 using namespace std;
 
-class SciSDK_Spectrum : public  SciSDK_Node {
+class SciSDK_FFT: public  SciSDK_Node {
 public:
-	SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path);
+	SciSDK_FFT(SciSDK_HAL *hal, json j, string path);
 
 
 	NI_RESULT ISetParamU32(string name, uint32_t value);
@@ -29,52 +29,42 @@ public:
 
 	NI_RESULT ReadData(void *buffer);
 
-	NI_RESULT CheckSpectrum(bool *running, bool *completed, uint32_t *limitcnt, 
-							uint32_t *peak_max, uint32_t *total_counter, double *integration_time);
 	NI_RESULT ExecuteCommand(string cmd, string param);
 	NI_RESULT ReadStatus(void *buffer);
 private:
+	uint32_t decimator=0;
+	int32_t timeout;
+	bool auto_arm;
 
-	enum class LIMIT_TYPE {
-		FREE_RUNNING,
-		TIME,
-		TOTAL_CNT,
-		PEAK_CNT
-	} spectrum_limit;
+	enum class ACQ_MODE {
+		BLOCKING,
+		NON_BLOCKING
+	} acq_mode;
 
-	int32_t limit_value=0;
-	int32_t rebin;
-	int32_t emin;
-	int32_t emax;
-	int32_t current_cfg_reg = 0;
+	enum class DATA_PROCESSING {
+		RAW,
+		DECODE
+	} data_processing;
 
 
-	NI_RESULT ConfigureSpectrum();
-	NI_RESULT CmdStart();
-	NI_RESULT CmdStop();
-	NI_RESULT CmdReset();
-	NI_RESULT CmdResetCounters();
-	NI_RESULT CheckSpectrumStatus(bool *running);
+	NI_RESULT ConfigureFFT();
+	NI_RESULT CmdArm();
+	NI_RESULT CheckFFT(bool *ready, bool *armed, bool *running);
 
 	struct  {
 		uint32_t base;
-		uint32_t cfg;
-		uint32_t cfg_limit;
-		uint32_t cfg_rebin;
-		uint32_t cfg_min;
-		uint32_t cfg_max;
-		uint32_t status;
-		bool has_statustime;
-		uint32_t status_time;
+		uint32_t cfg_decimator;
+		uint32_t cmd_arm;
+		uint32_t status_read;
 		uint32_t timestamp;
 		bool has_timestamp;
 	} address;
 
 	struct {
-		uint32_t nbins;
-		uint32_t bitbin;
+		uint32_t nsamples;
 	} settings;
 
+	uint32_t *__buffer;
 
 
 };

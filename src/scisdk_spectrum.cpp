@@ -319,26 +319,37 @@ NI_RESULT SciSDK_Spectrum::CmdResetCounters() {
 
 
 NI_RESULT SciSDK_Spectrum::ExecuteCommand(string cmd, string param) {
-	if (cmd == "arm") {
-		return CmdArm();
-	} else if (cmd == "reset_read_valid_flag") {
-		return CmdResetReadValidFlag();
+	if (cmd == "start") {
+		return CmdStart();
+	} else if (cmd == "stop") {
+		return CmdStop();
+	} else if (cmd == "reset") {
+		return CmdReset();
+	} else if (cmd == "reset_counters") {
+		return CmdResetCounters();
 	}
 
 	return NI_INVALID_COMMAND;
 }
 
-NI_RESULT SciSDK_Spectrum::CheckOscilloscopeStatus(bool *ready, bool *armed, bool *running) {
+NI_RESULT SciSDK_Spectrum::CheckSpectrum(bool *running, bool *completed,  uint32_t *limitcnt, 
+						uint32_t *peak_max, uint32_t *total_counter, double *integration_time) 
+{
 	uint32_t status;
-	if (_hal->ReadReg(&status, address.status_read)) return NI_ERROR_INTERFACE;
-	*armed = (status >> 1) & 0x1 ? true : false;
-	*ready = status & 0x1 ? true : false;
+	if (_hal->ReadReg(&status, address.status)) return NI_ERROR_INTERFACE;
+	*running = (status  & 0x1) ? true : false;
+	*completed = ((status>>1) & 0x1) ? true : false;
+	*limitcnt = status & 0x1 ? true : false;
 	*running = (status >> 2) & 0x1 ? true : false;
+	*peak_max = 0;
+	*total_counter = 0;
+	integration_time = 0;
 	return NI_OK;
 }
 
 
 NI_RESULT SciSDK_Spectrum::ReadStatus(void *buffer) {
-	SCISDK_OSCILLOSCOPE_STATUS *p = (SCISDK_OSCILLOSCOPE_STATUS*)buffer;
-	return CheckOscilloscopeStatus(&p->ready, &p->armed, &p->running);
+	SCISDK_SPECTRUM_STATUS *p = (SCISDK_SPECTRUM_STATUS*)buffer;
+	return CheckSpectrum(&p->running, &p->completed , &p->progress, 
+					&p->peak_max, &p->total_counter, &p->integration_time);
 }

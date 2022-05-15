@@ -96,4 +96,42 @@
 		} info;
 	}SCISDK_SPECTRUM_DECODED_BUFFER;
 
+	typedef struct {
+		bool running;
+		bool completed;
+		uint32_t progress;
+		uint32_t peak_max;				//future develop
+		uint32_t total_counter;			//future develop
+		double integration_time;		//future develop
+	}SCISDK_SPECTRUM_STATUS;
+
+
+	typedef struct {
+		uint32_t magic;
+		double *mag;
+		double *ph;
+		uint64_t timecode;
+		struct {
+			uint32_t samples;
+			uint32_t channels;
+		} info;
+	}SCISDK_FFT_DECODED_BUFFER;
+
+	typedef struct {
+		uint32_t magic;
+		uint32_t *data;
+		uint64_t timecode;
+		struct {
+			uint32_t buffer_size;
+			uint32_t samples;
+			uint32_t channels;
+		} info;
+	}SCISDK_FFT_RAW_BUFFER;
+
+	typedef struct {
+		bool armed;
+		bool ready;
+		bool running;
+	}SCISDK_FFT_STATUS;
+
 #endif
