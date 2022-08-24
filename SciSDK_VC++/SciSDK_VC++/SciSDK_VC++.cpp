@@ -4,6 +4,10 @@
 #include "stdafx.h"
 #include "../../src/scisdk_core.h"
 #include <bitset>
+#include <functional>
+#include <chrono>
+#include <thread>
+#include <iostream>
 SciSDK sdk;
 
 
@@ -19,31 +23,45 @@ int main()
 	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
 	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
 
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
-	////sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
-	//SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-	//SCISDK_OSCILLOSCOPE_RAW_BUFFER *rb;
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
-	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
-	//
-	////while (1) {
-	//	std::ofstream out("c:/temp/output.txt");
-	//	sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "ext"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
+	//sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+	SCISDK_OSCILLOSCOPE_RAW_BUFFER *rb;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
 
-	//	for (int i = 0; i < ob->info.samples_analog; i++) {
-	//	out << ob->analog[i] << endl;
-	//	}
-	//	out.close();
-	////}
-	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
-	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Spectrum_0", ""));
+	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0", ""));
+
+	SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Spectrum_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Spectrum_0.rebin", "0"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Spectrum_0.limitmode", "freerun"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Spectrum_0.limit", "100"));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", ""));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", ""));
+	std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+	//while (1) {
+		std::ofstream out("c:/temp/output1.txt");
+		sdk.ReadData("board0:/MMCComponents/Spectrum_0", (void *)obSpectrum);
+
+		for (int i = 0; i < obSpectrum->info.total_bins; i++) {
+		out << obSpectrum->data[i] << endl;
+		}
+		out.close();
+		sdk.FreeBuffer("board0:/MMCComponents/Spectrum_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum);
+	//}
+		//sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
+		//sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
+
+
 
 	//SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
 	//sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb);

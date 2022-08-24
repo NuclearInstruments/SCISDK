@@ -1,5 +1,5 @@
-#ifndef HEADER_H_SCISDK_OSCILLOSCOPE
-#define HEADER_H_SCISDK_OSCILLOSCOPE
+#ifndef HEADER_H_SCISDK_SPECTRUM
+#define HEADER_H_SCISDK_SPECTRUM
 #include <iostream>
 #include <algorithm>
 #include <list>

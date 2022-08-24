@@ -13,6 +13,7 @@
 #include "scisdk_digitizer.h"
 #include "scisdk_list.h"
 #include "scisdk_fftmon.h"
+#include "scisdk_spectrum.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -323,6 +324,8 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 							mmcs.push_back(new SciSDK_List(_hal, r, parent + "/" + (string)it.key()));
 						} else if (ToUpper(r.at("Type")) == "FFTMONITOR") {
 							mmcs.push_back(new SciSDK_FFT(_hal, r, parent + "/" + (string)it.key()));
+						} else if (ToUpper(r.at("Type")) == "SPECTRUM") {
+							mmcs.push_back(new SciSDK_Spectrum(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}

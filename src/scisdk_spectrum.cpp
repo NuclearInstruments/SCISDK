@@ -30,7 +30,7 @@ SciSDK_Spectrum::SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path) : SciSDK_
 	}
 	
 
-	settings.nbins = (uint32_t)j.at("Address");
+	settings.nbins = (uint32_t)j.at("bins");
 	settings.bitbin  = (uint32_t)j.at("CountsBit");
 	emin = 0;
 	emax = settings.nbins - 1;
@@ -159,7 +159,7 @@ NI_RESULT SciSDK_Spectrum::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	}
 	SCISDK_SPECTRUM_DECODED_BUFFER *p;
 	p = (SCISDK_SPECTRUM_DECODED_BUFFER*)*buffer;
-	p->data = (uint32_t*)malloc(settings.nbins * ceil(settings.bitbin / 32) * sizeof(uint32_t));
+	p->data = (uint32_t*)malloc(8+settings.nbins * ceil((double)settings.bitbin / 32.0) * sizeof(uint32_t));
 
 	if (p->data == NULL) {
 		return NI_ALLOC_FAILED;
@@ -167,7 +167,7 @@ NI_RESULT SciSDK_Spectrum::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	p->magic = BUFFER_TYPE_SPECTRUM_DECODED;
 	p->timecode = 0;
 	p->inttime = 0;
-	p->info.buffer_size = settings.nbins * ceil(settings.bitbin / 32) ;
+	p->info.buffer_size = settings.nbins * ceil((double)settings.bitbin / 32.0);
 	p->info.total_bins = settings.nbins;
 	p->info.valid_bins = 0;
 
@@ -233,7 +233,7 @@ NI_RESULT SciSDK_Spectrum::ReadData(void *buffer) {
 
 
 	//download data
-	uint32_t buffer_size = settings.nbins * ceil(settings.bitbin / 32) / (rebin+1);
+	uint32_t buffer_size = settings.nbins * ceil((double)settings.bitbin / 32.0) / (rebin+1);
 	if (_hal->ReadData(p->data, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
 
 	if (dv < buffer_size) {
@@ -304,8 +304,11 @@ NI_RESULT SciSDK_Spectrum::CmdReset() {
 	ret |= _hal->WriteReg(1, address.cfg);
 	if (ret)
 		return NI_ERROR_INTERFACE;
-	else
+	else {
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		return NI_OK;
+	}
+		
 }
 
 NI_RESULT SciSDK_Spectrum::CmdResetCounters() {
@@ -339,8 +342,7 @@ NI_RESULT SciSDK_Spectrum::CheckSpectrum(bool *running, bool *completed,  uint32
 	if (_hal->ReadReg(&status, address.status)) return NI_ERROR_INTERFACE;
 	*running = (status  & 0x1) ? true : false;
 	*completed = ((status>>1) & 0x1) ? true : false;
-	*limitcnt = status & 0x1 ? true : false;
-	*running = (status >> 2) & 0x1 ? true : false;
+	*limitcnt = (status >> 4);
 	*peak_max = 0;
 	*total_counter = 0;
 	integration_time = 0;
