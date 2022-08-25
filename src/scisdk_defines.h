@@ -78,6 +78,30 @@
 		} info;
 	}SCISDK_LIST_RAW_BUFFER;
 
+	typedef struct {
+		uint32_t *row;
+		uint32_t n;
+	}SCISDK_CP_PACKET;
+
+	typedef struct {
+		uint32_t magic;
+		SCISDK_CP_PACKET *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t packet_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_CP_DECODED_BUFFER;
+
+	typedef struct {
+		uint32_t magic;
+		uint32_t *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_CP_RAW_BUFFER;
+
 	typedef enum {
 		T_BUFFER_TYPE_RAW,
 		T_BUFFER_TYPE_DECODED

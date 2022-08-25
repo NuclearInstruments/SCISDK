@@ -150,6 +150,7 @@
     <ClInclude Include="..\..\headers\SCIDK_API_C.h" />
     <ClInclude Include="..\..\src\magic_numbers.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
+    <ClInclude Include="..\..\src\scisdk_custom_packet.h" />
     <ClInclude Include="..\..\src\scisdk_defines.h" />
     <ClInclude Include="..\..\src\scisdk_digitizer.h" />
     <ClInclude Include="..\..\src\scisdk_fftmon.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\scisdk_custom_packet.cpp" />
     <ClCompile Include="..\..\src\scisdk_digitizer.cpp" />
     <ClCompile Include="..\..\src\scisdk_fftmon.cpp" />
     <ClCompile Include="..\..\src\scisdk_list.cpp" />
