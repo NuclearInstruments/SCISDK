@@ -159,6 +159,7 @@
     <ClInclude Include="..\..\src\scisdk_core.h" />
     <ClInclude Include="..\..\src\scisdk_device.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
+    <ClInclude Include="..\..\src\scisdk_rate_meter.h" />
     <ClInclude Include="..\..\src\scisdk_register.h" />
     <ClInclude Include="..\..\src\scisdk_SciElement.h" />
     <ClInclude Include="..\..\src\scisdk_scinode.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_device.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />
+    <ClCompile Include="..\..\src\scisdk_rate_meter.cpp" />
     <ClCompile Include="..\..\src\scisdk_register.cpp" />
     <ClCompile Include="..\..\src\scisdk_SciElement.cpp" />
     <ClCompile Include="..\..\src\scisdk_scinode.cpp" />

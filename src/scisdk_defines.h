@@ -102,6 +102,16 @@
 		} info;
 	}SCISDK_CP_RAW_BUFFER;
 
+	typedef struct {
+		uint32_t magic;
+		double *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t valid_data;
+			uint32_t nchannels;
+		}info;
+	}SCISDK_RM_RAW_BUFFER;
+
 	typedef enum {
 		T_BUFFER_TYPE_RAW,
 		T_BUFFER_TYPE_DECODED

@@ -19,9 +19,9 @@ int main()
 {
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data;
 
-	sdk.p_error(sdk.AddNewDevice("usb:10500", "dt1260", "SCIDKTester.json", "board0"));
-	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
-	sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
+	sdk.p_error(sdk.AddNewDevice("usb:10500", "dt1260", "RegisterFile.json", "board0"));
+	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
+	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
 
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "ext"));
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
@@ -143,7 +143,7 @@ int main()
 	//	}
 	//}
 
-	SCISDK_CP_RAW_BUFFER *cpb;
+	/*SCISDK_CP_RAW_BUFFER *cpb;
 	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/CP_0", T_BUFFER_TYPE_RAW, (void**)&cpb, 100));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CP_0.acq_mode", "blocking"));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CP_0.thread", "true"));
@@ -160,9 +160,17 @@ int main()
 			for (int i = 0; i < cpb->info.valid_data; i++) {
 				std::cout << std::hex << cpb->data[i] << endl;
 			}
-		
-	}
 
+	}*/
+	SCISDK_RM_RAW_BUFFER *rmb;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&rmb));
+
+	sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb);
+	for (int i = 0; i < rmb->info.nchannels; i++)
+	{
+		cout << rmb->data[i] << endl;
+	}	
+		
 	return 0;
 }
 

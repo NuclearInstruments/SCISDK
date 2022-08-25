@@ -15,6 +15,7 @@
 #include "scisdk_fftmon.h"
 #include "scisdk_spectrum.h"
 #include "scisdk_custom_packet.h"
+#include "scisdk_rate_meter.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -329,6 +330,8 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 							mmcs.push_back(new SciSDK_Spectrum(_hal, r, parent + "/" + (string)it.key()));
 						} else if (ToUpper(r.at("Type")) == "CUSTOMPACKET") {
 							mmcs.push_back(new SciSDK_CustomPacket(_hal, r, parent + "/" + (string)it.key()));
+						} else if (ToUpper(r.at("Type")) == "MCRATEMETER") {
+							mmcs.push_back(new SciSDK_Ratemeter(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}
