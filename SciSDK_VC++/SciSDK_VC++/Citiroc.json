@@ -1,0 +1,418 @@
+{"Registers":[
+{
+  "Name": "mask",
+  "Address": 19,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+}],
+"MMCComponents":[
+{
+  "Name": "DTWC",
+  "Type": "DT550WController",
+  "Address": 0,
+  "Version": "1.1.0.0",
+  "Registers": [
+    {
+      "Name": "ON_OFF",
+      "Address": 1,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_EMERGENCY",
+      "Address": 2,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_SET_VOLTAGE",
+      "Address": 3,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_ENABLE_TCOMP",
+      "Address": 4,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_T_M",
+      "Address": 5,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_T_Q",
+      "Address": 6,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_TCOMP_COEF",
+      "Address": 7,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_MAX_I",
+      "Address": 8,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "RAMP_SPEED",
+      "Address": 9,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_MAX_V",
+      "Address": 10,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_STATUS",
+      "Address": 11,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_OUTV",
+      "Address": 12,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_IOUT",
+      "Address": 13,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_TEMP",
+      "Address": 14,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_VTARGET",
+      "Address": 15,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_AVTARGET",
+      "Address": 16,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_TEMP_SENS_1",
+      "Address": 17,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HV_TEMP_SENS_2",
+      "Address": 18,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+},
+{
+  "Name": "RateMeter_0",
+  "Type": "MCRateMeter",
+  "Address": 65536,
+  "Version": "1.0.0.0",
+  "Channels": 36,
+  "Registers": []
+},
+{
+  "Name": "CitirocCfg0",
+  "Type": "CitirocCfg",
+  "Address": 21,
+  "Version": "1.1.0.0",
+  "Registers": [
+    {
+      "Name": "REG_CFG0",
+      "Address": 22,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG1",
+      "Address": 23,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG2",
+      "Address": 24,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG3",
+      "Address": 25,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG4",
+      "Address": 26,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG5",
+      "Address": 27,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG6",
+      "Address": 28,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG7",
+      "Address": 29,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG8",
+      "Address": 30,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG9",
+      "Address": 31,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG10",
+      "Address": 32,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG11",
+      "Address": 33,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG12",
+      "Address": 34,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG13",
+      "Address": 35,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG14",
+      "Address": 36,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG15",
+      "Address": 37,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG16",
+      "Address": 38,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG17",
+      "Address": 39,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG18",
+      "Address": 40,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG19",
+      "Address": 41,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG20",
+      "Address": 42,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG21",
+      "Address": 43,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG22",
+      "Address": 44,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG23",
+      "Address": 45,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG24",
+      "Address": 46,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG25",
+      "Address": 47,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG26",
+      "Address": 48,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG27",
+      "Address": 49,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG28",
+      "Address": 50,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG29",
+      "Address": 51,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG30",
+      "Address": 52,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG31",
+      "Address": 53,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG32",
+      "Address": 54,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG33",
+      "Address": 55,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG34",
+      "Address": 56,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_CFG35",
+      "Address": 57,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "START_REG_CFG",
+      "Address": 58,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+}],"Device":"DT5550W-Citiroc","Magic":746446499,"Project":"citiconfig"}

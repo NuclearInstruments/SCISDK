@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\src\scisdk_rate_meter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\scisdk_DT5550W-CITIROC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\scisdk_rate_meter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\scisdk_DT5550W-CITIROC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
