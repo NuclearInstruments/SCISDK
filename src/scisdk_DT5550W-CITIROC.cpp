@@ -23,13 +23,13 @@ SciSDK_DT5550W_Citiroc::SciSDK_DT5550W_Citiroc(SciSDK_HAL * hal, json j, string 
 		RegisterParameter("sc_calibDacT_" + to_string(i), "Ch0 to 31 4-bit DAC_t([0..3]) ", SciSDK_Paramcb::Type::U32, this);
 		RegisterParameter("sc_calibDacQ_" + to_string(i), "Ch0 to 31 4-bit DAC([0..3]) ", SciSDK_Paramcb::Type::U32, this);
 		RegisterParameter("sc_mask_" + to_string(i), " Discriminator mask (channel 0 to 31) [0: Masked – 1 : unmasked]", SciSDK_Paramcb::Type::U32, this);
-		RegisterParameter("sc_inputDac_" + to_string(i), "", SciSDK_Paramcb::Type::U32, this);
-		RegisterParameter("sc_cmdInputDac_" + to_string(i), "", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("sc_inputDac_" + to_string(i), "8-bit input DAC Voltage Reference (1 = internal 4,5V , 0 = internal 2,5V) ", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("sc_cmdInputDac_" + to_string(i), "Input 8-bit DAC Data from channel 0 to 31 – (DAC7…DAC0 + DAC ON) ", SciSDK_Paramcb::Type::U32, this);
 		RegisterParameter("sc_paHgGain_" + to_string(i), "High Gain preamp power pulsing mode [0: power pin - 1 : force on]", SciSDK_Paramcb::Type::U32, this);
 		RegisterParameter("sc_paLgGain_" + to_string(i), "Low Gain preamp power pulsing mode [0: power pin - 1 : force on]", SciSDK_Paramcb::Type::U32, this);
-		RegisterParameter("sc_CtestHg_" + to_string(i), "", SciSDK_Paramcb::Type::U32, this);
-		RegisterParameter("sc_CtestLg_" + to_string(i), "", SciSDK_Paramcb::Type::U32, this);
-		RegisterParameter("sc_enPa_" + to_string(i), "", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("sc_CtestHg_" + to_string(i), "CtestHG : connect injection capacitance to preamp", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("sc_CtestLg_" + to_string(i), " CtestLG : connect injection capacitance to preamp", SciSDK_Paramcb::Type::U32, this);
+		RegisterParameter("sc_enPa_" + to_string(i), "PA disabled : disable preamplifier [0: preamplifier enabled – 1: preamplifier disabled]", SciSDK_Paramcb::Type::U32, this);
 	}
 
 	RegisterParameter("sc_enDiscri", "Enable Discriminator Charge [0 : disabled, force off – 1 : Enabled]", SciSDK_Paramcb::Type::U32, this);
@@ -98,7 +98,6 @@ SciSDK_DT5550W_Citiroc::SciSDK_DT5550W_Citiroc(SciSDK_HAL * hal, json j, string 
 	RegisterParameter("sc_triggerPolarity", "Output trigger polarity choice [0 : positive (rising edge) – 1 : negative (falling edge)]", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("sc_enNor32TOc", "Enable digital OR32_T Open Collector output [0 : disabled, force off – 1 : Enabled]", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("sc_enTriggersOutput", "Enable 32 channels triggers outputs [0 : disabled, force off – 1 : Enabled]", SciSDK_Paramcb::Type::U32, this);
-
 }
 
 NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
@@ -117,7 +116,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			break;
 		}
 		else if (name == "sc_mask_" + to_string(i)) {
-			sc_mask[i] = (int)value;
+			sc_mask[i] = value == 0 ? 0 : 1;
 			param_found = true;
 			break;
 		}
@@ -127,7 +126,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			break;
 		}
 		else if (name == "sc_cmdInputDac_" + to_string(i)) {
-			sc_cmdInputDac[i] = (int)value;
+			sc_cmdInputDac[i] = value == 0 ? 0 : 1;
 			param_found = true;
 			break;
 		}
@@ -142,17 +141,17 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			break;
 		}
 		else if (name == "sc_CtestHg_" + to_string(i)) {
-			sc_CtestHg[i] = (int)value;
+			sc_CtestHg[i] = value == 0 ? 0 : 1;
 			param_found = true;
 			break;
 		}
 		else if (name == "sc_CtestLg_" + to_string(i)) {
-			sc_CtestLg[i] = (int)value;
+			sc_CtestLg[i] = value == 0 ? 0 : 1;
 			param_found = true;
 			break;
 		}
 		else if (name == "sc_enPa_" + to_string(i)) {
-			sc_enPa[i] = (int)value;
+			sc_enPa[i] = value == 0 ? 0 : 1;
 			param_found = true;
 			break;
 		}
@@ -167,111 +166,111 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			param_found = true;
 		}
 		else if (name == "sc_enDiscri") {
-			sc_enDiscri = (int)value;
+			sc_enDiscri = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppDiscri") {
-			sc_ppDiscri = (int)value;
+			sc_ppDiscri = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_latchDiscri") {
-			sc_latchDiscri = (int)value;
+			sc_latchDiscri = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enDiscriT") {
-			sc_enDiscriT = (int)value;
+			sc_enDiscriT = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppDiscriT") {
-			sc_ppDiscriT = (int)value;
+			sc_ppDiscriT = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enCalibDacQ") {
-			sc_enCalibDacQ = (int)value;
+			sc_enCalibDacQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppCalibDacQ") {
-			sc_ppCalibDacQ = (int)value;
+			sc_ppCalibDacQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enCalibDacT") {
-			sc_enCalibDacT = (int)value;
+			sc_enCalibDacT = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppCalibDacT") {
-			sc_ppCalibDacT = (int)value;
+			sc_ppCalibDacT = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppThHg") {
-			sc_ppThHg = (int)value;
+			sc_ppThHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enThHg") {
-			sc_enThHg = (int)value;
+			sc_enThHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppThLg") {
-			sc_ppThLg = (int)value;
+			sc_ppThLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enThLg") {
-			sc_enThLg = (int)value;
+			sc_enThLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_biasSca") {
-			sc_biasSca = (int)value;
+			sc_biasSca = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppPdetHg") {
-			sc_ppPdetHg = (int)value;
+			sc_ppPdetHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enPdetHg") {
-			sc_enPdetHg = (int)value;
+			sc_enPdetHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppPdetLg") {
-			sc_ppPdetLg = (int)value;
+			sc_ppPdetLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enPdetLg") {
-			sc_enPdetLg = (int)value;
+			sc_enPdetLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_scaOrPdHg") {
-			sc_scaOrPdHg = (int)value;
+			sc_scaOrPdHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_scaOrPdLg") {
-			sc_scaOrPdLg = (int)value;
+			sc_scaOrPdLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_bypassPd") {
-			sc_bypassPd = (int)value;
+			sc_bypassPd = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_selTrigExtPd") {
-			sc_selTrigExtPd = (int)value;
+			sc_selTrigExtPd = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppFshBuffer") {
-			sc_ppFshBuffer = (int)value;
+			sc_ppFshBuffer = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enFsh") {
-			sc_enFsh = (int)value;
+			sc_enFsh = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppFsh") {
-			sc_ppFsh = (int)value;
+			sc_ppFsh = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppSshLg") {
-			sc_ppSshLg = (int)value;
+			sc_ppSshLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enSshLg") {
-			sc_enSshLg = (int)value;
+			sc_enSshLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_shapingTimeLg") {
@@ -279,11 +278,11 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			param_found = true;
 		}
 		else if (name == "sc_ppSshHg") {
-			sc_ppSshHg = (int)value;
+			sc_ppSshHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enSshHg") {
-			sc_enSshHg = (int)value;
+			sc_enSshHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_shapingTimeHg") {
@@ -291,67 +290,67 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			param_found = true;
 		}
 		else if (name == "sc_paLgBias") {
-			sc_paLgBias = (int)value;
+			sc_paLgBias = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppPaHg") {
-			sc_ppPaHg = (int)value;
+			sc_ppPaHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enPaHg") {
-			sc_enPaHg = (int)value;
+			sc_enPaHg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppPaLg") {
-			sc_ppPaLg = (int)value;
+			sc_ppPaLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enPaLg") {
-			sc_enPaLg = (int)value;
+			sc_enPaLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_fshOnLg") {
-			sc_fshOnLg = (int)value;
+			sc_fshOnLg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enInputDac") {
-			sc_enInputDac = (int)value;
+			sc_enInputDac = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_dacRef") {
-			sc_dacRef = (int)value;
+			sc_dacRef = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppTemp") {
-			sc_ppTemp = (int)value;
+			sc_ppTemp = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enTemp") {
-			sc_enTemp = (int)value;
+			sc_enTemp = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppBg") {
-			sc_ppBg = (int)value;
+			sc_ppBg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enBg") {
-			sc_enBg = (int)value;
+			sc_enBg = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enThresholdDac1") {
-			sc_enThresholdDac1 = (int)value;
+			sc_enThresholdDac1 = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppThresholdDac1") {
-			sc_ppThresholdDac1 = (int)value;
+			sc_ppThresholdDac1 = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enThresholdDac2") {
-			sc_enThresholdDac2 = (int)value;
+			sc_enThresholdDac2 = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppThresholdDac2") {
-			sc_ppThresholdDac2 = (int)value;
+			sc_ppThresholdDac2 = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_threshold1") {
@@ -363,78 +362,77 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 			param_found = true;
 		}
 		else if (name == "sc_enHgOtaQ") {
-			sc_enHgOtaQ = (int)value;
+			sc_enHgOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppHgOtaQ") {
-			sc_ppHgOtaQ = (int)value;
+			sc_ppHgOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enLgOtaQ") {
-			sc_enLgOtaQ = (int)value;
+			sc_enLgOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppLgOtaQ") {
-			sc_ppLgOtaQ = (int)value;
+			sc_ppLgOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enProbeOtaQ") {
-			sc_enProbeOtaQ = (int)value;
+			sc_enProbeOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppProbeOtaQ") {
-			sc_ppProbeOtaQ = (int)value;
+			sc_ppProbeOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_testBitOtaQ") {
-			sc_testBitOtaQ = (int)value;
+			sc_testBitOtaQ = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enValEvtReceiver") {
-			sc_enValEvtReceiver = (int)value;
+			sc_enValEvtReceiver = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppValEvtReceiver") {
-			sc_ppValEvtReceiver = (int)value;
+			sc_ppValEvtReceiver = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enRazChnReceiver") {
-			sc_enRazChnReceiver = (int)value;
+			sc_enRazChnReceiver = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_ppRazChnReceiver") {
-			sc_ppRazChnReceiver = (int)value;
+			sc_ppRazChnReceiver = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enDigitalMuxOutput") {
-			sc_enDigitalMuxOutput = (int)value;
+			sc_enDigitalMuxOutput = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enOr32") {
-			sc_enOr32 = (int)value;
+			sc_enOr32 = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enNor32Oc") {
-			sc_enNor32Oc = (int)value;
+			sc_enNor32Oc = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_triggerPolarity") {
-			sc_triggerPolarity = (int)value;
+			sc_triggerPolarity = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enNor32TOc") {
-			sc_enNor32TOc = (int)value;
+			sc_enNor32TOc = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else if (name == "sc_enTriggersOutput") {
-			sc_enTriggersOutput = (int)value;
+			sc_enTriggersOutput = value == 0 ? 0 : 1;
 			param_found = true;
 		}
 		else {
 			param_found = false;
 		}
 	}
-
 
 	if (param_found) {
 		return NI_OK;
@@ -818,9 +816,12 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ExecuteCommand(string cmd, string param)
 {
 	if (cmd == "generate_bit_config") {
 		return CmdGenerateBitConfig();
-	}
-	else if (cmd == "decode_bit_config") {
+	} else if (cmd == "decode_bit_config") {
 		return CmdDecodeBitConfig();
+	} else if (cmd == "write_bitstream") {
+		return CmdWriteBitstream();
+	} else if (cmd == "read_bitstream") {
+		return CmdReadBitstream();
 	}
 
 	return NI_INVALID_COMMAND;
@@ -834,10 +835,19 @@ string strRev(string string) {
 
 //method that convert an int value to his binary representation, value is number to convert and len is the length of output binary number
 string intToBin(int value, int len) {
-	// return (len > 1 ? intToBin(value >> 1, len - 1):null) + "01"[value & 1];
-	return (len > 1 ? intToBin(value >> 1, len - 1) : "") + "01"[value & 1];
+	if (value < (pow(2, len) - 1)) {
+		return (len > 1 ? intToBin(value >> 1, len - 1) : "") + "01"[value & 1];
+	}
+	else {
+		string ret = "";
+		for (int i = 0; i < len; i++) {
+			ret += "1";
+		}
+		return ret;
+	}
 }
 
+//command to encode bitconfig string
 NI_RESULT SciSDK_DT5550W_Citiroc::CmdGenerateBitConfig()
 {
 	string strSC = "";
@@ -856,9 +866,9 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdGenerateBitConfig()
 		+ to_string(sc_enDiscriT)
 		+ to_string(sc_ppDiscriT)
 		+ to_string(sc_enCalibDacQ)
-		+ to_string(sc_enCalibDacQ)
+		+ to_string(sc_ppCalibDacQ)
 		+ to_string(sc_enCalibDacT)
-		+ to_string(sc_enCalibDacT);
+		+ to_string(sc_ppCalibDacT);
 
 	for (int i = 0; i < NbChannels; i++)
 		strSC += to_string(sc_mask[i]);
@@ -900,7 +910,6 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdGenerateBitConfig()
 	for (int i = 0; i < NbChannels; i++)
 		strSC += intToBin(sc_paHgGain[i], 6) + intToBin(sc_paLgGain[i], 6) + to_string(sc_CtestHg[i]) + to_string(sc_CtestLg[i]) + to_string(sc_enPa[i]);
 
-
 	strSC += to_string(sc_ppTemp)
 		+ to_string(sc_enTemp)
 		+ to_string(sc_ppBg)
@@ -929,9 +938,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdGenerateBitConfig()
 		+ to_string(sc_enNor32TOc)
 		+ to_string(sc_enTriggersOutput);
 
-	//cout << strSC << endl;
 	bitstream = strSC;
-	cout << bitstream << endl;
 	return NI_OK;
 }
 
@@ -950,33 +957,152 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
 	if (bitstream.length() == 1144) {
 
 		int base_pos = 0;
+		string str_tmp;
 
+		// decode sc_calibDacT
 		for (int i = 0; i < NbChannels; i++) {
-			string number = bitstream.substr(base_pos, 4);
-			sc_calibDacT[i] = binToInt(strRev(number));
+			str_tmp = bitstream.substr(base_pos, 4);
+			sc_calibDacT[i] = binToInt(strRev(str_tmp));
 			base_pos += 4;
 		}
 
+		// decode sc_calibDacQ
 		for (int i = 0; i < NbChannels; i++) {
-			string number = bitstream.substr(base_pos, 4);
-			sc_calibDacQ[i] = binToInt(strRev(number));
+			str_tmp = bitstream.substr(base_pos, 4);
+			sc_calibDacQ[i] = binToInt(strRev(str_tmp));
 			base_pos += 4;
 		}
-
-		/*	strSC += to_string(sc_enDiscri)
-				+ to_string(sc_ppDiscri)
-				+ to_string(sc_latchDiscri)
-				+ to_string(sc_enDiscriT)
-				+ to_string(sc_ppDiscriT)
-				+ to_string(sc_enCalibDacQ)
-				+ to_string(sc_enCalibDacQ)
-				+ to_string(sc_enCalibDacT)
-				+ to_string(sc_enCalibDacT);*/
 
 		sc_enDiscri = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_ppDiscri = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_latchDiscri = bitstream[base_pos++] == '1' ? 1 : 0;
+
 		sc_enDiscriT = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppDiscriT = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enCalibDacQ = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppCalibDacQ = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enCalibDacT = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppCalibDacT = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		// decode sc_mask
+		for (int i = 0; i < NbChannels; i++) {
+			sc_mask[i] = bitstream[base_pos++] == '1' ? 1 : 0;
+		}
+
+		sc_ppThHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enThHg = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_ppThLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enThLg = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_biasSca = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_ppPdetHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enPdetHg = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_ppPdetLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enPdetLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		
+		sc_scaOrPdHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_scaOrPdLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_bypassPd = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_selTrigExtPd = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_ppFshBuffer = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enFsh = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppFsh = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_ppSshLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enSshLg = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		// decode sc_shapingTimeLg
+		str_tmp = bitstream.substr(base_pos, 3);
+		sc_shapingTimeLg = binToInt(strRev(str_tmp));
+		base_pos += 3;
+
+		sc_ppSshHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enSshHg = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		// decode sc_shapingTimeHg
+		str_tmp = bitstream.substr(base_pos, 3);
+		sc_shapingTimeHg = binToInt(strRev(str_tmp));
+		base_pos += 3;
+
+		sc_paLgBias = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppPaHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enPaHg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppPaLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enPaLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_fshOnLg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enInputDac = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_dacRef = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		// decode sc_cmdInputDac
+		for (int i = 0; i < NbChannels; i++) {
+			str_tmp = bitstream.substr(base_pos, 8);
+			sc_inputDac[i] = binToInt(str_tmp);
+			base_pos += 8;
+			sc_cmdInputDac[i] = bitstream[base_pos++] == '1' ? 1 : 0;
+		}
+
+		for (int i = 0; i < NbChannels; i++) {
+			// decode sc_paHgGain
+			str_tmp = bitstream.substr(base_pos, 6);
+			sc_paHgGain[i] = binToInt(str_tmp);
+			base_pos += 6;
+
+			// decode sc_paLgGain
+			str_tmp = bitstream.substr(base_pos, 6);
+			sc_paLgGain[i] = binToInt(str_tmp);
+			base_pos += 6;
+
+			sc_CtestHg[i] = bitstream[base_pos++] == '1' ? 1 : 0;
+			sc_CtestLg[i] = bitstream[base_pos++] == '1' ? 1 : 0;
+			sc_enPa[i] = bitstream[base_pos++] == '1' ? 1 : 0;
+		}
+
+		sc_ppTemp = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enTemp = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppBg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enBg = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enThresholdDac1 = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppThresholdDac1 = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enThresholdDac2 = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppThresholdDac2 = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		str_tmp = bitstream.substr(base_pos, 10);
+		sc_threshold1 = binToInt(str_tmp);
+		base_pos += 10;
+
+		str_tmp = bitstream.substr(base_pos, 10);
+		sc_threshold2 = binToInt(str_tmp);
+		base_pos += 10;
+
+		sc_enHgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppHgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enLgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppLgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+			
+		sc_enProbeOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppProbeOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_testBitOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enValEvtReceiver = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppValEvtReceiver = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enRazChnReceiver = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_ppRazChnReceiver = bitstream[base_pos++] == '1' ? 1 : 0;
+
+		sc_enDigitalMuxOutput = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enOr32 = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enNor32Oc = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_triggerPolarity = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enNor32TOc = bitstream[base_pos++] == '1' ? 1 : 0;
+		sc_enTriggersOutput = bitstream[base_pos++] == '1' ? 1 : 0;
 
 		return NI_OK;
 	}
@@ -984,3 +1110,44 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
 		return NI_SPECIFIC_ERROR;
 	}
 }
+
+// command to write bitstream on device
+NI_RESULT SciSDK_DT5550W_Citiroc::CmdWriteBitstream()
+{
+	// check if bitstream is valid (string length == 1144 and string contains only 0 and 1)
+	if (bitstream.length() == 1144 && bitstream.find_first_not_of("01")) {
+		// convert bitstream into an uint32_t type array
+		uint32_t datavector[36];
+		
+		for (int i = 0; i < 36; i++){
+			datavector[i] = 0;
+			for (int j = 0; j < 32; j++) {
+				datavector[i] += ((uint32_t)(bitstream[(i * 32) + j] == '1' ? 1 : 0)) << j;//--
+			}
+		}
+		
+		// write uint32_t array on device
+		int ret = 0;
+		for (int i = 0; i < 36; i++) {
+			ret |= _hal->WriteReg(datavector[i], address);
+		}
+		
+		if (ret) {
+			return NI_ERROR_INTERFACE;
+		}
+		return NI_OK;
+	} else {
+		return NI_SPECIFIC_ERROR;
+	}
+}
+
+NI_RESULT SciSDK_DT5550W_Citiroc::CmdReadBitstream()
+{
+	return NI_OK;
+}
+
+/*
+TODO
+lettura e scrittura da dispositivo
+registri (altra classe)
+*/

@@ -17,13 +17,10 @@ void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
 
 int main()
 {
-
-
-
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data;
 	//usb:10500
 	//usb:13250
-	sdk.p_error(sdk.AddNewDevice("usb:10500", "dt1260", "fake_citiroc.json", "board0"));
+	sdk.p_error(sdk.AddNewDevice("usb:13250", "dt1260", "fake_citiroc.json", "board0"));
 	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
 	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
 
@@ -173,18 +170,24 @@ int main()
 	for (int i = 0; i < rmb->info.nchannels; i++)
 	{
 		cout << rmb->data[i] << endl;
-	}	*/
+	}*/	
 
-	/*sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CitirocCfg0.sc_enDiscri", 1));
-	string value = "";
-	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/CitirocCfg0.generate_bit_config", ""));
-	sdk.p_error(sdk.GetParameter("board0:/MMCComponents/CitirocCfg0.bitstream", &value));
-	cout << "Bitstream: " << value << endl;*/
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CitirocCfg0.sc_enDiscri", 1));
+	//string *value = new string;
+	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/CitirocCfg0.generate_bit_config", ""));
+	//sdk.p_error(sdk.GetParameter("board0:/MMCComponents/CitirocCfg0.bitstream", value));
+	//cout << "Bitstream: " << *value << endl;
+	//delete(value);
+
 	string bit_config_str = "1111111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110111011101110110111111111111111111111111111111111111111111011111100111111101111001111011100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001100000001000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000000100000000000111111110100101100010010110011111111111111011";
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CitirocCfg0.bitstream", bit_config_str));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/CitirocCfg0.write_bitstream",""));
+
 	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/CitirocCfg0.decode_bit_config", ""));
-/*
-	sdk.p_error(sdk.GetParameter("board0:/MMCComponents/CitirocCfg0.sc_enDiscri", value));*/
+	/*uint32_t *value = (uint32_t*)malloc(sizeof(uint32_t));
+	sdk.p_error(sdk.GetParameter("board0:/MMCComponents/CitirocCfg0.sc_enDiscri", value));
+	cout << "sc_enDiscri " << *value << endl;
+	free(value);*/
 
 	return 0;
 }

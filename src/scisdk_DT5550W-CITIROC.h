@@ -29,13 +29,12 @@ public:
 
 	NI_RESULT ExecuteCommand(string cmd, string param);
 
-
-
 private:
 
 	string bitstream;
 	const int NbChannels = 32;
 	uint32_t address;
+
 	//params
 	int sc_calibDacT[32];
 	int sc_calibDacQ[32];
@@ -119,5 +118,7 @@ private:
 
 	NI_RESULT CmdGenerateBitConfig();
 	NI_RESULT CmdDecodeBitConfig();
+	NI_RESULT CmdWriteBitstream();
+	NI_RESULT CmdReadBitstream();
 };
 #endif
