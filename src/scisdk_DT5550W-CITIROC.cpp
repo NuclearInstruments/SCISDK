@@ -816,11 +816,14 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ExecuteCommand(string cmd, string param)
 {
 	if (cmd == "generate_bit_config") {
 		return CmdGenerateBitConfig();
-	} else if (cmd == "decode_bit_config") {
+	}
+	else if (cmd == "decode_bit_config") {
 		return CmdDecodeBitConfig();
-	} else if (cmd == "write_bitstream") {
+	}
+	else if (cmd == "write_bitstream") {
 		return CmdWriteBitstream();
-	} else if (cmd == "read_bitstream") {
+	}
+	else if (cmd == "read_bitstream") {
 		return CmdReadBitstream();
 	}
 
@@ -1004,7 +1007,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
 
 		sc_ppPdetLg = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_enPdetLg = bitstream[base_pos++] == '1' ? 1 : 0;
-		
+
 		sc_scaOrPdHg = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_scaOrPdLg = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_bypassPd = bitstream[base_pos++] == '1' ? 1 : 0;
@@ -1086,7 +1089,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
 
 		sc_enLgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_ppLgOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
-			
+
 		sc_enProbeOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_ppProbeOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
 		sc_testBitOtaQ = bitstream[base_pos++] == '1' ? 1 : 0;
@@ -1116,38 +1119,71 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdWriteBitstream()
 {
 	// check if bitstream is valid (string length == 1144 and string contains only 0 and 1)
 	if (bitstream.length() == 1144 && bitstream.find_first_not_of("01")) {
-		// convert bitstream into an uint32_t type array
 		uint32_t datavector[36];
-		
-		for (int i = 0; i < 36; i++){
-			datavector[i] = 0;
-			for (int j = 0; j < 32; j++) {
-				datavector[i] += ((uint32_t)(bitstream[(i * 32) + j] == '1' ? 1 : 0)) << j;//--
+
+		bool bitarray[1152];
+
+		for (int i = 0; i < 1152; i++) {
+			if (i < 1144) {
+				bitarray[i] = bitstream[i] == '1' ? true : false;
+			}
+			else {
+				bitarray[i] = false;
 			}
 		}
-		
+
+		for (int i = 0; i < 36; i++) {
+			datavector[i] = 0;
+			for (int j = 0; j < 32; j++) {
+				datavector[i] += ((uint32_t)(bitarray[(i * 32) + j] == true ? 1 : 0)) << j;
+			}
+		}
+
 		// write uint32_t array on device
 		int ret = 0;
 		for (int i = 0; i < 36; i++) {
-			ret |= _hal->WriteReg(datavector[i], address);
+			ret |= _hal->WriteReg(datavector[i], address + (uint32_t)i);
 		}
-		
+
 		if (ret) {
 			return NI_ERROR_INTERFACE;
 		}
 		return NI_OK;
-	} else {
+	}
+	else {
 		return NI_SPECIFIC_ERROR;
 	}
 }
 
 NI_RESULT SciSDK_DT5550W_Citiroc::CmdReadBitstream()
 {
+	//read data from device
+	int ret = 0;
+	uint32_t datavector[36];
+
+	for (int i = 0; i < 36; i++) {
+		uint32_t value;
+		ret |= _hal->ReadReg(&value, address + (uint32_t)i);
+		datavector[i] = value;
+		if (ret) {
+			return NI_ERROR_INTERFACE;
+		}
+	}
+
+	bool bitarray[1152];
+
+	for (int i = 0; i < 36; i++) {
+		bitset<32> value(datavector[i]);
+		for (int j = 0; j < 32; j++) {
+			bitarray[i] = value[32 - j - 1] == 1 ? true : false;
+		}
+	}
+
+	// generate bistream
+	bitstream = "";
+	for (int i = 0; i < 1144; i++) {
+		bitstream += bitarray[i] == true ? '1' : '0';
+	}
+
 	return NI_OK;
 }
-
-/*
-TODO
-lettura e scrittura da dispositivo
-registri (altra classe)
-*/
