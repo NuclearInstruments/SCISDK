@@ -231,7 +231,10 @@ int main()
 		cout << "scidk register " + to_string(i) + " value: " << value << endl;
 	}
 
-	return 0;
+	sdk.p_error(sdk.DetachDevice("board0"));
+	sdk.p_error(sdk.DetachDevice("board1"));
+
+ 	return 0;
 
 }
 

@@ -48,13 +48,13 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	case BOARD_MODEL::X5560:
 		// connection to x5560 board
 		if (h_lib_instance != NULL) {
-			_handle = malloc(sizeof(NI_HANDLE));
-			typedef int(__cdecl *CONNECT_PROC_PTR)(char* address, int port, NI_HANDLE* handle);
+			_handle = malloc(sizeof(tR5560_Handle));
+			typedef int(__cdecl *CONNECT_PROC_PTR)(char* address, int port, tR5560_Handle* handle);
 			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "R5560_ConnectTCP");
 			if (connectTCP) {
 				if (p[1].find_first_not_of("0123456789") == -1) {
 					int port = stoi(p[1]);
-					int error_code = connectTCP((char*)p[0].c_str(), port, (NI_HANDLE*)_handle);
+					int error_code = connectTCP((char*)p[0].c_str(), port, (tR5560_Handle*)_handle);
 					if (error_code == 0) {
 						return NI_OK;
 					}
@@ -100,10 +100,10 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 	case BOARD_MODEL::X5560:
 		// close connection with X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(NI_HANDLE*);
+			typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(tR5560_Handle*);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 			if (close_connection) {
-				int res = close_connection((NI_HANDLE*)_handle);
+				int res = close_connection((tR5560_Handle*)_handle);
 				if (res == 0) {
 					FreeLibrary(h_lib_instance);
 					free(_handle);
@@ -165,10 +165,10 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::X5560:
 		// write register of X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, NI_HANDLE* handle);// Pointer to write reg function in DLL
+			typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tR5560_Handle* handle);// Pointer to write reg function in DLL
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 			if (write_reg) {
-				int res = write_reg(value, address, (NI_HANDLE*)_handle);
+				int res = write_reg(value, address, (tR5560_Handle*)_handle);
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -206,10 +206,10 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read register from X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, NI_HANDLE * handle);
+			typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, tR5560_Handle * handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 			if (read_reg) {
-				int res = read_reg(value, address, (NI_HANDLE*)_handle);
+				int res = read_reg(value, address, (tR5560_Handle*)_handle);
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -253,10 +253,10 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// write data to X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *WRITE_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, NI_HANDLE *handle, uint32_t *written_data);
+			typedef int(__cdecl *WRITE_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *written_data);
 			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 			if (write_data_proc) {
-				int res = write_data_proc(value, length, address, (NI_HANDLE*)_handle, written_data);
+				int res = write_data_proc(value, length, address, (tR5560_Handle*)_handle, written_data);
 				if (res) {
 					return NI_OK;
 				}
@@ -298,10 +298,10 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read data from X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, NI_HANDLE *handle, uint32_t *read_data);
+			typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *read_data);
 			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 			if (read_data_proc) {
-				int res = read_data_proc(value, length, address, (NI_HANDLE*)_handle, &rd);
+				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -345,10 +345,10 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read FIFO from X5560 board
 		if (h_lib_instance != NULL) {
-			typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, NI_HANDLE *handle, uint32_t *read_data);
+			typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tR5560_Handle *handle, uint32_t *read_data);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFIFO");
 			if (read_data_proc) {
-				NI_RESULT r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (NI_HANDLE*)_handle, &rd);
+				NI_RESULT r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
 				return r;
 			}
 		}

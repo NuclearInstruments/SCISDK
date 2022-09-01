@@ -19,10 +19,6 @@ enum class BOARD_MODEL {
 	X2740
 };
 
-#define REG_ACCESS  0
-#define STREAMING 1
-typedef int NI_HANDLE;
-
 class SciSDK_HAL {
 
 public:
@@ -72,10 +68,32 @@ private:
 	void *_handle;
 	BOARD_MODEL _model;
 	HINSTANCE h_lib_instance;
-
-	//typedef int(__cdecl *ENUMERATE_PROC_PTR)();// Pointer to enumerate function in DLL
-	//typedef int(__cdecl *READ_FIFO_DMA_PROC_PTR)(LPCWSTR);// Pointer to read FIFO DMA function in DLL
-	//typedef int(__cdecl *READ_FIRMWARE_INFO_PROC_PTR)(LPCWSTR);// Pointer to read firmware information app function in DLL
 };
+
+// DT1260
+#define REG_ACCESS  0
+#define STREAMING 1
+typedef int NI_HANDLE;
+
+// DT5560
+typedef enum {
+	LOW_LEVEL_TCP = 0
+} SOCKET_TYPE;
+
+typedef struct {
+	void *zmq_context;
+	void *zmq_pullsocket;
+	int zmq_connected;
+	int recv_blocking;
+}tZMQEndpoint;
+
+typedef struct {
+	int Csocket;
+	int connected;
+	uint32_t __IICBASEADDRESS;
+	uint32_t __IICBASEADDRESS_STATUS;
+	SOCKET_TYPE socketType;
+	tZMQEndpoint *zmq;
+} tR5560_Handle;
 
 #endif
