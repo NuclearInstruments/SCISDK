@@ -20,7 +20,7 @@ int main()
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data;
 	//usb:10500
 	//usb:13250
-	//sdk.p_error(sdk.AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0"));
+	sdk.p_error(sdk.AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0"));
 
 	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 1));
 	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
@@ -50,6 +50,32 @@ int main()
 	////}
 	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
 	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
+
+
+	// OSCILLOSCOPE DUAL (decoded & raw)
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
+	//sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 1000));
+	SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER *ob;
+	SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER *rb;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob));
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
+	//while (1) {
+	std::ofstream out("c:/tmp/output_dual.txt");
+	sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+	for (int i = 0; i < ob->info.samples_analog; i++) {
+		out << ob->analog[i] << endl;
+	}
+	out.close();
+	//}
+	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
+	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
 
 
 	//// SPECTRUM
@@ -206,35 +232,35 @@ int main()
 	//	cout << "value " + to_string(i) + " " << value << endl;
 	//}
 
-	sdk.p_error(sdk.AddNewDevice("172.16.49.97:8888", "DT5560", "DT5560.json", "board0"));
-	sdk.p_error(sdk.AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board1"));
+	//sdk.p_error(sdk.AddNewDevice("172.16.49.97:8888", "DT5560", "DT5560.json", "board0"));
+	//sdk.p_error(sdk.AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board1"));
 
-	// DT5560
-	uint32_t value;
-	sdk.p_error(sdk.SetRegister("board0:/Registers/w1", 1));
-	sdk.p_error(sdk.GetRegister("board0:/Registers/r1", &value));
-	cout << "DT5560 register r1 value: " << value << endl;
+	//// DT5560
+	//uint32_t value;
+	//sdk.p_error(sdk.SetRegister("board0:/Registers/w1", 1));
+	//sdk.p_error(sdk.GetRegister("board0:/Registers/r1", &value));
+	//cout << "DT5560 register r1 value: " << value << endl;
 
-	SCISDK_RM_RAW_BUFFER *rmb;
-	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&rmb));
-	sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb);
-	for (int i = 0; i < rmb->info.nchannels; i++) {
-		cout << "DT5560 rate meter channel " << i << ": " << rmb->data[i] << endl;
-	}
+	//SCISDK_RM_RAW_BUFFER *rmb;
+	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&rmb));
+	//sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb);
+	//for (int i = 0; i < rmb->info.nchannels; i++) {
+	//	cout << "DT5560 rate meter channel " << i << ": " << rmb->data[i] << endl;
+	//}
 
-	// SciDK
-	sdk.p_error(sdk.SetParameter("board1:/MMCComponents/CREG_1.register_2", 12));
-	sdk.p_error(sdk.GetParameter("board1:/MMCComponents/CREG_0.register_2", &value));
-	cout << "scidk test value " << value << endl;
-	for (int i = 0; i < 6; i++) {
-		sdk.p_error(sdk.GetParameter("board1:/MMCComponents/REGFILE_0.register_" + to_string(i), &value));
-		cout << "scidk register " + to_string(i) + " value: " << value << endl;
-	}
+	//// SciDK
+	//sdk.p_error(sdk.SetParameter("board1:/MMCComponents/CREG_1.register_2", 12));
+	//sdk.p_error(sdk.GetParameter("board1:/MMCComponents/CREG_0.register_2", &value));
+	//cout << "scidk test value " << value << endl;
+	//for (int i = 0; i < 6; i++) {
+	//	sdk.p_error(sdk.GetParameter("board1:/MMCComponents/REGFILE_0.register_" + to_string(i), &value));
+	//	cout << "scidk register " + to_string(i) + " value: " << value << endl;
+	//}
 
-	sdk.p_error(sdk.DetachDevice("board0"));
-	sdk.p_error(sdk.DetachDevice("board1"));
+	//sdk.p_error(sdk.DetachDevice("board0"));
+	//sdk.p_error(sdk.DetachDevice("board1"));
 
- 	return 0;
+	return 0;
 
 }
 
