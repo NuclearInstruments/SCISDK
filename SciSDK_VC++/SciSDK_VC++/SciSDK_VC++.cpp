@@ -20,6 +20,12 @@ void * SCISDK_InitLib() {
 	return (void *)_sdk;
 }
 
+int SCISDK_FreeLib(void *handle) {
+	if (handle == NULL) return NI_ERROR;
+	SciSDK * _sdk = (SciSDK*)handle;
+	delete _sdk;
+}
+
 int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle) {
 
 	if (handle == NULL) return NI_ERROR;
@@ -113,9 +119,6 @@ int SCISDK_GetParameterInteger(char* Path, int *value, void*handle) {
 
 int SCISDK_GetParameterDouble(char* Path, double*value, void*handle) {
 	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
 	SciSDK*_sdk = (SciSDK*)handle;
 	string _Path(Path);
 
@@ -215,6 +218,7 @@ int SCISDK_ReadData(char *Path, void *buffer, void*handle) {
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
 	int res = _sdk->ReadData(_Path, buffer);
+	_sdk->p_error(res);
 	return res;
 }
 
@@ -247,9 +251,9 @@ int main()
 {
 	void* _sdk = SCISDK_InitLib();
 
+	// REGISTRI
 	char * res = "";
 	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), res, _sdk);
-	//cout << res << endl;
 
 	int value;
 	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/CREG_1.register_2", 12, _sdk), res, _sdk);
@@ -262,6 +266,49 @@ int main()
 		SCISDK_s_error(SCISDK_GetParameterInteger((char*)reg_path.c_str(), &value, _sdk), res, _sdk);
 		cout << "value " + to_string(i) + " " << value << endl;
 	}
+
+	// OSCILLOSCOPE DUAL
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0, _sdk), res, _sdk);
+	cout << res << endl;
+
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", 0, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode", _sdk), res, _sdk);
+	cout << res << endl;
+	//sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 1000, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER *ob;
+	SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER *rb;
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb, _sdk), res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "", _sdk), res, _sdk);
+	cout << res << endl;
+	//while (1) {
+	std::ofstream out1("c:/tmp/output_dual_channel1.txt");
+	std::ofstream out2("c:/tmp/output_dual_channel2.txt");
+	SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk), res, _sdk);
+	cout << res << endl;
+	for (int i = 0; i < ob->info.samples_analog; i++) {
+		out1 << ob->analog[i] << endl;
+		out2 << ob->analog[i + 1 * ob->info.samples_analog] << endl;
+	}
+	out1.close();
+	out2.close();
+	//}
+	SCISDK_FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob, _sdk);
+	SCISDK_FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb, _sdk);
+	SCISDK_FreeLib(_sdk);
 
 	return 0;
 
