@@ -426,13 +426,13 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 		if (__buffer == NULL) return NI_ERROR_GENERIC;
 
 		//download data
-		uint32_t buffer_size = settings.nchannels * settings.nsamples;
+		uint32_t buffer_size = settings.nchannels * settings.nsamples/2;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
 		for (int i = 0; i < 4; i++) {
 			cout << __buffer[i] << endl;
 		}
 		cout << "..." << endl;
-		for (int i = buffer_size - 4; i < buffer_size; i++) {
+		for (int i = 0; i < 100; i++) {
 			cout << __buffer[i] << endl;
 		}
 		cout << "----" << endl;
@@ -446,7 +446,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 
 		for (int n = 0; n < settings.nchannels / 2; n++)
 		{
-			int current = zero_posizition - pretrigger + 1;
+			int current = zero_posizition - pretrigger +2;
 			if (current > 0)
 			{
 				int k = 0;
