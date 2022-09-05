@@ -16,7 +16,7 @@ namespace Oscilloscope
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OscilloscopeForm());
+            Application.Run(new LoadForm());
         }
     }
 }
