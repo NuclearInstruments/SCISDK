@@ -95,6 +95,8 @@ namespace Oscilloscope
         private void btn_connect_Click(object sender, EventArgs e)
         {
             JObject json_obj = null;
+            JObject oscilloscope_obj = null;
+            string oscilloscope_name = "";
             // control if json file path is valid
             if (!File.Exists(txt_json_file.Text))
             {
@@ -118,8 +120,10 @@ namespace Oscilloscope
                     for(int i = 0; i < mmc_components_obj.Count; i++)
                     {
                         string component_type = (string)mmc_components_obj[i]["Type"];
-                        if(component_type == "Oscilloscope")
+                        oscilloscope_name = (string)mmc_components_obj[i]["Name"];
+                        if (component_type == "Oscilloscope")
                         {
+                            oscilloscope_obj = (JObject)mmc_components_obj[i];
                             found = true;
                             break;
                         }
@@ -159,7 +163,7 @@ namespace Oscilloscope
                     if (res == 0)
                     {
                         // if connection has been successfully opened open oscilloscope form
-                        OscilloscopeForm oscilloscope_form = new OscilloscopeForm(scisdk_handle, board_name, txt_json_file.Text);
+                        OscilloscopeForm oscilloscope_form = new OscilloscopeForm(scisdk_handle, board_name, oscilloscope_name, txt_json_file.Text, oscilloscope_obj);
                         this.Hide();
                         oscilloscope_form.ShowDialog();
                         this.Close();

@@ -35,7 +35,7 @@ namespace Oscilloscope
         [DllImport("SciSDK_DLL.dll")]
         public static extern int SCISDK_GetParameterString(IntPtr Path, IntPtr value, IntPtr handle);
         
-        [DllImport("SciSDK_DLL.dll")]
+        [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SCISDK_GetParameterInteger(IntPtr Path, IntPtr value, IntPtr handle);
         
         [DllImport("SciSDK_DLL.dll")]
@@ -64,5 +64,24 @@ namespace Oscilloscope
         
         [DllImport("SciSDK_DLL.dll")]
         public static extern int SCISDK_ExecuteCommand(IntPtr Path, IntPtr value, IntPtr handle);
+    }
+
+    struct Oscilloscope_decoded_buffer_struct
+    {
+        IntPtr magic;
+        IntPtr analog;
+        IntPtr digital;
+        IntPtr trigger_position;
+        IntPtr timecode;
+        IntPtr info;
+    }
+
+    struct InfoStruct
+    {
+        IntPtr samples_analog;
+        IntPtr samples_digital;
+        IntPtr tracks_analog_per_channel;
+        IntPtr tracks_digital_per_channel;
+        IntPtr channels;
     }
 }

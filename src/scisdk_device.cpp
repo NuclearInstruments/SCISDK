@@ -260,7 +260,6 @@ NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
 
 }
 
-
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 	SciSDK_Node *node = NULL;
 	string name;

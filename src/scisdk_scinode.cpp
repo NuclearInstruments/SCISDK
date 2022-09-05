@@ -473,6 +473,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 		return NI_NOT_FOUND;
 	}
 }
+
 bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {
 	auto f = std::find(params.begin(), params.end(), name);
 	if (f != params.end()) {

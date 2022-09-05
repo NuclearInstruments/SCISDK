@@ -53,6 +53,10 @@ SciSDK_Oscilloscope::SciSDK_Oscilloscope(SciSDK_HAL *hal, json j, string path) :
 	const std::list<std::string> listOfTriggerPolarity = { "pos","neg" };
 	RegisterParameter("trigger_polarity", "set analog trigger polarity", SciSDK_Paramcb::Type::str, listOfTriggerPolarity, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
+
+	RegisterParameter("nanalog", "number of analog traces", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("ndigital", "number of digital traces", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("nchannels", "number of channels", SciSDK_Paramcb::Type::I32, this);
 }
 
 NI_RESULT SciSDK_Oscilloscope::ISetParamU32(string name, uint32_t value) {
@@ -85,7 +89,13 @@ NI_RESULT SciSDK_Oscilloscope::ISetParamI32(string name, int32_t value) {
 
 	if (name == "timeout") {
 		timeout = value;
-		return NI_OK;
+		return NI_PARAMETER_CAN_NOT_BE_SET;
+	} else if (name == "nanalog") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
+	} else if (name == "ndigital") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
+	} else if (name == "nchannels") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
 	}
 
 	return NI_INVALID_PARAMETER;
@@ -183,6 +193,17 @@ NI_RESULT SciSDK_Oscilloscope::IGetParamI32(string name, int32_t *value) {
 
 	if (name == "timeout") {
 		*value = timeout;
+		return NI_OK;
+	}else if (name == "nanalog") {
+		*value = settings.nanalog;
+		return NI_OK;
+	}
+	else if (name == "ndigital") {
+		*value = settings.ndigital;
+		return NI_OK;
+	}
+	else if (name == "nchannels") {
+		*value = settings.nchannels;
 		return NI_OK;
 	}
 

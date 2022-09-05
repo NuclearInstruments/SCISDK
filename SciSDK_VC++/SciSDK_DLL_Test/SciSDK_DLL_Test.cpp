@@ -16,9 +16,14 @@ int main()
 	void* _sdk = SCISDK_InitLib();
 
 	char * res = "";
-	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), res, _sdk);
+	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "oscilloscope.json", "board0", _sdk), res, _sdk);
+	cout << res << endl;
 
 	int value;
+	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.ndigital", &value, _sdk), res, _sdk);
+	cout << res << endl;
+	cout << "value: " << value << endl;
+	/*int value;
 	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/CREG_1.register_2", 12, _sdk), res, _sdk);
 	cout << res << endl;
 	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/CREG_0.register_2", &value, _sdk), res, _sdk);
@@ -28,7 +33,7 @@ int main()
 		string reg_path = "board0:/MMCComponents/REGFILE_0.register_" + to_string(i);
 		SCISDK_s_error(SCISDK_GetParameterInteger((char*)reg_path.c_str(), &value, _sdk), res, _sdk);
 		cout << "value " + to_string(i) + " " << value << endl;
-	}
+	}*/
     return 0;
 }
 

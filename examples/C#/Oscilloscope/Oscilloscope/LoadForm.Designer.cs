@@ -45,7 +45,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 149);
+            this.label1.Location = new System.Drawing.Point(72, 149);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(36, 13);
             this.label1.TabIndex = 0;
@@ -54,7 +54,7 @@
             // cmb_model
             // 
             this.cmb_model.FormattingEnabled = true;
-            this.cmb_model.Location = new System.Drawing.Point(90, 146);
+            this.cmb_model.Location = new System.Drawing.Point(130, 146);
             this.cmb_model.Name = "cmb_model";
             this.cmb_model.Size = new System.Drawing.Size(121, 21);
             this.cmb_model.TabIndex = 1;
@@ -62,7 +62,7 @@
             // 
             // txt_json_file
             // 
-            this.txt_json_file.Location = new System.Drawing.Point(90, 174);
+            this.txt_json_file.Location = new System.Drawing.Point(130, 173);
             this.txt_json_file.Name = "txt_json_file";
             this.txt_json_file.Size = new System.Drawing.Size(268, 20);
             this.txt_json_file.TabIndex = 2;
@@ -70,7 +70,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 177);
+            this.label2.Location = new System.Drawing.Point(57, 176);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 13);
             this.label2.TabIndex = 3;
@@ -79,7 +79,7 @@
             // 
             // btn_browse
             // 
-            this.btn_browse.Location = new System.Drawing.Point(364, 172);
+            this.btn_browse.Location = new System.Drawing.Point(404, 171);
             this.btn_browse.Name = "btn_browse";
             this.btn_browse.Size = new System.Drawing.Size(75, 23);
             this.btn_browse.TabIndex = 4;
@@ -90,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 205);
+            this.label3.Location = new System.Drawing.Point(33, 202);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 13);
             this.label3.TabIndex = 6;
@@ -100,7 +100,7 @@
             // cmb_connection_type
             // 
             this.cmb_connection_type.FormattingEnabled = true;
-            this.cmb_connection_type.Location = new System.Drawing.Point(90, 200);
+            this.cmb_connection_type.Location = new System.Drawing.Point(130, 199);
             this.cmb_connection_type.Name = "cmb_connection_type";
             this.cmb_connection_type.Size = new System.Drawing.Size(121, 21);
             this.cmb_connection_type.TabIndex = 7;
@@ -109,7 +109,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(235, 205);
+            this.label4.Location = new System.Drawing.Point(275, 205);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 13);
             this.label4.TabIndex = 8;
@@ -119,7 +119,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(262, 229);
+            this.label5.Location = new System.Drawing.Point(309, 231);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 9;
@@ -128,14 +128,14 @@
             // 
             // txt_sn
             // 
-            this.txt_sn.Location = new System.Drawing.Point(312, 202);
+            this.txt_sn.Location = new System.Drawing.Point(352, 202);
             this.txt_sn.Name = "txt_sn";
             this.txt_sn.Size = new System.Drawing.Size(127, 20);
             this.txt_sn.TabIndex = 10;
             // 
             // txt_ip
             // 
-            this.txt_ip.Location = new System.Drawing.Point(312, 226);
+            this.txt_ip.Location = new System.Drawing.Point(352, 228);
             this.txt_ip.Name = "txt_ip";
             this.txt_ip.Size = new System.Drawing.Size(127, 20);
             this.txt_ip.TabIndex = 11;

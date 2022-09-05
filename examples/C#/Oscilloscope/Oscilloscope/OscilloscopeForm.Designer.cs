@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OscilloscopeForm));
             this.check_lst_channels = new System.Windows.Forms.CheckedListBox();
             this.btn_start = new System.Windows.Forms.Button();
             this.btn_stop = new System.Windows.Forms.Button();
@@ -36,6 +37,10 @@
             this.check_autoscale = new System.Windows.Forms.CheckBox();
             this.lbl2 = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_horizontal_divisions = new System.Windows.Forms.TextBox();
+            this.track_horizontal_divisions = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.track_horizontal_divisions)).BeginInit();
             this.SuspendLayout();
             // 
             // check_lst_channels
@@ -48,23 +53,27 @@
             // 
             // btn_start
             // 
-            this.btn_start.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btn_start.Location = new System.Drawing.Point(249, 12);
+            this.btn_start.BackColor = System.Drawing.Color.Transparent;
+            this.btn_start.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_start.BackgroundImage")));
+            this.btn_start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_start.Location = new System.Drawing.Point(248, 19);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(50, 50);
+            this.btn_start.Size = new System.Drawing.Size(35, 35);
             this.btn_start.TabIndex = 1;
-            this.btn_start.Text = "Start";
             this.btn_start.UseVisualStyleBackColor = false;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // btn_stop
             // 
             this.btn_stop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btn_stop.Location = new System.Drawing.Point(305, 12);
+            this.btn_stop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop.BackgroundImage")));
+            this.btn_stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_stop.Location = new System.Drawing.Point(293, 19);
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(50, 50);
+            this.btn_stop.Size = new System.Drawing.Size(35, 35);
             this.btn_stop.TabIndex = 2;
-            this.btn_stop.Text = "Stop";
             this.btn_stop.UseVisualStyleBackColor = false;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // label1
             // 
@@ -97,6 +106,7 @@
             this.check_autoscale.TabIndex = 5;
             this.check_autoscale.Text = "Autoscale";
             this.check_autoscale.UseVisualStyleBackColor = true;
+            this.check_autoscale.CheckedChanged += new System.EventHandler(this.check_autoscale_CheckedChanged);
             // 
             // lbl2
             // 
@@ -117,11 +127,45 @@
             this.lbl_status.TabIndex = 7;
             this.lbl_status.Text = "IDLE";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 301);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Horizontal (ns/div)";
+            // 
+            // txt_horizontal_divisions
+            // 
+            this.txt_horizontal_divisions.Location = new System.Drawing.Point(108, 298);
+            this.txt_horizontal_divisions.Name = "txt_horizontal_divisions";
+            this.txt_horizontal_divisions.Size = new System.Drawing.Size(120, 20);
+            this.txt_horizontal_divisions.TabIndex = 9;
+            this.txt_horizontal_divisions.Text = "12000";
+            this.txt_horizontal_divisions.TextChanged += new System.EventHandler(this.txt_horizontal_divisions_TextChanged);
+            // 
+            // track_horizontal_divisions
+            // 
+            this.track_horizontal_divisions.LargeChange = 100;
+            this.track_horizontal_divisions.Location = new System.Drawing.Point(12, 318);
+            this.track_horizontal_divisions.Maximum = 75000;
+            this.track_horizontal_divisions.Minimum = 12000;
+            this.track_horizontal_divisions.Name = "track_horizontal_divisions";
+            this.track_horizontal_divisions.Size = new System.Drawing.Size(216, 45);
+            this.track_horizontal_divisions.SmallChange = 100;
+            this.track_horizontal_divisions.TabIndex = 0;
+            this.track_horizontal_divisions.Value = 12000;
+            this.track_horizontal_divisions.Scroll += new System.EventHandler(this.track_horizontal_divisions_Scroll);
+            // 
             // OscilloscopeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 575);
+            this.Controls.Add(this.track_horizontal_divisions);
+            this.Controls.Add(this.txt_horizontal_divisions);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.check_autoscale);
@@ -133,6 +177,7 @@
             this.Name = "OscilloscopeForm";
             this.Text = "Oscilloscope";
             this.Load += new System.EventHandler(this.OscilloscopeForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.track_horizontal_divisions)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,6 +193,9 @@
         private System.Windows.Forms.CheckBox check_autoscale;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.Label lbl_status;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txt_horizontal_divisions;
+        private System.Windows.Forms.TrackBar track_horizontal_divisions;
     }
 }
 
