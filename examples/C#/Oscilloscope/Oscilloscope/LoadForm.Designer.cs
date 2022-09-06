@@ -53,6 +53,7 @@
             // 
             // cmb_model
             // 
+            this.cmb_model.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_model.FormattingEnabled = true;
             this.cmb_model.Location = new System.Drawing.Point(130, 146);
             this.cmb_model.Name = "cmb_model";
@@ -99,6 +100,7 @@
             // 
             // cmb_connection_type
             // 
+            this.cmb_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_connection_type.FormattingEnabled = true;
             this.cmb_connection_type.Location = new System.Drawing.Point(130, 199);
             this.cmb_connection_type.Name = "cmb_connection_type";

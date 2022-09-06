@@ -21,9 +21,7 @@ namespace Oscilloscope
         public LoadForm()
         {
             InitializeComponent();
-            // set style to all combobox items
-            cmb_connection_type.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmb_model.DropDownStyle = ComboBoxStyle.DropDownList;
+
             // add items to board models combobox
             cmb_model.Items.Add("V2495");
             cmb_model.Items.Add("DT5550");

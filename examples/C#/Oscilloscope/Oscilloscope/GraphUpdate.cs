@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Oscilloscope
 {
@@ -61,16 +62,6 @@ namespace Oscilloscope
         //method called by thread
         private void ThreadMethod()
         {
-            // set sdk parameters
-            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "analog", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", 3000, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", 20, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", 0, _scisdk_handle);
-            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
-            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
-
             // create oscilloscope buffer
             buffer_ptr = Marshal.StringToHGlobalAnsi("t");
             Oscilloscope_decoded_buffer_struct buffer_struct;
@@ -78,7 +69,7 @@ namespace Oscilloscope
             if (SciSdk_Wrapper.AllocateBuffer(_oscilloscope_base_path, SciSdk_Wrapper.T_BUFFER_DECODED, ref buffer_ptr, _scisdk_handle))
            {
                 SciSdk_Wrapper.ExecuteCommand(_oscilloscope_base_path + ".reset_read_valid_flag", "", _scisdk_handle);
-
+                FunctionSeries series = new FunctionSeries();
                 while (true)
                 {
                     try
@@ -93,12 +84,25 @@ namespace Oscilloscope
                             int[] analog_values = new int[buffer_struct.info.samples_analog];
                             Marshal.Copy(buffer_struct.analog, analog_values, 0, analog_values.Length);
 
-                            // display readed values on the graph
-                            //_analog_graph
+                            // display new values on the graph
+                            _analog_graph.GetModel().Series.Clear();// remove all series from analog graph
+                            series.Points.Clear();
+
+                            //UInt64 timestamp = buffer_struct.timecode;
+                            //Int32 div = (Int32)Int64.Parse(timestamp.ToString()) / analog_values.Length;
+
+                            for (int i = 0; i < analog_values.Length; i++)
+                            {
+                                series.Points.Add(new DataPoint(i, analog_values[i]));
+                            }
+
+                            _analog_graph.GetModel().Series.Add(series);
+                            _analog_graph.GetModel().InvalidatePlot(true);
                         }
                         else
                         {
-                            Console.WriteLine("Error while trying to read data");
+                            MessageBox.Show("Error while trying to read data, probably you have opened previously another connection with the board and you haven't already close it", "Error");
+                            Thread.CurrentThread.Abort();
                         }
 
                     }

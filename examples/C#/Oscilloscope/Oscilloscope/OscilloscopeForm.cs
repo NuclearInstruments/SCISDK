@@ -66,15 +66,43 @@ namespace Oscilloscope
             }
 
             cmb_data_type.SelectedIndex = 0;
-            cmb_data_type.DropDownStyle = ComboBoxStyle.DropDownList;
             btn_stop.Enabled = false;
 
             // display the list of available channels
             check_lst_channels.Items.Add("ALL");
-            for(int i = 0; i < nchannels; i++)
+            for (int i = 0; i < nchannels; i++)
             {
                 check_lst_channels.Items.Add("Channel " + i.ToString());
             }
+
+            // add sources to trigger source combobox
+            cmb_trigger_source.Items.Add("External");
+            cmb_trigger_source.Items.Add("Free running");
+            for (int i = 0; i < nchannels; i++)
+            {
+                cmb_trigger_source.Items.Add("Channel " + i.ToString());
+            }
+            cmb_trigger_source.SelectedIndex = 0;
+
+            // add mode to trigger mode combobox
+            cmb_trigger_mode.Items.Add("Auto");
+            cmb_trigger_mode.Items.Add("Single");
+            cmb_trigger_mode.SelectedIndex = 0;
+
+            // add types od edge to trigger edge combobox
+            cmb_trigger_edge.Items.Add("Rising");
+            cmb_trigger_edge.Items.Add("Falling");
+            cmb_trigger_edge.SelectedIndex = 0;
+
+            // set sdk parameters
+            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_level", 1000, _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".pretrigger", 20 * (1024 / 100), _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".decimator", 0, _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
         }
 
         // method call when form has been loaded
@@ -91,16 +119,17 @@ namespace Oscilloscope
             analog_graph = new OscilloscopeGraph(graph_position, graph_size);
             analog_graph.SetYAxisLabel("Analog");
             analog_graph.AddToUI(this);
+            analog_graph.SetMaxValueX(12000);
             y += analog_trace_graph_height;
 
             // display digital traces graphs
-            digital_graphs = new OscilloscopeGraph[5];
-            for (int i = 0; i < 5; i++)
+            digital_graphs = new OscilloscopeGraph[4];
+            for (int i = 0; i < 4; i++)
             {
                 graph_position = new Point(x, y);
                 graph_size = new Size(750, digital_trace_graph_height);
                 digital_graphs[i] = new OscilloscopeGraph(graph_position, graph_size);
-                if (i == 4)
+                if (i == 3)
                 {
                     digital_graphs[i].SetXAxisLabel("Time (ns)");
                     graph_size.Height += 25;
@@ -110,13 +139,15 @@ namespace Oscilloscope
                 digital_graphs[i].SetMaxValueY(1);
                 digital_graphs[i].SetYAxisLabel("D" + i.ToString());
                 digital_graphs[i].AddToUI(this);
+                digital_graphs[i].SetMaxValueX(12000);
                 y += digital_trace_graph_height;
             }
 
+
             graph_update = new GraphUpdate(_scisdk_handle, analog_graph, digital_graphs, oscilloscope_base_path);
         }
-        
-        
+
+
 
         bool autoscale = true;
         // method called when checkbox autoscale has been checked or unchecked
@@ -147,7 +178,8 @@ namespace Oscilloscope
                 }
                 track_horizontal_divisions.Value = last_horizontal_divisions;
                 txt_horizontal_divisions.Text = last_horizontal_divisions.ToString();
-            }catch(Exception ex) { }
+            }
+            catch (Exception ex) { }
         }
 
         // event called when slider has been moved
@@ -158,7 +190,7 @@ namespace Oscilloscope
             // set graphs x values
             analog_graph.SetMaxValueX(last_horizontal_divisions);
 
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 digital_graphs[i].SetMaxValueX(last_horizontal_divisions);
             }
@@ -177,6 +209,49 @@ namespace Oscilloscope
             btn_start.Enabled = true;
             graph_update.StopRead();
         }
+
+        private void check_lst_channels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (check_lst_channels.SelectedIndex == 0)
+            {
+                if(check_lst_channels.GetItemCheckState(check_lst_channels.SelectedIndex) == CheckState.Checked)
+                {
+                    for (int i = 0; i < check_lst_channels.Items.Count; i++)
+                        check_lst_channels.SetItemChecked(i, true);
+                }
+            }
+        }
+
+        int last_trigger_level = 1000;
+        // event called when trigger level track has been scrolled
+        private void track_trigger_level_Scroll(object sender, EventArgs e)
+        {
+            txt_trigger_level.Text = track_trigger_level.Value.ToString();
+            last_trigger_level = track_trigger_level.Value;
+            // set board trigger level
+            new Thread(() =>
+            {
+                
+            }).Start();
+        }
+
+        // event called when txt trigger level text has been changed and user has clicked outside from the textbox
+        private void txt_trigger_level_Leave(object sender, EventArgs e)
+        {
+            int value = 1000;
+            if (Int32.TryParse(txt_trigger_level.Text, out last_trigger_level))
+            {
+                last_trigger_level = value;
+                SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_level", last_trigger_level, _scisdk_handle);
+            }
+            else
+            {
+                txt_trigger_level.Text = last_trigger_level.ToString();
+            }
+        }
+
+        
+
     }
 
 
