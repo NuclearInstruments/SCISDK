@@ -9,7 +9,9 @@ namespace Oscilloscope
 {
     public class SciSdk_Wrapper
     {
-        
+        public const int T_BUFFER_RAW = 0;
+        public const int T_BUFFER_DECODED = 1;
+
         // method used to set a string parameter with scisdk
         public static bool SetParamString(string path, string value, IntPtr scisdk_handle)
         {
@@ -55,5 +57,63 @@ namespace Oscilloscope
                 return false;
             }
         }
+
+        // method used to allocate buffer
+        public static bool AllocateBuffer(string path, int buffer_type, ref IntPtr buffer, IntPtr scisdk_handle)
+        {
+            IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
+            if (SciSDK.SCISDK_AllocateBuffer(path_ptr, buffer_type, ref buffer, scisdk_handle) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // method used to clear buffer
+        public static bool FreeBuffer(string path, int buffer_type, ref IntPtr buffer, IntPtr scisdk_handle)
+        {
+            IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
+            if (SciSDK.SCISDK_FreeBuffer(path_ptr, buffer_type, ref buffer, scisdk_handle) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // method used to execute command
+        public static bool ExecuteCommand(string path, string param, IntPtr scisdk_handle)
+        {
+            IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
+            IntPtr param_ptr = Marshal.StringToHGlobalAnsi(param);
+            if (SciSDK.SCISDK_ExecuteCommand(path_ptr, param_ptr, scisdk_handle) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // method used to read data from board
+        public static bool ReadData(string path, ref IntPtr buffer, IntPtr scisdk_handle)
+        {
+            IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
+            if (SciSDK.SCISDK_ReadData(path_ptr, buffer, scisdk_handle) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

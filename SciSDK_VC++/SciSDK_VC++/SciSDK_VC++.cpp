@@ -14,258 +14,258 @@ SciSDK sdk;
 void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
 
 }
-
-void * SCISDK_InitLib() {
-	SciSDK * _sdk = new SciSDK;
-	return (void *)_sdk;
-}
-
-int SCISDK_FreeLib(void *handle) {
-	if (handle == NULL) return NI_ERROR;
-	SciSDK * _sdk = (SciSDK*)handle;
-	delete _sdk;
-}
-
-int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle) {
-
-	if (handle == NULL) return NI_ERROR;
-	if (DevicePath == NULL) return NI_ERROR;
-	if (DeviceModel == NULL) return NI_ERROR;
-	if (JSONFwFilePath == NULL)return NI_ERROR;
-	if (Name == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _DevicePath(DevicePath);
-	string _DeviceModel(DeviceModel);
-	string _JSONFwFilePath(JSONFwFilePath);
-	string _Name(Name);
-
-	int res = _sdk->AddNewDevice(_DevicePath, _DeviceModel, _JSONFwFilePath, _Name);
-	_sdk->p_error(res);
-	return res;
-}
-
-int SCISDK_DetachDevice(char* name, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (name == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _name(name);
-	int res = _sdk->DetachDevice(_name);
-	return res;
-}
-
-int SCISDK_SetParameterString(char* Path, char* value, void* handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	string _value(value);
-
-	return _sdk->SetParameter(_Path, _value);
-}
-
-int SCISDK_SetParameterInteger(char* Path, int value, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-
-	return _sdk->SetParameter(_Path, value);
-}
-
-int SCISDK_SetParameterDouble(char* Path, double value, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-
-	return _sdk->SetParameter(_Path, value);
-}
-
-int SCISDK_GetParameterString(char* Path, char* value, void* handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	string _value;
-
-	int res = _sdk->GetParameter(_Path, &_value);
-	char *v = (char*)_value.c_str();
-	value = v;
-
-	return res;
-}
-
-int SCISDK_GetParameterInteger(char* Path, int *value, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-
-	int res = _sdk->GetParameter(_Path, value);
-	return res;
-}
-
-int SCISDK_GetParameterDouble(char* Path, double*value, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	SciSDK*_sdk = (SciSDK*)handle;
-	string _Path(Path);
-
-	int res = _sdk->GetParameter(_Path, value);
-	return res;
-}
-
-int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (buffer_in == NULL)return NI_ERROR;
-	if (buffer_out == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	_sdk->DecodeData(_Path, buffer_in, buffer_out);
-}
-
-int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (buffer_type == NULL)return NI_ERROR;
-	if (buffer == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	T_BUFFER_TYPE _buffer_type;
-	if (buffer_type == 0) {
-		_buffer_type = T_BUFFER_TYPE_RAW;
-	}
-	else if (buffer_type == 1) {
-		_buffer_type = T_BUFFER_TYPE_DECODED;
-	}
-	else {
-		return NI_ERROR;
-	}
-
-	int res = _sdk->AllocateBuffer(_Path, _buffer_type, buffer);
-	return res;
-}
-
-int SCISDK_SetRegister(char* Path, int value, void* handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-	if (value < 0)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	uint32_t _value = (uint32_t)value;
-
-	int res = _sdk->SetRegister(_Path, _value);
-	return res;
-}
-
-int SCISDK_GetRegister(char* Path, int*value, void*handle) {
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-	if (handle == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	uint32_t _value;
-	int res = _sdk->GetRegister(_Path, &_value);
-	*value = (int)_value;
-	return res;
-}
-
-int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (buffer_type == NULL)return NI_ERROR;
-	if (buffer == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	T_BUFFER_TYPE _buffer_type;
-	if (buffer_type == 0) {
-		_buffer_type = T_BUFFER_TYPE_RAW;
-	}
-	else if (buffer_type == 1) {
-		_buffer_type = T_BUFFER_TYPE_DECODED;
-	}
-	else {
-		return NI_ERROR;
-	}
-
-	int res = _sdk->FreeBuffer(_Path, _buffer_type, buffer);
-	return res;
-}
-
-int SCISDK_ReadData(char *Path, void *buffer, void*handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (buffer == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string _Path(Path);
-	int res = _sdk->ReadData(_Path, buffer);
-	_sdk->p_error(res);
-	return res;
-}
-
-int SCISDK_s_error(int err_no, char* value, void* handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (err_no == NULL)return NI_ERROR;
-
-	SciSDK * _sdk = (SciSDK*)handle;
-	string ret_string;
-
-	ret_string = _sdk->s_error(err_no);
-	value = (char*)ret_string.c_str();
-	return NI_OK;
-}
-
-int SCISDK_ExecuteCommand(char* Path, char* value, void* handle) {
-	if (handle == NULL)return NI_ERROR;
-	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
-
-	string _Path(Path);
-	string _value(value);
-	SciSDK* _sdk = (SciSDK*)handle;
-	int res = _sdk->ExecuteCommand(_Path, _value);
-	return res;
-}
+//
+//void * SCISDK_InitLib() {
+//	SciSDK * _sdk = new SciSDK;
+//	return (void *)_sdk;
+//}
+//
+//int SCISDK_FreeLib(void *handle) {
+//	if (handle == NULL) return NI_ERROR;
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	delete _sdk;
+//}
+//
+//int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle) {
+//
+//	if (handle == NULL) return NI_ERROR;
+//	if (DevicePath == NULL) return NI_ERROR;
+//	if (DeviceModel == NULL) return NI_ERROR;
+//	if (JSONFwFilePath == NULL)return NI_ERROR;
+//	if (Name == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _DevicePath(DevicePath);
+//	string _DeviceModel(DeviceModel);
+//	string _JSONFwFilePath(JSONFwFilePath);
+//	string _Name(Name);
+//
+//	int res = _sdk->AddNewDevice(_DevicePath, _DeviceModel, _JSONFwFilePath, _Name);
+//	_sdk->p_error(res);
+//	return res;
+//}
+//
+//int SCISDK_DetachDevice(char* name, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (name == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _name(name);
+//	int res = _sdk->DetachDevice(_name);
+//	return res;
+//}
+//
+//int SCISDK_SetParameterString(char* Path, char* value, void* handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	string _value(value);
+//
+//	return _sdk->SetParameter(_Path, _value);
+//}
+//
+//int SCISDK_SetParameterInteger(char* Path, int value, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//
+//	return _sdk->SetParameter(_Path, value);
+//}
+//
+//int SCISDK_SetParameterDouble(char* Path, double value, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//
+//	return _sdk->SetParameter(_Path, value);
+//}
+//
+//int SCISDK_GetParameterString(char* Path, char* value, void* handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	string _value;
+//
+//	int res = _sdk->GetParameter(_Path, &_value);
+//	char *v = (char*)_value.c_str();
+//	value = v;
+//
+//	return res;
+//}
+//
+//int SCISDK_GetParameterInteger(char* Path, int *value, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//
+//	int res = _sdk->GetParameter(_Path, value);
+//	return res;
+//}
+//
+//int SCISDK_GetParameterDouble(char* Path, double*value, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	SciSDK*_sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//
+//	int res = _sdk->GetParameter(_Path, value);
+//	return res;
+//}
+//
+//int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (buffer_in == NULL)return NI_ERROR;
+//	if (buffer_out == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	_sdk->DecodeData(_Path, buffer_in, buffer_out);
+//}
+//
+//int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (buffer_type == NULL)return NI_ERROR;
+//	if (buffer == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	T_BUFFER_TYPE _buffer_type;
+//	if (buffer_type == 0) {
+//		_buffer_type = T_BUFFER_TYPE_RAW;
+//	}
+//	else if (buffer_type == 1) {
+//		_buffer_type = T_BUFFER_TYPE_DECODED;
+//	}
+//	else {
+//		return NI_ERROR;
+//	}
+//
+//	int res = _sdk->AllocateBuffer(_Path, _buffer_type, buffer);
+//	return res;
+//}
+//
+//int SCISDK_SetRegister(char* Path, int value, void* handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//	if (value < 0)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	uint32_t _value = (uint32_t)value;
+//
+//	int res = _sdk->SetRegister(_Path, _value);
+//	return res;
+//}
+//
+//int SCISDK_GetRegister(char* Path, int*value, void*handle) {
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//	if (handle == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	uint32_t _value;
+//	int res = _sdk->GetRegister(_Path, &_value);
+//	*value = (int)_value;
+//	return res;
+//}
+//
+//int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (buffer_type == NULL)return NI_ERROR;
+//	if (buffer == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	T_BUFFER_TYPE _buffer_type;
+//	if (buffer_type == 0) {
+//		_buffer_type = T_BUFFER_TYPE_RAW;
+//	}
+//	else if (buffer_type == 1) {
+//		_buffer_type = T_BUFFER_TYPE_DECODED;
+//	}
+//	else {
+//		return NI_ERROR;
+//	}
+//
+//	int res = _sdk->FreeBuffer(_Path, _buffer_type, buffer);
+//	return res;
+//}
+//
+//int SCISDK_ReadData(char *Path, void *buffer, void*handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (buffer == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string _Path(Path);
+//	int res = _sdk->ReadData(_Path, buffer);
+//	_sdk->p_error(res);
+//	return res;
+//}
+//
+//int SCISDK_s_error(int err_no, char* value, void* handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (err_no == NULL)return NI_ERROR;
+//
+//	SciSDK * _sdk = (SciSDK*)handle;
+//	string ret_string;
+//
+//	ret_string = _sdk->s_error(err_no);
+//	value = (char*)ret_string.c_str();
+//	return NI_OK;
+//}
+//
+//int SCISDK_ExecuteCommand(char* Path, char* value, void* handle) {
+//	if (handle == NULL)return NI_ERROR;
+//	if (Path == NULL)return NI_ERROR;
+//	if (value == NULL)return NI_ERROR;
+//
+//	string _Path(Path);
+//	string _value(value);
+//	SciSDK* _sdk = (SciSDK*)handle;
+//	int res = _sdk->ExecuteCommand(_Path, _value);
+//	return res;
+//}
 
 
 int main()
 {
-	void* _sdk = SCISDK_InitLib();
+	//void* _sdk = SCISDK_InitLib();
 
-	// REGISTRI
-	char * res = "";
-	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), res, _sdk);
+	//// REGISTRI
+	//char * res = "";
+	//SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), res, _sdk);
 
-	int value;
-	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/CREG_1.register_2", 12, _sdk), res, _sdk);
-	cout << res << endl;
-	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/CREG_0.register_2", &value, _sdk), res, _sdk);
-	cout << res << endl;
-	cout << "value: " << value << endl;
-	for (int i = 0; i < 6; i++) {
-		string reg_path = "board0:/MMCComponents/REGFILE_0.register_" + to_string(i);
-		SCISDK_s_error(SCISDK_GetParameterInteger((char*)reg_path.c_str(), &value, _sdk), res, _sdk);
-		cout << "value " + to_string(i) + " " << value << endl;
-	}
+	//int value;
+	//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/CREG_1.register_2", 12, _sdk), res, _sdk);
+	//cout << res << endl;
+	//SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/CREG_0.register_2", &value, _sdk), res, _sdk);
+	//cout << res << endl;
+	//cout << "value: " << value << endl;
+	//for (int i = 0; i < 6; i++) {
+	//	string reg_path = "board0:/MMCComponents/REGFILE_0.register_" + to_string(i);
+	//	SCISDK_s_error(SCISDK_GetParameterInteger((char*)reg_path.c_str(), &value, _sdk), res, _sdk);
+	//	cout << "value " + to_string(i) + " " << value << endl;
+	//}
 
 	// OSCILLOSCOPE DUAL
 	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), res, _sdk);
@@ -322,7 +322,7 @@ int main()
 	//sdk.p_error(sdk.SetRegister("board0:/Registers/res", 0));
 
 
-	//// OSCILLOSCOPE (decoded & raw)
+	////// OSCILLOSCOPE (decoded & raw)
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
@@ -337,12 +337,13 @@ int main()
 	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
 	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
 	////while (1) {
-	//	std::ofstream out("c:/temp/output.txt");
+	//	//std::ofstream out("c:/temp/output.txt");
 	//	sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
-	//	for (int i = 0; i < ob->info.samples_analog; i++) {
+	//	cout << ob->timecode << endl;
+	//	/*for (int i = 0; i < ob->info.samples_analog; i++) {
 	//	out << ob->analog[i] << endl;
 	//	}
-	//	out.close();
+	//	out.close();*/
 	////}
 	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
 	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);

@@ -2,7 +2,9 @@
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace Oscilloscope
         OscilloscopeGraph[] _digital_graph;
         Thread t;
         string _oscilloscope_base_path;
+        IntPtr buffer_ptr;
 
         // class that read data from sdk and plot graph
         public GraphUpdate(IntPtr scisdk_handle, OscilloscopeGraph analog_graph, OscilloscopeGraph[] digital_graph, string oscilloscope_base_path)
@@ -29,7 +32,7 @@ namespace Oscilloscope
         // method called for start to read data from sdk
         public void StartRead()
         {
-            if(t == null)
+            if (t == null)
             {
                 t = new Thread(ThreadMethod);
             }
@@ -59,44 +62,56 @@ namespace Oscilloscope
         private void ThreadMethod()
         {
             // set sdk parameters
-            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", 1000, _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "analog", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", 3000, _scisdk_handle);
             SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", 20, _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", 0, _scisdk_handle);
             SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
 
+            // create oscilloscope buffer
+            buffer_ptr = Marshal.StringToHGlobalAnsi("t");
+            Oscilloscope_decoded_buffer_struct buffer_struct;
+            //// allocate buffer
+            if (SciSdk_Wrapper.AllocateBuffer(_oscilloscope_base_path, SciSdk_Wrapper.T_BUFFER_DECODED, ref buffer_ptr, _scisdk_handle))
+           {
+                SciSdk_Wrapper.ExecuteCommand(_oscilloscope_base_path + ".reset_read_valid_flag", "", _scisdk_handle);
 
-            // start reading
-            while (true)
-            {
-                // read data from sdk
+                while (true)
+                {
+                    try
+                    {
+                        if (SciSdk_Wrapper.ReadData(_oscilloscope_base_path, ref buffer_ptr, _scisdk_handle))
+                        {
+                            // convert buffer pointer to buffer struct
+                            buffer_struct = new Oscilloscope_decoded_buffer_struct();
+                            buffer_struct = (Oscilloscope_decoded_buffer_struct)Marshal.PtrToStructure(buffer_ptr, typeof(Oscilloscope_decoded_buffer_struct));
 
+                            // read memory and store analog values inside an integer type array
+                            int[] analog_values = new int[buffer_struct.info.samples_analog];
+                            Marshal.Copy(buffer_struct.analog, analog_values, 0, analog_values.Length);
+
+                            // display readed values on the graph
+                            //_analog_graph
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error while trying to read data");
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
             }
+            // free buffer
+            SciSdk_Wrapper.FreeBuffer(_oscilloscope_base_path, SciSdk_Wrapper.T_BUFFER_DECODED, ref buffer_ptr, _scisdk_handle);
         }
+
+
     }
 }
-
-/*
- //sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
-	////sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
-	//SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-	//SCISDK_OSCILLOSCOPE_RAW_BUFFER *rb;
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb));
-	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
-	////while (1) {
-	//	std::ofstream out("c:/temp/output.txt");
-	//	sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
-	//	for (int i = 0; i < ob->info.samples_analog; i++) {
-	//	out << ob->analog[i] << endl;
-	//	}
-	//	out.close();
-	////}
-	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
-	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
-     */
