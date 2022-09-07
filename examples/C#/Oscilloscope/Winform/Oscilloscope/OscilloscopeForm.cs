@@ -34,6 +34,8 @@ namespace Oscilloscope
 
         string oscilloscope_base_path = "";// base path of oscilloscope
 
+        bool[] channels_enabled;// vector where is stored if a channel is enable
+
         public OscilloscopeForm(IntPtr scisdk_handle, string board_name, string oscilloscope_name, string json_file_path, JObject oscilloscope_obj)
         {
             InitializeComponent();
@@ -65,8 +67,12 @@ namespace Oscilloscope
                 this.Close();
             }
 
-            cmb_data_type.SelectedIndex = 0;
             btn_stop.Enabled = false;
+
+            // add types od edge to trigger edge combobox
+            cmb_trigger_edge.Items.Add("Rising");
+            cmb_trigger_edge.Items.Add("Falling");
+            cmb_trigger_edge.SelectedIndex = 0;
 
             // display the list of available channels
             check_lst_channels.Items.Add("ALL");
@@ -89,10 +95,11 @@ namespace Oscilloscope
             cmb_trigger_mode.Items.Add("Single");
             cmb_trigger_mode.SelectedIndex = 0;
 
-            // add types od edge to trigger edge combobox
-            cmb_trigger_edge.Items.Add("Rising");
-            cmb_trigger_edge.Items.Add("Falling");
-            cmb_trigger_edge.SelectedIndex = 0;
+            channels_enabled = new bool[nchannels];
+            for (int i = 0; i < channels_enabled.Length; i++)
+            {
+                channels_enabled[i] = false;
+            }
         }
 
         // method call when form has been loaded
@@ -113,7 +120,7 @@ namespace Oscilloscope
             y += analog_trace_graph_height;
 
             // display digital traces graphs
-            digital_graphs = new OscilloscopeGraph[1];
+            digital_graphs = new OscilloscopeGraph[4];
             for (int i = 0; i < digital_graphs.Length; i++)
             {
                 graph_position = new Point(x, y);
@@ -125,19 +132,15 @@ namespace Oscilloscope
                     graph_size.Height += 25;
                     digital_graphs[i].SetSize(graph_size);
                 }
-                digital_graphs[i].SetMinValueY(-0.5);
-                digital_graphs[i].SetMaxValueY(1.5);
+                digital_graphs[i].SetMinValueY(-0.1);
+                digital_graphs[i].SetMaxValueY(1.1);
                 digital_graphs[i].SetYAxisLabel("D" + i.ToString());
                 digital_graphs[i].AddToUI(this);
                 digital_graphs[i].SetMaxValueX(12000);
                 y += digital_trace_graph_height;
             }
-
-
             graph_update = new GraphUpdate(_scisdk_handle, analog_graph, digital_graphs, oscilloscope_base_path);
         }
-
-
 
         bool autoscale = true;
         // method called when checkbox autoscale has been checked or unchecked
@@ -185,18 +188,18 @@ namespace Oscilloscope
                 digital_graphs[i].SetMinValueX(0);
                 digital_graphs[i].SetMaxValueX(last_horizontal_divisions);
             }
-            
         }
 
+        // event called when start button has been clicked
         private void btn_start_Click(object sender, EventArgs e)
         {
             btn_stop.Enabled = true;
             btn_start.Enabled = false;
-
             // start reading data
-            graph_update.StartRead(Thread.CurrentThread, btn_stop, lbl_status, txt_horizontal_divisions, txt_pretrigger);
+            graph_update.StartRead(Thread.CurrentThread, btn_stop, lbl_status, txt_horizontal_divisions, track_pretrigger, track_trigger_level, channels_enabled, cmb_trigger_source, cmb_trigger_edge, cmb_trigger_mode);
         }
 
+        // event called when stop button has been clicked
         private void btn_stop_Click(object sender, EventArgs e)
         {
             btn_stop.Enabled = false;
@@ -205,32 +208,95 @@ namespace Oscilloscope
             lbl_status.Text = "IDLE";
         }
 
-        private void check_lst_channels_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (check_lst_channels.SelectedIndex == 0)
-            {
-                if (check_lst_channels.GetItemCheckState(check_lst_channels.SelectedIndex) == CheckState.Checked)
-                {
-                    for (int i = 0; i < check_lst_channels.Items.Count; i++)
-                        check_lst_channels.SetItemChecked(i, true);
-                }
-            }
-        }
-
+        int last_trigger_level = 1000;
         // event called when trigger level track has been scrolled
         private void track_trigger_level_Scroll(object sender, EventArgs e)
         {
+            txt_trigger_level.Text = track_trigger_level.Value.ToString();
+            last_trigger_level = track_trigger_level.Value;
+
 
         }
 
         // event called when txt trigger level text has been changed and user has clicked outside from the textbox
         private void txt_trigger_level_Leave(object sender, EventArgs e)
         {
+            int value = 0;
+            if (Int32.TryParse(txt_trigger_level.Text, out value))
+            {
+                if(value >= 0 && value < 65535)
+                {
+                    last_trigger_level = value;
+                    track_trigger_level.Value = last_trigger_level;
+                }
+                else
+                {
+                    txt_trigger_level.Text = last_horizontal_divisions.ToString();
+                }
+            }
+            else
+            {
+                txt_trigger_level.Text = last_horizontal_divisions.ToString();
+            }
+        }
+
+        // event called when mouse left key has been realesed over check list
+        private void check_lst_channels_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (check_lst_channels.SelectedIndex == 0)
+            {
+                if (check_lst_channels.GetItemCheckState(check_lst_channels.SelectedIndex) == CheckState.Checked)
+                {
+                    for (int i = 0; i < check_lst_channels.Items.Count; i++)
+                    {
+                        check_lst_channels.SetItemChecked(i, true);
+                    }
+                }
+            }
+
+            // control which checkbox is checked and enable channels
+            bool all_checked = true;
+            for (int i = 1; i < check_lst_channels.Items.Count; i++)
+            {
+                channels_enabled[i - 1] = check_lst_channels.GetItemChecked(i);
+                if (!check_lst_channels.GetItemChecked(i))
+                {
+                    all_checked = false;
+                }
+            }
+            check_lst_channels.SetItemChecked(0, all_checked);
 
         }
 
+        // event called when pretrigger textbox text has been moved
+        private void track_pretrigger_Scroll(object sender, EventArgs e)
+        {
+            last_pretrigger_value = track_pretrigger.Value;
+            txt_pretrigger.Text = last_pretrigger_value.ToString();
+        }
 
-
+        int last_pretrigger_value = 20;
+        // event called when pretrigger textbox text has been changed
+        private void txt_pretrigger_MouseLeave(object sender, EventArgs e)
+        {
+            int value = 20;
+            if (Int32.TryParse(txt_pretrigger.Text, out value))
+            {
+                if(value > 0 && value < 100)
+                {
+                    last_pretrigger_value = value;
+                    track_pretrigger.Value = last_pretrigger_value;
+                }
+                else
+                {
+                    txt_pretrigger.Text = last_pretrigger_value.ToString();
+                }
+            }
+            else
+            {
+                txt_pretrigger.Text = last_pretrigger_value.ToString();
+            }
+        }
     }
 
 

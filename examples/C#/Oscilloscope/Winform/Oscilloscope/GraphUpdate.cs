@@ -32,11 +32,12 @@ namespace Oscilloscope
         }
 
         // method called for start to read data from sdk
-        public void StartRead(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TextBox txt_pre)
+        public void StartRead(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TrackBar track_pre, TrackBar track_trigger_level, bool[] channels_enabled,
+            ComboBox cmb_trigger_source, ComboBox cmb_trigger_edge, ComboBox cmb_trigger_mode)
         {
             if (t == null)
             {
-                t = new Thread(() => ThreadMethod(parent_thread, stop_btn, lbl_status, txt_horizontal_divisions, txt_pre));
+                t = new Thread(() => ThreadMethod(parent_thread, stop_btn, lbl_status, txt_horizontal_divisions, track_pre, track_trigger_level, channels_enabled, cmb_trigger_source, cmb_trigger_edge, cmb_trigger_mode));
             }
             t.Start();
         }
@@ -67,14 +68,10 @@ namespace Oscilloscope
         }
 
         //method called by thread
-        private void ThreadMethod(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TextBox txt_pre)
+        private void ThreadMethod(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TrackBar track_pre, TrackBar track_trigger_level, bool[] channels_enabled,
+            ComboBox cmb_trigger_source, ComboBox cmb_trigger_edge, ComboBox cmb_trigger_mode)
         {
             // set sdk parameters
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5 + 1) - 1, _scisdk_handle);
-            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", 1000, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", 20 * (1024 / 100), _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
             SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
             SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
             SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
@@ -88,10 +85,8 @@ namespace Oscilloscope
             {
                 SciSdk_Wrapper.ExecuteCommand(_oscilloscope_base_path + ".reset_read_valid_flag", "", _scisdk_handle);
 
-                const int nchannels = 1;
-
-                FunctionSeries[] analog_series = new FunctionSeries[nchannels];
-                FunctionSeries[,] digital_series = new FunctionSeries[_digital_graph.Length, nchannels];
+                FunctionSeries[] analog_series = new FunctionSeries[channels_enabled.Length];
+                FunctionSeries[,] digital_series = new FunctionSeries[channels_enabled.Length, _digital_graph.Length];
 
                 // initialize series arrays
                 for (int i = 0; i < analog_series.Length; i++)
@@ -99,9 +94,9 @@ namespace Oscilloscope
                     analog_series[i] = new FunctionSeries();
                 }
 
-                for (int i = 0; i < _digital_graph.Length; i++)
+                for (int i = 0; i < channels_enabled.Length; i++)
                 {
-                    for (int j = 0; j < nchannels; j++)
+                    for (int j = 0; j < _digital_graph.Length; j++)
                     {
                         digital_series[i, j] = new FunctionSeries();
                     }
@@ -114,6 +109,37 @@ namespace Oscilloscope
                 {
                     try
                     {
+                        // set decimator param
+                        txt_horizontal_divisions.Invoke((MethodInvoker)delegate { SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5 + 1) - 1, _scisdk_handle); });
+
+                        // set trigger channel param
+                        int value = 0;
+                        int cmb_trigger_source_selected_index = 0;
+                        cmb_trigger_source.Invoke((MethodInvoker)delegate { cmb_trigger_source_selected_index = cmb_trigger_source.SelectedIndex; });
+                        if (cmb_trigger_source_selected_index == 0)
+                        {
+                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = Convert.ToInt32(cmb_trigger_edge.SelectedIndex.ToString() + "000", 2); });
+                        }
+                        else if (cmb_trigger_source_selected_index == 1)
+                        {
+                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = Convert.ToInt32("1000" + cmb_trigger_edge.SelectedIndex.ToString() + "010", 2); });
+                        }
+                        else
+                        {
+                            int ch_addr = cmb_trigger_source_selected_index - 2;
+                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = (ch_addr << 8) + (cmb_trigger_edge.SelectedIndex << 3) + 1; });
+                        }
+                        SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_channel", value, _scisdk_handle);
+
+                        // set pretrigger param
+                        track_pre.Invoke((MethodInvoker)delegate { SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", track_pre.Value * (1024 / 100), _scisdk_handle); });
+
+                        // set trigger level value
+                        track_trigger_level.Invoke((MethodInvoker)delegate { SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", track_trigger_level.Value, _scisdk_handle); });
+
+                        // set trigger mode param
+                        cmb_trigger_mode.Invoke((MethodInvoker)delegate { SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle); });
+
                         if (SciSdk_Wrapper.ReadData(_oscilloscope_base_path, ref buffer_ptr, _scisdk_handle))
                         {
                             // convert buffer pointer to buffer struct
@@ -121,7 +147,7 @@ namespace Oscilloscope
                             buffer_struct = (Oscilloscope_decoded_buffer_struct)Marshal.PtrToStructure(buffer_ptr, typeof(Oscilloscope_decoded_buffer_struct));
 
                             // read memory and store analog values inside an integer type array
-                            int[] analog_values = new int[buffer_struct.info.samples_analog];
+                            int[] analog_values = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
                             Marshal.Copy(buffer_struct.analog, analog_values, 0, analog_values.Length);
 
                             // remove analog traces from the graph
@@ -134,47 +160,63 @@ namespace Oscilloscope
                             int decimator = (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5);
 
                             // plot analog trace
-                            for (int i = 0; i < analog_values.Length; i++)
+                            for (int j = 0; j < buffer_struct.info.channels; j++)
                             {
-                                analog_series[0].Points.Add(new DataPoint(i * decimator, analog_values[i]));
-                            }
-                            for (int i = 0; i < analog_series.Length; i++)
-                            {
-                                _analog_graph.GetModel().Series.Add(analog_series[i]);
-                            }
-                            
-                            // read memory and store digital values inside an integer type array
-                            int[] digital_values = new int[buffer_struct.info.samples_digital * buffer_struct.info.channels];
-                            Marshal.Copy(buffer_struct.digital, digital_values, 0, digital_values.Length);
-
-
-                            //string tmp = "";
-                            //for (int i = 0; i < digital_values.Length; i++)
-                            //{
-                            //    tmp += digital_values[i] + " \n";
-                            //}
-                            //File.WriteAllText("C:\\tmp\\tmp4.txt", tmp);
-
-                            // plot digital traces
-                            for(int i = 0; i < buffer_struct.info.channels; i++)
-                            {
-                                int[] channel_digital_value = new int[buffer_struct.info.samples_digital];
-                                for(int j = 0; j < channel_digital_value.Length; j++)
+                                if (channels_enabled[j] == true)
                                 {
-
+                                    for (int i = 0; i < analog_values.Length; i++)
+                                    {
+                                        analog_series[j].Points.Add(new DataPoint(i * decimator, analog_values[(j * buffer_struct.info.samples_analog) + i]));
+                                    }
+                                    _analog_graph.GetModel().Series.Add(analog_series[j]);
                                 }
                             }
 
-
                             // invalidate graph (oxyplot repaints it)
                             _analog_graph.GetModel().InvalidatePlot(true);
+
+                            // read memory and store digital values inside an integer type array
+                            byte[] digital_values = new byte[buffer_struct.info.samples_digital * buffer_struct.info.channels];
+                            Marshal.Copy(buffer_struct.digital, digital_values, 0, digital_values.Length);
+
+                            // remove series from all graphs
+                            for (int i = 0; i < _digital_graph.Length; i++)
+                            {
+                                _digital_graph[i].GetModel().Series.Clear();
+                            }
+
+                            // plot digital values on graphs
+                            for (int i = 0; i < buffer_struct.info.channels; i++)
+                            {
+                                if (channels_enabled[i] == true)
+                                {
+                                    for (int j = 0; j < buffer_struct.info.tracks_digital_per_channel; j++)
+                                    {
+                                        // clear serie
+                                        digital_series[i, j].Points.Clear();
+
+                                        // add new values to serie
+                                        for (int k = 0; k < buffer_struct.info.samples_digital; k++)
+                                        {
+                                            digital_series[i, j].Points.Add((new DataPoint(k * decimator, digital_values[i * buffer_struct.info.tracks_digital_per_channel + j + i])));
+                                        }
+                                        _digital_graph[j].GetModel().Series.Add(digital_series[i, j]);
+                                    }
+                                }
+                            }
+
+                            // invalidate digital graphs (oxyplot repaints them)
+                            for (int i = 0; i < _digital_graph.Length; i++)
+                            {
+                                _digital_graph[i].GetModel().InvalidatePlot(true);
+                            }
                         }
                         else
                         {
                             lbl_status.Invoke((MethodInvoker)delegate { lbl_status.Text = "INVALID DATA"; });
-                            stop_btn.PerformClick();
+                            lbl_status.Invoke((MethodInvoker)delegate { stop_btn.PerformClick(); });
                         }
-                        Thread.Sleep(50);
+                        Thread.Sleep(75);
                     }
                     catch (Exception e)
                     {

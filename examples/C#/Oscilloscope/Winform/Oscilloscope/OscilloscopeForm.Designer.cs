@@ -32,9 +32,6 @@
             this.check_lst_channels = new System.Windows.Forms.CheckedListBox();
             this.btn_start = new System.Windows.Forms.Button();
             this.btn_stop = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmb_data_type = new System.Windows.Forms.ComboBox();
-            this.check_autoscale = new System.Windows.Forms.CheckBox();
             this.lbl2 = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -64,7 +61,7 @@
             this.check_lst_channels.Name = "check_lst_channels";
             this.check_lst_channels.Size = new System.Drawing.Size(216, 214);
             this.check_lst_channels.TabIndex = 0;
-            this.check_lst_channels.SelectedIndexChanged += new System.EventHandler(this.check_lst_channels_SelectedIndexChanged);
+            this.check_lst_channels.MouseUp += new System.Windows.Forms.MouseEventHandler(this.check_lst_channels_MouseUp);
             // 
             // btn_start
             // 
@@ -89,40 +86,6 @@
             this.btn_stop.TabIndex = 2;
             this.btn_stop.UseVisualStyleBackColor = false;
             this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(396, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Data type";
-            // 
-            // cmb_data_type
-            // 
-            this.cmb_data_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_data_type.FormattingEnabled = true;
-            this.cmb_data_type.Items.AddRange(new object[] {
-            "Unsigned",
-            "Signed"});
-            this.cmb_data_type.Location = new System.Drawing.Point(455, 28);
-            this.cmb_data_type.Name = "cmb_data_type";
-            this.cmb_data_type.Size = new System.Drawing.Size(121, 21);
-            this.cmb_data_type.TabIndex = 4;
-            // 
-            // check_autoscale
-            // 
-            this.check_autoscale.AutoSize = true;
-            this.check_autoscale.Checked = true;
-            this.check_autoscale.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_autoscale.Location = new System.Drawing.Point(604, 30);
-            this.check_autoscale.Name = "check_autoscale";
-            this.check_autoscale.Size = new System.Drawing.Size(73, 17);
-            this.check_autoscale.TabIndex = 5;
-            this.check_autoscale.Text = "Autoscale";
-            this.check_autoscale.UseVisualStyleBackColor = true;
-            this.check_autoscale.CheckedChanged += new System.EventHandler(this.check_autoscale_CheckedChanged);
             // 
             // lbl2
             // 
@@ -187,6 +150,7 @@
             this.track_pretrigger.SmallChange = 100;
             this.track_pretrigger.TabIndex = 10;
             this.track_pretrigger.Value = 20;
+            this.track_pretrigger.Scroll += new System.EventHandler(this.track_pretrigger_Scroll);
             // 
             // label3
             // 
@@ -204,6 +168,7 @@
             this.txt_pretrigger.Size = new System.Drawing.Size(120, 20);
             this.txt_pretrigger.TabIndex = 12;
             this.txt_pretrigger.Text = "20";
+            this.txt_pretrigger.MouseLeave += new System.EventHandler(this.txt_pretrigger_MouseLeave);
             // 
             // track_trigger_level
             // 
@@ -282,6 +247,7 @@
             // 
             // cmb_trigger_edge
             // 
+            this.cmb_trigger_edge.DisplayMember = "0";
             this.cmb_trigger_edge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_trigger_edge.FormattingEnabled = true;
             this.cmb_trigger_edge.Location = new System.Drawing.Point(105, 320);
@@ -311,9 +277,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.lbl2);
-            this.Controls.Add(this.check_autoscale);
-            this.Controls.Add(this.cmb_data_type);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_stop);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.check_lst_channels);
@@ -333,9 +296,6 @@
         private System.Windows.Forms.CheckedListBox check_lst_channels;
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btn_stop;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmb_data_type;
-        private System.Windows.Forms.CheckBox check_autoscale;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Label label2;

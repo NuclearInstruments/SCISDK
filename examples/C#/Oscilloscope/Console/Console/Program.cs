@@ -41,8 +41,8 @@ namespace Console
                 // read data from board
                 if (SciSdk_Wrapper.ReadData(oscilloscope_base_path, ref buffer_ptr, scisdk_handle))
                 {
-                    Oscilloscope_decoded_buffer_struct // convert buffer pointer to buffer struct
-                            buffer_struct = new Oscilloscope_decoded_buffer_struct();
+                    // convert buffer pointer to buffer struct
+                    Oscilloscope_decoded_buffer_struct buffer_struct = new Oscilloscope_decoded_buffer_struct();
                     buffer_struct = (Oscilloscope_decoded_buffer_struct)Marshal.PtrToStructure(buffer_ptr, typeof(Oscilloscope_decoded_buffer_struct));
 
                     // read memory and store analog values inside an integer type array
@@ -57,6 +57,46 @@ namespace Console
                     }
                     File.WriteAllText("analog.txt", str_tmp);
                     System.Console.WriteLine("Analog value saved inside " + Directory.GetCurrentDirectory() + "\\analog.txt");
+
+                    // read memory and store digital values inside an inter type array
+                    byte[] digital_values = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                    Marshal.Copy(buffer_struct.digital, digital_values, 0, digital_values.Length);
+
+                    str_tmp = "";
+                    int n_track = 1;// number of the track
+                    // read data from digital trace 0 and save them in a file
+                    for (int i = (int)buffer_struct.info.samples_digital * (n_track - 1); i < buffer_struct.info.samples_digital * n_track; i++)
+                    {
+                        str_tmp += digital_values[i].ToString() + " \n";
+                    }
+                    File.WriteAllText("digital0.txt", str_tmp);
+
+                    n_track++;
+                    str_tmp = "";
+                    // read data from digital trace 1 and save them in a file
+                    for (int i = (int)buffer_struct.info.samples_digital * (n_track - 1); i < buffer_struct.info.samples_digital * n_track; i++)
+                    {
+                        str_tmp += digital_values[i].ToString() + " \n";
+                    }
+                    File.WriteAllText("digital1.txt", str_tmp);
+
+                    n_track++;
+                    str_tmp = "";
+                    // read data from digital trace 2 and save them in a file
+                    for (int i = (int)buffer_struct.info.samples_digital * (n_track - 1); i < buffer_struct.info.samples_digital * n_track; i++)
+                    {
+                        str_tmp += digital_values[i].ToString() + " \n";
+                    }
+                    File.WriteAllText("digital2.txt", str_tmp);
+
+                    n_track++;
+                    str_tmp = "";
+                    // read data from digital trace 3 and save them in a file
+                    for (int i = (int)buffer_struct.info.samples_digital * (n_track - 1); i < buffer_struct.info.samples_digital * n_track; i++)
+                    {
+                        str_tmp += digital_values[i].ToString() + " \n";
+                    }
+                    File.WriteAllText("digital3.txt", str_tmp);
                 }
                 else
                 {

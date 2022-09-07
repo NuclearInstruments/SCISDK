@@ -35,8 +35,14 @@ namespace Oscilloscope
             // add axis to model
             plot_view.Model.Axes.Add(x_axis);
             plot_view.Model.Axes.Add(y_axis);
-
+            
             plot_view.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+        }
+
+        // method used to repaint graph
+        public void Refresh()
+        {
+            plot_view.Refresh();
         }
 
         public void SetSize(Size size)
