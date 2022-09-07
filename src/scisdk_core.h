@@ -46,6 +46,8 @@ public:
 	NI_RESULT ReadData(string Path, void *buffer);
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 
+	NI_RESULT GetComponentList(string name, string Type, string *res, bool return_json);
+
 	string s_error(int err_no);
 	void p_error(int err_no);
 	void p_error(string fnc, int err_no);
@@ -53,7 +55,7 @@ public:
 	void p_error(string file, int line, int err_no);
 private:
 	list<SciSDK_Device *> devs;
-	
+
 	SciSDK_Device * FindDeviceByName(string Name);
 	std::vector<std::string> SplitPath(string path, char separator);
 	NI_RESULT SciSDK::LocateDevice(string path, SciSDK_Device **dev, string *subpath);

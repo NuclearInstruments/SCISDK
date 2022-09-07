@@ -92,9 +92,13 @@ public:
 		return _path;
 	}
 
+	string GetType() {
+		return type;
+	}
+
 
 	string GetName() {
-		return _path;
+		return name;
 	}
 
 	virtual NI_RESULT SetValueU32(uint32_t value)  {return NI_NOT_IMPLEMENTED;}

@@ -47,8 +47,11 @@ public:
 	NI_RESULT FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
 	NI_RESULT ReadData(string Path, void *buffer);
 
-	string GetName() { return _Name;  };
+	NI_RESULT GetComponentList(string Type, string *res, bool return_json);
 
+	string GetName() { return _Name;  };
+	string GetModel() { return _DeviceModel; };
+	string GetPath() { return _DevicePath; };
 private:
 	std::vector<std::string> SplitPath(string path, char separator);
 	NI_RESULT FindElement(string Path, SciElement *param);

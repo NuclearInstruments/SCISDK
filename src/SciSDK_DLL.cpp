@@ -40,7 +40,7 @@ SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char
 	string _Name(Name);
 
 	int res = _sdk->AddNewDevice(_DevicePath, _DeviceModel, _JSONFwFilePath, _Name);
-	_sdk->p_error(res);
+	//_sdk->p_error(res);
 	return res;
 }
 
@@ -242,5 +242,24 @@ SCISDK_DLL_API int SCISDK_ExecuteCommand(char* Path, char* value, void* handle) 
 	string _value(value);
 	SciSDK* _sdk = (SciSDK*)handle;
 	int res = _sdk->ExecuteCommand(_Path, _value);
+	return res;
+}
+
+SCISDK_DLL_API int SCISDK_GetComponentList(char * name, char * Type, char* ret, bool return_json, void* handle)
+{
+	if (handle == NULL)return NI_ERROR;
+	if (name == NULL)return NI_ERROR;
+	if (Type == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+
+	string _name(name);
+	string _type(Type);
+	string res_string;
+	SciSDK* _sdk = (SciSDK*)handle;
+
+	int res = _sdk->GetComponentList(_name, _type, &res_string, return_json);
+	char* str_tmp = (char*)res_string.c_str();
+	printf_s(str_tmp);
+
 	return res;
 }

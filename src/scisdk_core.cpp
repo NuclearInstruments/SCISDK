@@ -33,10 +33,10 @@ NI_RESULT SciSDK::DetachDevice(string Name) {
 NI_RESULT SciSDK::SetRegister(string Path, uint32_t value) {
 	SciSDK_Device * dev;
 	string subpath;
-	int ret ;
+	int ret;
 	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
 	return dev->SetRegister(subpath, value);
-	
+
 }
 
 NI_RESULT SciSDK::GetRegister(string Path, uint32_t *value) {
@@ -55,7 +55,7 @@ NI_RESULT SciSDK::StrobeRegister(string Path, string strobe_polarity) {
 	int ret;
 	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
 
-	if ((strobe_polarity=="positive") || (strobe_polarity=="pos")) {
+	if ((strobe_polarity == "positive") || (strobe_polarity == "pos")) {
 		ret |= dev->SetRegister(subpath, 0);
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		ret = dev->SetRegister(subpath, 1);
@@ -191,7 +191,7 @@ NI_RESULT SciSDK::AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer, i
 	string subpath;
 	int ret;
 	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
-	return dev->AllocateBuffer(subpath, bt, buffer,size);
+	return dev->AllocateBuffer(subpath, bt, buffer, size);
 }
 NI_RESULT SciSDK::FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
 	SciSDK_Device * dev;
@@ -201,7 +201,7 @@ NI_RESULT SciSDK::FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
 	return dev->FreeBuffer(subpath, bt, buffer);
 }
 
-NI_RESULT SciSDK::ReadData(string Path,  void *buffer) {
+NI_RESULT SciSDK::ReadData(string Path, void *buffer) {
 	SciSDK_Device * dev;
 	string subpath;
 	int ret;
@@ -212,6 +212,19 @@ NI_RESULT SciSDK::ReadData(string Path,  void *buffer) {
 NI_RESULT SciSDK::DecodeData(string Path, void *buffer_in, void *buffer_out) {
 
 	return NI_OK;
+}
+
+NI_RESULT SciSDK::GetComponentList(string name, string Type, string *res, bool return_json)
+{
+	vector<SciSDK_Device*> dev_vector{ std::begin(devs), std::end(devs) };
+	for (int i = 0; i < devs.size(); i++) {
+		if (dev_vector.at(i)->GetName() == name) {
+			int r =  dev_vector.at(i)->GetComponentList(Type, res, return_json);
+			//cout << *res << endl;
+			return r;
+		}
+	}
+	return NI_ERROR;
 }
 
 
@@ -252,70 +265,70 @@ NI_RESULT SciSDK::LocateDevice(string path, SciSDK_Device **dev, string *subpath
 string SciSDK::s_error(int err_no) {
 
 	switch (err_no) {
-		case NI_OK:
-			return "";
-		case NI_ERROR_GENERIC:
-			return "generic error";
-		case NI_ERROR_INTERFACE:
-			return "hardware interface error";
-		case NI_ERROR_FPGA:
-			return "fpga core return an error";
-		case NI_ERROR_TRANSFER_MAX_LENGTH:
-			return "transfer length exeed maximum limit";
-		case NI_ERROR_NOTCONNECTED:
-			return "hardware not connected";
-		case NI_NO_DATA_AVAILABLE:
-			return "no data available";
-		case NI_TOO_MANY_DEVICES_CONNECTED:
-			return "too many device connected";
-		case NI_INVALID_HANDLE:
-			return "handle is not valid";
-		case NI_INVALID_KEY:
-			return "json key not valid, error in json file";
-		case NI_INVALID_PARAMETER:
-			return "parameter does not exists";
-		case NI_PARAMETER_OUT_OF_RANGE:
-			return "parameter out of range";
-		case NI_INCOMPLETE_READ:
-			return "read not completed";
-		case NI_INVALID_COMMAND:
-			return "invalid command";
-		case NI_ALREADY_CONNECTED:
-			return "already connected to hardware";
-		case NI_ALLOC_FAILED:
-			return "alloc failed, out of memory";
-		case NI_MEMORY_NOT_ALLOCATED:
-			return "memory is not allocated, nullptr";
-		case NI_INVALID_BUFFER_TYPE:
-			return "invalid buffer type";
-		case NI_INVALID_BUFFER_SIZE:
-			return "invalid buffer size";
-		case NI_INCOMPATIBLE_BUFFER:
-			return "incompatible buffer specs";
-		case NI_INVALID_BUFFER:
-			return "invalid buffer";
-		case NI_TIMEOUT:
-			return "timeous";
-		case NI_INVALID_CFG_JSON:
-			return "config json is not valid, error in file";
-		case NI_CFG_JSON_NOT_FOUND:
-			return "config json not found";
-		case NI_DEVICE_NAME_ALREADY_EXISTS:
-			return "device name already exists";
-		case NI_INVALID_PATH:
-			return "invalid path";
-		case NI_NOT_FOUND:
-			return "not found";
-		case NI_INVALID_TYPE:
-			return "invalid type";
-		case NI_ALREADY_RUNNING:
-			return "already running";
-		case NI_NOT_RUNNING:
-			return "not running";
-		case NI_NOT_ARMED:
-			return "not armed";
-		case NI_SPECIFIC_ERROR:
-			return "specific error";
+	case NI_OK:
+		return "";
+	case NI_ERROR_GENERIC:
+		return "generic error";
+	case NI_ERROR_INTERFACE:
+		return "hardware interface error";
+	case NI_ERROR_FPGA:
+		return "fpga core return an error";
+	case NI_ERROR_TRANSFER_MAX_LENGTH:
+		return "transfer length exeed maximum limit";
+	case NI_ERROR_NOTCONNECTED:
+		return "hardware not connected";
+	case NI_NO_DATA_AVAILABLE:
+		return "no data available";
+	case NI_TOO_MANY_DEVICES_CONNECTED:
+		return "too many device connected";
+	case NI_INVALID_HANDLE:
+		return "handle is not valid";
+	case NI_INVALID_KEY:
+		return "json key not valid, error in json file";
+	case NI_INVALID_PARAMETER:
+		return "parameter does not exists";
+	case NI_PARAMETER_OUT_OF_RANGE:
+		return "parameter out of range";
+	case NI_INCOMPLETE_READ:
+		return "read not completed";
+	case NI_INVALID_COMMAND:
+		return "invalid command";
+	case NI_ALREADY_CONNECTED:
+		return "already connected to hardware";
+	case NI_ALLOC_FAILED:
+		return "alloc failed, out of memory";
+	case NI_MEMORY_NOT_ALLOCATED:
+		return "memory is not allocated, nullptr";
+	case NI_INVALID_BUFFER_TYPE:
+		return "invalid buffer type";
+	case NI_INVALID_BUFFER_SIZE:
+		return "invalid buffer size";
+	case NI_INCOMPATIBLE_BUFFER:
+		return "incompatible buffer specs";
+	case NI_INVALID_BUFFER:
+		return "invalid buffer";
+	case NI_TIMEOUT:
+		return "timeous";
+	case NI_INVALID_CFG_JSON:
+		return "config json is not valid, error in file";
+	case NI_CFG_JSON_NOT_FOUND:
+		return "config json not found";
+	case NI_DEVICE_NAME_ALREADY_EXISTS:
+		return "device name already exists";
+	case NI_INVALID_PATH:
+		return "invalid path";
+	case NI_NOT_FOUND:
+		return "not found";
+	case NI_INVALID_TYPE:
+		return "invalid type";
+	case NI_ALREADY_RUNNING:
+		return "already running";
+	case NI_NOT_RUNNING:
+		return "not running";
+	case NI_NOT_ARMED:
+		return "not armed";
+	case NI_SPECIFIC_ERROR:
+		return "specific error";
 	}
 
 

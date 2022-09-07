@@ -260,6 +260,29 @@ NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
 
 }
 
+NI_RESULT SciSDK_Device::GetComponentList(string Type, string * res, bool return_json)
+{
+	if (!return_json) {
+		*res = "";
+		for (int i = 0; i < mmcs.size(); i++) {
+			if (ToUpper(mmcs.at(i)->GetType()) == ToUpper(Type) || ToUpper(Type) == "ALL") {
+				*res += mmcs.at(i)->GetName() + ";";
+			}
+		}
+	}
+	else {
+		json json_ret;
+		for (int i = 0; i < mmcs.size(); i++) {
+			if (ToUpper(mmcs.at(i)->GetType()) == ToUpper(Type) || ToUpper(Type) == "ALL") {
+				json_ret.array().push_back(mmcs.at(i)->GetName());
+			}
+		}
+		
+		*res = json_ret;
+	}
+	return NI_OK;
+}
+
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 	SciSDK_Node *node = NULL;
 	string name;
