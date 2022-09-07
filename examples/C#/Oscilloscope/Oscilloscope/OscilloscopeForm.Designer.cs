@@ -168,7 +168,7 @@
             // 
             this.track_horizontal_divisions.LargeChange = 100;
             this.track_horizontal_divisions.Location = new System.Drawing.Point(12, 448);
-            this.track_horizontal_divisions.Maximum = 75000;
+            this.track_horizontal_divisions.Maximum = 74999;
             this.track_horizontal_divisions.Minimum = 12000;
             this.track_horizontal_divisions.Name = "track_horizontal_divisions";
             this.track_horizontal_divisions.Size = new System.Drawing.Size(216, 45);

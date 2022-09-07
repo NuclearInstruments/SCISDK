@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace Oscilloscope
 {
@@ -31,11 +32,11 @@ namespace Oscilloscope
         }
 
         // method called for start to read data from sdk
-        public void StartRead()
+        public void StartRead(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TextBox txt_pre)
         {
             if (t == null)
             {
-                t = new Thread(ThreadMethod);
+                t = new Thread(() => ThreadMethod(parent_thread, stop_btn, lbl_status, txt_horizontal_divisions, txt_pre));
             }
             t.Start();
         }
@@ -59,18 +60,57 @@ namespace Oscilloscope
             SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", value, _scisdk_handle);
         }
 
-        //method called by thread
-        private void ThreadMethod()
+        // method used to set decimator register value
+        public void SetDecimator(int decimator)
         {
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", decimator, _scisdk_handle);
+        }
+
+        //method called by thread
+        private void ThreadMethod(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TextBox txt_pre)
+        {
+            // set sdk parameters
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".decimator", (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5 + 1) - 1, _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_level", 1000, _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".pretrigger", 20 * (1024 / 100), _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
+            SciSdk_Wrapper.SetParamString(_oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
+            SciSdk_Wrapper.SetParamInt(_oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
+
             // create oscilloscope buffer
             buffer_ptr = Marshal.StringToHGlobalAnsi("t");
             Oscilloscope_decoded_buffer_struct buffer_struct;
+
             //// allocate buffer
             if (SciSdk_Wrapper.AllocateBuffer(_oscilloscope_base_path, SciSdk_Wrapper.T_BUFFER_DECODED, ref buffer_ptr, _scisdk_handle))
-           {
+            {
                 SciSdk_Wrapper.ExecuteCommand(_oscilloscope_base_path + ".reset_read_valid_flag", "", _scisdk_handle);
-                FunctionSeries series = new FunctionSeries();
-                while (true)
+
+                const int nchannels = 1;
+
+                FunctionSeries[] analog_series = new FunctionSeries[nchannels];
+                FunctionSeries[,] digital_series = new FunctionSeries[_digital_graph.Length, nchannels];
+
+                // initialize series arrays
+                for (int i = 0; i < analog_series.Length; i++)
+                {
+                    analog_series[i] = new FunctionSeries();
+                }
+
+                for (int i = 0; i < _digital_graph.Length; i++)
+                {
+                    for (int j = 0; j < nchannels; j++)
+                    {
+                        digital_series[i, j] = new FunctionSeries();
+                    }
+                }
+
+                // change status label text
+                lbl_status.Invoke((MethodInvoker)delegate { lbl_status.Text = "Waiting for trigger"; });
+
+                while (parent_thread.IsAlive)
                 {
                     try
                     {
@@ -84,27 +124,57 @@ namespace Oscilloscope
                             int[] analog_values = new int[buffer_struct.info.samples_analog];
                             Marshal.Copy(buffer_struct.analog, analog_values, 0, analog_values.Length);
 
-                            // display new values on the graph
-                            _analog_graph.GetModel().Series.Clear();// remove all series from analog graph
-                            series.Points.Clear();
-
-                            //UInt64 timestamp = buffer_struct.timecode;
-                            //Int32 div = (Int32)Int64.Parse(timestamp.ToString()) / analog_values.Length;
-
-                            for (int i = 0; i < analog_values.Length; i++)
+                            // remove analog traces from the graph
+                            _analog_graph.GetModel().Series.Clear();
+                            for (int i = 0; i < analog_series.Length; i++)
                             {
-                                series.Points.Add(new DataPoint(i, analog_values[i]));
+                                analog_series[i].Points.Clear();
                             }
 
-                            _analog_graph.GetModel().Series.Add(series);
+                            int decimator = (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5);
+
+                            // plot analog trace
+                            for (int i = 0; i < analog_values.Length; i++)
+                            {
+                                analog_series[0].Points.Add(new DataPoint(i * decimator, analog_values[i]));
+                            }
+                            for (int i = 0; i < analog_series.Length; i++)
+                            {
+                                _analog_graph.GetModel().Series.Add(analog_series[i]);
+                            }
+                            
+                            // read memory and store digital values inside an integer type array
+                            int[] digital_values = new int[buffer_struct.info.samples_digital * buffer_struct.info.channels * 4];
+                            Marshal.Copy(buffer_struct.digital, digital_values, 0, digital_values.Length);
+
+
+                            string tmp = "";
+                            for (int i = 0; i < digital_values.Length; i++)
+                            {
+                                tmp += digital_values[i] + " \n";
+                            }
+                            File.WriteAllText("C:\\tmp\\tmp4.txt", tmp);
+
+                            // plot digital traces
+                            for(int i = 0; i < buffer_struct.info.channels; i++)
+                            {
+                                int[] channel_digital_value = new int[buffer_struct.info.samples_digital];
+                                for(int j = 0; j < channel_digital_value.Length; j++)
+                                {
+
+                                }
+                            }
+
+
+                            // invalidate graph (oxyplot repaints it)
                             _analog_graph.GetModel().InvalidatePlot(true);
                         }
                         else
                         {
-                            MessageBox.Show("Error while trying to read data, probably you have opened previously another connection with the board and you haven't already close it", "Error");
-                            Thread.CurrentThread.Abort();
+                            lbl_status.Invoke((MethodInvoker)delegate { lbl_status.Text = "INVALID DATA"; });
+                            stop_btn.PerformClick();
                         }
-
+                        Thread.Sleep(50);
                     }
                     catch (Exception e)
                     {
@@ -112,6 +182,7 @@ namespace Oscilloscope
                     }
                 }
             }
+            stop_btn.PerformClick();
             // free buffer
             SciSdk_Wrapper.FreeBuffer(_oscilloscope_base_path, SciSdk_Wrapper.T_BUFFER_DECODED, ref buffer_ptr, _scisdk_handle);
         }

@@ -42,25 +42,25 @@ namespace Oscilloscope
         public void SetSize(Size size)
         {
             plot_view.Size = size;
-            plot_view.Invalidate();
+            //plot_view.Invalidate(true);
         }
 
-        public void SetMaxValueY(int value)
+        public void SetMaxValueY(double value)
         {
             y_axis.Maximum = value;
-            plot_view.Invalidate();
+            //plot_view.Invalidate(true);
         }
 
-        public void SetMinValueY(int value)
+        public void SetMinValueY(double value)
         {
             y_axis.Minimum = value;
-            plot_view.Invalidate();
+            //plot_view.Invalidate(true);
         }
 
-        public void SetMaxValueX(int value)
+        public void SetMaxValueX(double value)
         {
             x_axis.Maximum = value;
-            plot_view.Invalidate();
+            //plot_view.Invalidate(true);
         }
 
         public PlotModel GetModel()
@@ -68,10 +68,10 @@ namespace Oscilloscope
             return plot_view.Model;
         }
 
-        public void SetMinValueX(int value)
+        public void SetMinValueX(double value)
         {
             x_axis.Minimum = value;
-            plot_view.Invalidate();
+            //plot_view.Invalidate(true);
         }
 
         //method used to enable autoscale on y axis

@@ -93,16 +93,6 @@ namespace Oscilloscope
             cmb_trigger_edge.Items.Add("Rising");
             cmb_trigger_edge.Items.Add("Falling");
             cmb_trigger_edge.SelectedIndex = 0;
-
-            // set sdk parameters
-            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".trigger_mode", "self", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_level", 1000, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".pretrigger", 20 * (1024 / 100), _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_channel", 0, _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".decimator", 0, _scisdk_handle);
-            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".data_processing", "decode", _scisdk_handle);
-            SciSdk_Wrapper.SetParamString(oscilloscope_base_path + ".acq_mode", "blocking", _scisdk_handle);
-            SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".timeout", 1000, _scisdk_handle);
         }
 
         // method call when form has been loaded
@@ -123,8 +113,8 @@ namespace Oscilloscope
             y += analog_trace_graph_height;
 
             // display digital traces graphs
-            digital_graphs = new OscilloscopeGraph[4];
-            for (int i = 0; i < 4; i++)
+            digital_graphs = new OscilloscopeGraph[1];
+            for (int i = 0; i < digital_graphs.Length; i++)
             {
                 graph_position = new Point(x, y);
                 graph_size = new Size(750, digital_trace_graph_height);
@@ -135,8 +125,8 @@ namespace Oscilloscope
                     graph_size.Height += 25;
                     digital_graphs[i].SetSize(graph_size);
                 }
-                digital_graphs[i].SetMinValueY(0);
-                digital_graphs[i].SetMaxValueY(1);
+                digital_graphs[i].SetMinValueY(-0.5);
+                digital_graphs[i].SetMaxValueY(1.5);
                 digital_graphs[i].SetYAxisLabel("D" + i.ToString());
                 digital_graphs[i].AddToUI(this);
                 digital_graphs[i].SetMaxValueX(12000);
@@ -189,18 +179,22 @@ namespace Oscilloscope
             txt_horizontal_divisions.Text = last_horizontal_divisions.ToString();
             // set graphs x values
             analog_graph.SetMaxValueX(last_horizontal_divisions);
-
-            for (int i = 0; i < 4; i++)
+            analog_graph.SetMinValueX(0);
+            for (int i = 0; i < digital_graphs.Length; i++)
             {
+                digital_graphs[i].SetMinValueX(0);
                 digital_graphs[i].SetMaxValueX(last_horizontal_divisions);
             }
+            
         }
 
         private void btn_start_Click(object sender, EventArgs e)
         {
             btn_stop.Enabled = true;
             btn_start.Enabled = false;
-            graph_update.StartRead();
+
+            // start reading data
+            graph_update.StartRead(Thread.CurrentThread, btn_stop, lbl_status, txt_horizontal_divisions, txt_pretrigger);
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
@@ -208,13 +202,14 @@ namespace Oscilloscope
             btn_stop.Enabled = false;
             btn_start.Enabled = true;
             graph_update.StopRead();
+            lbl_status.Text = "IDLE";
         }
 
         private void check_lst_channels_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (check_lst_channels.SelectedIndex == 0)
             {
-                if(check_lst_channels.GetItemCheckState(check_lst_channels.SelectedIndex) == CheckState.Checked)
+                if (check_lst_channels.GetItemCheckState(check_lst_channels.SelectedIndex) == CheckState.Checked)
                 {
                     for (int i = 0; i < check_lst_channels.Items.Count; i++)
                         check_lst_channels.SetItemChecked(i, true);
@@ -222,35 +217,19 @@ namespace Oscilloscope
             }
         }
 
-        int last_trigger_level = 1000;
         // event called when trigger level track has been scrolled
         private void track_trigger_level_Scroll(object sender, EventArgs e)
         {
-            txt_trigger_level.Text = track_trigger_level.Value.ToString();
-            last_trigger_level = track_trigger_level.Value;
-            // set board trigger level
-            new Thread(() =>
-            {
-                
-            }).Start();
+
         }
 
         // event called when txt trigger level text has been changed and user has clicked outside from the textbox
         private void txt_trigger_level_Leave(object sender, EventArgs e)
         {
-            int value = 1000;
-            if (Int32.TryParse(txt_trigger_level.Text, out last_trigger_level))
-            {
-                last_trigger_level = value;
-                SciSdk_Wrapper.SetParamInt(oscilloscope_base_path + ".trigger_level", last_trigger_level, _scisdk_handle);
-            }
-            else
-            {
-                txt_trigger_level.Text = last_trigger_level.ToString();
-            }
+
         }
 
-        
+
 
     }
 
