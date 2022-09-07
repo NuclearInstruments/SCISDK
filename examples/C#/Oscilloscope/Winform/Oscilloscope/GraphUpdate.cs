@@ -144,16 +144,16 @@ namespace Oscilloscope
                             }
                             
                             // read memory and store digital values inside an integer type array
-                            int[] digital_values = new int[buffer_struct.info.samples_digital * buffer_struct.info.channels * 4];
+                            int[] digital_values = new int[buffer_struct.info.samples_digital * buffer_struct.info.channels];
                             Marshal.Copy(buffer_struct.digital, digital_values, 0, digital_values.Length);
 
 
-                            string tmp = "";
-                            for (int i = 0; i < digital_values.Length; i++)
-                            {
-                                tmp += digital_values[i] + " \n";
-                            }
-                            File.WriteAllText("C:\\tmp\\tmp4.txt", tmp);
+                            //string tmp = "";
+                            //for (int i = 0; i < digital_values.Length; i++)
+                            //{
+                            //    tmp += digital_values[i] + " \n";
+                            //}
+                            //File.WriteAllText("C:\\tmp\\tmp4.txt", tmp);
 
                             // plot digital traces
                             for(int i = 0; i < buffer_struct.info.channels; i++)

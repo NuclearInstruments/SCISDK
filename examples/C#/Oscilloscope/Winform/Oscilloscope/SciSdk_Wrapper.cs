@@ -11,6 +11,24 @@ namespace Oscilloscope
     {
         public const int T_BUFFER_RAW = 0;
         public const int T_BUFFER_DECODED = 1;
+        
+        // method used to add new device with scisdk
+        public static bool AddNewDevice(string device_path, string device_model, string json_file_path, string name, IntPtr scisdk_handle)
+        {
+            IntPtr device_path_ptr = Marshal.StringToHGlobalAnsi(device_path);
+            IntPtr device_model_ptr = Marshal.StringToHGlobalAnsi(device_model);
+            IntPtr json_file_path_ptr = Marshal.StringToHGlobalAnsi(json_file_path);
+            IntPtr name_ptr = Marshal.StringToHGlobalAnsi(name);
+
+            if (SciSDK.SCISDK_AddNewDevice(device_path_ptr, device_model_ptr, json_file_path_ptr, name_ptr, scisdk_handle) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         // method used to set a string parameter with scisdk
         public static bool SetParamString(string path, string value, IntPtr scisdk_handle)
