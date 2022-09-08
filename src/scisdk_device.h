@@ -54,6 +54,8 @@ public:
 	NI_RESULT GetParameterMinimumValue(string Path, double *ret);
 	NI_RESULT GetParameterMaximumValue(string Path, double *ret);
 
+	NI_RESULT GetParametersProperties(string Path, string* ret);
+
 	string GetName() { return _Name;  };
 	string GetModel() { return _DeviceModel; };
 	string GetPath() { return _DevicePath; };

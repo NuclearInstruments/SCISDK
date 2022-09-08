@@ -64,9 +64,10 @@ int main()
 	//SCISDK_s_error(SCISDK_GetAllParameters("board0:/MMCComponents/Oscilloscope_0", &str_tmp, _sdk), &res, _sdk);
 	//SCISDK_s_error(SCISDK_GetParameterListOfValues("board0:/MMCComponents/Oscilloscope_0.data_processing", &str_tmp, _sdk), &res, _sdk);
 	double value;
-	SCISDK_s_error(SCISDK_GetParameterMaximumValue("board0:/MMCComponents/Oscilloscope_0.timeout", &value, _sdk), &res, _sdk);
+	//SCISDK_s_error(SCISDK_GetParameterMaximumValue("board0:/MMCComponents/Oscilloscope_0.timeout", &value, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_GetParametersProperties("board0:/MMCComponents/Oscilloscope_0", &str_tmp, _sdk), &res, _sdk);
 	cout << "command result: " << res << endl;
-	cout << "value: " << value << endl;
+	cout << str_tmp << endl;
 	return 0;
 	/*
 		int value;

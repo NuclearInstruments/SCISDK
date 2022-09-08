@@ -276,6 +276,16 @@ NI_RESULT SciSDK::GetParameterMaximumValue(string path, double * ret)
 	return NI_ERROR;
 }
 
+NI_RESULT SciSDK::GetParametersProperties(string path, string* ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetParametersProperties(path, ret);
+	}
+	return NI_ERROR;
+}
+
 
 SciSDK_Device * SciSDK::FindDeviceByName(string Name) {
 	std::list<SciSDK_Device *>::iterator it;

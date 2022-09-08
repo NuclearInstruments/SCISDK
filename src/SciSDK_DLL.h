@@ -31,10 +31,10 @@ SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer,
 SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void*handle);
 SCISDK_DLL_API int SCISDK_s_error(int err_no, char** value, void* handle);
 SCISDK_DLL_API int SCISDK_ExecuteCommand(char* Path, char* value, void* handle);
-SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, bool json, void* handle);
+SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, bool return_json, void* handle);
 SCISDK_DLL_API int SCISDK_GetAllParameters(char* Path, char **ret, void*handle);
 SCISDK_DLL_API int SCISDK_GetParameterDescription(char* Path, char** ret, void* handle);
 SCISDK_DLL_API int SCISDK_GetParameterListOfValues(char* Path, char** ret, void* handle);
 SCISDK_DLL_API int SCISDK_GetParameterMinimumValue(char* Path, double* re, void* handle);
 SCISDK_DLL_API int SCISDK_GetParameterMaximumValue(char* Path, double* ret, void* handle);
-SCISDK_DLL_API int SCISDK_GetParameterProperties(char *Path, char **ret, void *handle);
+SCISDK_DLL_API int SCISDK_GetParametersProperties(char *Path, char **ret, void *handle);

@@ -260,7 +260,7 @@ SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, b
 	string res_string;
 	SciSDK* _sdk = (SciSDK*)handle;
 
-	int res = _sdk->GetComponentList(_name, _type, &res_string, return_json);
+	int res = _sdk->GetComponentList(_name, _type, &res_string, (bool)return_json);
 	char* str_tmp = (char*)res_string.c_str();
 	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
 	strcpy(*ret, str_tmp);
@@ -344,7 +344,19 @@ SCISDK_DLL_API int SCISDK_GetParameterMaximumValue(char * Path, double * ret, vo
 	return _handle->GetParameterMaximumValue(_path, ret);
 }
 
-SCISDK_DLL_API int SCISDK_GetParameterProperties(char * Path, char ** ret, void * handle)
+SCISDK_DLL_API int SCISDK_GetParametersProperties(char * Path, char ** ret, void * handle)
 {
-	/*return SCISDK_DLL_API int();*/
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	string _ret;
+	int res = _handle->GetParametersProperties(_path, &_ret);
+
+	char* str_tmp = (char*)_ret.c_str();
+	*ret = (char*)malloc(sizeof(char) * strlen(str_tmp));
+	strcpy(*ret, str_tmp);
+	return res;
 }

@@ -277,6 +277,7 @@ NI_RESULT SciSDK_Device::GetComponentList(string Type, string * res, bool return
 				json json_object = json::object();
 				json_object["name"] = mmcs.at(i)->GetName();
 				json_object["path"] = this->_Name + ":" + mmcs.at(i)->GetPath();
+				json_object["type"] = mmcs.at(i)->GetType();
 				json_array.push_back(json_object);
 			}
 		}
@@ -357,6 +358,19 @@ NI_RESULT SciSDK_Device::GetParameterMaximumValue(string Path, double * ret)
 				if (mmcs.at(i)->GetName() == splitted_name.at(0)) {
 					return mmcs.at(i)->GetParameterMaximumValue(splitted_name.at(1), ret);
 				}
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Device::GetParametersProperties(string Path, string * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		for (int i = 0; i < mmcs.size(); i++) {
+			if (mmcs.at(i)->GetName() == splitted_path.at(2)) {
+				return mmcs.at(i)->GetParametersProperties(ret);
 			}
 		}
 	}

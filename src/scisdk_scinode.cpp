@@ -609,6 +609,63 @@ NI_RESULT SciSDK_Node::GetParameterMaximumValue(string param_name, double * ret)
 	return NI_ERROR;
 }
 
+
+NI_RESULT SciSDK_Node::GetParametersProperties(string * ret)
+{
+	json json_array = json::array();
+	
+
+	for (int i = 0; i < params.size(); i++) {
+		json json_object = json::object();
+		
+		json_object["name"] = params.at(i).Name;
+		json_object["description"] = params.at(i).Description;
+		
+		if (params.at(i).type == SciSDK_Paramcb::Type::I32) {
+			json_object["type"] = "int32";
+		} else if (params.at(i).type == SciSDK_Paramcb::Type::U32) {
+			json_object["type"] = "uint32";
+		} else if (params.at(i).type == SciSDK_Paramcb::Type::I64) {
+			json_object["type"] = "int64";
+		} else if (params.at(i).type == SciSDK_Paramcb::Type::U64) {
+			json_object["type"] = "uint64";
+		} else if (params.at(i).type == SciSDK_Paramcb::Type::str) {
+			json_object["type"] = "string";
+		} else if (params.at(i).type == SciSDK_Paramcb::Type::d) {
+			json_object["type"] = "double";
+		}
+		
+		json limits_obj = json::object();
+
+		limits_obj["isminmax"] = params.at(i).minmax;
+		limits_obj["min"] = params.at(i).min;
+		limits_obj["max"] = params.at(i).max;
+		
+		json values_array = json::array();
+		if (params.at(i).type == SciSDK_Paramcb::Type::str) {
+			list<string>::iterator li = params.at(i).lstrpar.begin();
+			for (int j = 0; j < params.at(i).lstrpar.size(); j++) {
+				values_array.push_back(*li);
+				advance(li, 1);
+			}
+		}
+		else {
+			list<int>::iterator li = params.at(i).lintpar.begin();
+			for (int j = 0; j < params.at(i).lintpar.size(); j++) {
+				values_array.push_back(*li);
+				advance(li, 1);
+			}
+		}
+		limits_obj["list_of_values"] = values_array;
+		json_object["limits"] = limits_obj;
+		json_array.push_back(json_object);
+	}
+
+	*ret = json_array.dump();
+	return NI_OK;
+}
+
+
 bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {
 	auto f = std::find(params.begin(), params.end(), name);
 	if (f != params.end()) {

@@ -123,6 +123,7 @@ public:
 	NI_RESULT GetParameterListOfValues(string param_name, string* ret);
 	NI_RESULT GetParameterMinimumValue(string param_name, double* ret);
 	NI_RESULT GetParameterMaximumValue(string param_name, double *ret);
+	NI_RESULT GetParametersProperties(string* ret);
 
 	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) { return NI_NOT_IMPLEMENTED; }
