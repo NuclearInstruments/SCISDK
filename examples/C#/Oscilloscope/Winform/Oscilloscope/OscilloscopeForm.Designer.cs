@@ -49,6 +49,7 @@
             this.cmb_trigger_mode = new System.Windows.Forms.ComboBox();
             this.cmb_trigger_source = new System.Windows.Forms.ComboBox();
             this.cmb_trigger_edge = new System.Windows.Forms.ComboBox();
+            this.btn_reset_zoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.track_horizontal_divisions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.track_pretrigger)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.track_trigger_level)).BeginInit();
@@ -255,11 +256,22 @@
             this.cmb_trigger_edge.Size = new System.Drawing.Size(123, 21);
             this.cmb_trigger_edge.TabIndex = 21;
             // 
+            // btn_reset_zoom
+            // 
+            this.btn_reset_zoom.Location = new System.Drawing.Point(334, 26);
+            this.btn_reset_zoom.Name = "btn_reset_zoom";
+            this.btn_reset_zoom.Size = new System.Drawing.Size(75, 23);
+            this.btn_reset_zoom.TabIndex = 22;
+            this.btn_reset_zoom.Text = "Reset zoom";
+            this.btn_reset_zoom.UseVisualStyleBackColor = true;
+            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
+            // 
             // OscilloscopeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 575);
+            this.Controls.Add(this.btn_reset_zoom);
             this.Controls.Add(this.cmb_trigger_edge);
             this.Controls.Add(this.cmb_trigger_source);
             this.Controls.Add(this.cmb_trigger_mode);
@@ -313,6 +325,7 @@
         private System.Windows.Forms.ComboBox cmb_trigger_mode;
         private System.Windows.Forms.ComboBox cmb_trigger_source;
         private System.Windows.Forms.ComboBox cmb_trigger_edge;
+        private System.Windows.Forms.Button btn_reset_zoom;
     }
 }
 

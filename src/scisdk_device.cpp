@@ -7,7 +7,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-	
+
 #include "scisdk_register.h"
 #include "scisdk_oscilloscope.h"
 #include "scisdk_digitizer.h"
@@ -81,11 +81,11 @@ NI_RESULT SciSDK_Device::Connect() {
 					out.close();
 				}*/
 
-					/*{
-					uint32_t v;
-					GetRegister("/Registers/cnt", &v);
-					std::cout << v << std::endl;
-				}*/
+				/*{
+				uint32_t v;
+				GetRegister("/Registers/cnt", &v);
+				std::cout << v << std::endl;
+			}*/
 
 			}
 			else {
@@ -231,7 +231,7 @@ NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
 	return NI_OK;
 }
 
-NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt,  void **buffer) {
+NI_RESULT SciSDK_Device::AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer) {
 	SciSDK_Node *node = NULL;
 	node = FindMMC(Path);
 	if (!node) return NI_NOT_FOUND;
@@ -271,16 +271,96 @@ NI_RESULT SciSDK_Device::GetComponentList(string Type, string * res, bool return
 		}
 	}
 	else {
-		json json_ret;
+		json json_array = json::array();
 		for (int i = 0; i < mmcs.size(); i++) {
 			if (ToUpper(mmcs.at(i)->GetType()) == ToUpper(Type) || ToUpper(Type) == "ALL") {
-				json_ret.array().push_back(mmcs.at(i)->GetName());
+				json json_object = json::object();
+				json_object["name"] = mmcs.at(i)->GetName();
+				json_object["path"] = this->_Name + ":" + mmcs.at(i)->GetPath();
+				json_array.push_back(json_object);
 			}
 		}
-		
-		*res = json_ret;
+
+		*res = json_array.dump();
 	}
 	return NI_OK;
+}
+
+NI_RESULT SciSDK_Device::GetAllParameters(string Path, string * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		for (int i = 0; i < mmcs.size(); i++) {
+			if (mmcs.at(i)->GetName() == splitted_path.at(2)) {
+				return mmcs.at(i)->GetAllParameters(ret);
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Device::GetParameterDescription(string Path, string * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		vector<string> splitted_name = SplitPath(splitted_path.at(2), '.');
+		if (splitted_name.size() == 2) {
+			for (int i = 0; i < mmcs.size(); i++) {
+				if (mmcs.at(i)->GetName() == splitted_name.at(0)) {
+					return mmcs.at(i)->GetParameterDescription(splitted_name.at(1), ret);
+				}
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Device::GetParameterListOfValues(string Path, string * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		vector<string> splitted_name = SplitPath(splitted_path.at(2), '.');
+		if (splitted_name.size() == 2) {
+			for (int i = 0; i < mmcs.size(); i++) {
+				if (mmcs.at(i)->GetName() == splitted_name.at(0)) {
+					return mmcs.at(i)->GetParameterListOfValues(splitted_name.at(1), ret);
+				}
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Device::GetParameterMinimumValue(string Path, double * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		vector<string> splitted_name = SplitPath(splitted_path.at(2), '.');
+		if (splitted_name.size() == 2) {
+			for (int i = 0; i < mmcs.size(); i++) {
+				if (mmcs.at(i)->GetName() == splitted_name.at(0)) {
+					return mmcs.at(i)->GetParameterMinimumValue(splitted_name.at(1), ret);
+				}
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Device::GetParameterMaximumValue(string Path, double * ret)
+{
+	vector<string> splitted_path = SplitPath(Path, '/');
+	if (splitted_path.size() == 3) {
+		vector<string> splitted_name = SplitPath(splitted_path.at(2), '.');
+		if (splitted_name.size() == 2) {
+			for (int i = 0; i < mmcs.size(); i++) {
+				if (mmcs.at(i)->GetName() == splitted_name.at(0)) {
+					return mmcs.at(i)->GetParameterMaximumValue(splitted_name.at(1), ret);
+				}
+			}
+		}
+	}
+	return NI_ERROR;
 }
 
 NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
@@ -292,14 +372,14 @@ NI_RESULT SciSDK_Device::ExecuteCommand(string Path) {
 }
 
 SciSDK_Node * SciSDK_Device::FindMMC(string Path) {
-/*	auto f = std::find(mmcs.begin(), mmcs.end(), Path);
-	if (f != mmcs.end()) {
-		*node = *f;
-		return true;
-	}
-	else {
-		return false;
-	}*/
+	/*	auto f = std::find(mmcs.begin(), mmcs.end(), Path);
+		if (f != mmcs.end()) {
+			*node = *f;
+			return true;
+		}
+		else {
+			return false;
+		}*/
 	for (auto n : mmcs) {
 		//cout << " ### " << n->GetPath() << endl;
 		if ((n->GetPath() == Path))
@@ -333,35 +413,44 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 			if (StartWith(ToUpper(it.key()), ToUpper("Registers"))) {
 				for each (json r in rs.at(it.key()))
 				{
-					cout << parent << "/" << it.key() << "/" << (string) r.at("Name")<< endl;
+					cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << endl;
 
 					mmcs.push_back(new SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
 				}
 			}
 			else {
-				if (StartWith(ToUpper(it.key()), ToUpper("MMCComponents"))==true) {
+				if (StartWith(ToUpper(it.key()), ToUpper("MMCComponents")) == true) {
 					for each (json r in rs.at(it.key()))
 					{
 						cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << "<" << (string)r.at("Type") << ">" << endl;
 						if (ToUpper(r.at("Type")) == "OSCILLOSCOPE") {
 							mmcs.push_back(new SciSDK_Oscilloscope(_hal, r, parent + "/" + (string)it.key()));
-						} else 	if (ToUpper(r.at("Type")) == "WAVEDUMP") {
+						}
+						else 	if (ToUpper(r.at("Type")) == "WAVEDUMP") {
 							mmcs.push_back(new SciSDK_Digitizer(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "LISTMODULE") {
+						}
+						else if (ToUpper(r.at("Type")) == "LISTMODULE") {
 							mmcs.push_back(new SciSDK_List(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "FFTMONITOR") {
+						}
+						else if (ToUpper(r.at("Type")) == "FFTMONITOR") {
 							mmcs.push_back(new SciSDK_FFT(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "SPECTRUM") {
+						}
+						else if (ToUpper(r.at("Type")) == "SPECTRUM") {
 							mmcs.push_back(new SciSDK_Spectrum(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "CUSTOMPACKET") {
+						}
+						else if (ToUpper(r.at("Type")) == "CUSTOMPACKET") {
 							mmcs.push_back(new SciSDK_CustomPacket(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "MCRATEMETER") {
+						}
+						else if (ToUpper(r.at("Type")) == "MCRATEMETER") {
 							mmcs.push_back(new SciSDK_Ratemeter(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "CITIROCCFG") {
+						}
+						else if (ToUpper(r.at("Type")) == "CITIROCCFG") {
 							mmcs.push_back(new SciSDK_DT5550W_Citiroc(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "REGISTERFILE") {
+						}
+						else if (ToUpper(r.at("Type")) == "REGISTERFILE") {
 							mmcs.push_back(new SciSDK_Registers(_hal, r, parent + "/" + (string)it.key()));
-						} else if (ToUpper(r.at("Type")) == "OSCILLOSCOPEDUAL") {
+						}
+						else if (ToUpper(r.at("Type")) == "OSCILLOSCOPEDUAL") {
 							mmcs.push_back(new SciSDK_Oscilloscope_Dual(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
@@ -382,7 +471,7 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 	}
 
 
-		
+
 	return NI_OK;
 }
 
@@ -408,10 +497,10 @@ NI_RESULT SciSDK_Device::FindElement(string Path, SciElement *param) {
 			for (json r : rs) {
 				string name = r.at("Name");
 				if (name == qPP[1]) {
-					
+
 					param->type = MMC_ELEMENT::REGISTER;
 					param->j = r;
-					for (int i = 1; i < qPP.size(); i++){
+					for (int i = 1; i < qPP.size(); i++) {
 						param->params.push_back(qPP[i]);
 					}
 					return NI_OK;

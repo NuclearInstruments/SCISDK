@@ -188,6 +188,11 @@ namespace Oscilloscope
                 digital_graphs[i].SetMinValueX(0);
                 digital_graphs[i].SetMaxValueX(last_horizontal_divisions);
             }
+            analog_graph.ResetZoom();
+            for (int i = 0; i < digital_graphs.Length; i++)
+            {
+                digital_graphs[i].ResetZoom();
+            }
         }
 
         // event called when start button has been clicked
@@ -295,6 +300,15 @@ namespace Oscilloscope
             else
             {
                 txt_pretrigger.Text = last_pretrigger_value.ToString();
+            }
+        }
+
+        private void btn_reset_zoom_Click(object sender, EventArgs e)
+        {
+            analog_graph.ResetZoom();
+            for(int i = 0; i < digital_graphs.Length; i++)
+            {
+                digital_graphs[i].ResetZoom();
             }
         }
     }

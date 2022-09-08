@@ -109,6 +109,13 @@ namespace Oscilloscope
             x_axis.IsAxisVisible = visibile;
         }
 
+        // method used to reset zoom level
+        public void ResetZoom()
+        {
+            plot_view.Model.ResetAllAxes();
+            x_axis.Maximum = y_axis.Maximum = Double.NaN;
+            x_axis.Minimum = y_axis.Minimum = Double.NaN;
+        }
 
 
     }

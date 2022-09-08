@@ -47,6 +47,11 @@ public:
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 
 	NI_RESULT GetComponentList(string name, string Type, string *res, bool return_json);
+	NI_RESULT GetAllParameters(string path, string* ret);
+	NI_RESULT GetParameterDescription(string path, string* ret);
+	NI_RESULT GetParameterListOfValues(string path, string* ret);
+	NI_RESULT GetParameterMinimumValue(string path, double* ret);
+	NI_RESULT GetParameterMaximumValue(string path, double* ret);
 
 	string s_error(int err_no);
 	void p_error(int err_no);

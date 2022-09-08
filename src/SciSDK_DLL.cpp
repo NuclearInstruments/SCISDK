@@ -88,7 +88,7 @@ SCISDK_DLL_API int SCISDK_SetParameterDouble(char* Path, double value, void*hand
 	return _sdk->SetParameter(_Path, value);
 }
 
-SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char* value, void* handle) {
+SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char** value, void* handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
 	if (value == NULL)return NI_ERROR;
@@ -99,8 +99,8 @@ SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char* value, void* hand
 
 	int res = _sdk->GetParameter(_Path, &_value);
 	char *v = (char*)_value.c_str();
-	value = v;
-
+	*value = (char*)malloc(strlen(v) * sizeof(char));
+	strcpy(*value, v);
 	return res;
 }
 
@@ -221,7 +221,7 @@ SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void*handle) {
 	return res;
 }
 
-SCISDK_DLL_API int SCISDK_s_error(int err_no, char* value, void* handle) {
+SCISDK_DLL_API int SCISDK_s_error(int err_no, char** value, void* handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (err_no == NULL)return NI_ERROR;
 
@@ -229,7 +229,10 @@ SCISDK_DLL_API int SCISDK_s_error(int err_no, char* value, void* handle) {
 	string ret_string;
 
 	ret_string = _sdk->s_error(err_no);
-	value = (char*)ret_string.c_str();
+	char* str_tmp = (char*)ret_string.c_str();
+	*value = (char*)malloc(strlen(str_tmp) * sizeof(char));
+
+	strcpy(*value, str_tmp);
 	return NI_OK;
 }
 
@@ -245,7 +248,7 @@ SCISDK_DLL_API int SCISDK_ExecuteCommand(char* Path, char* value, void* handle) 
 	return res;
 }
 
-SCISDK_DLL_API int SCISDK_GetComponentList(char * name, char * Type, char* ret, bool return_json, void* handle)
+SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, bool return_json, void* handle)
 {
 	if (handle == NULL)return NI_ERROR;
 	if (name == NULL)return NI_ERROR;
@@ -259,7 +262,89 @@ SCISDK_DLL_API int SCISDK_GetComponentList(char * name, char * Type, char* ret, 
 
 	int res = _sdk->GetComponentList(_name, _type, &res_string, return_json);
 	char* str_tmp = (char*)res_string.c_str();
-	printf_s(str_tmp);
+	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	strcpy(*ret, str_tmp);
 
+	return 0;
+}
+
+SCISDK_DLL_API int SCISDK_GetAllParameters(char * Path, char ** ret, void * handle)
+{
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	string _ret;
+
+	*ret = "";
+	int res = _handle->GetAllParameters(_path, &_ret);
+	char* str_tmp = (char*)_ret.c_str();
+	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	strcpy(*ret, str_tmp);
 	return res;
+}
+
+SCISDK_DLL_API int SCISDK_GetParameterDescription(char * Path, char ** ret, void * handle)
+{
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	string _ret;
+	*ret = "";
+
+	int res = _handle->GetParameterDescription(_path, &_ret);
+	char* str_tmp = (char*)_ret.c_str();
+	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	strcpy(*ret, str_tmp);
+	return res;
+}
+
+SCISDK_DLL_API int SCISDK_GetParameterListOfValues(char * Path, char ** ret, void * handle)
+{
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	string _ret;
+	*ret = "";
+
+	int res = _handle->GetParameterListOfValues(_path, &_ret);
+	char* str_tmp = (char*)_ret.c_str();
+	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	strcpy(*ret, str_tmp);
+	return res;
+}
+
+SCISDK_DLL_API int SCISDK_GetParameterMinimumValue(char * Path, double * ret, void * handle)
+{
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	return _handle->GetParameterMinimumValue(_path, ret);
+}
+
+SCISDK_DLL_API int SCISDK_GetParameterMaximumValue(char * Path, double * ret, void * handle)
+{
+	if (Path == NULL)return NI_ERROR;
+	if (ret == NULL)return NI_ERROR;
+	if (handle == NULL)return NI_ERROR;
+
+	SciSDK* _handle = (SciSDK*)handle;
+	string _path(Path);
+	return _handle->GetParameterMaximumValue(_path, ret);
+}
+
+SCISDK_DLL_API int SCISDK_GetParameterProperties(char * Path, char ** ret, void * handle)
+{
+	/*return SCISDK_DLL_API int();*/
 }

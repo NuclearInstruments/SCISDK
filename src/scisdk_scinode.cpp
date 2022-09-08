@@ -197,23 +197,23 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint32_t *value) {
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U32:
-			res = p->caller->IGetParamU32(name, &u32); 
+			res = p->caller->IGetParamU32(name, &u32);
 			*value = (uint32_t)u32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::I64:
-			res = p->caller->IGetParamI64(name, &i64); 
-			*value = (uint32_t)i64;  
+			res = p->caller->IGetParamI64(name, &i64);
+			*value = (uint32_t)i64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
 			res = p->caller->IGetParamU64(name, &u64);
-			*value = (uint32_t)u64; 
+			*value = (uint32_t)u64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::d:
-			res = p->caller->IGetParamDouble(name, &d); 
-			*value = (uint32_t)d; 
+			res = p->caller->IGetParamDouble(name, &d);
+			*value = (uint32_t)d;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::str:
@@ -241,18 +241,18 @@ NI_RESULT SciSDK_Node::GetParam(string name, int32_t *value) {
 	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
-			res = p->caller->IGetParamI32(name, &i32); 
-			*value = (int32_t)i32; 
+			res = p->caller->IGetParamI32(name, &i32);
+			*value = (int32_t)i32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U32:
-			res = p->caller->IGetParamU32(name, &u32); 
-			*value = (int32_t)u32; 
+			res = p->caller->IGetParamU32(name, &u32);
+			*value = (int32_t)u32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::I64:
-			res = p->caller->IGetParamI64(name, &i64); 
-			*value = (int32_t)i64;  
+			res = p->caller->IGetParamI64(name, &i64);
+			*value = (int32_t)i64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
@@ -290,7 +290,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint64_t *value) {
 	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
-			res = p->caller->IGetParamI32(name, &i32); 
+			res = p->caller->IGetParamI32(name, &i32);
 			*value = (uint64_t)i32;
 			return res;
 			break;
@@ -301,7 +301,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint64_t *value) {
 			break;
 		case SciSDK_Paramcb::Type::I64:
 			res = p->caller->IGetParamI64(name, &i64);
-			*value = (uint64_t)i64;  
+			*value = (uint64_t)i64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
@@ -340,31 +340,31 @@ NI_RESULT SciSDK_Node::GetParam(string name, int64_t *value) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
 			res = p->caller->IGetParamI32(name, &i32);
-			*value = (int64_t)i32; 
+			*value = (int64_t)i32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U32:
 			res = p->caller->IGetParamU32(name, &u32);
-			*value = (int64_t)u32; 
+			*value = (int64_t)u32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::I64:
 			res = p->caller->IGetParamI64(name, &i64);
-			*value = (int64_t)i64; 
+			*value = (int64_t)i64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
 			res = p->caller->IGetParamU64(name, &u64);
-			*value = (int64_t)u64; 
+			*value = (int64_t)u64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::d:
-			res = p->caller->IGetParamDouble(name, &d); 
-			*value = (int64_t)d; 
+			res = p->caller->IGetParamDouble(name, &d);
+			*value = (int64_t)d;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::str:
-			res = p->caller->IGetParamString(name, &s); 
+			res = p->caller->IGetParamString(name, &s);
 			*value = (int64_t)std::stoll(s);
 			return res;
 			break;
@@ -388,18 +388,18 @@ NI_RESULT SciSDK_Node::GetParam(string name, double *value) {
 	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
-			res = p->caller->IGetParamI32(name, &i32); 
+			res = p->caller->IGetParamI32(name, &i32);
 			*value = (double)i32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U32:
 			res = p->caller->IGetParamU32(name, &u32);
-			*value = (double)u32; 
+			*value = (double)u32;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::I64:
 			res = p->caller->IGetParamI64(name, &i64);
-			*value = (double)i64; 
+			*value = (double)i64;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
@@ -409,7 +409,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, double *value) {
 			break;
 		case SciSDK_Paramcb::Type::d:
 			res = p->caller->IGetParamDouble(name, &d);
-			*value = (double)d; 
+			*value = (double)d;
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::str:
@@ -437,23 +437,23 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
-			 res = p->caller->IGetParamI32(name, &i32); 
-			 *value = std::to_string(i32); 
-			 return res;
-			 break;
+			res = p->caller->IGetParamI32(name, &i32);
+			*value = std::to_string(i32);
+			return res;
+			break;
 		case SciSDK_Paramcb::Type::U32:
 			res = p->caller->IGetParamU32(name, &u32);
 			*value = std::to_string(u32);
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::I64:
-			res = p->caller->IGetParamI64(name, &i64); 
-			*value = std::to_string(i64); 
+			res = p->caller->IGetParamI64(name, &i64);
+			*value = std::to_string(i64);
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::U64:
 			res = p->caller->IGetParamU64(name, &u64);
-			*value = std::to_string(u64); 
+			*value = std::to_string(u64);
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::d:
@@ -462,8 +462,8 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 			return res;
 			break;
 		case SciSDK_Paramcb::Type::str:
-			res = p->caller->IGetParamString(name, &s); 
-			*value = s; 
+			res = p->caller->IGetParamString(name, &s);
+			*value = s;
 			return res;
 			break;
 		default: return NI_ERROR; break;
@@ -472,6 +472,141 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 	else {
 		return NI_NOT_FOUND;
 	}
+}
+
+NI_RESULT SciSDK_Node::GetAllParameters(string * ret)
+{
+	json json_array = json::array();
+
+	for (int i = 0; i < params.size(); i++) {
+		json json_object = json::object();
+
+		json_object["name"] = params.at(i).Name;
+
+		if (params.at(i).type == SciSDK_Paramcb::Type::I32) {
+			int32_t value;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else if (params.at(i).type == SciSDK_Paramcb::Type::U32) {
+			uint32_t value;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else if (params.at(i).type == SciSDK_Paramcb::Type::I64) {
+			int64_t value;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else if (params.at(i).type == SciSDK_Paramcb::Type::U64) {
+			uint64_t value;
+			string name = params.at(i).Name;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else if (params.at(i).type == SciSDK_Paramcb::Type::str) {
+			string value;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else if (params.at(i).type == SciSDK_Paramcb::Type::d) {
+			double value;
+			int res = GetParam(params.at(i).Name, &value);
+			if (res == 0) {
+				json_object["value"] = value;
+			}
+		}
+		else {
+			return NI_ERROR;
+		}
+
+		json_array.push_back(json_object);
+	}
+
+	*ret = json_array.dump();
+	return NI_OK;
+}
+
+NI_RESULT SciSDK_Node::GetParameterDescription(string param_name, string * ret)
+{
+	for (int i = 0; i < params.size(); i++) {
+		if (params.at(i).Name == param_name) {
+			*ret = params.at(i).Description;
+			return NI_OK;
+		}
+	}
+
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Node::GetParameterListOfValues(string param_name, string * ret)
+{
+	for (int i = 0; i < params.size(); i++) {
+		if (params.at(i).Name == param_name) {
+			json json_array = json::array();
+
+			if (params.at(i).type == SciSDK_Paramcb::Type::str) {
+				list<string>::iterator li = params.at(i).lstrpar.begin();
+				for (int j = 0; j < params.at(i).lstrpar.size(); j++) {
+					json_array.push_back(*li);
+					advance(li, 1);
+				}
+			} else {
+				list<int>::iterator li = params.at(i).lintpar.begin();
+				for (int j = 0; j < params.at(i).lintpar.size(); j++) {
+					json_array.push_back(*li);
+					advance(li, 1);
+				}
+			}
+			
+			*ret = json_array.dump();
+			return NI_OK;
+		}
+	}
+
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Node::GetParameterMinimumValue(string param_name, double * ret)
+{
+	for (int i = 0; i < params.size(); i++) {
+		if (params.at(i).Name == param_name) {
+			if (params.at(i).minmax) {
+				*ret = params.at(i).min;
+				return NI_OK;
+			}
+			else {
+				return NI_PARAMETER_MIN_MAX_NOT_SET;
+			}
+		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK_Node::GetParameterMaximumValue(string param_name, double * ret)
+{
+	for (int i = 0; i < params.size(); i++) {
+		if (params.at(i).Name == param_name) {
+			if (params.at(i).minmax) {
+				*ret = params.at(i).max;
+				return NI_OK;
+			}
+			else {
+				return NI_PARAMETER_MIN_MAX_NOT_SET;
+			}
+		}
+	}
+	return NI_ERROR;
 }
 
 bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {

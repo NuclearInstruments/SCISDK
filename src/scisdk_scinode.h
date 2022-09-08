@@ -118,6 +118,12 @@ public:
 	NI_RESULT SetConfig(string cfg) { return NI_NOT_IMPLEMENTED; }
 	NI_RESULT GetConfig(string *cfg) { return NI_NOT_IMPLEMENTED; }
 
+	NI_RESULT GetAllParameters(string *res);
+	NI_RESULT GetParameterDescription(string param_name, string* ret);
+	NI_RESULT GetParameterListOfValues(string param_name, string* ret);
+	NI_RESULT GetParameterMinimumValue(string param_name, double* ret);
+	NI_RESULT GetParameterMaximumValue(string param_name, double *ret);
+
 	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }

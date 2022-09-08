@@ -220,9 +220,58 @@ NI_RESULT SciSDK::GetComponentList(string name, string Type, string *res, bool r
 	for (int i = 0; i < devs.size(); i++) {
 		if (dev_vector.at(i)->GetName() == name) {
 			int r =  dev_vector.at(i)->GetComponentList(Type, res, return_json);
-			//cout << *res << endl;
 			return r;
 		}
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetAllParameters(string path, string * ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetAllParameters(path, ret);
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetParameterDescription(string path, string * ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetParameterDescription(path, ret);
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetParameterListOfValues(string path, string * ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetParameterListOfValues(path, ret);
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetParameterMinimumValue(string path, double * ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetParameterMinimumValue(path, ret);
+	}
+	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetParameterMaximumValue(string path, double * ret)
+{
+	string device_name = SplitPath(path, ':').at(0);
+	SciSDK_Device* device = FindDeviceByName(device_name);
+	if (device != NULL) {
+		return device->GetParameterMaximumValue(path, ret);
 	}
 	return NI_ERROR;
 }
@@ -329,9 +378,9 @@ string SciSDK::s_error(int err_no) {
 		return "not armed";
 	case NI_SPECIFIC_ERROR:
 		return "specific error";
+	default:
+		return "error description not available";
 	}
-
-
 
 }
 

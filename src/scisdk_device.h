@@ -48,6 +48,11 @@ public:
 	NI_RESULT ReadData(string Path, void *buffer);
 
 	NI_RESULT GetComponentList(string Type, string *res, bool return_json);
+	NI_RESULT GetAllParameters(string Path, string *ret);
+	NI_RESULT GetParameterDescription(string Path, string* ret);
+	NI_RESULT GetParameterListOfValues(string Path, string* ret);
+	NI_RESULT GetParameterMinimumValue(string Path, double *ret);
+	NI_RESULT GetParameterMaximumValue(string Path, double *ret);
 
 	string GetName() { return _Name;  };
 	string GetModel() { return _DeviceModel; };
