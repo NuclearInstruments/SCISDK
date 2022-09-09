@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharp_SciSDK">
+      <HintPath>..\..\..\include\CSharp_SciSDK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,8 +48,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SciSDK.cs" />
-    <Compile Include="SciSdk_Wrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

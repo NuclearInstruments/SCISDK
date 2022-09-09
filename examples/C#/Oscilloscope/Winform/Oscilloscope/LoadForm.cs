@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CSharp_SciSDK;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace Oscilloscope
 {
     public partial class LoadForm : Form
     {
-        IntPtr scisdk_handle;
+        SciSDK sdk;
         public LoadForm()
         {
             InitializeComponent();
@@ -33,9 +34,8 @@ namespace Oscilloscope
             cmb_model.Items.Add("SCIDK");
             cmb_model.Items.Add("V/DT274X");
             cmb_model.SelectedIndex = 0;
-
-            // initialize library handle
-            scisdk_handle = SciSDK.SCISDK_InitLib();
+            
+            sdk = new SciSDK();
         }
 
         // event called when the combobox used to select board model has been changed
@@ -149,19 +149,13 @@ namespace Oscilloscope
                     // generate board path
                     string board_path = "usb:" + board_sn;
                     string board_name = "board0";
-
-                    // save all AddNewDevice function's parameters into IntPtr variables
-                    IntPtr board_path_ptr = Marshal.StringToHGlobalAnsi(board_path);
-                    IntPtr board_model_ptr = Marshal.StringToHGlobalAnsi(cmb_model.Text);
-                    IntPtr json_file_path_ptr = Marshal.StringToHGlobalAnsi(txt_json_file.Text);
-                    IntPtr board_name_ptr = Marshal.StringToHGlobalAnsi(board_name);//name of board
-
+                    
                     // open connection with board
-                    int res = SciSDK.SCISDK_AddNewDevice(board_path_ptr, board_model_ptr, json_file_path_ptr, board_name_ptr, scisdk_handle);
+                    int res = sdk.AddNewDevice(board_path, cmb_model.Text, txt_json_file.Text, board_name);
                     if (res == 0)
                     {
                         // if connection has been successfully opened open oscilloscope form
-                        OscilloscopeForm oscilloscope_form = new OscilloscopeForm(scisdk_handle, board_name, oscilloscope_name, txt_json_file.Text, oscilloscope_obj);
+                        OscilloscopeForm oscilloscope_form = new OscilloscopeForm(sdk, board_name, oscilloscope_name, txt_json_file.Text, oscilloscope_obj);
                         this.Hide();
                         oscilloscope_form.ShowDialog();
                         this.Close();
@@ -169,9 +163,8 @@ namespace Oscilloscope
                     else
                     {
                         // if an error occurs while trying to open connection show in a messagebox the error
-                        IntPtr res_string_ptr = new IntPtr(0);
-                        SciSDK.SCISDK_s_error(res, res_string_ptr, scisdk_handle);
-                        string error_description = Marshal.PtrToStringAnsi(res_string_ptr);
+                        string error_description;
+                        sdk.s_error(res, out error_description);
                         MessageBox.Show("Cannot open communication with selected board, check serial number and connection.\n" + res.ToString() + " - " + error_description, "Error");
                     }
                 }

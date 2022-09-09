@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CSharp_SciSDK;
+using Newtonsoft.Json.Linq;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -23,7 +24,7 @@ namespace Oscilloscope
         OscilloscopeGraph[] digital_graphs;
         GraphUpdate graph_update;
 
-        IntPtr _scisdk_handle;// pointer to the scisdk handle
+        SciSDK _sdk;// pointer to the scisdk handle
         string _board_name;// name given from user to the board
         string _json_board_path;// path to json project file
         JObject _oscilloscope_obj;// object that describes oscilloscope inside JSON
@@ -36,12 +37,12 @@ namespace Oscilloscope
 
         bool[] channels_enabled;// vector where is stored if a channel is enable
 
-        public OscilloscopeForm(IntPtr scisdk_handle, string board_name, string oscilloscope_name, string json_file_path, JObject oscilloscope_obj)
+        public OscilloscopeForm(SciSDK sdk, string board_name, string oscilloscope_name, string json_file_path, JObject oscilloscope_obj)
         {
             InitializeComponent();
 
             // set attributes
-            _scisdk_handle = scisdk_handle;
+            _sdk = sdk;
             _board_name = board_name;
             _json_board_path = json_file_path;
             _oscilloscope_obj = oscilloscope_obj;
@@ -49,19 +50,19 @@ namespace Oscilloscope
             oscilloscope_base_path = board_name + ":/MMCComponents/" + oscilloscope_name;
 
             // get number of digital traces from SciSDK library
-            if (!SciSdk_Wrapper.GetParamInt(oscilloscope_base_path + ".ndigital", out ndigital, _scisdk_handle))
+            if (sdk.GetParameter(oscilloscope_base_path + ".ndigital", out ndigital) != 0)
             {
                 MessageBox.Show("Error while trying to get number of digital traces from scisdk", "Error");
                 this.Close();
             }
             // get number of analog traces from SciSDK library
-            if (!SciSdk_Wrapper.GetParamInt(oscilloscope_base_path + ".nanalog", out nanalog, _scisdk_handle))
+            if (sdk.GetParameter(oscilloscope_base_path + ".nanalog", out nanalog) != 0)
             {
                 MessageBox.Show("Error while trying to get number of digital traces from scisdk", "Error");
                 this.Close();
             }
             // get number of channels from SciSDK library
-            if (!SciSdk_Wrapper.GetParamInt(oscilloscope_base_path + ".nchannels", out nchannels, _scisdk_handle))
+            if (sdk.GetParameter(oscilloscope_base_path + ".nchannels", out nchannels) != 0)
             {
                 MessageBox.Show("Error while trying to get number of digital traces from scisdk", "Error");
                 this.Close();
@@ -139,7 +140,7 @@ namespace Oscilloscope
                 digital_graphs[i].SetMaxValueX(12000);
                 y += digital_trace_graph_height;
             }
-            graph_update = new GraphUpdate(_scisdk_handle, analog_graph, digital_graphs, oscilloscope_base_path);
+            graph_update = new GraphUpdate(_sdk, analog_graph, digital_graphs, oscilloscope_base_path);
         }
 
         bool autoscale = true;

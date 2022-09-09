@@ -447,14 +447,14 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		//download data
 		uint32_t buffer_size = settings.nchannels * settings.nsamples;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
-		for (int i = 0; i < 4; i++) {
+		/*for (int i = 0; i < 4; i++) {
 			cout << __buffer[i] << endl;
 		}
 		cout << "..." << endl;
 		for (int i = buffer_size-4; i < buffer_size; i++) {
 			cout << __buffer[i] << endl;
 		}
-		cout << "----" << endl;
+		cout << "----" << endl;*/
 		CmdResetReadValidFlag();
 		if (dv < buffer_size) {
 			return NI_INCOMPLETE_READ;

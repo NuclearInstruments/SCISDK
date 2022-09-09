@@ -133,7 +133,7 @@ SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
-	_sdk->DecodeData(_Path, buffer_in, buffer_out);
+	return _sdk->DecodeData(_Path, buffer_in, buffer_out);
 }
 
 SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle) {
