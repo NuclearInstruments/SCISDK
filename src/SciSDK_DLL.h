@@ -25,6 +25,7 @@ SCISDK_DLL_API int SCISDK_GetParameterInteger(char* Path, int *value, void*handl
 SCISDK_DLL_API int SCISDK_GetParameterDouble(char* Path, double*value, void*handle);
 SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out, void*handle);
 SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle);
+SCISDK_DLL_API int SCISDK_AllocateBufferSize(char* Path, int buffer_type, void **buffer, void *handle, int size);
 SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle);
 SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle);
 SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle);

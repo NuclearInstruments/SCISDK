@@ -47,6 +47,9 @@ namespace CSharp_SciSDK
         public static extern int SCISDK_AllocateBuffer(IntPtr Path, int buffer_type, ref IntPtr buffer, IntPtr handle);
 
         [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SCISDK_AllocateBufferSize(IntPtr Path, int buffer_type, ref IntPtr buffer, IntPtr handle, int size);
+
+        [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SCISDK_SetRegister(IntPtr Path, int value, IntPtr handle);
 
         [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]

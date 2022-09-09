@@ -139,7 +139,6 @@ SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out
 SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (buffer_type == NULL)return NI_ERROR;
 	if (buffer == NULL)return NI_ERROR;
 
 	SciSDK * _sdk = (SciSDK*)handle;
@@ -156,6 +155,29 @@ SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buf
 	}
 
 	int res = _sdk->AllocateBuffer(_Path, _buffer_type, buffer);
+	return res;
+}
+
+SCISDK_DLL_API int SCISDK_AllocateBufferSize(char * Path, int buffer_type, void ** buffer, void * handle, int size)
+{
+	if (handle == NULL)return NI_ERROR;
+	if (Path == NULL)return NI_ERROR;
+	if (buffer == NULL)return NI_ERROR;
+
+	SciSDK * _sdk = (SciSDK*)handle;
+	string _Path(Path);
+	T_BUFFER_TYPE _buffer_type;
+	if (buffer_type == 0) {
+		_buffer_type = T_BUFFER_TYPE_RAW;
+	}
+	else if (buffer_type == 1) {
+		_buffer_type = T_BUFFER_TYPE_DECODED;
+	}
+	else {
+		return NI_ERROR;
+	}
+
+	int res = _sdk->AllocateBuffer(_Path, _buffer_type, buffer, size);
 	return res;
 }
 
