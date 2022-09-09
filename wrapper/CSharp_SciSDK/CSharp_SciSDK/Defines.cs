@@ -24,7 +24,7 @@ namespace CSharp_SciSDK
     }
 
     // buffer types
-    public enum Buffer_Type : int
+    public enum BufferType : int
     {
         BUFFER_TYPE_RAW = 0,
         BUFFER_TYPE_DECODED = 1
@@ -64,7 +64,7 @@ namespace CSharp_SciSDK
     public struct SciSDKOscilloscopeRawBuffer
     {
         public UInt32 magic;
-        public Int32[] data;
+        public UInt32[] data;
         public UInt32 zero_position;
         public UInt32 trigger_position;
         public UInt64 timecode;
