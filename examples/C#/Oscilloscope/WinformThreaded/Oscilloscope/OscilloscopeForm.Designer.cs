@@ -48,7 +48,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cmb_trigger_mode = new System.Windows.Forms.ComboBox();
             this.cmb_trigger_source = new System.Windows.Forms.ComboBox();
-            this.cmb_trigger_edge = new System.Windows.Forms.ComboBox();
+            this.cmb_trigger_polarity = new System.Windows.Forms.ComboBox();
             this.btn_reset_zoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.track_horizontal_divisions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.track_pretrigger)).BeginInit();
@@ -224,9 +224,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(17, 323);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.Size = new System.Drawing.Size(76, 13);
             this.label7.TabIndex = 18;
-            this.label7.Text = "Trigger edge";
+            this.label7.Text = "Trigger polarity";
             // 
             // cmb_trigger_mode
             // 
@@ -246,15 +246,15 @@
             this.cmb_trigger_source.Size = new System.Drawing.Size(123, 21);
             this.cmb_trigger_source.TabIndex = 20;
             // 
-            // cmb_trigger_edge
+            // cmb_trigger_polarity
             // 
-            this.cmb_trigger_edge.DisplayMember = "0";
-            this.cmb_trigger_edge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_trigger_edge.FormattingEnabled = true;
-            this.cmb_trigger_edge.Location = new System.Drawing.Point(105, 320);
-            this.cmb_trigger_edge.Name = "cmb_trigger_edge";
-            this.cmb_trigger_edge.Size = new System.Drawing.Size(123, 21);
-            this.cmb_trigger_edge.TabIndex = 21;
+            this.cmb_trigger_polarity.DisplayMember = "0";
+            this.cmb_trigger_polarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_trigger_polarity.FormattingEnabled = true;
+            this.cmb_trigger_polarity.Location = new System.Drawing.Point(105, 320);
+            this.cmb_trigger_polarity.Name = "cmb_trigger_polarity";
+            this.cmb_trigger_polarity.Size = new System.Drawing.Size(123, 21);
+            this.cmb_trigger_polarity.TabIndex = 21;
             // 
             // btn_reset_zoom
             // 
@@ -272,7 +272,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 575);
             this.Controls.Add(this.btn_reset_zoom);
-            this.Controls.Add(this.cmb_trigger_edge);
+            this.Controls.Add(this.cmb_trigger_polarity);
             this.Controls.Add(this.cmb_trigger_source);
             this.Controls.Add(this.cmb_trigger_mode);
             this.Controls.Add(this.label7);
@@ -324,7 +324,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmb_trigger_mode;
         private System.Windows.Forms.ComboBox cmb_trigger_source;
-        private System.Windows.Forms.ComboBox cmb_trigger_edge;
+        private System.Windows.Forms.ComboBox cmb_trigger_polarity;
         private System.Windows.Forms.Button btn_reset_zoom;
     }
 }

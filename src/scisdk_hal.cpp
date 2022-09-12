@@ -2,13 +2,13 @@
 //#include "../headers/SCIDK_API_C.h"
 
 NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
-
+	
 	std::transform(model.begin(), model.end(), model.begin(), ::toupper);
 
 	if ((model == "DT1260") || (model == "SCIDK")) {
 		_model = BOARD_MODEL::DT1260;
 		//load the correct dll
-		h_lib_instance = LoadLibrary(L"SCIDK_LibD.dll");
+		h_lib_instance = LoadLibrary(L"SCIDK_Lib.dll");
 		//cout << "Last error " << GetLastError() << endl;
 	}
 	if ((model == "DT5550") || (model == "DT5550W")) {
@@ -35,7 +35,9 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				typedef int(__cdecl *CONNECT_PROC_PTR)(char*, NI_HANDLE*);
 				CONNECT_PROC_PTR connectUSB = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "SCIDK_ConnectUSB");
 				if (connectUSB) {
+					mtx.lock();
 					NI_RESULT r = connectUSB((char*)p[1].c_str(), (NI_HANDLE*)_handle);
+					mtx.unlock();
 					return r;
 				}
 			}
@@ -54,7 +56,9 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 			if (connectTCP) {
 				if (p[1].find_first_not_of("0123456789") == -1) {
 					int port = stoi(p[1]);
+					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tR5560_Handle*)_handle);
+					mtx.unlock();
 					if (error_code == 0) {
 						return NI_OK;
 					}
@@ -85,7 +89,9 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 			typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(NI_HANDLE*);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 			if (close_connection) {
+				mtx.lock();
 				NI_RESULT r = close_connection((NI_HANDLE*)_handle);
+				mtx.unlock();
 				FreeLibrary(h_lib_instance);
 				free(_handle);
 				return r;
@@ -103,7 +109,9 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 			typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(tR5560_Handle*);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 			if (close_connection) {
+				mtx.lock();
 				int res = close_connection((tR5560_Handle*)_handle);
+				mtx.unlock();
 				if (res == 0) {
 					FreeLibrary(h_lib_instance);
 					free(_handle);
@@ -154,7 +162,9 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 			typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, NI_HANDLE* handle);// Pointer to write reg function in DLL
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 			if (write_reg) {
+				mtx.lock();
 				NI_RESULT r = write_reg(value, address, (NI_HANDLE*)_handle);
+				mtx.unlock();
 				return r;
 			}
 		}
@@ -168,7 +178,9 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 			typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tR5560_Handle* handle);// Pointer to write reg function in DLL
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 			if (write_reg) {
+				mtx.lock();
 				int res = write_reg(value, address, (tR5560_Handle*)_handle);
+				mtx.unlock();
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -195,7 +207,9 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 			typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, NI_HANDLE * handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 			if (read_reg) {
+				mtx.lock();
 				NI_RESULT r = read_reg(value, address, (NI_HANDLE*)_handle);
+				mtx.unlock();
 				return r;
 			}
 		}
@@ -209,7 +223,9 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 			typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, tR5560_Handle * handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 			if (read_reg) {
+				mtx.lock();
 				int res = read_reg(value, address, (tR5560_Handle*)_handle);
+				mtx.unlock();
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -240,7 +256,9 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 			typedef int(__cdecl *WRITE_DATA_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *written_data);
 			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 			if (write_data_proc) {
+				mtx.lock();
 				int res = write_data_proc(value, length, address, STREAMING, timeout_ms, (NI_HANDLE*)_handle, written_data);
+				mtx.unlock();
 				if (res) {
 					return NI_OK;
 				}
@@ -256,7 +274,9 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 			typedef int(__cdecl *WRITE_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *written_data);
 			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 			if (write_data_proc) {
+				mtx.lock();
 				int res = write_data_proc(value, length, address, (tR5560_Handle*)_handle, written_data);
+				mtx.unlock();
 				if (res) {
 					return NI_OK;
 				}
@@ -287,7 +307,9 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *read_data, uint32_t *valid_data);// Pointer to read data function in DLL
 			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 			if (read_data_proc) {
+				mtx.lock();
 				NI_RESULT r = read_data_proc(value, length, address, REG_ACCESS, timeout_ms, (NI_HANDLE*)_handle, &rd, read_data);
+				mtx.unlock();
 				return r;
 			}
 		}
@@ -301,7 +323,9 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *read_data);
 			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 			if (read_data_proc) {
+				mtx.lock();
 				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);
+				mtx.unlock();
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -334,7 +358,9 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *read_data, uint32_t *valid_data);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFIFO");
 			if (read_data_proc) {
+				mtx.lock();
 				NI_RESULT r = read_data_proc(value, length, address, STREAMING, timeout_ms, (NI_HANDLE*)_handle, &rd, read_data);
+				mtx.unlock();
 				return r;
 			}
 		}
@@ -348,7 +374,9 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tR5560_Handle *handle, uint32_t *read_data);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFIFO");
 			if (read_data_proc) {
+				mtx.lock();
 				NI_RESULT r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
+				mtx.unlock();
 				return r;
 			}
 		}

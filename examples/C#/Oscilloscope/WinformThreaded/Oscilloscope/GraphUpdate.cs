@@ -69,7 +69,7 @@ namespace Oscilloscope
 
         //method called by thread
         private void ThreadMethod(Thread parent_thread, Button stop_btn, Label lbl_status, TextBox txt_horizontal_divisions, TrackBar track_pre, TrackBar track_trigger_level, bool[] channels_enabled,
-            ComboBox cmb_trigger_source, ComboBox cmb_trigger_edge, ComboBox cmb_trigger_mode)
+            ComboBox cmb_trigger_source, ComboBox cmb_trigger_polarity, ComboBox cmb_trigger_mode)
         {
             // set sdk parameters
             _sdk.SetParameter(_oscilloscope_base_path + ".data_processing", "decode");
@@ -112,23 +112,8 @@ namespace Oscilloscope
                         txt_horizontal_divisions.Invoke((MethodInvoker)delegate { _sdk.SetParameter(_oscilloscope_base_path + ".decimator", (int)Math.Round(Int32.Parse(txt_horizontal_divisions.Text) / 12.5 + 1) - 1); });
 
                         // set trigger channel param
-                        int value = 0;
-                        int cmb_trigger_source_selected_index = 0;
-                        cmb_trigger_source.Invoke((MethodInvoker)delegate { cmb_trigger_source_selected_index = cmb_trigger_source.SelectedIndex; });
-                        if (cmb_trigger_source_selected_index == 0)
-                        {
-                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = Convert.ToInt32(cmb_trigger_edge.SelectedIndex.ToString() + "000", 2); });
-                        }
-                        else if (cmb_trigger_source_selected_index == 1)
-                        {
-                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = Convert.ToInt32("1000" + cmb_trigger_edge.SelectedIndex.ToString() + "010", 2); });
-                        }
-                        else
-                        {
-                            int ch_addr = cmb_trigger_source_selected_index - 2;
-                            cmb_trigger_edge.Invoke((MethodInvoker)delegate { value = (ch_addr << 8) + (cmb_trigger_edge.SelectedIndex << 3) + 1; });
-                        }
-                        _sdk.SetParameter(_oscilloscope_base_path + ".trigger_channel", value);
+                        cmb_trigger_source.Invoke((MethodInvoker)delegate { _sdk.SetParameter(_oscilloscope_base_path + ".trigger_channel", cmb_trigger_source.SelectedIndex); });
+                        cmb_trigger_polarity.Invoke((MethodInvoker)delegate { _sdk.SetParameter(_oscilloscope_base_path + ".trigger_polarity", cmb_trigger_polarity.Text); });
 
                         // set pretrigger param
                         track_pre.Invoke((MethodInvoker)delegate { _sdk.SetParameter(_oscilloscope_base_path + ".pretrigger", track_pre.Value * (1024 / 100)); });
@@ -165,7 +150,7 @@ namespace Oscilloscope
 
                             // invalidate graph (oxyplot repaints it)
                             _analog_graph.GetModel().InvalidatePlot(true);
-                            
+
                             // remove series from all graphs
                             for (int i = 0; i < _digital_graph.Length; i++)
                             {

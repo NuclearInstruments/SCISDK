@@ -8,6 +8,7 @@
 #include <list>
 #include "NIErrorCode.h"
 #include "scisdk_SciElement.h"
+#include <mutex>
 
 using namespace std;
 #include "json.hpp"
@@ -68,6 +69,7 @@ private:
 	void *_handle;
 	BOARD_MODEL _model;
 	HINSTANCE h_lib_instance;
+	mutex mtx;
 };
 
 // DT1260
