@@ -565,7 +565,6 @@ NI_RESULT SciSDK_Oscilloscope::ConfigureOscilloscope() {
 	trigger_reg += (trigger_channel & 0xFF) << 8;
 	ret |= _hal->WriteReg(trigger_reg, address.cfg_trigger_mode);
 
-	
 
 	if (ret)
 		return NI_ERROR_INTERFACE;

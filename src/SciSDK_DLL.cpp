@@ -286,7 +286,6 @@ SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, b
 	char* str_tmp = (char*)res_string.c_str();
 	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
 	strcpy(*ret, str_tmp);
-
 	return 0;
 }
 
