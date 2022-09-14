@@ -6,7 +6,10 @@ sdk = SciSDK()
 
 # add new device
 res = sdk.AddNewDevice("usb:13250","dt1260", "./oscilloscope.json","board0")
-
+print("res =",res)
+if res != 0:
+    print ("Script exit due to connetion error")
+    exit()
 # res, ret_string = sdk.GetComponentList("board0", "all", True)
 # print("res =",res)
 # print(ret_string)

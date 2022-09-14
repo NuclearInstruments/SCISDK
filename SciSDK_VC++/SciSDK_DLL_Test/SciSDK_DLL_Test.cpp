@@ -44,10 +44,10 @@ typedef struct {
 	} info;
 }SCISDK_OSCILLOSCOPE_RAW_BUFFER;
 
-int main()
+
+int main(int argc, char* argv[])
 {
 	void* _sdk = SCISDK_InitLib();
-
 	char * res = "";
 	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "oscilloscope.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl;

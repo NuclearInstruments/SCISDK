@@ -2,13 +2,21 @@
 //#include "../headers/SCIDK_API_C.h"
 
 NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
-	
+
 	std::transform(model.begin(), model.end(), model.begin(), ::toupper);
 
 	if ((model == "DT1260") || (model == "SCIDK")) {
 		_model = BOARD_MODEL::DT1260;
 		//load the correct dll
 		h_lib_instance = LoadLibrary(L"SCIDK_Lib.dll");
+		if (h_lib_instance == NULL) {
+			cout << "SCIDK_Lib.dll not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "SCIDK_Lib.dll loaded correclty ..." << endl;
+		}
+		
 		//cout << "Last error " << GetLastError() << endl;
 	}
 	if ((model == "DT5550") || (model == "DT5550W")) {
@@ -17,6 +25,14 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	if ((model == "R5560") || (model == "R5560SE") || (model == "DT5560")) {
 		_model = BOARD_MODEL::X5560;
 		h_lib_instance = LoadLibrary(L"R5560_SDKLib.dll");
+		if (h_lib_instance == NULL) {
+			cout << "SCIDK_Lib.dll not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "R5560_SDKLib.dll loaded correclty ..." << endl;
+		}
+
 	}
 	if ((model == "V2495") || (model == "DT2495")) {
 		_model = BOARD_MODEL::X2495;

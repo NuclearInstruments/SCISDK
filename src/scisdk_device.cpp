@@ -46,6 +46,9 @@ NI_RESULT SciSDK_Device::Connect() {
 				if (res == NI_OK) {
 					connected = true;
 				}
+				else {
+					return res;
+				}
 				//SetRegister("/Registers/res", 1);
 				//SetRegister("/Registers/res", 0);
 				//SetParameter("/MMCComponents/Oscilloscope_0.trigger_mode", "analog");

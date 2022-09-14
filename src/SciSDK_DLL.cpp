@@ -41,6 +41,7 @@ SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char
 
 	int res = _sdk->AddNewDevice(_DevicePath, _DeviceModel, _JSONFwFilePath, _Name);
 	//_sdk->p_error(res);
+	
 	return res;
 }
 

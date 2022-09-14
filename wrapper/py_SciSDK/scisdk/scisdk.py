@@ -127,7 +127,9 @@ class SciSDK:
         allocate_buffer_api.restype = ctypes.c_int
         # convert string to bytes array
         path_b = path.encode('utf-8')
-        buf_ptr = ctypes.c_void_p()
+        # buf_ptr = OscilloscopeDecodedBuffer()
         # call C lib function
-        err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.POINTER(buf_ptr), self.lib_ptr)
+        print(buffer.info)
+        err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buffer), self.lib_ptr)
+        print(buffer.magic)
         return err
