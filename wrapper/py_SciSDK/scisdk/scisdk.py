@@ -11,7 +11,7 @@ class SciSDK:
         init_lib_api = self.scisdk_dll.SCISDK_InitLib
         init_lib_api.restype = ctypes.c_void_p
         self.lib_ptr = init_lib_api()
-
+        
     def AddNewDevice(self, device_path: str, device_model: str, json_file_path: str, name: str) -> int:
         add_new_device_api = self.scisdk_dll.SCISDK_AddNewDevice
         add_new_device_api.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_void_p]
@@ -120,16 +120,249 @@ class SciSDK:
         err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.POINTER(value), self.lib_ptr)
         return err, value.value
 
-    # int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle);
-    def AllocateBuffer(self, path: str, buffer_type: int, buffer: OscilloscopeDecodedBuffer):
-        allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBuffer
-        allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(OscilloscopeDecodedBuffer), ctypes.c_void_p]    
-        allocate_buffer_api.restype = ctypes.c_int
+    def AllocateBuffer(self, path: str, buffer_type: int, buffer, size = None):
+        buffer_pointer = None
+        if type(buffer) == OscilloscopeDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)
+        elif type(buffer) == OscilloscopeRawBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeRawBuffer)
+        elif type(buffer) == OscilloscopeDualDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDualDecodedBuffer)
+        elif type(buffer) == OscilloscopeDualRawBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDualRawBuffer)
+        elif type(buffer) == DigitizerDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(DigitizerDecodedBuffer)
+        elif type(buffer) == ListRawBuffer:
+            buffer_pointer = ctypes.POINTER(ListRawBuffer)
+        elif type(buffer) == CustomPacketDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(CustomPacketDecodedBuffer)
+        elif type(buffer) == CustomPacketRawBuffer:
+            buffer_pointer = ctypes.POINTER(CustomPacketRawBuffer)
+        elif type(buffer) == RatemeterRawBuffer:
+            buffer_pointer = ctypes.POINTER(RatemeterRawBuffer)
+        elif type(buffer) == SpectrumDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(SpectrumDecodedBuffer)
+        elif type(buffer) == FFTDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(FFTDecodedBuffer)
+        elif type(buffer) == FFTRawBuffer:
+            buffer_pointer = ctypes.POINTER(FFTRawBuffer)
+        else:
+            raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
+
+        if size == None:
+            allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBuffer
+            allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_void_p]    
+            allocate_buffer_api.restype = ctypes.c_int
+            # convert string to bytes array
+            path_b = path.encode('utf-8')
+            # call C lib function
+            buf_tmp = buffer_pointer()
+            err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), self.lib_ptr)
+            buffer = buf_tmp.contents
+            return err, buffer   
+        else:
+            allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBufferSize
+            allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_int, ctypes.c_void_p]    
+            allocate_buffer_api.restype = ctypes.c_int
+            # convert string to bytes array
+            path_b = path.encode('utf-8')
+            # call C lib function
+            buf_tmp = buffer_pointer()
+            err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), size, self.lib_ptr)
+            buffer = buf_tmp.contents
+            return err, buffer
+
+
+    # read data - oscilloscope decoded buffer
+    def ReadData(self, path: str, buffer):
+        read_data_api = self.scisdk_dll.SCISDK_ReadData
+        if type(buffer) == OscilloscopeDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(OscilloscopeDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == OscilloscopeRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(OscilloscopeRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == OscilloscopeDualDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(OscilloscopeDualDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == OscilloscopeDualRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(OscilloscopeDualRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == DigitizerDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(DigitizerDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == ListRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ListRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == CustomPacketDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(CustomPacketDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == CustomPacketRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(CustomPacketRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == RatemeterRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(RatemeterRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == SpectrumDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(SpectrumDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == FFTDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == FFTRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTRawBuffer), ctypes.c_void_p]    
+        else:
+            raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
+
+        read_data_api = self.scisdk_dll.SCISDK_ReadData
+        read_data_api.restype = ctypes.c_int
         # convert string to bytes array
         path_b = path.encode('utf-8')
-        # buf_ptr = OscilloscopeDecodedBuffer()
+        err = read_data_api(ctypes.c_char_p(path_b), ctypes.byref(buffer), self.lib_ptr)
+        return err, buffer
+
+    # free buffer - oscilloscope decoded buffer
+    def FreeBuffer(self, path: str, buffer_type: int, buffer):
+        free_buffer_api = self.scisdk_dll.SCISDK_FreeBuffer
+        buffer_pointer = None
+        if type(buffer) == OscilloscopeDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)
+        elif type(buffer) == OscilloscopeRawBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeRawBuffer)
+        elif type(buffer) == OscilloscopeDualDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDualDecodedBuffer)
+        elif type(buffer) == OscilloscopeDualRawBuffer:
+            buffer_pointer = ctypes.POINTER(OscilloscopeDualRawBuffer)
+        elif type(buffer) == DigitizerDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(DigitizerDecodedBuffer)
+        elif type(buffer) == ListRawBuffer:
+            buffer_pointer = ctypes.POINTER(ListRawBuffer)
+        elif type(buffer) == CustomPacketDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(CustomPacketDecodedBuffer)
+        elif type(buffer) == CustomPacketRawBuffer:
+            buffer_pointer = ctypes.POINTER(CustomPacketRawBuffer)
+        elif type(buffer) == RatemeterRawBuffer:
+            buffer_pointer = ctypes.POINTER(RatemeterRawBuffer)
+        elif type(buffer) == SpectrumDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(SpectrumDecodedBuffer)
+        elif type(buffer) == FFTDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(FFTDecodedBuffer)
+        elif type(buffer) == FFTRawBuffer:
+            buffer_pointer = ctypes.POINTER(FFTRawBuffer)
+        else:
+            raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
+
+        free_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_void_p]    
+        free_buffer_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
         # call C lib function
-        print(buffer.info)
-        err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buffer), self.lib_ptr)
-        print(buffer.magic)
+        buf_tmp = buffer_pointer(buffer)
+        err = free_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), self.lib_ptr)
+        return err
+
+    def ExecuteCommmand(self, path: str, value: str):
+        execute_command_api = self.scisdk_dll.SCISDK_ExecuteCommand
+        execute_command_api.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_void_p]    
+        execute_command_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        value_b = value.encode('utf-8')
+        # call C lib function
+        err = execute_command_api(ctypes.c_char_p(path_b), ctypes.c_char_p(value_b), self.lib_ptr)
+        return err
+
+    def DecodeData(self, path: str, buffer_in: OscilloscopeRawBuffer):
+        decode_data_api = self.scisdk_dll.SCISDK_DecodeData
+        decode_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(OscilloscopeRawBuffer), ctypes.POINTER(OscilloscopeDecodedBuffer), ctypes.c_void_p]
+        decode_data_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        # call C lib function
+        buffer_out = OscilloscopeDecodedBuffer()
+        err = decode_data_api(ctypes.c_char_p(path_b), ctypes.byref(buffer_in), ctypes.byref(buffer_out), self.lib_ptr)
+        return err, buffer_out
+
+    def SetRegister(self, path: str, value: int):
+        set_register_api = self.scisdk_dll.SCISDK_SetRegister
+        set_register_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_void_p]
+        set_register_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        # call C lib function
+        err = set_register_api(ctypes.c_char_p(path_b), value, self.lib_ptr)
+        return err
+
+    def GetRegister(self, path: str):
+        get_register_api = self.scisdk_dll.SCISDK_GetRegister
+        get_register_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_int), ctypes.c_void_p]
+        get_register_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_int = ctypes.c_int()
+        # call C lib function
+        err = get_register_api(ctypes.c_char_p(path_b), ctypes.byref(ret_int), self.lib_ptr)
+        return err, ret_int.value
+
+    def GetAllParameters(self, path: str):
+        get_all_parameters_api = self.scisdk_dll.SCISDK_GetAllParameters
+        get_all_parameters_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_all_parameters_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_char_p = ctypes.c_char_p()
+        # call C lib function
+        err = get_all_parameters_api(ctypes.c_char_p(path_b), ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')
+
+    def GetParameterDescription(self, path: str):
+        get_parameter_description_api = self.scisdk_dll.SCISDK_GetParameterDescription
+        get_parameter_description_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_parameter_description_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_char_p = ctypes.c_char_p()
+        # call C lib function
+        err = get_parameter_description_api(ctypes.c_char_p(path_b), ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')
+
+    def GetParameterListOfValues(self, path: str):
+        get_parameter_list_of_values_api = self.scisdk_dll.SCISDK_GetParameterListOfValues
+        get_parameter_list_of_values_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_parameter_list_of_values_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_char_p = ctypes.c_char_p()
+        # call C lib function
+        err = get_parameter_list_of_values_api(ctypes.c_char_p(path_b), ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')
+
+    def GetParameterMinimumValue(self, path: str):
+        get_parameters_min_value_api = self.scisdk_dll.SCISDK_GetParameterMinimumValue
+        get_parameters_min_value_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double), ctypes.c_void_p]
+        get_parameters_min_value_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_double_p = ctypes.c_double()
+        # call C lib function
+        err = get_parameters_min_value_api(ctypes.c_char_p(path_b), ctypes.byref(ret_double_p), self.lib_ptr)
+        return err, ret_double_p.value
+
+    def GetParameterMaximumValue(self, path: str):
+        get_parameters_max_value_api = self.scisdk_dll.SCISDK_GetParameterMaximumValue
+        get_parameters_max_value_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double), ctypes.c_void_p]
+        get_parameters_max_value_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_double_p = ctypes.c_double()
+        # call C lib function
+        err = get_parameters_max_value_api(ctypes.c_char_p(path_b), ctypes.byref(ret_double_p), self.lib_ptr)
+        return err, ret_double_p.value
+
+    def GetParametersProperties(self, path: str):
+        get_parameters_properties_api = self.scisdk_dll.SCISDK_GetParametersProperties
+        get_parameters_properties_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_parameters_properties_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_char_p = ctypes.c_char_p()
+        # call C lib function
+        err = get_parameters_properties_api(ctypes.c_char_p(path_b), ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')
+
+    def FreeLib(self):
+        free_lib_api = self.scisdk_dll.SCISDK_FreeLib
+        free_lib_api.argtypes = [ctypes.c_void_p]
+        free_lib_api.restype = ctypes.c_int
+        # call C lib function
+        err = free_lib_api(self.lib_ptr)
         return err

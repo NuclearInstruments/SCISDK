@@ -23,6 +23,7 @@ SCISDK_DLL_API int SCISDK_FreeLib(void *handle) {
 	if (handle == NULL) return NI_ERROR;
 	SciSDK * _sdk = (SciSDK*)handle;
 	delete _sdk;
+	return NI_OK;
 }
 
 SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle) {

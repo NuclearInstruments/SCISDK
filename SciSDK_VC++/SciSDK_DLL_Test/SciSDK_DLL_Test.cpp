@@ -69,6 +69,7 @@ int main(int argc, char* argv[])
 	//SCISDK_s_error(SCISDK_GetComponentList("board0", "all", &str_tmp, true, _sdk), &res, _sdk);
 	cout << "command result: " << res << endl;
 	cout << "operation result " << int_tmp << endl;
+	cout << SCISDK_FreeLib(_sdk) << endl;
 	return 0;
 	/*
 		int value;
