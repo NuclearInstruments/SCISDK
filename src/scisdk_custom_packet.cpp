@@ -39,7 +39,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 	else
 		settings.usedma = false;
 
-
+	data_processing = DATA_PROCESSING::DECODE;
 	acq_mode = ACQ_MODE::BLOCKING;
 	settings.acq_len = j.at("BufferLength");
 	settings.packet_size = 0;
@@ -69,7 +69,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
-
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 }
 
 
@@ -233,6 +233,17 @@ NI_RESULT SciSDK_CustomPacket::IGetParamString(string name, string *value) {
 			*value = "false";
 			return NI_OK;
 		}
+	}
+	else if (name == "buffer_type") {
+		if (data_processing == DATA_PROCESSING::RAW) {
+			*value = "SCISDK_CP_RAW_BUFFER";
+			return NI_OK;
+		}
+		else if (data_processing == DATA_PROCESSING::DECODE) {
+			*value = "SCISDK_CP_DECODED_BUFFER";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
 	return NI_INVALID_PARAMETER;
 }

@@ -20,6 +20,7 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 		if ((string)r.at("Name") == "ACQ_LEN") address.cfg_acqlen = (uint32_t)r.at("Address");
 	}
 
+	data_processing = DATA_PROCESSING::DECODE;
 	settings.nchannels = (uint32_t)j.at("Channels");
 	settings.nsamples = (uint32_t)j.at("nsamples");
 	int ws = (uint32_t)j.at("WordSize");
@@ -58,6 +59,7 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	//RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
 }
 
@@ -198,6 +200,17 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 			*value = "false";
 			return NI_OK;
 		}
+	}
+	else if (name == "buffer_type") {
+		if (data_processing == DATA_PROCESSING::RAW) {
+			*value = "SCISDK_DIGITIZER_DECODED_BUFFER";
+			return NI_OK;
+		}
+		else if (data_processing == DATA_PROCESSING::DECODE) {
+			*value = "SCISDK_DIGITIZER_RAW_BUFFER";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
 
 	return NI_INVALID_PARAMETER;

@@ -25,26 +25,28 @@ SciSDK_List::SciSDK_List(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	else
 		settings.usedma = false;
 
-	settings.wordsize = (ws+1)*4 ;
+	settings.wordsize = (ws + 1) * 4;
 
 	acq_mode = ACQ_MODE::BLOCKING;
 	settings.acq_len = 1024;
 	transfer_size = settings.nchannels * settings.acq_len;
 	threaded_buffer_size = 100000;
 	isRunning = false;
-	
+
+
 	__buffer = NULL;
 	cout << "List: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
-	
-	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) 1024*1024* 1024,   this);
-	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
+
+	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double)1024 * 1024 * 1024, this);
+	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking" };
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
-	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
+	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32, this);
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
 }
 
@@ -61,7 +63,7 @@ NI_RESULT SciSDK_List::ISetParamU32(string name, uint32_t value) {
 		threaded_buffer_size = value;
 		return NI_OK;
 	}
-	
+
 	return NI_INVALID_PARAMETER;
 }
 NI_RESULT SciSDK_List::ISetParamI32(string name, int32_t value) {
@@ -73,7 +75,7 @@ NI_RESULT SciSDK_List::ISetParamI32(string name, int32_t value) {
 	return NI_INVALID_PARAMETER;
 }
 NI_RESULT SciSDK_List::ISetParamString(string name, string value) {
-   if (name == "acq_mode") {
+	if (name == "acq_mode") {
 		if (value == "blocking") {
 			acq_mode = ACQ_MODE::BLOCKING;
 			return NI_OK;
@@ -83,29 +85,32 @@ NI_RESULT SciSDK_List::ISetParamString(string name, string value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	} else if (name == "thread") {
-	   if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
-	   if (value == "true") {
-		   threaded = true;
-		   return NI_OK;
-	   }
-	   else if (value == "false") {
-		   threaded = false;
-		   return NI_OK;
-	   }
-	   else return NI_PARAMETER_OUT_OF_RANGE;
-   } else if (name == "high_performance") {
-	   if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
-	   if (value == "true") {
-		   high_performance = true;
-		   return NI_OK;
-	   }
-	   else if (value == "false") {
-		   high_performance = false;
-		   return NI_OK;
-	   }
-	   else return NI_PARAMETER_OUT_OF_RANGE;
-   }
+	}
+	else if (name == "thread") {
+		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
+		if (value == "true") {
+			threaded = true;
+			return NI_OK;
+		}
+		else if (value == "false") {
+			threaded = false;
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "high_performance") {
+		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
+		if (value == "true") {
+			high_performance = true;
+			return NI_OK;
+		}
+		else if (value == "false") {
+			high_performance = false;
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+
 
 	return NI_INVALID_PARAMETER;
 }
@@ -118,7 +123,7 @@ NI_RESULT SciSDK_List::IGetParamU32(string name, uint32_t *value) {
 	else if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
 		return NI_OK;
-	} 
+	}
 
 	return NI_INVALID_PARAMETER;
 }
@@ -131,7 +136,7 @@ NI_RESULT SciSDK_List::IGetParamI32(string name, int32_t *value) {
 	return NI_INVALID_PARAMETER;
 }
 NI_RESULT SciSDK_List::IGetParamString(string name, string *value) {
-   if (name == "acq_mode") {
+	if (name == "acq_mode") {
 		if (acq_mode == ACQ_MODE::BLOCKING) {
 			*value = "blocking";
 			return NI_OK;
@@ -142,26 +147,30 @@ NI_RESULT SciSDK_List::IGetParamString(string name, string *value) {
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
-   else if (name == "thread") {
-	   if (threaded == true) {
-		   *value = "true";
-		   return NI_OK;
-	   }
-	   else {
-		   *value = "false";
-		   return NI_OK;
-	   }
-   }
-   else if (name == "high_performance") {
-	   if (high_performance == true) {
-		   *value = "true";
-		   return NI_OK;
-	   }
-	   else {
-		   *value = "false";
-		   return NI_OK;
-	   }
-   }
+	else if (name == "thread") {
+		if (threaded == true) {
+			*value = "true";
+			return NI_OK;
+		}
+		else {
+			*value = "false";
+			return NI_OK;
+		}
+	}
+	else if (name == "high_performance") {
+		if (high_performance == true) {
+			*value = "true";
+			return NI_OK;
+		}
+		else {
+			*value = "false";
+			return NI_OK;
+		}
+	}
+	else if (name == "buffer_type") {
+		*value = "SCISDK_LIST_RAW_BUFFER";
+		return NI_OK;
+	}
 
 	return NI_INVALID_PARAMETER;
 }
@@ -196,7 +205,7 @@ NI_RESULT SciSDK_List::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size)
 	}
 }
 NI_RESULT SciSDK_List::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
-    if (bt == T_BUFFER_TYPE_RAW) {
+	if (bt == T_BUFFER_TYPE_RAW) {
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
@@ -225,13 +234,13 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 	if (buffer == NULL) {
 		return NI_INVALID_BUFFER;
 	}
-	
+
 	SCISDK_LIST_RAW_BUFFER *p;
 	p = (SCISDK_LIST_RAW_BUFFER *)buffer;
 
 	if (p->magic != BUFFER_TYPE_LIST_RAW) return NI_INVALID_BUFFER_TYPE;
 	if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
-	uint32_t buffer_size_dw = p->info.buffer_size/4;
+	uint32_t buffer_size_dw = p->info.buffer_size / 4;
 
 	if (threaded) {
 		//Threaded data download. Take data from the internal queue and transfer data 
@@ -240,10 +249,10 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 		double elapsed_time_ms = 0;
 		if (acq_mode == ACQ_MODE::BLOCKING) {
 			int s = pQ.size();
-			while ((s < buffer_size_dw) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+			while ((s < buffer_size_dw) && ((timeout < 0) || (elapsed_time_ms < timeout))) {
 				auto t_end = std::chrono::high_resolution_clock::now();
 				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-				std::this_thread::sleep_for(std::chrono::microseconds (10));
+				std::this_thread::sleep_for(std::chrono::microseconds(10));
 				h_mutex.lock(); s = pQ.size(); h_mutex.unlock();
 			}
 		}
@@ -258,7 +267,7 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 				data[ii++] = pQ.front();
 				pQ.pop();
 			}
-			p->info.valid_samples = ii*4;
+			p->info.valid_samples = ii * 4;
 			h_mutex.unlock();
 			return NI_OK;
 		}
@@ -274,7 +283,8 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 			uint32_t status;
 			NI_RESULT ret = _hal->ReadReg(&status, address.status);
 			_size = (status >> 8) & 0xFFFFFF;
-		} else {
+		}
+		else {
 			_size = buffer_size_dw;
 		}
 		_size = buffer_size_dw > _size ? _size : buffer_size_dw;
@@ -285,14 +295,14 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 			data = (uint32_t*)p->data;
 			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, 0, timeout, &vd);
 			p->info.valid_samples = vd * 4;
-			if (vd==0) return NI_NO_DATA_AVAILABLE;
+			if (vd == 0) return NI_NO_DATA_AVAILABLE;
 			else return NI_OK;
 		}
 		else {
 			return NI_NO_DATA_AVAILABLE;
 		}
 	}
-	
+
 
 
 }
@@ -313,7 +323,7 @@ NI_RESULT SciSDK_List::ReadStatus(void *buffer) {
 
 NI_RESULT SciSDK_List::ConfigureList() {
 
-	
+
 	return NI_OK;
 }
 
@@ -326,7 +336,7 @@ NI_RESULT SciSDK_List::CmdStart() {
 	h_mutex.lock();
 	while (!pQ.empty()) pQ.pop();
 	_hal->WriteReg(2, address.config);
-	std::this_thread::sleep_for(std::chrono::microseconds (1));
+	std::this_thread::sleep_for(std::chrono::microseconds(1));
 	_hal->WriteReg(0, address.config);
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
 	_hal->WriteReg(1, address.config);
@@ -370,7 +380,7 @@ NI_RESULT SciSDK_List::CmdStop() {
 void SciSDK_List::producer_thread() {
 	bool toTarget = false;
 	while (!toTarget && producer.canRun) {
-		uint32_t vd=0;
+		uint32_t vd = 0;
 		uint32_t _size;
 		bool go = false;
 		do {
@@ -391,9 +401,9 @@ void SciSDK_List::producer_thread() {
 			_size = transfer_size;
 		}
 		_size = _size > transfer_size ? transfer_size : _size;
-		uint32_t chunk_size = (settings.nchannels * settings.wordsize)/4;
+		uint32_t chunk_size = (settings.nchannels * settings.wordsize) / 4;
 		_size = floor(_size / chunk_size) * chunk_size;
-		
+
 		if (_size > 0) {
 
 			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
@@ -411,5 +421,5 @@ void SciSDK_List::producer_thread() {
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
 		}
 	}
-	
+
 }

@@ -20,7 +20,7 @@ SciSDK_Oscilloscope_Dual::SciSDK_Oscilloscope_Dual(SciSDK_HAL *hal, json j, stri
 		}
 	}
 
-
+	data_processing = DATA_PROCESSING::DECODE;
 	auto_arm = true;
 
 	settings.nanalog = 2;
@@ -47,6 +47,8 @@ SciSDK_Oscilloscope_Dual::SciSDK_Oscilloscope_Dual(SciSDK_HAL *hal, json j, stri
 	const std::list<std::string> listOfTriggerPolarity = { "pos","neg" };
 	RegisterParameter("trigger_polarity", "set analog trigger polarity", SciSDK_Paramcb::Type::str, listOfTriggerPolarity, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
+
 }
 
 NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamU32(string name, uint32_t value) {
@@ -246,7 +248,17 @@ NI_RESULT SciSDK_Oscilloscope_Dual::IGetParamString(string name, string *value) 
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
-
+	else if (name == "buffer_type") {
+		if (data_processing == DATA_PROCESSING::RAW) {
+			*value = "SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER";
+			return NI_OK;
+		}
+		else if (data_processing == DATA_PROCESSING::DECODE) {
+			*value = "SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
 
 	return NI_INVALID_PARAMETER;
 }

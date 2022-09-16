@@ -4,6 +4,8 @@ SciSDK_Ratemeter::SciSDK_Ratemeter(SciSDK_HAL * hal, json j, string path) : SciS
 {
 	address = (uint32_t)j.at("Address");
 	settings.nchannels = (uint32_t)j.at("Channels");
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
+
 }
 
 NI_RESULT SciSDK_Ratemeter::ISetParamU32(string name, uint32_t value)

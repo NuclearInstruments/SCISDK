@@ -37,6 +37,8 @@ SciSDK_Oscilloscope::SciSDK_Oscilloscope(SciSDK_HAL *hal, json j, string path) :
 
 	__buffer = (uint32_t *)malloc(settings.nchannels * settings.nsamples * sizeof(uint32_t));
 
+	data_processing = DATA_PROCESSING::DECODE;
+
 	cout << "Oscilloscope: " << name << " addr: " << address.base << endl;
 	RegisterParameter("decimator", "set x-axis decimation factor", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("pretrigger", "set pretrigger memory length", SciSDK_Paramcb::Type::U32, this);
@@ -57,6 +59,8 @@ SciSDK_Oscilloscope::SciSDK_Oscilloscope(SciSDK_HAL *hal, json j, string path) :
 	RegisterParameter("nanalog", "number of analog traces", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("ndigital", "number of digital traces", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("nchannels", "number of channels", SciSDK_Paramcb::Type::I32, this);
+
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 }
 
 NI_RESULT SciSDK_Oscilloscope::ISetParamU32(string name, uint32_t value) {
@@ -264,7 +268,18 @@ NI_RESULT SciSDK_Oscilloscope::IGetParamString(string name, string *value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	} 
+	}
+	else if (name == "buffer_type") {
+		if (data_processing == DATA_PROCESSING::RAW) {
+			*value = "SCISDK_OSCILLOSCOPE_RAW_BUFFER";
+			return NI_OK;
+		}
+		else if (data_processing == DATA_PROCESSING::DECODE) {
+			*value = "SCISDK_OSCILLOSCOPE_DECODED_BUFFER";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
 
 
 	return NI_INVALID_PARAMETER;

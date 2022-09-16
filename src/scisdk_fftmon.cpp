@@ -22,7 +22,7 @@ SciSDK_FFT::SciSDK_FFT(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, 
 			address.timestamp = (uint32_t)r.at("Address"); }
 	}
 	
-
+	data_processing = DATA_PROCESSING::DECODE;
 	auto_arm=true;
 
 	settings.nsamples = (uint32_t)j.at("nsamples");
@@ -41,6 +41,7 @@ SciSDK_FFT::SciSDK_FFT(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, 
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	const std::list<std::string> listOfTriggerPolarity = { "pos","neg" };
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 }
 
 NI_RESULT SciSDK_FFT::ISetParamU32(string name, uint32_t value) {
@@ -140,7 +141,18 @@ NI_RESULT SciSDK_FFT::IGetParamString(string name, string *value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	}  
+	}
+	else if (name == "buffer_type") {
+		if (data_processing == DATA_PROCESSING::RAW) {
+			*value = "SCISDK_FFT_RAW_BUFFER";
+			return NI_OK;
+		}
+		else if (data_processing == DATA_PROCESSING::DECODE) {
+			*value = "SCISDK_FFT_DECODED_BUFFER";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
 
 
 	return NI_INVALID_PARAMETER;
