@@ -35,6 +35,10 @@ NI_RESULT SciSDK_Ratemeter::IGetParamI32(string name, int32_t * value)
 
 NI_RESULT SciSDK_Ratemeter::IGetParamString(string name, string * value)
 {
+	if (name == "buffer_type") {
+		*value = "SCISDK_RM_RAW_BUFFER";
+		return NI_OK;
+	}		
 	return NI_INVALID_PARAMETER;
 }
 
@@ -54,6 +58,8 @@ NI_RESULT SciSDK_Ratemeter::AllocateBuffer(T_BUFFER_TYPE bt, void ** buffer)
 		}
 		p->magic = BUFFER_TYPE_LIST_RAW;
 		p->info.nchannels = settings.nchannels;
+		p->info.buffer_size = settings.nchannels;
+		p->info.valid_data = settings.nchannels;
 		return NI_OK;
 	}
 	else {
@@ -101,7 +107,7 @@ NI_RESULT SciSDK_Ratemeter::ReadData(void * buffer)
 	if (p->magic != BUFFER_TYPE_LIST_RAW) return NI_INVALID_BUFFER_TYPE;
 
 	uint32_t *data;
-	data = (uint32_t *)malloc(p->info.nchannels *sizeof(uint32_t));
+	data = (uint32_t *)malloc(p->info.nchannels *sizeof(uint32_t) + 8);
 
 	uint32_t vd;
 

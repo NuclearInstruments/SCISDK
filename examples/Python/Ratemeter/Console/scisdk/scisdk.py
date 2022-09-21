@@ -123,7 +123,7 @@ class SciSDK:
     def AllocateBuffer(self, path: str, size = None):
         buffer_pointer = None
         buffer_type = 0
-        res, type = self.GetParameterString(path+ ".buffer_type")
+        res, type = self.GetParameterString(path+".buffer_type")
         if(res == 0):
             if type == "SCISDK_OSCILLOSCOPE_DECODED_BUFFER":
                 buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)

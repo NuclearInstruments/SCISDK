@@ -501,12 +501,12 @@ int main()
 
 
 	//// RATEMETER
-	//SCISDK_RM_RAW_BUFFER *rmb;
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&rmb));
-	//sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb);
-	//for (int i = 0; i < rmb->info.nchannels; i++){
-	//	cout << rmb->data[i] << endl;
-	//}
+	/*SCISDK_RM_RAW_BUFFER *rmb;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&rmb));
+	sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb);
+	for (int i = 0; i < rmb->info.nchannels; i++){
+		cout << rmb->data[i] << endl;
+	}*/
 
 
 	//// DT5550W-CITIROC
