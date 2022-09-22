@@ -71,18 +71,18 @@ SCISDK_DLL_API int SCISDK_SetParameterString(char* Path, char* value, void* hand
 SCISDK_DLL_API int SCISDK_SetParameterInteger(char* Path, int value, void*handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
 
-	return _sdk->SetParameter(_Path, value);
+	int ret = _sdk->SetParameter(_Path, value);
+
+	return ret;
 }
 
 SCISDK_DLL_API int SCISDK_SetParameterDouble(char* Path, double value, void*handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);

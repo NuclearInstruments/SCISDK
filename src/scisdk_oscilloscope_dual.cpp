@@ -49,6 +49,10 @@ SciSDK_Oscilloscope_Dual::SciSDK_Oscilloscope_Dual(SciSDK_HAL *hal, json j, stri
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
+	RegisterParameter("nanalog", "number of analog traces", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("ndigital", "number of digital traces", SciSDK_Paramcb::Type::I32, this);
+	RegisterParameter("nchannels", "number of channels", SciSDK_Paramcb::Type::I32, this);
+
 }
 
 NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamU32(string name, uint32_t value) {
@@ -87,6 +91,15 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamI32(string name, int32_t value) {
 	if (name == "timeout") {
 		timeout = value;
 		return NI_OK;
+	}
+	else if (name == "nanalog") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
+	}
+	else if (name == "ndigital") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
+	}
+	else if (name == "nchannels") {
+		return NI_PARAMETER_CAN_NOT_BE_SET;
 	}
 
 	return NI_INVALID_PARAMETER;
@@ -189,6 +202,20 @@ NI_RESULT SciSDK_Oscilloscope_Dual::IGetParamI32(string name, int32_t *value) {
 		*value = timeout;
 		return NI_OK;
 	}
+	else if (name == "nanalog") {
+		*value = settings.nanalog;
+		return NI_OK;
+	}
+	else if (name == "ndigital") {
+		*value = settings.ndigital;
+		return NI_OK;
+	}
+	else if (name == "nchannels") {
+		*value = settings.nchannels;
+		return NI_OK;
+	}
+
+	return NI_INVALID_PARAMETER;
 
 	return NI_INVALID_PARAMETER;
 }
@@ -435,19 +462,20 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 		if (p->info.tracks_digital_per_channel != settings.ndigital) return NI_INCOMPATIBLE_BUFFER;
 
 		//check service buffer
-		if (__buffer == NULL) return NI_ERROR_GENERIC;
+		if (__buffer == NULL)
+			return NI_ERROR_GENERIC;
 
 		//download data
-		uint32_t buffer_size = settings.nchannels * settings.nsamples/2;
+		uint32_t buffer_size = settings.nchannels * settings.nsamples / 2;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
-		for (int i = 0; i < 4; i++) {
+		/*for (int i = 0; i < 4; i++) {
 			cout << __buffer[i] << endl;
 		}
 		cout << "..." << endl;
 		for (int i = 0; i < 100; i++) {
 			cout << __buffer[i] << endl;
 		}
-		cout << "----" << endl;
+		cout << "----" << endl;*/
 		CmdResetReadValidFlag();
 		if (dv < buffer_size) {
 			return NI_INCOMPLETE_READ;
@@ -455,10 +483,9 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 		//decode data
 		p->trigger_position = pretrigger;
 		p->timecode = timestamp;
-
 		for (int n = 0; n < settings.nchannels / 2; n++)
 		{
-			int current = zero_posizition - pretrigger +2;
+			int current = zero_posizition - pretrigger + 2;
 			if (current > 0)
 			{
 				int k = 0;

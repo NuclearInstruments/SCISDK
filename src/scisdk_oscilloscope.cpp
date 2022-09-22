@@ -93,7 +93,7 @@ NI_RESULT SciSDK_Oscilloscope::ISetParamI32(string name, int32_t value) {
 
 	if (name == "timeout") {
 		timeout = value;
-		return NI_PARAMETER_CAN_NOT_BE_SET;
+		return NI_OK;
 	} else if (name == "nanalog") {
 		return NI_PARAMETER_CAN_NOT_BE_SET;
 	} else if (name == "ndigital") {

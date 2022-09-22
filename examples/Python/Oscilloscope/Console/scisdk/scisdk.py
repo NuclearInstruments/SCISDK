@@ -123,7 +123,7 @@ class SciSDK:
     def AllocateBuffer(self, path: str, size = None):
         buffer_pointer = None
         buffer_type = 0
-        res, type = self.GetParameterString("board0:/MMCComponents/Oscilloscope_0.buffer_type")
+        res, type = self.GetParameterString(path+".buffer_type")
         if(res == 0):
             if type == "SCISDK_OSCILLOSCOPE_DECODED_BUFFER":
                 buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)
@@ -167,8 +167,11 @@ class SciSDK:
                 # call C lib function
                 buf_tmp = buffer_pointer()
                 err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), self.lib_ptr)
-                buffer = buf_tmp.contents
-                return err, buffer   
+                if err == 0:
+                    buffer = buf_tmp.contents
+                    return err, buffer   
+                else:
+                    return err, None
             else:
                 allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBufferSize
                 allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_int, ctypes.c_void_p]    
@@ -178,9 +181,11 @@ class SciSDK:
                 # call C lib function
                 buf_tmp = buffer_pointer()
                 err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), size, self.lib_ptr)
-                buffer = buf_tmp.contents
-                return err, buffer
-        return res, None
+                if err == 0:
+                    buffer = buf_tmp.contents
+                    return err, buffer
+                else:
+                    return err, None
 
 
     # read data - oscilloscope decoded buffer
@@ -220,31 +225,38 @@ class SciSDK:
         err = read_data_api(ctypes.c_char_p(path_b), ctypes.byref(buffer), self.lib_ptr)
         return err, buffer
 
-    def FreeBuffer(self, path: str, buffer_type: int, buffer):
+    def FreeBuffer(self, path: str, buffer):
         free_buffer_api = self.scisdk_dll.SCISDK_FreeBuffer
         buffer_pointer = None
+        buffer_type = 0
         if type(buffer) == OscilloscopeDecodedBuffer:
             buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == OscilloscopeRawBuffer:
             buffer_pointer = ctypes.POINTER(OscilloscopeRawBuffer)
         elif type(buffer) == OscilloscopeDualDecodedBuffer:
             buffer_pointer = ctypes.POINTER(OscilloscopeDualDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == OscilloscopeDualRawBuffer:
             buffer_pointer = ctypes.POINTER(OscilloscopeDualRawBuffer)
         elif type(buffer) == DigitizerDecodedBuffer:
             buffer_pointer = ctypes.POINTER(DigitizerDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == ListRawBuffer:
             buffer_pointer = ctypes.POINTER(ListRawBuffer)
         elif type(buffer) == CustomPacketDecodedBuffer:
             buffer_pointer = ctypes.POINTER(CustomPacketDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == CustomPacketRawBuffer:
             buffer_pointer = ctypes.POINTER(CustomPacketRawBuffer)
         elif type(buffer) == RatemeterRawBuffer:
             buffer_pointer = ctypes.POINTER(RatemeterRawBuffer)
         elif type(buffer) == SpectrumDecodedBuffer:
             buffer_pointer = ctypes.POINTER(SpectrumDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == FFTDecodedBuffer:
             buffer_pointer = ctypes.POINTER(FFTDecodedBuffer)
+            buffer_type = 1
         elif type(buffer) == FFTRawBuffer:
             buffer_pointer = ctypes.POINTER(FFTRawBuffer)
         else:
@@ -259,7 +271,7 @@ class SciSDK:
         err = free_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), self.lib_ptr)
         return err
 
-    def ExecuteCommmand(self, path: str, value: str):
+    def ExecuteCommand(self, path: str, value: str):
         execute_command_api = self.scisdk_dll.SCISDK_ExecuteCommand
         execute_command_api.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_void_p]    
         execute_command_api.restype = ctypes.c_int

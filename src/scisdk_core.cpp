@@ -325,7 +325,7 @@ string SciSDK::s_error(int err_no) {
 
 	switch (err_no) {
 	case NI_OK:
-		return "";
+		return "ok";
 	case NI_ERROR_GENERIC:
 		return "generic error";
 	case NI_ERROR_INTERFACE:

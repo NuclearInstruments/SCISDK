@@ -24,7 +24,7 @@ res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "b
 # allocate buffer (sciSDK detects automatically buffer type)
 res, buf = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0")
 if res == 0:
-    res = sdk.ExecuteCommmand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "")
+    res = sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "")
     # read data
     res, buf = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buf)
     

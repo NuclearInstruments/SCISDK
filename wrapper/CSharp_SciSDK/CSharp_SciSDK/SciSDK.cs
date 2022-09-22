@@ -445,7 +445,7 @@ namespace CSharp_SciSDK
                 SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeDecodedBufferPtr buffer_struct = (OscilloscopeDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(OscilloscopeDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
-                decoded_buffer.analog = new int[buffer_struct.info.samples_analog];
+                decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
                 byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
                 Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
@@ -481,7 +481,7 @@ namespace CSharp_SciSDK
                 SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeDualDecodedBufferPtr buffer_struct = (OscilloscopeDualDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(OscilloscopeDualDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
-                decoded_buffer.analog = new int[buffer_struct.info.samples_analog];
+                decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
                 byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
                 Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
@@ -722,7 +722,8 @@ namespace CSharp_SciSDK
         {
             IntPtr value_ptr = Marshal.StringToHGlobalAnsi("g");
             int res = SciSDK_DLLImport.SCISDK_s_error(error, value_ptr, scisdk_handle);
-            value = Marshal.PtrToStringAnsi(value_ptr);
+            int addr_tmp = Marshal.ReadInt32(value_ptr);
+            value = Marshal.PtrToStringAnsi(new IntPtr(addr_tmp));
             return res;
         }
 

@@ -1,0 +1,305 @@
+{"Registers":[
+{
+  "Name": "DELAY",
+  "Address": 196612,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "RateMeter_0",
+  "Type": "MCRateMeter",
+  "Address": 0,
+  "Version": "1.0.0.0",
+  "Channels": 8,
+  "Registers": []
+},
+{
+  "Name": "REGFILE_0",
+  "Type": "RegisterFile",
+  "Address": 65537,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
+    {
+      "Name": "REG_0",
+      "Address": 65538,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_1",
+      "Address": 65539,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_2",
+      "Address": 65540,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_3",
+      "Address": 65541,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_4",
+      "Address": 65542,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "REG_5",
+      "Address": 65543,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 0
+},
+{
+  "Name": "CREG_0",
+  "Type": "RegisterFile",
+  "Address": 65545,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
+    {
+      "Name": "CH0",
+      "Address": 65546,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH1",
+      "Address": 65547,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH2",
+      "Address": 65548,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH3",
+      "Address": 65549,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH4",
+      "Address": 65550,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH5",
+      "Address": 65551,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH6",
+      "Address": 65552,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH7",
+      "Address": 65553,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 0
+},
+{
+  "Name": "TOF_0",
+  "Type": "TofSpectrum",
+  "Address": 131072,
+  "Version": "1.0.0.0",
+  "bins": 1024,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 196608,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 196609,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_BINWIDTH",
+      "Address": 196610,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_START_DELAY",
+      "Address": 196611,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "CountsBit": 24
+},
+{
+  "Name": "Oscilloscope_0",
+  "Type": "OscilloscopeDual",
+  "Address": 197632,
+  "Version": "1.0.0.0",
+  "nsamples": 1024,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 198656,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Address": 198657,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 198658,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 198659,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 198660,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 198661,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 198662,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 2
+},
+{
+  "Name": "CREG_1",
+  "Type": "RegisterFile",
+  "Address": 65555,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
+    {
+      "Name": "CH0",
+      "Address": 65556,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH1",
+      "Address": 65557,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH2",
+      "Address": 65558,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH3",
+      "Address": 65559,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH4",
+      "Address": 65560,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH5",
+      "Address": 65561,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH6",
+      "Address": 65562,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CH7",
+      "Address": 65563,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 0
+}],"Device":"SCIDK","Project":"SciSDKRateMeter"}
