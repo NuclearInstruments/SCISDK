@@ -329,6 +329,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 	uint32_t counter = 0;
 	uint64_t hits = 0;
 	uint32_t user = 0;
+	uint32_t header_size = 0;
 	int ii = 0;
 	if (buffer == NULL) {
 		return NI_INVALID_BUFFER;
@@ -341,7 +342,16 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
 		if (p->info.samples != settings.nsamples) return NI_INCOMPATIBLE_BUFFER;
 
-		int pQ_minsize = 7 + acq_len * enabledch *  1 / settings.wordsize;
+		switch (settings.nchannels) {
+			case 1: header_size = 7; break;
+			case 2: header_size = 7; break;
+			case 4: header_size = 8; break;
+			case 8: header_size = 8; break;
+			case 16: header_size = 8; break;
+			case 32: header_size = 16; break;
+			case 64: header_size = 32; break;
+		}
+		int pQ_minsize = header_size + acq_len * enabledch *  1 / settings.wordsize;
 
 		h_mutex.lock();
 		while ( (pQ.size()>0) && (pQ.front() != 0xFFFFFFFF)) pQ.pop();
@@ -364,6 +374,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			int pQi = 0;
 			int pQs = 0;
 			int pQt = enabledch/2;
+			int filler = header_size-7;
 			while (pQi < pQ_minsize) {
 				switch (pQi) {
 				case 0:
@@ -389,18 +400,21 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 					user = pQ.front();
 					break;
 				default:
-					if (enabledch == 1) {
-						p->analog[ii++] = pQ.front() & 0xFFFF;
-						p->analog[ii++] = (pQ.front() >> 16) & 0xFFFF;
-					} else {
-						p->analog[ii + (2 * pQs * settings.nsamples) ] = pQ.front() & 0xFFFF;
-						p->analog[ii + ((2 * pQs + 1) * settings.nsamples) ] = (pQ.front()>>16) & 0xFFFF;
-						pQs++;
-						if (pQs == pQt) { 
-							pQs = 0;  
-							ii++;
+					if (filler == 0) {
+						if (enabledch == 1) {
+							p->analog[ii++] = pQ.front() & 0xFFFF;
+							p->analog[ii++] = (pQ.front() >> 16) & 0xFFFF;
+						} else {
+							p->analog[ii + (2 * pQs * settings.nsamples) ] = pQ.front() & 0xFFFF;
+							p->analog[ii + ((2 * pQs + 1) * settings.nsamples) ] = (pQ.front()>>16) & 0xFFFF;
+							pQs++;
+							if (pQs == pQt) { 
+								pQs = 0;  
+								ii++;
+							}
 						}
 					}
+					filler--;
 				}
 
 				pQ.pop();
