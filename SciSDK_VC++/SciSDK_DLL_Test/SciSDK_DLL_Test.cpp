@@ -56,6 +56,18 @@ typedef struct {
 	}info;
 }SCISDK_RM_RAW_BUFFER;
 
+typedef struct {
+	uint32_t magic;
+	uint32_t *data;
+	uint64_t timecode;
+	uint32_t inttime;
+	struct {
+		uint32_t buffer_size;
+		uint32_t total_bins;
+		uint32_t valid_bins;
+	} info;
+}SCISDK_SPECTRUM_DECODED_BUFFER;
+
 int main(int argc, char* argv[])
 {
 	void* _sdk = SCISDK_InitLib();
@@ -111,45 +123,73 @@ int main(int argc, char* argv[])
 			cout << "value " + to_string(i) + " " << value << endl;
 		}*/
 
-		// OSCILLOSCOPE DUAL
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000, _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0, _sdk), &res, _sdk);
-		cout << res << endl;
+		//// OSCILLOSCOPE DUAL
+		//SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), &res, _sdk);
+		//cout << res << endl;
+		//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", 3000, _sdk), &res, _sdk);
+		//cout << res << endl;
+		//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0, _sdk), &res, _sdk);
+		//cout << res << endl;
 
-		int val = 0;
-		SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.ndigital", &val, _sdk), &res, _sdk);
-		cout << "val: " << val << endl;
+		//int val = 0;
+		//SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.ndigital", &val, _sdk), &res, _sdk);
+		//cout << "val: " << val << endl;
 
-		SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150, _sdk), &res, _sdk);
+		//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150, _sdk), &res, _sdk);
+		//cout << res << endl;
+		//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", 0, _sdk), &res, _sdk);
+		//cout << res << endl;
+		//SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode", _sdk), &res, _sdk);
+		//cout << res << endl;
+		////sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
+		//SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk), &res, _sdk);
+		//cout << res << endl;
+		///*SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 1000, _sdk), res, _sdk);
+		//cout << res << endl;*/
+		//SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+		////SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER *rb;
+		//SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", 1, (void**)&ob, _sdk), &res, _sdk);
+		//cout << res << endl;
+		///*SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb, _sdk), &res, _sdk);
+		//cout << res << endl;*/
+		//SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "", _sdk), &res, _sdk);
+		//cout << res << endl;
+		////while (1) {
+		//SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk), &res, _sdk);
+		//cout << res << endl;
+
+		//SCISDK_FreeBuffer("board0:/MMCComponents/Oscilloscope_0", 1, (void**)&ob, _sdk);
+		//SCISDK_FreeLib(_sdk);
+
+		//// SPECTRUM
+		SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
+		
+		SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk), &res, _sdk);
 		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", 0, _sdk), &res, _sdk);
+		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.rebin", "0",_sdk), &res, _sdk);
 		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode", _sdk), &res, _sdk);
+		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limitmode", "freerun", _sdk), &res, _sdk);
 		cout << res << endl;
-		//sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk), &res, _sdk);
+		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limit", "100", _sdk), &res, _sdk);
 		cout << res << endl;
-		/*SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 1000, _sdk), res, _sdk);
-		cout << res << endl;*/
-		SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-		//SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER *rb;
-		SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", 1, (void**)&ob, _sdk), &res, _sdk);
+		SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk), &res, _sdk);
 		cout << res << endl;
-		/*SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb, _sdk), &res, _sdk);
-		cout << res << endl;*/
-		SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", "", _sdk), &res, _sdk);
+		SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk), &res, _sdk);
 		cout << res << endl;
+		SCISDK_s_error(SCISDK_SetRegister("board0:/Registers/DELAY", 100, _sdk), &res, _sdk);
+		cout << res << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 		//while (1) {
-		SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk), &res, _sdk);
-		cout << res << endl;
-
-
+			//std::ofstream out("c:/tmp/output1.txt");
+			SCISDK_ReadData("board0:/MMCComponents/TOF_0", (void *)obSpectrum, _sdk);
+			for (int i = 0; i < obSpectrum->info.total_bins; i++) {
+			cout << obSpectrum->data[i] << endl;
+			}
+			//out.close();
+			SCISDK_FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
 		//}
-		SCISDK_FreeBuffer("board0:/MMCComponents/Oscilloscope_0", 1, (void**)&ob, _sdk);
-		SCISDK_FreeLib(_sdk);
+
+		
 
 	return 0;
 
