@@ -87,6 +87,9 @@
     <ClInclude Include="..\..\src\SciSDK_DLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\scisdk_TOFspectrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\SciSDK_DLL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\scisdk_TOFspectrum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

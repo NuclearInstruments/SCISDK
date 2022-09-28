@@ -1,5 +1,5 @@
-#ifndef HEADER_H_SCISDK_SPECTRUM
-#define HEADER_H_SCISDK_SPECTRUM
+#ifndef HEADER_H_SCISDK_TOFSPECTRUM
+#define HEADER_H_SCISDK_TOFSPECTRUM
 #include <iostream>
 #include <algorithm>
 #include <list>
@@ -11,9 +11,9 @@ using json = nlohmann::json;
 
 using namespace std;
 
-class SciSDK_Spectrum : public  SciSDK_Node {
+class SciSDK_TOFSpectrum : public  SciSDK_Node {
 public:
-	SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path);
+	SciSDK_TOFSpectrum(SciSDK_HAL *hal, json j, string path);
 
 
 	NI_RESULT ISetParamU32(string name, uint32_t value);
@@ -35,17 +35,9 @@ public:
 	NI_RESULT ReadStatus(void *buffer);
 private:
 
-	enum class LIMIT_TYPE {
-		FREE_RUNNING,
-		TIME,
-		TOTAL_CNT,
-		PEAK_CNT
-	} spectrum_limit;
 
-	int32_t limit_value=0;
-	int32_t rebin;
-	int32_t emin;
-	int32_t emax;
+	int32_t binwidth;
+	int32_t startdelay;
 	int32_t current_cfg_reg = 0;
 
 
@@ -60,9 +52,8 @@ private:
 		uint32_t base;
 		uint32_t cfg;
 		uint32_t cfg_limit;
-		uint32_t cfg_rebin;
-		uint32_t cfg_min;
-		uint32_t cfg_max;
+		uint32_t binwidth;
+		uint32_t startdelay;
 		uint32_t status;
 		bool has_statustime;
 		uint32_t status_time;
