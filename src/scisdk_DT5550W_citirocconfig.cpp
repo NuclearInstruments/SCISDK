@@ -2,7 +2,8 @@
 
 SciSDK_DT5550W_CitirocConfig::SciSDK_DT5550W_CitirocConfig(SciSDK_HAL * hal, json j, string path) : SciSDK_Node(hal, j, path)
 {
-	address = (uint32_t)j.at("Address");
+	address = (uint32_t)j.at("REG_CFG0");
+	address_start = (uint32_t)j.at("START_REG_CFG");
 
 	for (int i = 0; i < 32; i++) {
 		sc_calibDacT[i] = 0;
@@ -1145,6 +1146,8 @@ NI_RESULT SciSDK_DT5550W_CitirocConfig::CmdWriteBitstream()
 			ret |= _hal->WriteReg(datavector[i], address + (uint32_t)i);
 		}
 
+		ret |= _hal->WriteReg(0, address_start);
+		ret |= _hal->WriteReg(1, address_start);
 		if (ret) {
 			return NI_ERROR_INTERFACE;
 		}
