@@ -159,7 +159,7 @@
     <ClInclude Include="..\..\src\scisdk_device.h" />
     <ClInclude Include="..\..\src\scisdk_digitizer.h" />
     <ClInclude Include="..\..\src\SciSDK_DLL.h" />
-    <ClInclude Include="..\..\src\scisdk_DT5550W-CITIROC.h" />
+    <ClInclude Include="..\..\src\scisdk_DT5550W_citirocconfig.h" />
     <ClInclude Include="..\..\src\scisdk_fftmon.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
     <ClInclude Include="..\..\src\scisdk_list.h" />
@@ -181,7 +181,7 @@
     <ClCompile Include="..\..\src\scisdk_device.cpp" />
     <ClCompile Include="..\..\src\scisdk_digitizer.cpp" />
     <ClCompile Include="..\..\src\SciSDK_DLL.cpp" />
-    <ClCompile Include="..\..\src\scisdk_DT5550W-CITIROC.cpp" />
+    <ClCompile Include="..\..\src\scisdk_DT5550W_citirocconfig.cpp" />
     <ClCompile Include="..\..\src\scisdk_fftmon.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />
     <ClCompile Include="..\..\src\scisdk_list.cpp" />

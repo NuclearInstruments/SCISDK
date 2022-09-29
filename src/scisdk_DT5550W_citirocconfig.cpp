@@ -1,6 +1,6 @@
-#include "scisdk_DT5550W-CITIROC.h"
+#include "scisdk_DT5550W_citirocconfig.h"
 
-SciSDK_DT5550W_Citiroc::SciSDK_DT5550W_Citiroc(SciSDK_HAL * hal, json j, string path) : SciSDK_Node(hal, j, path)
+SciSDK_DT5550W_CitirocConfig::SciSDK_DT5550W_CitirocConfig(SciSDK_HAL * hal, json j, string path) : SciSDK_Node(hal, j, path)
 {
 	address = (uint32_t)j.at("Address");
 
@@ -100,7 +100,7 @@ SciSDK_DT5550W_Citiroc::SciSDK_DT5550W_Citiroc(SciSDK_HAL * hal, json j, string 
 	RegisterParameter("sc_enTriggersOutput", "Enable 32 channels triggers outputs [0 : disabled, force off – 1 : Enabled]", SciSDK_Paramcb::Type::U32, this);
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::ISetParamU32(string name, uint32_t value)
 {
 	bool param_found = false;
 
@@ -442,12 +442,12 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamU32(string name, uint32_t value)
 	}
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamI32(string name, int32_t value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::ISetParamI32(string name, int32_t value)
 {
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamString(string name, string value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::ISetParamString(string name, string value)
 {
 	if (name == "bitstream") {
 		bitstream = value;
@@ -456,7 +456,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::ISetParamString(string name, string value)
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::IGetParamU32(string name, uint32_t * value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::IGetParamU32(string name, uint32_t * value)
 {
 	bool param_found = false;
 
@@ -798,12 +798,12 @@ NI_RESULT SciSDK_DT5550W_Citiroc::IGetParamU32(string name, uint32_t * value)
 	}
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::IGetParamI32(string name, int32_t * value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::IGetParamI32(string name, int32_t * value)
 {
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::IGetParamString(string name, string *value)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::IGetParamString(string name, string *value)
 {
 	if (name == "bitstream") {
 		*value = bitstream;
@@ -812,7 +812,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::IGetParamString(string name, string *value)
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::ExecuteCommand(string cmd, string param)
+NI_RESULT SciSDK_DT5550W_CitirocConfig::ExecuteCommand(string cmd, string param)
 {
 	if (cmd == "generate_bit_config") {
 		return CmdGenerateBitConfig();
@@ -851,7 +851,7 @@ string intToBin(int value, int len) {
 }
 
 //command to encode bitconfig string
-NI_RESULT SciSDK_DT5550W_Citiroc::CmdGenerateBitConfig()
+NI_RESULT SciSDK_DT5550W_CitirocConfig::CmdGenerateBitConfig()
 {
 	string strSC = "";
 
@@ -955,7 +955,7 @@ int binToInt(string bin) {
 }
 
 //command to decode bitconfig string
-NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
+NI_RESULT SciSDK_DT5550W_CitirocConfig::CmdDecodeBitConfig()
 {
 	if (bitstream.length() == 1144) {
 
@@ -1115,7 +1115,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdDecodeBitConfig()
 }
 
 // command to write bitstream on device
-NI_RESULT SciSDK_DT5550W_Citiroc::CmdWriteBitstream()
+NI_RESULT SciSDK_DT5550W_CitirocConfig::CmdWriteBitstream()
 {
 	// check if bitstream is valid (string length == 1144 and string contains only 0 and 1)
 	if (bitstream.length() == 1144 && bitstream.find_first_not_of("01")) {
@@ -1155,7 +1155,7 @@ NI_RESULT SciSDK_DT5550W_Citiroc::CmdWriteBitstream()
 	}
 }
 
-NI_RESULT SciSDK_DT5550W_Citiroc::CmdReadBitstream()
+NI_RESULT SciSDK_DT5550W_CitirocConfig::CmdReadBitstream()
 {
 	//read data from device
 	int ret = 0;

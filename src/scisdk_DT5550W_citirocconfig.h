@@ -1,5 +1,5 @@
-#ifndef HEADER_H_DT5550W_CITIROC
-#define HEADER_H_DT5550W_CITIROC
+#ifndef HEADER_H_DT5550W_CITIROCCONFIG
+#define HEADER_H_DT5550W_CITIROCCONFIG
 
 #include <iostream>
 #include <algorithm>
@@ -15,9 +15,9 @@ using json = nlohmann::json;
 
 using namespace std;
 
-class SciSDK_DT5550W_Citiroc : public  SciSDK_Node {
+class SciSDK_DT5550W_CitirocConfig : public  SciSDK_Node {
 public:
-	SciSDK_DT5550W_Citiroc(SciSDK_HAL *hal, json j, string path);
+	SciSDK_DT5550W_CitirocConfig(SciSDK_HAL *hal, json j, string path);
 
 	NI_RESULT ISetParamU32(string name, uint32_t value);
 	NI_RESULT ISetParamI32(string name, int32_t value);
