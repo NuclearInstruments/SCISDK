@@ -414,7 +414,9 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 							}
 						}
 					}
-					filler--;
+					else {
+						filler--;
+					}
 				}
 
 				pQ.pop();

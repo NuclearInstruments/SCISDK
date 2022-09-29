@@ -34,6 +34,7 @@ private:
 	string bitstream;
 	const int NbChannels = 32;
 	uint32_t address;
+	uint32_t address_start;
 
 	//params
 	int sc_calibDacT[32];

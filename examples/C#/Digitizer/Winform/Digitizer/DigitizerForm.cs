@@ -1,0 +1,231 @@
+﻿using CSharp_SciSDK;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using OxyPlot.WindowsForms;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+//using System.Threading;
+//using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Digitizer
+{
+    public partial class DigitizerForm : Form
+    {
+        DigitizerGraph graph;
+        SciSDK _sdk;                        // pointer to the scisdk handle
+        string _board_name;                 // name given from user to the board
+        string _json_board_path;            // path to json project file
+        string _digitizer_name;             // name of digitizer component
+        JObject _digitizer_obj;             // object that describes oscilloscope inside JSON
+        Timer update_timer;                 // timer used to update graph
+        string digitizer_full_path;         // full path of digitizer component
+
+        // series colors
+        OxyColor[] series_colors = { OxyColor.FromRgb(51, 102, 255), OxyColor.FromRgb(0, 153, 51), OxyColor.FromRgb(255, 0, 0),
+                                    OxyColor.FromRgb(204, 51, 153), OxyColor.FromRgb(204, 153, 0), OxyColor.FromRgb(102, 153, 153)};
+
+        FunctionSeries[] series;            // series displayed on graph
+        int n_channels = 0;                 // number of available channels
+        List<int> enabled_channels_options; // list of option of channels that can be enabled
+
+        public DigitizerForm(SciSDK sdk, string board_name, string digitizer_name, string json_file_path, JObject digitizer_obj)
+        {
+            InitializeComponent();
+            // set attributes
+            _sdk = sdk;
+            _board_name = board_name;
+            _json_board_path = json_file_path;
+            _digitizer_obj = digitizer_obj;
+            _digitizer_name = digitizer_name;
+
+            // load the number of available channels
+            n_channels = (int)digitizer_obj["Channels"];
+
+            // get available channels options and add children to enabled channels combobox
+            string ret = "";
+            digitizer_full_path = board_name + ":/MMCComponents/" + digitizer_name;
+            int res = sdk.GetParameterListOfValues(digitizer_full_path + ".enabledch", out ret);
+            enabled_channels_options = JsonConvert.DeserializeObject<List<int>>(ret);
+
+            for (int i = 0; i < enabled_channels_options.Count - 1; i++)
+            {
+                int option_count = (int)enabled_channels_options[i];
+                string option_label = "";
+                for (int j = 0; j < option_count; j++)
+                {
+                    option_label += (j + 1).ToString();
+                    if (j < option_count - 1)
+                    {
+                        option_label += "-";
+                    }
+                }
+                cmb_enabled_ch.Items.Add(option_label);
+            }
+            // select last available item of enabled channels combobox
+            cmb_enabled_ch.SelectedIndex = cmb_enabled_ch.Items.Count - 1;
+            
+            // set board parameters
+            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_mode", "blocking");
+            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 1000);
+            
+            // initialize timer
+            update_timer = new Timer();
+            update_timer.Tick += Update_timer_Tick;
+            update_timer.Interval = 100;
+        }
+
+        // method call when form has been loaded
+        private void OscilloscopeForm_Load(object sender, EventArgs e)
+        {
+            int x = 250;
+            int y = 65;
+            // display analog traces graphs
+            Point graph_position = new Point(x, y);
+            Size graph_size = new Size(750, 500);
+            graph = new DigitizerGraph(graph_position, graph_size);
+            graph.SetYAxisLabel("Analog");
+            graph.SetXAxisLabel("Time (ns)");
+            graph.AddToUI(this);
+        }
+
+        private void Update_timer_Tick(object sender, EventArgs e)
+        {
+            update_timer.Stop();
+            // allocate buffer
+            SciSDKDigitizerDecodedBuffer buffer = new SciSDKDigitizerDecodedBuffer();
+            int res = _sdk.AllocateBuffer(digitizer_full_path, BufferType.BUFFER_TYPE_DECODED, ref buffer);
+            if(res == 0)
+            {
+                // read data 
+                res = _sdk.ReadData(digitizer_full_path, ref buffer);
+                if(res == 0)
+                {
+                    for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+                    {
+                        series[i].Points.Clear();
+                    }
+                    graph.GetModel().Series.Clear();
+                    // plot graph
+                    for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+                    {
+                        if (check_displayed_channels.GetItemChecked(i))
+                        {
+                            for (int j = 0; j < buffer.info.samples; j++)
+                            {
+                                series[i].Points.Add(new DataPoint(j, buffer.analog[j + i * buffer.info.valid_samples]));
+                            }
+                            graph.GetModel().Series.Add(series[i]);
+                        }
+                    }
+                    
+                    // invalidate graph (oxyplot repaints it)
+                    graph.GetModel().InvalidatePlot(true);
+                }
+                else
+                {
+                    Console.WriteLine("read data error");
+                }
+            }
+            else
+            {
+                Console.WriteLine("allocate buffer error");
+            }
+            update_timer.Start();
+        }
+
+        // event called when start button has been clicked
+        private void btn_start_Click(object sender, EventArgs e)
+        {
+            btn_stop.Enabled = true;
+            btn_start.Enabled = false;
+            lbl_status.Text = "Waiting for trigger";
+            _sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+            // start reading data
+            update_timer.Start();
+        }
+
+        // event called when stop button has been clicked
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            btn_stop.Enabled = false;
+            btn_start.Enabled = true;
+            lbl_status.Text = "IDLE";
+            _sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.stop", "");
+            // stop reading data
+            update_timer.Stop();
+        }
+
+
+        private void btn_reset_zoom_Click(object sender, EventArgs e)
+        {
+            graph.ResetZoom();
+        }
+
+        private void btn_all_Click(object sender, EventArgs e)
+        {
+            // display all channels
+            for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+            {
+                check_displayed_channels.SetItemChecked(i, true);
+            }
+        }
+
+        private void btn_none_Click(object sender, EventArgs e)
+        {
+            // hide all channels
+            for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+            {
+                check_displayed_channels.SetItemChecked(i, false);
+            }
+        }
+
+        private void track_wave_length_Scroll(object sender, EventArgs e)
+        {
+            num_wave_length.Value = track_wave_length.Value;
+        }
+
+        private void num_wave_length_ValueChanged(object sender, EventArgs e)
+        {
+            track_wave_length.Value = (int)num_wave_length.Value;
+            // change value of acq lenght on board
+            _sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", track_wave_length.Value);
+        }
+
+        // event called when combobox enabled channel selected index has been changed
+        private void cmb_enabled_ch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // set enabled channels parameter on the board
+            int exp = (cmb_enabled_ch.SelectedIndex + 1);
+            _sdk.SetParameter(digitizer_full_path + ".enabledch", 2);
+            // update the list of channels that can be displayed
+            check_displayed_channels.Items.Clear();
+            for (int i = 0; i < enabled_channels_options[cmb_enabled_ch.SelectedIndex]; i++)
+            {
+                check_displayed_channels.Items.Add("Channel" + i);
+            }
+
+            // initialize series arrays
+            series = new FunctionSeries[check_displayed_channels.Items.Count];
+            for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+            {
+                series[i] = new FunctionSeries();                
+            }
+
+            // change
+        }
+    }
+
+
+}
+

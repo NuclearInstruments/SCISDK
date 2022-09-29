@@ -790,6 +790,16 @@ namespace CSharp_SciSDK
             return res;
         }
 
+        public int GetParameterListOfValues(string path, out string ret)
+        {
+            IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
+            IntPtr ret_ptr = Marshal.StringToHGlobalAnsi("g");
+            int res = SciSDK_DLLImport.SCISDK_GetParameterListOfValues(path_ptr, ret_ptr, scisdk_handle);
+            int addr_tmp = Marshal.ReadInt32(ret_ptr);
+            ret = Marshal.PtrToStringAnsi(new IntPtr(addr_tmp));
+            return res;
+        }
+
         private static void MarshalUnmananagedArray2Struct<T>(IntPtr unmanagedArray, int length, out T[] mangagedArray)
         {
             var size = Marshal.SizeOf(typeof(T));

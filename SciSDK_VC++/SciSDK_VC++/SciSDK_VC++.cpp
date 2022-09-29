@@ -249,9 +249,11 @@ void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
 
 int main()
 {
+	SciSDK sdk;
+	int res = sdk.AddNewDevice("usb:13250", "dt1260", "Digitizer.json", "board0");
 	//void* _sdk = SCISDK_InitLib();
 
-	//// REGISTRI
+	// REGISTRI
 	//char * res = "";
 	//SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), res, _sdk);
 
@@ -400,24 +402,24 @@ int main()
 	//sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_RAW, (void**)&rb);
 
 
-	//// DIGITIZER decoded
-	//SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
-	//sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb);
-	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
-	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
-	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000);
-	//sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100);
-	//sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
-	//while (1) {
-	//	int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
-	//	if (ret == NI_OK) {
-	//		std::ofstream out("c:/temp/output.txt");
-	//		for (int i = 0; i < ddb->info.valid_samples; i++) {
-	//			out << ddb->analog[i] << endl;
-	//		}
-	//		out.close();
-	//	}
-	//}
+	// DIGITIZER decoded
+	SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+	sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb);
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000);
+	sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100);
+	sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+	while (1) {
+		int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		if (ret == NI_OK) {
+			std::ofstream out("c:/temp/output.txt");
+			for (int i = 0; i < ddb->info.valid_samples; i++) {
+				out << ddb->analog[i] << endl;
+			}
+			out.close();
+		}
+	}
 
 
 	//// DIGITIZER raw
