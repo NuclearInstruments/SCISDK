@@ -61,6 +61,7 @@ private:
 
 	struct {
 		int32_t acq_len;
+		uint32_t channels;
 		uint32_t packet_size;
 		bool usedma;
 	} settings;
@@ -87,5 +88,6 @@ private:
 	bool check_align_word;
 	bool valid_align_word;
 	uint32_t first_word_const_value;
+	uint32_t header_size;
 };
 #endif 

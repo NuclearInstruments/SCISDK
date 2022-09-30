@@ -24,19 +24,7 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 
 	check_align_word = false;
 
-	int idx = 0;
-	valid_align_word = false;
-	for (auto& r : j.at("listOfWord")) {
-		if (idx == 0) {
-			if (((string)r.at("PioWE")[0].at("Type") == "Constant") && ((string)r.at("PioWE")[0].at("ValueFormat") == "Hex")) {
-				string first_word_txt = (string)r.at("PioWE")[0].at("Value");
-				cout << first_word_txt << endl;
-				first_word_const_value = std::stoul(first_word_txt, nullptr, 16);
-				valid_align_word = true;
-			}
-		}
-		idx++;
-	}
+
 
 	if (j.contains("UseDMA"))
 		settings.usedma = (bool)j.at("UseDMA");
@@ -46,12 +34,12 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 	data_processing = DATA_PROCESSING::DECODE;
 	acq_mode = ACQ_MODE::BLOCKING;
 	settings.acq_len = j.at("BufferLength");
-	settings.packet_size = 0;
-	for (auto& r : j.at("listOfWord")) {
-		settings.packet_size++;
-	}
 
-	if (settings.packet_size == 0) settings.packet_size = 1;
+	settings.channels = j.at("Channels");
+	
+	header_size = 9;
+
+	settings.packet_size = settings.channels + header_size;
 
 	transfer_size = floor((double)settings.acq_len / (double)settings.packet_size)* settings.packet_size;
 	threaded_buffer_size = 100000;
