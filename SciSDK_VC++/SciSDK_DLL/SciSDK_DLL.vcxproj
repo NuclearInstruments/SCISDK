@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\src\SciSDK_DLL.h" />
     <ClInclude Include="..\..\src\scisdk_DT5550W_citirocconfig.h" />
     <ClInclude Include="..\..\src\scisdk_fftmon.h" />
+    <ClInclude Include="..\..\src\scisdk_frame.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
     <ClInclude Include="..\..\src\scisdk_list.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="..\..\src\SciSDK_DLL.cpp" />
     <ClCompile Include="..\..\src\scisdk_DT5550W_citirocconfig.cpp" />
     <ClCompile Include="..\..\src\scisdk_fftmon.cpp" />
+    <ClCompile Include="..\..\src\scisdk_frame.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />
     <ClCompile Include="..\..\src\scisdk_list.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />

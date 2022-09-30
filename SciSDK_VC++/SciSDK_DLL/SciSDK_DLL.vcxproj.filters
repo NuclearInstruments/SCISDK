@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\src\scisdk_DT5550W_citirocconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\scisdk_frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -150,6 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\scisdk_DT5550W_citirocconfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\scisdk_frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
