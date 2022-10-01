@@ -57,7 +57,14 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 	RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32, this);
-	RegisterParameter("check_align_word", "if true, check the packet alignment", SciSDK_Paramcb::Type::str, listOfBool, this);
+
+	const std::list<std::string> listOfTrgMode = { "or","and", "trig", "sync_trig" };
+	RegisterParameter("trigger_mode", "set acquisition trigger mode", SciSDK_Paramcb::Type::str, listOfTrgMode, this);
+	RegisterParameter("trigger_mask", "set bit to 1 to mask specific channel from trigger", SciSDK_Paramcb::Type::U32, this);
+	RegisterParameter("wait_coincidence", "coincidence window width from trigger (clk cycles) waiting for all channels energy", SciSDK_Paramcb::Type::U32, this);
+	const std::list<std::string> listOfSyncMode = { "slave","master" };
+	RegisterParameter("sync_mode", "master generate timestamp clock, reset and trigger out, slave use sync clock for timestamp and receive reset and trigger from master", SciSDK_Paramcb::Type::str, listOfSyncMode, this);
+
 
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
@@ -77,7 +84,14 @@ NI_RESULT SciSDK_Frame::ISetParamU32(string name, uint32_t value) {
 		threaded_buffer_size = value;
 		return NI_OK;
 	}
-
+	else if (name == "trigger_mask") {
+		t0mask = value;
+		return NI_OK;
+	}
+	else if (name == "wait_coincidence") {
+		wait_coincidence = value;
+		return NI_OK;
+	}
 	return NI_INVALID_PARAMETER;
 }
 NI_RESULT SciSDK_Frame::ISetParamI32(string name, int32_t value) {
@@ -135,16 +149,32 @@ NI_RESULT SciSDK_Frame::ISetParamString(string name, string value) {
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
-	else if (name == "check_align_word") {
-		if (!valid_align_word) {
-			return NI_PARAMETER_CAN_NOT_BE_SET_WITH_THIS_CONFIG;
-		}
-		if (value == "true") {
-			check_align_word = true;
+	else if (name == "trigger_mode") {
+		if (value == "or") {
+			trigger_mode = TRIGGER_MODE::OR;
 			return NI_OK;
 		}
-		else if (value == "false") {
-			check_align_word = false;
+		else if (value == "and") {
+			trigger_mode = TRIGGER_MODE::AND;
+			return NI_OK;
+		}
+		else if (value == "trig") {
+			trigger_mode = TRIGGER_MODE::TRIG;
+			return NI_OK;
+		}
+		else if (value == "sync_trig") {
+			trigger_mode = TRIGGER_MODE::SYNCTRIG;
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "sync_mode") {
+		if (value == "slave") {
+			sync_mode = SYNC_MODE::SLAVE;
+			return NI_OK;
+		}
+		else if (value == "master") {
+			sync_mode = SYNC_MODE::MASTER;
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -160,6 +190,14 @@ NI_RESULT SciSDK_Frame::IGetParamU32(string name, uint32_t *value) {
 	}
 	else if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
+		return NI_OK;
+	}
+	else if (name == "trigger_mask") {
+		*value = t0mask;
+		return NI_OK;
+	}
+	else if (name == "wait_coincidence") {
+		*value = wait_coincidence;
 		return NI_OK;
 	}
 
@@ -237,6 +275,36 @@ NI_RESULT SciSDK_Frame::IGetParamString(string name, string *value) {
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
+	else if (name == "trigger_mode") {
+		if (trigger_mode == TRIGGER_MODE::OR) {
+			*value = "or";
+			return NI_OK;
+		}
+		else if (trigger_mode == TRIGGER_MODE::AND) {
+			*value = "and";
+			return NI_OK;
+		}
+		else if (trigger_mode == TRIGGER_MODE::TRIG) {
+			*value = "trig";
+			return NI_OK;
+		}
+		else if (trigger_mode == TRIGGER_MODE::SYNCTRIG) {
+			*value = "sync_trig";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "sync_mode") {
+		if (sync_mode == SYNC_MODE::SLAVE) {
+			*value = "slave";
+			return NI_OK;
+		}
+		else if (sync_mode == SYNC_MODE::MASTER) {
+			*value = "master";
+			return NI_OK;
+		}
+		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
 	return NI_INVALID_PARAMETER;
 }
 
@@ -246,46 +314,51 @@ NI_RESULT SciSDK_Frame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 
 NI_RESULT SciSDK_Frame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
 	if (bt == T_BUFFER_TYPE_DECODED) {
-		*buffer = (SCISDK_CP_DECODED_BUFFER *)malloc(sizeof(SCISDK_CP_DECODED_BUFFER));
+		*buffer = (SCISDK_FRAME_DECODED_BUFFER *)malloc(sizeof(SCISDK_FRAME_DECODED_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_CP_DECODED_BUFFER *p;
-		p = (SCISDK_CP_DECODED_BUFFER*)*buffer;
-		p->data = (SCISDK_CP_PACKET*)malloc(sizeof(SCISDK_CP_PACKET) * (buffer_size));
+		SCISDK_FRAME_DECODED_BUFFER *p;
+		p = (SCISDK_FRAME_DECODED_BUFFER*)*buffer;
+		p->data = (SCISDK_FRAME_PACKET*)malloc(sizeof(SCISDK_FRAME_PACKET) * (buffer_size));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		for (int i = 0; i < size; i++) {
-			p->data[i].n = settings.packet_size;
-			p->data[i].row = (uint32_t*)malloc(sizeof(uint32_t) * (p->data[i].n));
-			if (p->data[i].row == NULL) {
+			p->data[i].n = settings.channels;
+			p->data[i].pixel = (uint32_t*)malloc(sizeof(uint32_t) * (settings.channels));
+			if (p->data[i].pixel == NULL) {
 				return NI_ALLOC_FAILED;
 			}
+			p->data[i].event_count = 0;
+			p->data[i].hits = 0x0;
+			p->data[i].timestamp = 0x0;
+			p->data[i].trigger_count = 0x0;
 		}
 
-		p->magic = BUFFER_TYPE_CP_DECODED;
+		p->magic = BUFFER_TYPE_FRAME_DECODED;
 		p->info.buffer_size = buffer_size;
-		p->info.packet_size = settings.packet_size;
 		p->info.valid_data = 0;
+		
 		return NI_OK;
 	}
 	else	if (bt == T_BUFFER_TYPE_RAW) {
-		*buffer = (SCISDK_CP_RAW_BUFFER *)malloc(sizeof(SCISDK_CP_RAW_BUFFER));
+		*buffer = (SCISDK_FRAME_RAW_BUFFER *)malloc(sizeof(SCISDK_FRAME_RAW_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_CP_RAW_BUFFER *p;
-		p = (SCISDK_CP_RAW_BUFFER*)*buffer;
+		SCISDK_FRAME_RAW_BUFFER *p;
+		p = (SCISDK_FRAME_RAW_BUFFER*)*buffer;
 		p->data = (uint32_t*)malloc(sizeof(int32_t) * (buffer_size + 8));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
-		p->magic = BUFFER_TYPE_CP_RAW;
+		p->magic = BUFFER_TYPE_FRAME_RAW;
 
 		p->info.buffer_size = buffer_size;
+		p->info.packet_size = settings.packet_size;
 		p->info.valid_data = 0;
 		return NI_OK;
 	}
@@ -298,8 +371,8 @@ NI_RESULT SciSDK_Frame::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
-		SCISDK_CP_RAW_BUFFER *p;
-		p = (SCISDK_CP_RAW_BUFFER*)*buffer;
+		SCISDK_FRAME_RAW_BUFFER *p;
+		p = (SCISDK_FRAME_RAW_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			free(p->data);
 			p->data = NULL;
@@ -315,12 +388,12 @@ NI_RESULT SciSDK_Frame::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
 
-		SCISDK_CP_DECODED_BUFFER *p;
-		p = (SCISDK_CP_DECODED_BUFFER*)*buffer;
+		SCISDK_FRAME_DECODED_BUFFER *p;
+		p = (SCISDK_FRAME_DECODED_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			for (int i = 0; i < p->info.buffer_size; i++) {
-				if (p->data[i].row != NULL) {
-					free(p->data[i].row);
+				if (p->data[i].pixel != NULL) {
+					free(p->data[i].pixel);
 				}
 			}
 			free(p->data);
@@ -349,9 +422,9 @@ NI_RESULT SciSDK_Frame::ReadData(void *buffer) {
 		//to user without interaction with the hardware.
 		if (data_processing == DATA_PROCESSING::DECODE) {
 			int exit_code = -1;
-			SCISDK_CP_DECODED_BUFFER *p;
-			p = (SCISDK_CP_DECODED_BUFFER *)buffer;
-			if (p->magic != BUFFER_TYPE_CP_DECODED) return NI_INVALID_BUFFER_TYPE;
+			SCISDK_FRAME_DECODED_BUFFER *p;
+			p = (SCISDK_FRAME_DECODED_BUFFER *)buffer;
+			if (p->magic != BUFFER_TYPE_FRAME_DECODED) return NI_INVALID_BUFFER_TYPE;
 			p->info.valid_data = 0;
 
 			auto t_start = std::chrono::high_resolution_clock::now();
@@ -362,7 +435,29 @@ repeat_blocking:
 				int ridx = 0;
 				bool store;
 				if (pQ.size() >= settings.packet_size) {
+					DECODE_SM sm;
 					while (pQ.size() > 0) {
+						switch (sm) {
+							case DECODE_SM::HEADER_1 : 
+								if (pQ.front() == 0xFFFFFFFF){
+									sm = DECODE_SM::HEADER_2;
+								} 
+								break;
+							case DECODE_SM::HEADER_2:
+								if (pQ.front() == 12345678) {
+									sm = DECODE_SM::TIMESTAMP_1;
+								}
+								break;
+							case DECODE_SM::TIMESTAMP_1:
+								p->data[p->info.valid_data].timestamp = ((uint64_t)pQ.front()) << 32UL;
+								sm = DECODE_SM::TIMESTAMP_2;
+								break;
+							case DECODE_SM::TIMESTAMP_2:
+								p->data[p->info.valid_data].timestamp += ((uint64_t)pQ.front());
+								sm = DECODE_SM::COUNT_IN_1;
+								break;
+						}
+
 						if (check_align_word == true) {
 							if (ridx == 0) {
 								if (pQ.front() == first_word_const_value) {
@@ -385,7 +480,7 @@ repeat_blocking:
 						}
 
 						if (store == true) {
-							p->data[p->info.valid_data].row[ridx] = pQ.front();
+							p->data[p->info.valid_data].pixel[ridx] = pQ.front();
 							pQ.pop();
 							ridx++;
 							if (ridx == settings.packet_size) {
@@ -447,8 +542,8 @@ repeat_blocking:
 
 			// read raw data
 			int exit_code = -1;
-			SCISDK_CP_RAW_BUFFER *p;
-			p = (SCISDK_CP_RAW_BUFFER *)buffer;
+			SCISDK_FRAME_RAW_BUFFER *p;
+			p = (SCISDK_FRAME_RAW_BUFFER *)buffer;
 			uint32_t buffer_size_dw = p->info.buffer_size;
 			p->info.valid_data = 0;
 

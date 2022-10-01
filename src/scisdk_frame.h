@@ -49,6 +49,35 @@ private:
 		DECODE
 	} data_processing;
 
+	enum class TRIGGER_MODE {
+		OR,
+		AND,
+		TRIG,
+		SYNCTRIG
+	} trigger_mode;
+
+	uint32_t t0mask;
+
+	uint32_t wait_coincidence;
+
+	enum class SYNC_MODE {
+		SLAVE,
+		MASTER
+	} sync_mode;
+
+	enum class DECODE_SM {
+		HEADER_1,
+		HEADER_2,
+		TIMESTAMP_1,
+		TIMESTAMP_2,
+		COUNT_IN_1,
+		COUNT_IN_2,
+		COUNT_OUT_1,
+		COUNT_OUT_2,
+		HITS,
+		PIXELS
+	} ;
+
 	struct {
 		uint32_t base;
 		uint32_t status;
