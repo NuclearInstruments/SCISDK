@@ -74,7 +74,8 @@ private:
 		COUNT_IN_2,
 		COUNT_OUT_1,
 		COUNT_OUT_2,
-		HITS,
+		HITS_1,
+		HITS_2,
 		PIXELS
 	} ;
 
@@ -105,7 +106,7 @@ private:
 		std::atomic<bool> isRunning;
 	} producer;
 
-	NI_RESULT ConfigureList();
+	NI_RESULT Configure();
 	NI_RESULT CmdStart();
 	NI_RESULT CmdStop();
 
@@ -114,9 +115,6 @@ private:
 	std::mutex h_mutex;
 	std::queue<uint32_t> pQ;
 
-	bool check_align_word;
-	bool valid_align_word;
-	uint32_t first_word_const_value;
 	uint32_t header_size;
 };
 #endif 

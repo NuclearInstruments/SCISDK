@@ -20,6 +20,7 @@
 #include "scisdk_registers.h"
 #include "scisdk_oscilloscope_dual.h"
 #include "scisdk_TOFspectrum.h"
+#include "scisdk_frame.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -473,6 +474,9 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						}
 						else if (ToUpper(r.at("Type")) == "TOFSPECTRUM") {
 							mmcs.push_back(new SciSDK_TOFSpectrum(_hal, r, parent + "/" + (string)it.key()));
+						}
+						else if (ToUpper(r.at("Type")) == "FRAMETRANSFER") {
+							mmcs.push_back(new SciSDK_Frame(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}

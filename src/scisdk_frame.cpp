@@ -22,10 +22,8 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 		if ((string)r.at("Name") == "CONFIG_SYNC") address.config_sync = (uint32_t)r.at("Address");
 	}
 
-	check_align_word = false;
 
-
-
+	threaded = true;
 	if (j.contains("UseDMA"))
 		settings.usedma = (bool)j.at("UseDMA");
 	else
@@ -46,11 +44,14 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 	isRunning = false;
 
 	__buffer = NULL;
-	cout << "Custom packet: " << name << " addr: " << address.base << endl;
+	cout << "Frame transfer: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
+	wait_coincidence = 0;
+	sync_mode = SYNC_MODE::MASTER;
+	trigger_mode = TRIGGER_MODE::TRIG;
+	t0mask = 0x0;
 
-	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double)1024 * 1024 * 1024, this);
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking" };
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
@@ -74,23 +75,18 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 
 NI_RESULT SciSDK_Frame::ISetParamU32(string name, uint32_t value) {
 
-	if (name == "acq_len") {
-		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
-		settings.acq_len = value;
-		return ConfigureList();
-	}
-	else if (name == "threaded_buffer_size") {
+	if (name == "threaded_buffer_size") {
 		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
 		threaded_buffer_size = value;
 		return NI_OK;
 	}
 	else if (name == "trigger_mask") {
 		t0mask = value;
-		return NI_OK;
+		return Configure();
 	}
 	else if (name == "wait_coincidence") {
 		wait_coincidence = value;
-		return NI_OK;
+		return Configure();
 	}
 	return NI_INVALID_PARAMETER;
 }
@@ -152,30 +148,30 @@ NI_RESULT SciSDK_Frame::ISetParamString(string name, string value) {
 	else if (name == "trigger_mode") {
 		if (value == "or") {
 			trigger_mode = TRIGGER_MODE::OR;
-			return NI_OK;
+			return Configure();
 		}
 		else if (value == "and") {
 			trigger_mode = TRIGGER_MODE::AND;
-			return NI_OK;
+			return Configure();
 		}
 		else if (value == "trig") {
 			trigger_mode = TRIGGER_MODE::TRIG;
-			return NI_OK;
+			return Configure();
 		}
 		else if (value == "sync_trig") {
 			trigger_mode = TRIGGER_MODE::SYNCTRIG;
-			return NI_OK;
+			return Configure();
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
 	else if (name == "sync_mode") {
 		if (value == "slave") {
 			sync_mode = SYNC_MODE::SLAVE;
-			return NI_OK;
+			return Configure();
 		}
 		else if (value == "master") {
 			sync_mode = SYNC_MODE::MASTER;
-			return NI_OK;
+			return Configure();
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
@@ -184,11 +180,7 @@ NI_RESULT SciSDK_Frame::ISetParamString(string name, string value) {
 }
 
 NI_RESULT SciSDK_Frame::IGetParamU32(string name, uint32_t *value) {
-	if (name == "acq_len") {
-		*value = settings.acq_len;
-		return NI_OK;
-	}
-	else if (name == "threaded_buffer_size") {
+	if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
 		return NI_OK;
 	}
@@ -254,23 +246,13 @@ NI_RESULT SciSDK_Frame::IGetParamString(string name, string *value) {
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
 	}
-	else if (name == "check_align_word") {
-		if (check_align_word == true) {
-			*value = "true";
-			return NI_OK;
-		}
-		else {
-			*value = "false";
-			return NI_OK;
-		}
-	}
 	else if (name == "buffer_type") {
 		if (data_processing == DATA_PROCESSING::RAW) {
-			*value = "SCISDK_CP_RAW_BUFFER";
+			*value = "SCISDK_FRAME_RAW_BUFFER";
 			return NI_OK;
 		}
 		else if (data_processing == DATA_PROCESSING::DECODE) {
-			*value = "SCISDK_CP_DECODED_BUFFER";
+			*value = "SCISDK_FRAME_DECODED_BUFFER";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -433,18 +415,20 @@ repeat_blocking:
 			h_mutex.lock();
 			if (pQ.size() > 0) {					
 				int ridx = 0;
-				bool store;
+				
 				if (pQ.size() >= settings.packet_size) {
 					DECODE_SM sm;
-					while (pQ.size() > 0) {
+					sm = DECODE_SM::HEADER_1;
+					while (pQ.size() >= settings.packet_size) {
 						switch (sm) {
 							case DECODE_SM::HEADER_1 : 
 								if (pQ.front() == 0xFFFFFFFF){
 									sm = DECODE_SM::HEADER_2;
+									ridx = 0;
 								} 
 								break;
 							case DECODE_SM::HEADER_2:
-								if (pQ.front() == 12345678) {
+								if (pQ.front() == 0x12345678) {
 									sm = DECODE_SM::TIMESTAMP_1;
 								}
 								break;
@@ -456,43 +440,46 @@ repeat_blocking:
 								p->data[p->info.valid_data].timestamp += ((uint64_t)pQ.front());
 								sm = DECODE_SM::COUNT_IN_1;
 								break;
-						}
-
-						if (check_align_word == true) {
-							if (ridx == 0) {
-								if (pQ.front() == first_word_const_value) {
-									if (pQ.size() < settings.packet_size) {
-										break;
-									}
-									store = true;
+							case DECODE_SM::COUNT_IN_1:
+								p->data[p->info.valid_data].trigger_count = ((uint64_t)pQ.front()) << 32UL;
+								sm = DECODE_SM::COUNT_IN_2;
+								break;
+							case DECODE_SM::COUNT_IN_2:
+								p->data[p->info.valid_data].trigger_count += ((uint64_t)pQ.front());
+								sm = DECODE_SM::COUNT_OUT_1;
+								break;
+							case DECODE_SM::COUNT_OUT_1:
+								p->data[p->info.valid_data].event_count = ((uint64_t)pQ.front()) << 32UL;
+								sm = DECODE_SM::COUNT_OUT_2;
+								break;
+							case DECODE_SM::COUNT_OUT_2:
+								p->data[p->info.valid_data].event_count += ((uint64_t)pQ.front());
+								sm = DECODE_SM::HITS_1;
+								break;
+							case DECODE_SM::HITS_1:
+								p->data[p->info.valid_data].hits = ((uint64_t)pQ.front());
+								if (settings.channels > 32) {
+									sm = DECODE_SM::HITS_2;
 								}
 								else {
-									pQ.pop();
-									store = false;
+									sm = DECODE_SM::PIXELS;
 								}
-							}
-							else {
-
-							}
+								break;
+							case DECODE_SM::HITS_2:
+								p->data[p->info.valid_data].hits += ((uint64_t)pQ.front()) << 32UL;
+								sm = DECODE_SM::PIXELS;
+								break;
+							case DECODE_SM::PIXELS:
+								p->data[p->info.valid_data].pixel[ridx++] = pQ.front();
+								if (ridx == settings.channels) {
+									p->info.valid_data++;
+								}
+								break;
 						}
-						else {
-							store = true;
-						}
 
-						if (store == true) {
-							p->data[p->info.valid_data].pixel[ridx] = pQ.front();
-							pQ.pop();
-							ridx++;
-							if (ridx == settings.packet_size) {
-								p->info.valid_data++;
-								ridx = 0;
-								if (pQ.size() < settings.packet_size){	//no more data in the buffer to complete a packet
-									break;
-								}
-								if (p->info.valid_data >= p->info.buffer_size) { // no more space in output buffer
-									break;
-								}
-							}
+						pQ.pop();
+						if (p->info.valid_data >= p->info.buffer_size) { // no more space in output buffer
+							break;
 						}
 						
 					}
@@ -594,12 +581,12 @@ repeat_blocking_raw:
 
 
 		if (data_processing == DATA_PROCESSING::DECODE) {
-			SCISDK_CP_DECODED_BUFFER *p;
-			p = (SCISDK_CP_DECODED_BUFFER *)buffer;
+			SCISDK_FRAME_DECODED_BUFFER *p;
+			p = (SCISDK_FRAME_DECODED_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_CP_DECODED) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_FRAME_DECODED) return NI_INVALID_BUFFER_TYPE;
 
-			uint32_t buffer_size_dw = p->info.buffer_size * p->info.packet_size;
+			uint32_t buffer_size_dw = p->info.buffer_size * settings.packet_size;
 
 			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
 				uint32_t status;
@@ -621,37 +608,68 @@ repeat_blocking_raw:
 					return NI_NO_DATA_AVAILABLE;
 				}
 
-				int pkcount = 0;
+				p->info.valid_data = 0;
 				int ridx = 0;
-				bool store;
+				DECODE_SM sm;
+				sm = DECODE_SM::HEADER_1;
 				for (int i = 0; i < vd; i++) {
-					if (check_align_word == true) {
-						if (ridx == 0) {
-							if (buffer[i] == first_word_const_value) {
-								store = true;
-							}
-							else {
-								store = false;
-							}
-						}
-						else {
-
-						}
-					}
-					else {
-						store = true;
-					}
-
-					if (store == true) {
-						p->data[pkcount].row[ridx] = buffer[i];
-						ridx++;
-						if (ridx == settings.packet_size) {
-							pkcount++;
+					switch (sm) {
+					case DECODE_SM::HEADER_1:
+						if (buffer[i] == 0xFFFFFFFF) {
+							sm = DECODE_SM::HEADER_2;
 							ridx = 0;
 						}
+						break;
+					case DECODE_SM::HEADER_2:
+						if (buffer[i] == 0x12345678) {
+							sm = DECODE_SM::TIMESTAMP_1;
+						}
+						break;
+					case DECODE_SM::TIMESTAMP_1:
+						p->data[p->info.valid_data].timestamp = ((uint64_t)buffer[i]) << 32UL;
+						sm = DECODE_SM::TIMESTAMP_2;
+						break;
+					case DECODE_SM::TIMESTAMP_2:
+						p->data[p->info.valid_data].timestamp += ((uint64_t)buffer[i]);
+						sm = DECODE_SM::COUNT_IN_1;
+						break;
+					case DECODE_SM::COUNT_IN_1:
+						p->data[p->info.valid_data].trigger_count = ((uint64_t)buffer[i]) << 32UL;
+						sm = DECODE_SM::COUNT_IN_2;
+						break;
+					case DECODE_SM::COUNT_IN_2:
+						p->data[p->info.valid_data].trigger_count += ((uint64_t)buffer[i]);
+						sm = DECODE_SM::COUNT_OUT_1;
+						break;
+					case DECODE_SM::COUNT_OUT_1:
+						p->data[p->info.valid_data].event_count = ((uint64_t)buffer[i]) << 32UL;
+						sm = DECODE_SM::COUNT_OUT_2;
+						break;
+					case DECODE_SM::COUNT_OUT_2:
+						p->data[p->info.valid_data].event_count += ((uint64_t)buffer[i]);
+						sm = DECODE_SM::HITS_1;
+						break;
+					case DECODE_SM::HITS_1:
+						p->data[p->info.valid_data].hits = ((uint64_t)buffer[i]);
+						if (settings.channels > 32) {
+							sm = DECODE_SM::HITS_2;
+						}
+						else {
+							sm = DECODE_SM::PIXELS;
+						}
+						break;
+					case DECODE_SM::HITS_2:
+						p->data[p->info.valid_data].hits += ((uint64_t)buffer[i]) << 32UL;
+						sm = DECODE_SM::PIXELS;
+						break;
+					case DECODE_SM::PIXELS:
+						p->data[p->info.valid_data].pixel[ridx++] = buffer[i];
+						if (ridx == settings.channels) {
+							p->info.valid_data++;
+						}
+						break;
 					}
 				}
-				p->info.valid_data = pkcount;
 				free(buffer);
 				return NI_OK;
 			}
@@ -661,10 +679,10 @@ repeat_blocking_raw:
 
 		}
 		else {
-			SCISDK_CP_RAW_BUFFER *p;
-			p = (SCISDK_CP_RAW_BUFFER *)buffer;
+			SCISDK_FRAME_RAW_BUFFER *p;
+			p = (SCISDK_FRAME_RAW_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_CP_RAW) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_FRAME_RAW) return NI_INVALID_BUFFER_TYPE;
 
 			uint32_t buffer_size_dw = p->info.buffer_size;
 
@@ -710,8 +728,33 @@ NI_RESULT SciSDK_Frame::ReadStatus(void *buffer) {
 	return NI_OK;
 }
 
-NI_RESULT SciSDK_Frame::ConfigureList() {
+NI_RESULT SciSDK_Frame::Configure() {
+	switch (trigger_mode) {
+	case TRIGGER_MODE::OR:
+		_hal->WriteReg(0, address.config_trigger_mode);
+		break;
+	case TRIGGER_MODE::AND:
+		_hal->WriteReg(1, address.config_trigger_mode);
+		break;
+	case TRIGGER_MODE::TRIG:
+		_hal->WriteReg(2, address.config_trigger_mode);
+		break;
+	case TRIGGER_MODE::SYNCTRIG:
+		_hal->WriteReg(4, address.config_trigger_mode);
+		break;
+	}
 
+	switch (sync_mode) {
+	case SYNC_MODE::MASTER:
+		_hal->WriteReg(0, address.config_sync);
+		break;
+	case SYNC_MODE::SLAVE:
+		_hal->WriteReg(1, address.config_sync);
+		break;
+	}
+
+	_hal->WriteReg(t0mask, address.config_t0mask);
+	_hal->WriteReg(wait_coincidence, address.config_wait );
 	return NI_OK;
 }
 
@@ -720,6 +763,7 @@ NI_RESULT SciSDK_Frame::CmdStart() {
 		return NI_ALREADY_RUNNING;
 	}
 
+	Configure();
 	//Critical section : configure and clear list
 	h_mutex.lock();
 	while (!pQ.empty()) pQ.pop();
