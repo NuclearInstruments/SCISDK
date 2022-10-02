@@ -576,12 +576,12 @@ int main()
 	if (ret == NI_OK)
 	{
 		sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/ImageReadout_0.start", ""));
-		//for (int i = 0;i < 100000; i++)
-		//	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CREG_0.register_0", q++));
 		while (1) {
 			int ret = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", (void *)frameD);
 			if (ret == NI_OK) {
-				
+				//for (int i = 0;i < 100; i++)
+				//	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CREG_0.register_0", q++));
+
 
 				for (int i = 0;i < frameD->info.valid_data; i++) {
 					cout << "*TIMESTAMP:" << frameD->data[i].timestamp << "   TRG: " << frameD->data[i].trigger_count << endl;
