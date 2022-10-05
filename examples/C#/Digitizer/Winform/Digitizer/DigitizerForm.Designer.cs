@@ -173,11 +173,6 @@
             0,
             0,
             0});
-            this.num_wave_length.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
             this.num_wave_length.Name = "num_wave_length";
             this.num_wave_length.Size = new System.Drawing.Size(120, 20);
             this.num_wave_length.TabIndex = 28;
@@ -192,7 +187,6 @@
             // 
             this.track_wave_length.Location = new System.Drawing.Point(12, 327);
             this.track_wave_length.Maximum = 922;
-            this.track_wave_length.Minimum = 5;
             this.track_wave_length.Name = "track_wave_length";
             this.track_wave_length.Size = new System.Drawing.Size(219, 45);
             this.track_wave_length.SmallChange = 50;
@@ -213,9 +207,19 @@
             // num_number_of_waves
             // 
             this.num_number_of_waves.Location = new System.Drawing.Point(108, 373);
+            this.num_number_of_waves.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.num_number_of_waves.Name = "num_number_of_waves";
             this.num_number_of_waves.Size = new System.Drawing.Size(120, 20);
             this.num_number_of_waves.TabIndex = 31;
+            this.num_number_of_waves.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label4
             // 
@@ -232,6 +236,7 @@
             this.txt_filename.Name = "txt_filename";
             this.txt_filename.Size = new System.Drawing.Size(124, 20);
             this.txt_filename.TabIndex = 33;
+            this.txt_filename.Text = "c:\\temp\\abc.txt";
             // 
             // btn_select_file
             // 
@@ -241,6 +246,7 @@
             this.btn_select_file.TabIndex = 34;
             this.btn_select_file.Text = "...";
             this.btn_select_file.UseVisualStyleBackColor = true;
+            this.btn_select_file.Click += new System.EventHandler(this.btn_select_file_Click);
             // 
             // check_store_on_file
             // 

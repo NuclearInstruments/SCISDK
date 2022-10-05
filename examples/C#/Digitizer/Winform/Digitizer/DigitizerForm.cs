@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -29,7 +30,8 @@ namespace Digitizer
         JObject _digitizer_obj;             // object that describes oscilloscope inside JSON
         Timer update_timer;                 // timer used to update graph
         string digitizer_full_path;         // full path of digitizer component
-
+        string filename;                    // name of output string filename
+        string[] file_content;       //
         // series colors
         OxyColor[] series_colors = { OxyColor.FromRgb(51, 102, 255), OxyColor.FromRgb(0, 153, 51), OxyColor.FromRgb(255, 0, 0),
                                     OxyColor.FromRgb(204, 51, 153), OxyColor.FromRgb(204, 153, 0), OxyColor.FromRgb(102, 153, 153)};
@@ -37,6 +39,8 @@ namespace Digitizer
         FunctionSeries[] series;            // series displayed on graph
         int n_channels = 0;                 // number of available channels
         List<int> enabled_channels_options; // list of option of channels that can be enabled
+        int wave_counter = 0;
+        int n_samples;
 
         public DigitizerForm(SciSDK sdk, string board_name, string digitizer_name, string json_file_path, JObject digitizer_obj)
         {
@@ -50,6 +54,9 @@ namespace Digitizer
 
             // load the number of available channels
             n_channels = (int)digitizer_obj["Channels"];
+            
+            // load number of nsamples
+            n_samples = (int)digitizer_obj["nsamples"];
 
             // get available channels options and add children to enabled channels combobox
             string ret = "";
@@ -73,16 +80,20 @@ namespace Digitizer
             }
             // select last available item of enabled channels combobox
             cmb_enabled_ch.SelectedIndex = cmb_enabled_ch.Items.Count - 1;
-            
+
             // set board parameters
-            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_mode", "blocking");
-            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
-            sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 1000);
-            
+            sdk.SetParameter(digitizer_full_path + ".acq_mode", "blocking");
+            sdk.SetParameter(digitizer_full_path + ".data_processing", "decode");
+            sdk.SetParameter(digitizer_full_path + ".timeout", 1000);
+            // change value of acq lenght on board
+            _sdk.SetParameter(digitizer_full_path + ".acq_len", track_wave_length.Value);
+
             // initialize timer
             update_timer = new Timer();
             update_timer.Tick += Update_timer_Tick;
             update_timer.Interval = 100;
+
+            filename = txt_filename.Text;
         }
 
         // method call when form has been loaded
@@ -102,55 +113,104 @@ namespace Digitizer
         private void Update_timer_Tick(object sender, EventArgs e)
         {
             update_timer.Stop();
-            // allocate buffer
-            SciSDKDigitizerDecodedBuffer buffer = new SciSDKDigitizerDecodedBuffer();
-            int res = _sdk.AllocateBuffer(digitizer_full_path, BufferType.BUFFER_TYPE_DECODED, ref buffer);
-            if(res == 0)
+            if (wave_counter < num_number_of_waves.Value)
             {
-                // read data 
-                res = _sdk.ReadData(digitizer_full_path, ref buffer);
-                if(res == 0)
+                // allocate buffer
+                SciSDKDigitizerDecodedBuffer buffer = new SciSDKDigitizerDecodedBuffer();
+                int res = _sdk.AllocateBuffer(digitizer_full_path, BufferType.BUFFER_TYPE_DECODED, ref buffer);
+                if (res == 0)
                 {
-                    for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+                    // read data 
+                    res = _sdk.ReadData(digitizer_full_path, ref buffer);
+                    if (res == 0)
                     {
-                        series[i].Points.Clear();
-                    }
-                    graph.GetModel().Series.Clear();
-                    // plot graph
-                    for (int i = 0; i < check_displayed_channels.Items.Count; i++)
-                    {
-                        if (check_displayed_channels.GetItemChecked(i))
+                        for (int i = 0; i < check_displayed_channels.Items.Count; i++)
                         {
-                            for (int j = 0; j < buffer.info.samples; j++)
-                            {
-                                series[i].Points.Add(new DataPoint(j, buffer.analog[j + i * buffer.info.valid_samples]));
-                            }
-                            graph.GetModel().Series.Add(series[i]);
+                            series[i].Points.Clear();
                         }
+                        graph.GetModel().Series.Clear();
+                        // plot graph
+                        for (int i = 0; i < check_displayed_channels.Items.Count; i++)
+                        {
+                            file_content[i] = "";
+                            if (check_displayed_channels.GetItemChecked(i))
+                            {
+                                for (int j = 0; j < buffer.info.valid_samples; j++)
+                                {
+                                    series[i].Points.Add(new DataPoint(j, buffer.analog[j + i * buffer.info.valid_samples]));
+                                    file_content[i] += buffer.analog[j + i * buffer.info.valid_samples].ToString() + "\n";
+                                }
+                                graph.GetModel().Series.Add(series[i]);
+                            }
+                        }
+                        // invalidate graph (oxyplot repaints it)
+                        graph.GetModel().InvalidatePlot(true);
                     }
-                    
-                    // invalidate graph (oxyplot repaints it)
-                    graph.GetModel().InvalidatePlot(true);
+                    else
+                    {
+                        Console.WriteLine("read data error");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("read data error");
+                    Console.WriteLine("allocate buffer error");
+                }
+                wave_counter++;
+                if (wave_counter < num_number_of_waves.Value)
+                {
+                    update_timer.Start();
+                }
+                else
+                {
+                    // stop
+                    btn_stop.Enabled = false;
+                    btn_start.Enabled = true;
+                    lbl_status.Text = "IDLE";
+                    _sdk.ExecuteCommand(digitizer_full_path + ".stop", "");
+
+                    if (check_store_on_file.Checked == true)
+                    {
+                        // store on file
+                        string file_content_str = "";
+                        for (int i = 0; i < file_content.Length; i++)
+                        {
+                            if (file_content[i] != "")
+                                file_content_str += "CHANNEL " + (i + 1) + ":\n" + file_content[i];
+                        }
+                        File.WriteAllText(filename, file_content_str);
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("allocate buffer error");
+                // stop
+                btn_stop.Enabled = false;
+                btn_start.Enabled = true;
+                lbl_status.Text = "IDLE";
+                _sdk.ExecuteCommand(digitizer_full_path + ".stop", "");
+                if (check_store_on_file.Checked == true)
+                {
+                    // store on file
+                    string file_content_str = "";
+                    for (int i = 0; i < file_content.Length; i++)
+                    {
+                        if (file_content[i] != "")
+                            file_content_str += "CHANNEL " + (i + 1) + ":\n" + file_content[i];
+                    }
+                    File.WriteAllText(filename, file_content_str);
+                }
             }
-            update_timer.Start();
         }
 
         // event called when start button has been clicked
         private void btn_start_Click(object sender, EventArgs e)
         {
+            file_content = new string[n_channels];
             btn_stop.Enabled = true;
             btn_start.Enabled = false;
             lbl_status.Text = "Waiting for trigger";
-            _sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+            Console.WriteLine(_sdk.ExecuteCommand(digitizer_full_path + ".start", ""));
+            wave_counter = 0;
             // start reading data
             update_timer.Start();
         }
@@ -161,9 +221,20 @@ namespace Digitizer
             btn_stop.Enabled = false;
             btn_start.Enabled = true;
             lbl_status.Text = "IDLE";
-            _sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.stop", "");
+            _sdk.ExecuteCommand(digitizer_full_path + ".stop", "");
             // stop reading data
             update_timer.Stop();
+            if (check_store_on_file.Checked == true)
+            {
+                // store on file
+                string file_content_str = "";
+                for (int i = 0; i < file_content.Length; i++)
+                {
+                    if (file_content[i] != "")
+                        file_content_str += "CHANNEL " + (i + 1) + ":\n" + file_content[i];
+                }
+                File.WriteAllText(filename, file_content_str);
+            }
         }
 
 
@@ -192,14 +263,15 @@ namespace Digitizer
 
         private void track_wave_length_Scroll(object sender, EventArgs e)
         {
-            num_wave_length.Value = track_wave_length.Value;
+            double nch = Math.Pow(2, cmb_enabled_ch.SelectedIndex);
+            num_wave_length.Value = Convert.ToDecimal(Math.Floor(track_wave_length.Value * (nch / n_channels)) * (n_channels / nch));
         }
 
         private void num_wave_length_ValueChanged(object sender, EventArgs e)
         {
             track_wave_length.Value = (int)num_wave_length.Value;
             // change value of acq lenght on board
-            _sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", track_wave_length.Value);
+            _sdk.SetParameter(digitizer_full_path + ".acq_len", track_wave_length.Value);
         }
 
         // event called when combobox enabled channel selected index has been changed
@@ -219,13 +291,25 @@ namespace Digitizer
             series = new FunctionSeries[check_displayed_channels.Items.Count];
             for (int i = 0; i < check_displayed_channels.Items.Count; i++)
             {
-                series[i] = new FunctionSeries();                
+                series[i] = new FunctionSeries();
             }
 
-            // change
+            // change maximum value of wave length track
+            double nch = Math.Pow(2, cmb_enabled_ch.SelectedIndex);
+
+            track_wave_length.Maximum = Convert.ToInt32((n_samples / (nch / n_channels)) - 64);
+            num_wave_length.Maximum = track_wave_length.Maximum;
+        }
+
+        private void btn_select_file_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "*.txt|(*.txt)";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                filename = sfd.FileName;
+                txt_filename.Text = filename;
+            }
         }
     }
-
-
 }
-
