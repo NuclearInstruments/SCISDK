@@ -70,6 +70,9 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
+
+	producer.isRunning = false;
+	producer.canRun = false;
 }
 
 
@@ -823,6 +826,7 @@ void SciSDK_Frame::producer_thread() {
 			if (!go) {
 				std::this_thread::sleep_for(std::chrono::microseconds(100));
 			}
+			if (!producer.canRun) return;
 		} while (go == false);
 
 		if (!high_performance) {

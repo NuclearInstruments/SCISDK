@@ -50,7 +50,7 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	}
 	
 	RegisterParameter("enabledch", "enabled channels selector", SciSDK_Paramcb::Type::U32, listOfchannels, this);
-	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) settings.nsamples,   this);
+	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) settings.nsamples* settings.nchannels,   this);
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
@@ -61,6 +61,8 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
+	producer.isRunning = false;
+	producer.canRun = false;
 }
 
 
@@ -405,8 +407,8 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 							p->analog[ii++] = pQ.front() & 0xFFFF;
 							p->analog[ii++] = (pQ.front() >> 16) & 0xFFFF;
 						} else {
-							p->analog[ii + (2 * pQs * settings.nsamples) ] = pQ.front() & 0xFFFF;
-							p->analog[ii + ((2 * pQs + 1) * settings.nsamples) ] = (pQ.front()>>16) & 0xFFFF;
+							p->analog[ii + (2 * pQs * acq_len) ] = pQ.front() & 0xFFFF;
+							p->analog[ii + ((2 * pQs + 1) * acq_len) ] = (pQ.front()>>16) & 0xFFFF;
 							pQs++;
 							if (pQs == pQt) { 
 								pQs = 0;  
@@ -540,8 +542,8 @@ NI_RESULT SciSDK_Digitizer::CmdStop() {
 }
 
 void SciSDK_Digitizer::producer_thread() {
-	bool toTarget = false;
-	while (!toTarget && producer.canRun) {
+
+	while ( producer.canRun) {
 		uint32_t vd=0;
 		uint32_t _size = 0;
 		bool go = false;
@@ -552,6 +554,7 @@ void SciSDK_Digitizer::producer_thread() {
 			if (!go) {
 				std::this_thread::sleep_for(std::chrono::microseconds(100));
 			}
+			if (!producer.canRun) return;
 		} while (go == false);
 
 		if (!high_performance) {

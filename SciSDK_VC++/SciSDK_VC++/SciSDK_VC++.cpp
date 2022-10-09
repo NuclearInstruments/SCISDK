@@ -252,7 +252,7 @@ int main()
 	SciSDK sdk;
 	//DAVIDE 13250
 	//ANDREA 10500
-	int res = sdk.AddNewDevice("usb:10500", "dt1260", "Frame.json", "board0");
+	int res = sdk.AddNewDevice("usb:10500", "dt1260", "C:/temp/test_newosc/library/RegisterFile.json", "board0");
 	//void* _sdk = SCISDK_InitLib();
 
 	// REGISTRI
@@ -424,23 +424,26 @@ int main()
 	//}
 
 
-	//// DIGITIZER raw
-	//SCISDK_DIGITIZER_RAW_BUFFER *ddb;
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 100));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "raw"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1));
-	//sdk.p_error(__LINE__, sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_mode", "non-blocking"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 10000));
-	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", ""));
-	//while (1) {
-	//	int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
-	//	if (ret == NI_OK) {
-	//		for (int i = 0; i < ddb->info.valid_samples; i++) {
-	//			cout << std::hex  << ddb->data[i] << endl;
-	//		}	
-	//	}
-	//}
+	// DIGITIZER raw
+	SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1));
+	sdk.p_error(__LINE__, sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 1000));
+
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb));
+
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", ""));
+	while (1) {
+		int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		if (ret == NI_OK) {
+			for (int i = 0; i < ddb->info.valid_samples; i++) {
+				cout << std::hex  << ddb->analog[i] << endl;
+			}	
+		}
+	}
 
 
 	//// LIST raw
@@ -563,42 +566,42 @@ int main()
 	//sdk.p_error(sdk.DetachDevice("board0"));
 	//sdk.p_error(sdk.DetachDevice("board1"));
 
-	//FRAME TEST
-	SCISDK_FRAME_DECODED_BUFFER *frameD;
-	sdk.p_error(sdk.SetRegister("board0:/Registers/period", 100000));
-	int q = 0;
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.acq_mode", "non-blocking"));
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.data_processing", "decode"));
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.thread", "true"));
-	int ret = sdk.AllocateBuffer("board0:/MMCComponents/ImageReadout_0", T_BUFFER_TYPE_DECODED, (void**)&frameD,100);
+	////FRAME TEST
+	//SCISDK_FRAME_DECODED_BUFFER *frameD;
+	//sdk.p_error(sdk.SetRegister("board0:/Registers/period", 100000));
+	//int q = 0;
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.acq_mode", "non-blocking"));
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.data_processing", "decode"));
+	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.thread", "true"));
+	//int ret = sdk.AllocateBuffer("board0:/MMCComponents/ImageReadout_0", T_BUFFER_TYPE_DECODED, (void**)&frameD,100);
 
-	
-	if (ret == NI_OK)
-	{
-		sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/ImageReadout_0.start", ""));
-		while (1) {
-			int ret = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", (void *)frameD);
-			if (ret == NI_OK) {
-				//for (int i = 0;i < 100; i++)
-				//	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CREG_0.register_0", q++));
+	//
+	//if (ret == NI_OK)
+	//{
+	//	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/ImageReadout_0.start", ""));
+	//	while (1) {
+	//		int ret = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", (void *)frameD);
+	//		if (ret == NI_OK) {
+	//			//for (int i = 0;i < 100; i++)
+	//			//	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/CREG_0.register_0", q++));
 
 
-				for (int i = 0;i < frameD->info.valid_data; i++) {
-					cout << "*TIMESTAMP:" << frameD->data[i].timestamp << "   TRG: " << frameD->data[i].trigger_count << endl;
-					cout << "    ";
-					for (int j = 0;j < frameD->data[i].n;j++) {
-						cout << frameD->data[i].pixel[j] << " ";
-					}
-					cout << endl;
-				}
-			}
-		}
-	}
-	else {
-		cout << "unable to allocate buffer" << endl;
-		sdk.p_error(ret);
-		return -1;
-	}
+	//			for (int i = 0;i < frameD->info.valid_data; i++) {
+	//				cout << "*TIMESTAMP:" << frameD->data[i].timestamp << "   TRG: " << frameD->data[i].trigger_count << endl;
+	//				cout << "    ";
+	//				for (int j = 0;j < frameD->data[i].n;j++) {
+	//					cout << frameD->data[i].pixel[j] << " ";
+	//				}
+	//				cout << endl;
+	//			}
+	//		}
+	//	}
+	//}
+	//else {
+	//	cout << "unable to allocate buffer" << endl;
+	//	sdk.p_error(ret);
+	//	return -1;
+	//}
 
 
 	return 0;

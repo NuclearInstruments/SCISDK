@@ -56,9 +56,10 @@
             // check_displayed_channels
             // 
             this.check_displayed_channels.FormattingEnabled = true;
-            this.check_displayed_channels.Location = new System.Drawing.Point(12, 12);
+            this.check_displayed_channels.Location = new System.Drawing.Point(18, 18);
+            this.check_displayed_channels.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_displayed_channels.Name = "check_displayed_channels";
-            this.check_displayed_channels.Size = new System.Drawing.Size(216, 214);
+            this.check_displayed_channels.Size = new System.Drawing.Size(322, 319);
             this.check_displayed_channels.TabIndex = 0;
             // 
             // btn_start
@@ -66,9 +67,10 @@
             this.btn_start.BackColor = System.Drawing.Color.Transparent;
             this.btn_start.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_start.BackgroundImage")));
             this.btn_start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_start.Location = new System.Drawing.Point(248, 19);
+            this.btn_start.Location = new System.Drawing.Point(372, 29);
+            this.btn_start.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(35, 35);
+            this.btn_start.Size = new System.Drawing.Size(52, 54);
             this.btn_start.TabIndex = 1;
             this.btn_start.UseVisualStyleBackColor = false;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
@@ -78,9 +80,10 @@
             this.btn_stop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btn_stop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop.BackgroundImage")));
             this.btn_stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_stop.Location = new System.Drawing.Point(293, 19);
+            this.btn_stop.Location = new System.Drawing.Point(440, 29);
+            this.btn_stop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(35, 35);
+            this.btn_stop.Size = new System.Drawing.Size(52, 54);
             this.btn_stop.TabIndex = 2;
             this.btn_stop.UseVisualStyleBackColor = false;
             this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
@@ -89,9 +92,10 @@
             // 
             this.lbl2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl2.AutoSize = true;
-            this.lbl2.Location = new System.Drawing.Point(795, 31);
+            this.lbl2.Location = new System.Drawing.Point(1192, 48);
+            this.lbl2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl2.Name = "lbl2";
-            this.lbl2.Size = new System.Drawing.Size(50, 13);
+            this.lbl2.Size = new System.Drawing.Size(72, 20);
             this.lbl2.TabIndex = 6;
             this.lbl2.Text = "STATUS";
             // 
@@ -100,18 +104,19 @@
             this.lbl_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_status.AutoSize = true;
             this.lbl_status.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lbl_status.Location = new System.Drawing.Point(852, 31);
+            this.lbl_status.Location = new System.Drawing.Point(1278, 48);
             this.lbl_status.Margin = new System.Windows.Forms.Padding(0);
             this.lbl_status.Name = "lbl_status";
-            this.lbl_status.Size = new System.Drawing.Size(31, 13);
+            this.lbl_status.Size = new System.Drawing.Size(46, 20);
             this.lbl_status.TabIndex = 7;
             this.lbl_status.Text = "IDLE";
             // 
             // btn_reset_zoom
             // 
-            this.btn_reset_zoom.Location = new System.Drawing.Point(334, 26);
+            this.btn_reset_zoom.Location = new System.Drawing.Point(501, 40);
+            this.btn_reset_zoom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_reset_zoom.Name = "btn_reset_zoom";
-            this.btn_reset_zoom.Size = new System.Drawing.Size(75, 23);
+            this.btn_reset_zoom.Size = new System.Drawing.Size(112, 35);
             this.btn_reset_zoom.TabIndex = 22;
             this.btn_reset_zoom.Text = "Reset zoom";
             this.btn_reset_zoom.UseVisualStyleBackColor = true;
@@ -119,9 +124,10 @@
             // 
             // btn_none
             // 
-            this.btn_none.Location = new System.Drawing.Point(179, 232);
+            this.btn_none.Location = new System.Drawing.Point(268, 357);
+            this.btn_none.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_none.Name = "btn_none";
-            this.btn_none.Size = new System.Drawing.Size(49, 23);
+            this.btn_none.Size = new System.Drawing.Size(74, 35);
             this.btn_none.TabIndex = 23;
             this.btn_none.Text = "NONE";
             this.btn_none.UseVisualStyleBackColor = true;
@@ -129,9 +135,10 @@
             // 
             // btn_all
             // 
-            this.btn_all.Location = new System.Drawing.Point(124, 232);
+            this.btn_all.Location = new System.Drawing.Point(186, 357);
+            this.btn_all.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_all.Name = "btn_all";
-            this.btn_all.Size = new System.Drawing.Size(49, 23);
+            this.btn_all.Size = new System.Drawing.Size(74, 35);
             this.btn_all.TabIndex = 24;
             this.btn_all.Text = "ALL";
             this.btn_all.UseVisualStyleBackColor = true;
@@ -140,9 +147,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 270);
+            this.label1.Location = new System.Drawing.Point(18, 415);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(136, 20);
             this.label1.TabIndex = 25;
             this.label1.Text = "Enabled channels";
             // 
@@ -150,31 +158,34 @@
             // 
             this.cmb_enabled_ch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_enabled_ch.FormattingEnabled = true;
-            this.cmb_enabled_ch.Location = new System.Drawing.Point(110, 267);
+            this.cmb_enabled_ch.Location = new System.Drawing.Point(165, 411);
+            this.cmb_enabled_ch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmb_enabled_ch.Name = "cmb_enabled_ch";
-            this.cmb_enabled_ch.Size = new System.Drawing.Size(121, 21);
+            this.cmb_enabled_ch.Size = new System.Drawing.Size(180, 28);
             this.cmb_enabled_ch.TabIndex = 26;
             this.cmb_enabled_ch.SelectedIndexChanged += new System.EventHandler(this.cmb_enabled_ch_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 300);
+            this.label2.Location = new System.Drawing.Point(18, 462);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.Size = new System.Drawing.Size(97, 20);
             this.label2.TabIndex = 27;
             this.label2.Text = "Wave length";
             // 
             // num_wave_length
             // 
-            this.num_wave_length.Location = new System.Drawing.Point(108, 298);
+            this.num_wave_length.Location = new System.Drawing.Point(162, 458);
+            this.num_wave_length.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_wave_length.Maximum = new decimal(new int[] {
             922,
             0,
             0,
             0});
             this.num_wave_length.Name = "num_wave_length";
-            this.num_wave_length.Size = new System.Drawing.Size(120, 20);
+            this.num_wave_length.Size = new System.Drawing.Size(180, 26);
             this.num_wave_length.TabIndex = 28;
             this.num_wave_length.Value = new decimal(new int[] {
             5,
@@ -185,10 +196,11 @@
             // 
             // track_wave_length
             // 
-            this.track_wave_length.Location = new System.Drawing.Point(12, 327);
+            this.track_wave_length.Location = new System.Drawing.Point(18, 503);
+            this.track_wave_length.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.track_wave_length.Maximum = 922;
             this.track_wave_length.Name = "track_wave_length";
-            this.track_wave_length.Size = new System.Drawing.Size(219, 45);
+            this.track_wave_length.Size = new System.Drawing.Size(328, 69);
             this.track_wave_length.SmallChange = 50;
             this.track_wave_length.TabIndex = 29;
             this.track_wave_length.TickFrequency = 50;
@@ -198,51 +210,57 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 375);
+            this.label3.Location = new System.Drawing.Point(18, 577);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 13);
+            this.label3.Size = new System.Drawing.Size(131, 20);
             this.label3.TabIndex = 30;
             this.label3.Text = "Number of waves";
             // 
             // num_number_of_waves
             // 
-            this.num_number_of_waves.Location = new System.Drawing.Point(108, 373);
+            this.num_number_of_waves.Location = new System.Drawing.Point(162, 574);
+            this.num_number_of_waves.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_number_of_waves.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.num_number_of_waves.Name = "num_number_of_waves";
-            this.num_number_of_waves.Size = new System.Drawing.Size(120, 20);
+            this.num_number_of_waves.Size = new System.Drawing.Size(180, 26);
             this.num_number_of_waves.TabIndex = 31;
             this.num_number_of_waves.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.num_number_of_waves.ValueChanged += new System.EventHandler(this.num_number_of_waves_ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 407);
+            this.label4.Location = new System.Drawing.Point(18, 626);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.Size = new System.Drawing.Size(74, 20);
             this.label4.TabIndex = 32;
             this.label4.Text = "Filename";
             // 
             // txt_filename
             // 
-            this.txt_filename.Location = new System.Drawing.Point(67, 404);
+            this.txt_filename.Location = new System.Drawing.Point(100, 622);
+            this.txt_filename.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_filename.Name = "txt_filename";
-            this.txt_filename.Size = new System.Drawing.Size(124, 20);
+            this.txt_filename.Size = new System.Drawing.Size(184, 26);
             this.txt_filename.TabIndex = 33;
             this.txt_filename.Text = "c:\\temp\\abc.txt";
             // 
             // btn_select_file
             // 
-            this.btn_select_file.Location = new System.Drawing.Point(195, 402);
+            this.btn_select_file.Location = new System.Drawing.Point(292, 618);
+            this.btn_select_file.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_select_file.Name = "btn_select_file";
-            this.btn_select_file.Size = new System.Drawing.Size(33, 23);
+            this.btn_select_file.Size = new System.Drawing.Size(50, 35);
             this.btn_select_file.TabIndex = 34;
             this.btn_select_file.Text = "...";
             this.btn_select_file.UseVisualStyleBackColor = true;
@@ -251,18 +269,19 @@
             // check_store_on_file
             // 
             this.check_store_on_file.AutoSize = true;
-            this.check_store_on_file.Location = new System.Drawing.Point(15, 430);
+            this.check_store_on_file.Location = new System.Drawing.Point(22, 662);
+            this.check_store_on_file.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_store_on_file.Name = "check_store_on_file";
-            this.check_store_on_file.Size = new System.Drawing.Size(82, 17);
+            this.check_store_on_file.Size = new System.Drawing.Size(120, 24);
             this.check_store_on_file.TabIndex = 35;
             this.check_store_on_file.Text = "Store on file";
             this.check_store_on_file.UseVisualStyleBackColor = true;
             // 
             // DigitizerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1019, 575);
+            this.ClientSize = new System.Drawing.Size(1528, 885);
             this.Controls.Add(this.check_store_on_file);
             this.Controls.Add(this.btn_select_file);
             this.Controls.Add(this.txt_filename);
@@ -282,6 +301,7 @@
             this.Controls.Add(this.btn_stop);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.check_displayed_channels);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DigitizerForm";
             this.Text = "Oscilloscope";
             this.Load += new System.EventHandler(this.OscilloscopeForm_Load);

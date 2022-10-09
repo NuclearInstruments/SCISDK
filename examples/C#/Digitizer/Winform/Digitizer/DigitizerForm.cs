@@ -81,12 +81,7 @@ namespace Digitizer
             // select last available item of enabled channels combobox
             cmb_enabled_ch.SelectedIndex = cmb_enabled_ch.Items.Count - 1;
 
-            // set board parameters
-            sdk.SetParameter(digitizer_full_path + ".acq_mode", "blocking");
-            sdk.SetParameter(digitizer_full_path + ".data_processing", "decode");
-            sdk.SetParameter(digitizer_full_path + ".timeout", 1000);
-            // change value of acq lenght on board
-            _sdk.SetParameter(digitizer_full_path + ".acq_len", track_wave_length.Value);
+         
 
             // initialize timer
             update_timer = new Timer();
@@ -209,6 +204,16 @@ namespace Digitizer
             btn_stop.Enabled = true;
             btn_start.Enabled = false;
             lbl_status.Text = "Waiting for trigger";
+
+            // set board parameters
+            _sdk.SetParameter(digitizer_full_path + ".acq_mode", "blocking");
+            _sdk.SetParameter(digitizer_full_path + ".data_processing", "decode");
+            _sdk.SetParameter(digitizer_full_path + ".timeout", 1000);
+       
+            // change value of acq lenght on board
+            _sdk.SetParameter(digitizer_full_path + ".acq_len", track_wave_length.Value);
+            _sdk.SetParameter(digitizer_full_path + ".enabledch", cmb_enabled_ch.SelectedIndex + 1);
+
             Console.WriteLine(_sdk.ExecuteCommand(digitizer_full_path + ".start", ""));
             wave_counter = 0;
             // start reading data
@@ -270,8 +275,6 @@ namespace Digitizer
         private void num_wave_length_ValueChanged(object sender, EventArgs e)
         {
             track_wave_length.Value = (int)num_wave_length.Value;
-            // change value of acq lenght on board
-            _sdk.SetParameter(digitizer_full_path + ".acq_len", track_wave_length.Value);
         }
 
         // event called when combobox enabled channel selected index has been changed
@@ -279,7 +282,7 @@ namespace Digitizer
         {
             // set enabled channels parameter on the board
             int exp = (cmb_enabled_ch.SelectedIndex + 1);
-            _sdk.SetParameter(digitizer_full_path + ".enabledch", 2);
+         
             // update the list of channels that can be displayed
             check_displayed_channels.Items.Clear();
             for (int i = 0; i < enabled_channels_options[cmb_enabled_ch.SelectedIndex]; i++)
@@ -310,6 +313,11 @@ namespace Digitizer
                 filename = sfd.FileName;
                 txt_filename.Text = filename;
             }
+        }
+
+        private void num_number_of_waves_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

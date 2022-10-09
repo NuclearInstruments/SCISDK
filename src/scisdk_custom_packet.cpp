@@ -70,6 +70,9 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
+
+	producer.isRunning = false;
+	producer.canRun = false;
 }
 
 
@@ -692,6 +695,7 @@ void SciSDK_CustomPacket::producer_thread() {
 			if (!go) {
 				std::this_thread::sleep_for(std::chrono::microseconds(100));
 			}
+			if (!producer.canRun) return;
 		} while (go == false);
 
 		if (!high_performance) {

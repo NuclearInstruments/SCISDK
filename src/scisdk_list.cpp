@@ -48,6 +48,8 @@ SciSDK_List::SciSDK_List(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
+	producer.isRunning = false;
+	producer.canRun = false;
 }
 
 
@@ -390,6 +392,7 @@ void SciSDK_List::producer_thread() {
 			if (!go) {
 				std::this_thread::sleep_for(std::chrono::microseconds(100));
 			}
+			if (!producer.canRun) return;
 		} while (go == false);
 
 		if (!high_performance) {

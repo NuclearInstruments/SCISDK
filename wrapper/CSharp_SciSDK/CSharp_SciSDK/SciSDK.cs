@@ -442,7 +442,7 @@ namespace CSharp_SciSDK
             if (buffer.GetType() == typeof(SciSDKOscilloscopeDecodedBuffer))// oscilloscope decoded
             {
                 SciSDKOscilloscopeDecodedBuffer decoded_buffer = (SciSDKOscilloscopeDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeDecodedBufferPtr buffer_struct = (OscilloscopeDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(OscilloscopeDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
@@ -463,7 +463,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKOscilloscopeRawBuffer)) // oscilloscope raw
             {
                 SciSDKOscilloscopeRawBuffer raw_buffer = (SciSDKOscilloscopeRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeRawBufferPtr buffer_struct = (OscilloscopeRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(OscilloscopeRawBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 raw_buffer.info = buffer_struct.info;
@@ -478,7 +478,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKOscilloscopeDualDecodedBuffer)) // oscilloscope dual decoded
             {
                 SciSDKOscilloscopeDualDecodedBuffer decoded_buffer = (SciSDKOscilloscopeDualDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeDualDecodedBufferPtr buffer_struct = (OscilloscopeDualDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(OscilloscopeDualDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
@@ -499,7 +499,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKOscilloscopeDualRawBuffer)) // oscilloscope dual raw
             {
                 SciSDKOscilloscopeDualRawBuffer raw_buffer = (SciSDKOscilloscopeDualRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 OscilloscopeDualRawBufferPtr buffer_struct = (OscilloscopeDualRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(OscilloscopeDualRawBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 raw_buffer.info = buffer_struct.info;
@@ -514,7 +514,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKDigitizerDecodedBuffer)) // digitizer decoded
             {
                 SciSDKDigitizerDecodedBuffer decoded_buffer = (SciSDKDigitizerDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 DigitizerDecodedBufferPtr buffer_struct = (DigitizerDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(DigitizerDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.info = buffer_struct.info;
@@ -524,7 +524,7 @@ namespace CSharp_SciSDK
                 decoded_buffer.counter = buffer_struct.counter;
                 decoded_buffer.user = buffer_struct.user;
 
-                decoded_buffer.analog = new int[buffer_struct.info.samples * buffer_struct.info.channels];
+                decoded_buffer.analog = new int[buffer_struct.info.valid_samples  * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
 
                 buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
@@ -538,7 +538,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKListRawBuffer)) // list raw
             {
                 SciSDKListRawBuffer raw_buffer = (SciSDKListRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 ListRawBufferPtr buffer_struct = (ListRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(ListRawBufferPtr));
 
                 raw_buffer.info = buffer_struct.info;
@@ -551,7 +551,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKCPDecodedBuffer)) // custom packet decoded
             {
                 SciSDKCPDecodedBuffer decoded_buffer = (SciSDKCPDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 CPDecodedBufferPtr buffer_struct = (CPDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(CPDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.info = buffer_struct.info;
@@ -564,7 +564,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKCPRawBuffer)) // custom packet raw
             {
                 SciSDKCPRawBuffer raw_buffer = (SciSDKCPRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 CPRawBufferPtr buffer_struct = (CPRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(CPRawBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 raw_buffer.info = buffer_struct.info;
@@ -577,7 +577,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKRMRawBuffer)) // rate meter raw
             {
                 SciSDKRMRawBuffer raw_buffer = (SciSDKRMRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 RMRawBufferPtr buffer_struct = (RMRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(RMRawBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 raw_buffer.info = buffer_struct.info;
@@ -590,7 +590,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKSpectrumDecodedBuffer)) // spectrum decoded
             {
                 SciSDKSpectrumDecodedBuffer decoded_buffer = (SciSDKSpectrumDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 SpectrumDecodedBufferPtr buffer_struct = (SpectrumDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(SpectrumDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.info = buffer_struct.info;
@@ -606,7 +606,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKFFTDecodedBuffer)) // fft decoded
             {
                 SciSDKFFTDecodedBuffer decoded_buffer = (SciSDKFFTDecodedBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
                 FFTDecodedBufferPtr buffer_struct = (FFTDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(FFTDecodedBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.info = buffer_struct.info;
@@ -622,7 +622,7 @@ namespace CSharp_SciSDK
             else if (buffer.GetType() == typeof(SciSDKFFTRawBuffer)) // fft raw
             {
                 SciSDKFFTRawBuffer raw_buffer = (SciSDKFFTRawBuffer)(object)buffer;
-                SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
                 FFTRawBufferPtr buffer_struct = (FFTRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(FFTRawBufferPtr));
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 raw_buffer.info = buffer_struct.info;
