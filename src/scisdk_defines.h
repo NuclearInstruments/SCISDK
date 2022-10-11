@@ -232,4 +232,33 @@
 		} info;
 	}SCISDK_FRAME_RAW_BUFFER;
 
+	typedef struct {
+		uint32_t *pixel;
+		uint32_t n;
+		struct {
+			uint64_t timestamp;
+			uint64_t trigger_count;
+			uint64_t event_count;
+			uint64_t hits;
+		};
+	}SCISDK_CITIROC_PACKET;
+
+	typedef struct {
+		uint32_t magic;
+		SCISDK_FRAME_PACKET *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_CITIROC_DECODED_BUFFER;
+
+	typedef struct {
+		uint32_t magic;
+		uint32_t *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t packet_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_CITIROC_RAW_BUFFER;
 #endif
