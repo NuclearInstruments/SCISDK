@@ -670,6 +670,7 @@ repeat_blocking_raw:
 						if (ridx == settings.channels) {
 							p->info.valid_data++;
 						}
+						sm = DECODE_SM::HEADER_1;
 						break;
 					}
 				}

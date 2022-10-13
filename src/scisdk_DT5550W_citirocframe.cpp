@@ -204,11 +204,11 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamString(string name, string *valu
 	}
 	else if (name == "buffer_type") {
 		if (data_processing == DATA_PROCESSING::RAW) {
-			*value = "SCISDK_FRAME_RAW_BUFFER";
+			*value = "SCISDK_CITIROC_RAW_BUFFER";
 			return NI_OK;
 		}
 		else if (data_processing == DATA_PROCESSING::DECODE) {
-			*value = "SCISDK_FRAME_DECODED_BUFFER";
+			*value = "SCISDK_CITIROC_DECODED_BUFFER";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -223,14 +223,14 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **b
 
 NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
 	if (bt == T_BUFFER_TYPE_DECODED) {
-		*buffer = (SCISDK_FRAME_DECODED_BUFFER *)malloc(sizeof(SCISDK_FRAME_DECODED_BUFFER));
+		*buffer = (SCISDK_CITIROC_DECODED_BUFFER *)malloc(sizeof(SCISDK_CITIROC_DECODED_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_FRAME_DECODED_BUFFER *p;
-		p = (SCISDK_FRAME_DECODED_BUFFER*)*buffer;
-		p->data = (SCISDK_FRAME_PACKET*)malloc(sizeof(SCISDK_FRAME_PACKET) * (buffer_size));
+		SCISDK_CITIROC_DECODED_BUFFER *p;
+		p = (SCISDK_CITIROC_DECODED_BUFFER*)*buffer;
+		p->data = (SCISDK_CITIROC_PACKET*)malloc(sizeof(SCISDK_CITIROC_PACKET) * (buffer_size));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
@@ -240,31 +240,35 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **b
 			if (p->data[i].pixel == NULL) {
 				return NI_ALLOC_FAILED;
 			}
-			p->data[i].event_count = 0;
-			p->data[i].hits = 0x0;
-			p->data[i].timestamp = 0x0;
-			p->data[i].trigger_count = 0x0;
+			p->data[i].info.asic = 0;
+			p->data[i].info.event_id = 0x0;
+			p->data[i].info.flags = 0x0;
+			p->data[i].info.timestamp_from_run = 0x0;
+			p->data[i].info.timestamp_from_t0=0;
+			p->data[i].info.trigger_count = 0;
+			p->data[i].info.validation_counter = 0;
+
 		}
 
-		p->magic = BUFFER_TYPE_FRAME_DECODED;
+		p->magic = BUFFER_TYPE_CITIROC_DECODED;
 		p->info.buffer_size = buffer_size;
 		p->info.valid_data = 0;
 		
 		return NI_OK;
 	}
 	else	if (bt == T_BUFFER_TYPE_RAW) {
-		*buffer = (SCISDK_FRAME_RAW_BUFFER *)malloc(sizeof(SCISDK_FRAME_RAW_BUFFER));
+		*buffer = (SCISDK_CITIROC_RAW_BUFFER *)malloc(sizeof(SCISDK_CITIROC_RAW_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_FRAME_RAW_BUFFER *p;
-		p = (SCISDK_FRAME_RAW_BUFFER*)*buffer;
+		SCISDK_CITIROC_RAW_BUFFER *p;
+		p = (SCISDK_CITIROC_RAW_BUFFER*)*buffer;
 		p->data = (uint32_t*)malloc(sizeof(int32_t) * (buffer_size + 8));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
-		p->magic = BUFFER_TYPE_FRAME_RAW;
+		p->magic = BUFFER_TYPE_CITIROC_RAW;
 
 		p->info.buffer_size = buffer_size;
 		p->info.packet_size = settings.packet_size;
@@ -280,8 +284,8 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffe
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
-		SCISDK_FRAME_RAW_BUFFER *p;
-		p = (SCISDK_FRAME_RAW_BUFFER*)*buffer;
+		SCISDK_CITIROC_RAW_BUFFER *p;
+		p = (SCISDK_CITIROC_RAW_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			free(p->data);
 			p->data = NULL;
@@ -297,8 +301,8 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffe
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
 
-		SCISDK_FRAME_DECODED_BUFFER *p;
-		p = (SCISDK_FRAME_DECODED_BUFFER*)*buffer;
+		SCISDK_CITIROC_DECODED_BUFFER *p;
+		p = (SCISDK_CITIROC_DECODED_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			for (int i = 0; i < p->info.buffer_size; i++) {
 				if (p->data[i].pixel != NULL) {
@@ -331,9 +335,9 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ReadData(void *buffer) {
 		//to user without interaction with the hardware.
 		if (data_processing == DATA_PROCESSING::DECODE) {
 			int exit_code = -1;
-			SCISDK_FRAME_DECODED_BUFFER *p;
-			p = (SCISDK_FRAME_DECODED_BUFFER *)buffer;
-			if (p->magic != BUFFER_TYPE_FRAME_DECODED) return NI_INVALID_BUFFER_TYPE;
+			SCISDK_CITIROC_DECODED_BUFFER *p;
+			p = (SCISDK_CITIROC_DECODED_BUFFER *)buffer;
+			if (p->magic != BUFFER_TYPE_CITIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
 			p->info.valid_data = 0;
 
 			auto t_start = std::chrono::high_resolution_clock::now();
@@ -342,68 +346,66 @@ repeat_blocking:
 			h_mutex.lock();
 			if (pQ.size() > 0) {					
 				int ridx = 0;
+				uint32_t f;
+				uint32_t key;
+				uint32_t asic;
 				
 				if (pQ.size() >= settings.packet_size) {
 					DECODE_SM sm;
 					sm = DECODE_SM::HEADER_1;
 					while (pQ.size() >= settings.packet_size) {
+						f = pQ.front();
 						switch (sm) {
 							case DECODE_SM::HEADER_1 : 
-								if (pQ.front() == 0xFFFFFFFF){
-									sm = DECODE_SM::HEADER_2;
+								key = f >> 4;
+								asic = f & 0xF;
+								if (key == 0x8000000){
+									p->data[p->info.valid_data].info.asic = asic;
+									sm = DECODE_SM::TS_T0;
 									ridx = 0;
 								} 
 								break;
-							case DECODE_SM::HEADER_2:
-								if (pQ.front() == 0x12345678) {
-									sm = DECODE_SM::TIMESTAMP_1;
-								}
+							case DECODE_SM::TS_T0:
+								p->data[p->info.valid_data].info.timestamp_from_t0 = f;
+								sm = DECODE_SM::TS_A_1;
 								break;
-							case DECODE_SM::TIMESTAMP_1:
-								p->data[p->info.valid_data].timestamp = ((uint64_t)pQ.front()) << 32UL;
-								sm = DECODE_SM::TIMESTAMP_2;
+							case DECODE_SM::TS_A_1:
+								p->data[p->info.valid_data].info.timestamp_from_run = ((uint64_t)f);
+								sm = DECODE_SM::TS_A_2;
 								break;
-							case DECODE_SM::TIMESTAMP_2:
-								p->data[p->info.valid_data].timestamp += ((uint64_t)pQ.front());
-								sm = DECODE_SM::COUNT_IN_1;
+							case DECODE_SM::TS_A_2:
+								p->data[p->info.valid_data].info.timestamp_from_run += ((uint64_t)f)<<32UL;
+								sm = DECODE_SM::PACKET_CNTR;
 								break;
-							case DECODE_SM::COUNT_IN_1:
-								p->data[p->info.valid_data].trigger_count = ((uint64_t)pQ.front()) << 32UL;
-								sm = DECODE_SM::COUNT_IN_2;
+							case DECODE_SM::PACKET_CNTR:
+								p->data[p->info.valid_data].info.event_id = f;
+								sm = DECODE_SM::DATA_A;
 								break;
-							case DECODE_SM::COUNT_IN_2:
-								p->data[p->info.valid_data].trigger_count += ((uint64_t)pQ.front());
-								sm = DECODE_SM::COUNT_OUT_1;
-								break;
-							case DECODE_SM::COUNT_OUT_1:
-								p->data[p->info.valid_data].event_count = ((uint64_t)pQ.front()) << 32UL;
-								sm = DECODE_SM::COUNT_OUT_2;
-								break;
-							case DECODE_SM::COUNT_OUT_2:
-								p->data[p->info.valid_data].event_count += ((uint64_t)pQ.front());
-								sm = DECODE_SM::HITS_1;
-								break;
-							case DECODE_SM::HITS_1:
-								p->data[p->info.valid_data].hits = ((uint64_t)pQ.front());
-								if (settings.channels > 32) {
-									sm = DECODE_SM::HITS_2;
-								}
-								else {
-									sm = DECODE_SM::PIXELS;
-								}
-								break;
-							case DECODE_SM::HITS_2:
-								p->data[p->info.valid_data].hits += ((uint64_t)pQ.front()) << 32UL;
-								sm = DECODE_SM::PIXELS;
-								break;
-							case DECODE_SM::PIXELS:
-								p->data[p->info.valid_data].pixel[ridx++] = pQ.front();
+							case DECODE_SM::DATA_A:
+								p->data[p->info.valid_data].pixel[ridx++] = f;
 								if (ridx == settings.channels) {
+									sm = DECODE_SM::DATA_A;
+								}
+								break;
+							case DECODE_SM::TRG_CNT:
+								p->data[p->info.valid_data].info.trigger_count = f;
+								sm = DECODE_SM::DATA_A;
+								break;
+							case DECODE_SM::VLD_CNT:
+								p->data[p->info.valid_data].info.validation_counter = f;
+								sm = DECODE_SM::DATA_A;
+								break;
+							case DECODE_SM::FLAGS:
+								p->data[p->info.valid_data].info.flags = f;
+								sm = DECODE_SM::DATA_A;
+								break;
+							case DECODE_SM::FOOTER:
+								if (f == 0xC0000000) {
 									p->info.valid_data++;
 								}
+								sm = DECODE_SM::HEADER_1;
 								break;
 						}
-
 						pQ.pop();
 						if (p->info.valid_data >= p->info.buffer_size) { // no more space in output buffer
 							break;
@@ -456,8 +458,8 @@ repeat_blocking:
 
 			// read raw data
 			int exit_code = -1;
-			SCISDK_FRAME_RAW_BUFFER *p;
-			p = (SCISDK_FRAME_RAW_BUFFER *)buffer;
+			SCISDK_CITIROC_RAW_BUFFER *p;
+			p = (SCISDK_CITIROC_RAW_BUFFER *)buffer;
 			uint32_t buffer_size_dw = p->info.buffer_size;
 			p->info.valid_data = 0;
 
@@ -505,13 +507,15 @@ repeat_blocking_raw:
 		//Non threaded mode: data are downloaded under the control of the user
 		uint32_t vd;
 		uint32_t _size;
+		uint32_t key;
+		uint32_t asic;
 
 
 		if (data_processing == DATA_PROCESSING::DECODE) {
-			SCISDK_FRAME_DECODED_BUFFER *p;
-			p = (SCISDK_FRAME_DECODED_BUFFER *)buffer;
+			SCISDK_CITIROC_DECODED_BUFFER *p;
+			p = (SCISDK_CITIROC_DECODED_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_FRAME_DECODED) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_CITIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
 
 			uint32_t buffer_size_dw = p->info.buffer_size * settings.packet_size;
 
@@ -540,61 +544,57 @@ repeat_blocking_raw:
 				DECODE_SM sm;
 				sm = DECODE_SM::HEADER_1;
 				for (int i = 0; i < vd; i++) {
+					uint32_t f = buffer[i];
 					switch (sm) {
-					case DECODE_SM::HEADER_1:
-						if (buffer[i] == 0xFFFFFFFF) {
-							sm = DECODE_SM::HEADER_2;
-							ridx = 0;
-						}
-						break;
-					case DECODE_SM::HEADER_2:
-						if (buffer[i] == 0x12345678) {
-							sm = DECODE_SM::TIMESTAMP_1;
-						}
-						break;
-					case DECODE_SM::TIMESTAMP_1:
-						p->data[p->info.valid_data].timestamp = ((uint64_t)buffer[i]) << 32UL;
-						sm = DECODE_SM::TIMESTAMP_2;
-						break;
-					case DECODE_SM::TIMESTAMP_2:
-						p->data[p->info.valid_data].timestamp += ((uint64_t)buffer[i]);
-						sm = DECODE_SM::COUNT_IN_1;
-						break;
-					case DECODE_SM::COUNT_IN_1:
-						p->data[p->info.valid_data].trigger_count = ((uint64_t)buffer[i]) << 32UL;
-						sm = DECODE_SM::COUNT_IN_2;
-						break;
-					case DECODE_SM::COUNT_IN_2:
-						p->data[p->info.valid_data].trigger_count += ((uint64_t)buffer[i]);
-						sm = DECODE_SM::COUNT_OUT_1;
-						break;
-					case DECODE_SM::COUNT_OUT_1:
-						p->data[p->info.valid_data].event_count = ((uint64_t)buffer[i]) << 32UL;
-						sm = DECODE_SM::COUNT_OUT_2;
-						break;
-					case DECODE_SM::COUNT_OUT_2:
-						p->data[p->info.valid_data].event_count += ((uint64_t)buffer[i]);
-						sm = DECODE_SM::HITS_1;
-						break;
-					case DECODE_SM::HITS_1:
-						p->data[p->info.valid_data].hits = ((uint64_t)buffer[i]);
-						if (settings.channels > 32) {
-							sm = DECODE_SM::HITS_2;
-						}
-						else {
-							sm = DECODE_SM::PIXELS;
-						}
-						break;
-					case DECODE_SM::HITS_2:
-						p->data[p->info.valid_data].hits += ((uint64_t)buffer[i]) << 32UL;
-						sm = DECODE_SM::PIXELS;
-						break;
-					case DECODE_SM::PIXELS:
-						p->data[p->info.valid_data].pixel[ridx++] = buffer[i];
-						if (ridx == settings.channels) {
-							p->info.valid_data++;
-						}
-						break;
+						case DECODE_SM::HEADER_1 : 
+							key = f >> 4;
+							asic = f & 0xF;
+							if (key == 0x8000000){
+								p->data[p->info.valid_data].info.asic = asic;
+								sm = DECODE_SM::TS_T0;
+								ridx = 0;
+							} 
+							break;
+						case DECODE_SM::TS_T0:
+							p->data[p->info.valid_data].info.timestamp_from_t0 = f;
+							sm = DECODE_SM::TS_A_1;
+							break;
+						case DECODE_SM::TS_A_1:
+							p->data[p->info.valid_data].info.timestamp_from_run = ((uint64_t)f);
+							sm = DECODE_SM::TS_A_2;
+							break;
+						case DECODE_SM::TS_A_2:
+							p->data[p->info.valid_data].info.timestamp_from_run += ((uint64_t)f)<<32UL;
+							sm = DECODE_SM::PACKET_CNTR;
+							break;
+						case DECODE_SM::PACKET_CNTR:
+							p->data[p->info.valid_data].info.event_id = f;
+							sm = DECODE_SM::DATA_A;
+							break;
+						case DECODE_SM::DATA_A:
+							p->data[p->info.valid_data].pixel[ridx++] = f;
+							if (ridx == settings.channels) {
+								sm = DECODE_SM::DATA_A;
+							}
+							break;
+						case DECODE_SM::TRG_CNT:
+							p->data[p->info.valid_data].info.trigger_count = f;
+							sm = DECODE_SM::DATA_A;
+							break;
+						case DECODE_SM::VLD_CNT:
+							p->data[p->info.valid_data].info.validation_counter = f;
+							sm = DECODE_SM::DATA_A;
+							break;
+						case DECODE_SM::FLAGS:
+							p->data[p->info.valid_data].info.flags = f;
+							sm = DECODE_SM::DATA_A;
+							break;
+						case DECODE_SM::FOOTER:
+							if (f == 0xC0000000) {
+								p->info.valid_data++;
+							}
+							sm = DECODE_SM::HEADER_1;
+							break;
 					}
 				}
 				free(buffer);
@@ -606,10 +606,10 @@ repeat_blocking_raw:
 
 		}
 		else {
-			SCISDK_FRAME_RAW_BUFFER *p;
-			p = (SCISDK_FRAME_RAW_BUFFER *)buffer;
+			SCISDK_CITIROC_RAW_BUFFER *p;
+			p = (SCISDK_CITIROC_RAW_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_FRAME_RAW) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_CITIROC_RAW) return NI_INVALID_BUFFER_TYPE;
 
 			uint32_t buffer_size_dw = p->info.buffer_size;
 

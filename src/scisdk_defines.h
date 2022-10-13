@@ -236,16 +236,19 @@
 		uint32_t *pixel;
 		uint32_t n;
 		struct {
-			uint64_t timestamp;
-			uint64_t trigger_count;
-			uint64_t event_count;
-			uint64_t hits;
-		};
+			uint8_t asic;
+			uint64_t timestamp_from_t0;
+			uint64_t timestamp_from_run;
+			uint32_t event_id;
+			uint32_t trigger_count;
+			uint32_t validation_counter;
+			uint32_t flags;
+		}info;
 	}SCISDK_CITIROC_PACKET;
 
 	typedef struct {
 		uint32_t magic;
-		SCISDK_FRAME_PACKET *data;
+		SCISDK_CITIROC_PACKET *data;
 		struct {
 			uint32_t buffer_size;
 			uint32_t valid_data;

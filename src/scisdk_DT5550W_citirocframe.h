@@ -54,16 +54,15 @@ private:
 
 	enum class DECODE_SM {
 		HEADER_1,
-		HEADER_2,
-		TIMESTAMP_1,
-		TIMESTAMP_2,
-		COUNT_IN_1,
-		COUNT_IN_2,
-		COUNT_OUT_1,
-		COUNT_OUT_2,
-		HITS_1,
-		HITS_2,
-		PIXELS
+		TS_T0,
+		TS_A_1,
+		TS_A_2,
+		PACKET_CNTR,
+		DATA_A,
+		TRG_CNT,
+		VLD_CNT,
+		FLAGS,
+		FOOTER
 	} ;
 
 	struct {
