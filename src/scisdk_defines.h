@@ -233,7 +233,12 @@
 	}SCISDK_FRAME_RAW_BUFFER;
 
 	typedef struct {
-		uint32_t *pixel;
+		uint16_t hg;
+		uint16_t lg;
+		uint8_t  hit;
+	} SCISDK_CITIROC_PIXEL;
+	typedef struct {
+		SCISDK_CITIROC_PIXEL *pixel;
 		uint32_t n;
 		struct {
 			uint8_t asic;
@@ -264,4 +269,44 @@
 			uint32_t valid_data;
 		} info;
 	}SCISDK_CITIROC_RAW_BUFFER;
+
+
+	typedef struct {
+		uint16_t charge;
+		uint16_t fine;
+		uint16_t coarse;
+		uint8_t  hit;
+	} SCISDK_PETIROC_PIXEL;
+	typedef struct {
+		SCISDK_PETIROC_PIXEL *pixel;
+		uint32_t n;
+		struct {
+			uint8_t asic;
+			uint64_t timestamp_from_t0;
+			uint64_t timestamp_from_run;
+			uint32_t event_id;
+			uint32_t trigger_count;
+			uint32_t validation_counter;
+			uint32_t flags;
+		}info;
+	}SCISDK_PETIROC_PACKET;
+
+	typedef struct {
+		uint32_t magic;
+		SCISDK_PETIROC_PACKET *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_PETIROC_DECODED_BUFFER;
+
+	typedef struct {
+		uint32_t magic;
+		uint32_t *data;
+		struct {
+			uint32_t buffer_size;
+			uint32_t packet_size;
+			uint32_t valid_data;
+		} info;
+	}SCISDK_PETIROC_RAW_BUFFER;	
 #endif

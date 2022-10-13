@@ -1,4 +1,4 @@
-#include "scisdk_DT5550W_citirocframe.h"
+#include "scisdk_DT5550W_petirocframe.h"
 #include <functional>
 #include <chrono>
 #include <thread>
@@ -10,7 +10,7 @@ IP Compatible version: 1.0
 
 */
 
-SciSDK_DT5550W_CitirocFrame::SciSDK_DT5550W_CitirocFrame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
+SciSDK_DT5550W_PetirocFrame::SciSDK_DT5550W_PetirocFrame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
 
 	address.base = (uint32_t)j.at("Address");
 	for (auto& r : j.at("Registers")) {
@@ -28,7 +28,7 @@ SciSDK_DT5550W_CitirocFrame::SciSDK_DT5550W_CitirocFrame(SciSDK_HAL *hal, json j
 	data_processing = DATA_PROCESSING::DECODE;
 	acq_mode = ACQ_MODE::BLOCKING;
 
-	settings.packet_size = 41;
+	settings.packet_size = 38;
 
 	if (j.contains("BufferLength"))
 		settings.acq_len = j.at("BufferLength");
@@ -42,7 +42,7 @@ SciSDK_DT5550W_CitirocFrame::SciSDK_DT5550W_CitirocFrame(SciSDK_HAL *hal, json j
 	isRunning = false;
 
 	__buffer = NULL;
-	cout << "Citiroc Frame transfer: " << name << " addr: " << address.base << endl;
+	cout << "Citiroc Petiroc transfer: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
 	enabled_asic = 0xF;
@@ -65,7 +65,7 @@ SciSDK_DT5550W_CitirocFrame::SciSDK_DT5550W_CitirocFrame(SciSDK_HAL *hal, json j
 }
 
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamU32(string name, uint32_t value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ISetParamU32(string name, uint32_t value) {
 
 	if (name == "threaded_buffer_size") {
 		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
@@ -80,7 +80,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamU32(string name, uint32_t value)
 	else
 		return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamI32(string name, int32_t value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ISetParamI32(string name, int32_t value) {
 	if (name == "timeout") {
 		timeout = value;
 		return NI_OK;
@@ -88,7 +88,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamI32(string name, int32_t value) 
 
 	return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamString(string name, string value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ISetParamString(string name, string value) {
 	if (name == "acq_mode") {
 		if (value == "blocking") {
 			acq_mode = ACQ_MODE::BLOCKING;
@@ -139,7 +139,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ISetParamString(string name, string value
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamU32(string name, uint32_t *value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::IGetParamU32(string name, uint32_t *value) {
 	if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
 		return NI_OK;
@@ -151,7 +151,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamU32(string name, uint32_t *value
 	else
 		return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamI32(string name, int32_t *value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::IGetParamI32(string name, int32_t *value) {
 	if (name == "timeout") {
 		*value = timeout;
 		return NI_OK;
@@ -159,7 +159,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamI32(string name, int32_t *value)
 
 	return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamString(string name, string *value) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::IGetParamString(string name, string *value) {
 	if (name == "acq_mode") {
 		if (acq_mode == ACQ_MODE::BLOCKING) {
 			*value = "blocking";
@@ -204,11 +204,11 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamString(string name, string *valu
 	}
 	else if (name == "buffer_type") {
 		if (data_processing == DATA_PROCESSING::RAW) {
-			*value = "SCISDK_CITIROC_RAW_BUFFER";
+			*value = "SCISDK_PETIROC_RAW_BUFFER";
 			return NI_OK;
 		}
 		else if (data_processing == DATA_PROCESSING::DECODE) {
-			*value = "SCISDK_CITIROC_DECODED_BUFFER";
+			*value = "SCISDK_PETIROC_DECODED_BUFFER";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -217,26 +217,26 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::IGetParamString(string name, string *valu
 		return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	return NI_PARAMETER_OUT_OF_RANGE;
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
 	if (bt == T_BUFFER_TYPE_DECODED) {
-		*buffer = (SCISDK_CITIROC_DECODED_BUFFER *)malloc(sizeof(SCISDK_CITIROC_DECODED_BUFFER));
+		*buffer = (SCISDK_PETIROC_DECODED_BUFFER *)malloc(sizeof(SCISDK_PETIROC_DECODED_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_CITIROC_DECODED_BUFFER *p;
-		p = (SCISDK_CITIROC_DECODED_BUFFER*)*buffer;
-		p->data = (SCISDK_CITIROC_PACKET*)malloc(sizeof(SCISDK_CITIROC_PACKET) * (buffer_size));
+		SCISDK_PETIROC_DECODED_BUFFER *p;
+		p = (SCISDK_PETIROC_DECODED_BUFFER*)*buffer;
+		p->data = (SCISDK_PETIROC_PACKET*)malloc(sizeof(SCISDK_PETIROC_PACKET) * (buffer_size));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		for (int i = 0; i < size; i++) {
 			p->data[i].n = settings.channels;
-			p->data[i].pixel = (SCISDK_CITIROC_PIXEL*)malloc(sizeof(SCISDK_CITIROC_PIXEL) * (settings.channels));
+			p->data[i].pixel = (uint32_t*)malloc(sizeof(uint32_t) * (settings.channels));
 			if (p->data[i].pixel == NULL) {
 				return NI_ALLOC_FAILED;
 			}
@@ -250,25 +250,25 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **b
 
 		}
 
-		p->magic = BUFFER_TYPE_CITIROC_DECODED;
+		p->magic = BUFFER_TYPE_PETIROC_DECODED;
 		p->info.buffer_size = buffer_size;
 		p->info.valid_data = 0;
 		
 		return NI_OK;
 	}
 	else	if (bt == T_BUFFER_TYPE_RAW) {
-		*buffer = (SCISDK_CITIROC_RAW_BUFFER *)malloc(sizeof(SCISDK_CITIROC_RAW_BUFFER));
+		*buffer = (SCISDK_PETIROC_RAW_BUFFER *)malloc(sizeof(SCISDK_PETIROC_RAW_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
 		uint32_t buffer_size = size;
-		SCISDK_CITIROC_RAW_BUFFER *p;
-		p = (SCISDK_CITIROC_RAW_BUFFER*)*buffer;
+		SCISDK_PETIROC_RAW_BUFFER *p;
+		p = (SCISDK_PETIROC_RAW_BUFFER*)*buffer;
 		p->data = (uint32_t*)malloc(sizeof(int32_t) * (buffer_size + 8));
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
-		p->magic = BUFFER_TYPE_CITIROC_RAW;
+		p->magic = BUFFER_TYPE_PETIROC_RAW;
 
 		p->info.buffer_size = buffer_size;
 		p->info.packet_size = settings.packet_size;
@@ -279,13 +279,13 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **b
 		return NI_PARAMETER_OUT_OF_RANGE;
 	}
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	if (bt == T_BUFFER_TYPE_RAW) {
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
-		SCISDK_CITIROC_RAW_BUFFER *p;
-		p = (SCISDK_CITIROC_RAW_BUFFER*)*buffer;
+		SCISDK_PETIROC_RAW_BUFFER *p;
+		p = (SCISDK_PETIROC_RAW_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			free(p->data);
 			p->data = NULL;
@@ -301,8 +301,8 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffe
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
 
-		SCISDK_CITIROC_DECODED_BUFFER *p;
-		p = (SCISDK_CITIROC_DECODED_BUFFER*)*buffer;
+		SCISDK_PETIROC_DECODED_BUFFER *p;
+		p = (SCISDK_PETIROC_DECODED_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			for (int i = 0; i < p->info.buffer_size; i++) {
 				if (p->data[i].pixel != NULL) {
@@ -323,7 +323,18 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::FreeBuffer(T_BUFFER_TYPE bt, void **buffe
 	}
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ReadData(void *buffer) {
+
+uint32_t SciSDK_DT5550W_PetirocFrame::gray_to_bin(uint32_t num, int nbit)
+{
+	uint32_t temp = num ^ (num >> 8);
+	temp ^= (temp >> 4);
+	temp ^= (temp >> 2);
+	temp ^= (temp >> 1);
+	return temp;
+}
+
+
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ReadData(void *buffer) {
 
 	if (buffer == NULL) {
 		return NI_INVALID_BUFFER;
@@ -335,9 +346,9 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ReadData(void *buffer) {
 		//to user without interaction with the hardware.
 		if (data_processing == DATA_PROCESSING::DECODE) {
 			int exit_code = -1;
-			SCISDK_CITIROC_DECODED_BUFFER *p;
-			p = (SCISDK_CITIROC_DECODED_BUFFER *)buffer;
-			if (p->magic != BUFFER_TYPE_CITIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
+			SCISDK_PETIROC_DECODED_BUFFER *p;
+			p = (SCISDK_PETIROC_DECODED_BUFFER *)buffer;
+			if (p->magic != BUFFER_TYPE_PETIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
 			p->info.valid_data = 0;
 
 			auto t_start = std::chrono::high_resolution_clock::now();
@@ -349,6 +360,7 @@ repeat_blocking:
 				uint32_t f;
 				uint32_t key;
 				uint32_t asic;
+				uint32_t datarow[100];
 				
 				if (pQ.size() >= settings.packet_size) {
 					DECODE_SM sm;
@@ -382,28 +394,23 @@ repeat_blocking:
 								sm = DECODE_SM::DATA_A;
 								break;
 							case DECODE_SM::DATA_A:
-								p->data[p->info.valid_data].pixel[ridx].hg  = (f&0x3FFF);
-								p->data[p->info.valid_data].pixel[ridx].lg  = (f>>14)&0x3FFF;
-								p->data[p->info.valid_data].pixel[ridx].hit = (f>>28)&0x1;
+								datarow[ridx * 3 + 2] = (f >> 0) & 0x3FF;
+								datarow[ridx * 3 + 1] = (f >> 10) & 0x3FF;
+								datarow[ridx * 3 + 0] = (f >> 20) & 0x3FF;
 								ridx++;
 								if (ridx == settings.channels) {
-									sm = DECODE_SM::TRG_CNT;
+									sm = DECODE_SM::FOOTER;
 								}
-								break;
-							case DECODE_SM::TRG_CNT:
-								p->data[p->info.valid_data].info.trigger_count = f;
-								sm = DECODE_SM::VLD_CNT;
-								break;
-							case DECODE_SM::VLD_CNT:
-								p->data[p->info.valid_data].info.validation_counter = f;
-								sm = DECODE_SM::FLAGS;
-								break;
-							case DECODE_SM::FLAGS:
-								p->data[p->info.valid_data].info.flags = f;
-								sm = DECODE_SM::FOOTER;
 								break;
 							case DECODE_SM::FOOTER:
 								if (f == 0xC0000000) {
+									for (int i = 0; i < 32; i++)
+									{
+										p->data[p->info.valid_data].pixel[i].hit = (datarow[64 + i] & 0x1);
+										p->data[p->info.valid_data].pixel[i].charge = gray_to_bin(datarow[(i * 2) + 1], 10);
+										p->data[p->info.valid_data].pixel[i].fine = gray_to_bin(datarow[(i * 2) + 0], 10);
+										p->data[p->info.valid_data].pixel[i].coarse =  gray_to_bin(datarow[64 + i] >> 1, 9);	
+									}
 									p->info.valid_data++;
 								}
 								sm = DECODE_SM::HEADER_1;
@@ -461,8 +468,8 @@ repeat_blocking:
 
 			// read raw data
 			int exit_code = -1;
-			SCISDK_CITIROC_RAW_BUFFER *p;
-			p = (SCISDK_CITIROC_RAW_BUFFER *)buffer;
+			SCISDK_PETIROC_RAW_BUFFER *p;
+			p = (SCISDK_PETIROC_RAW_BUFFER *)buffer;
 			uint32_t buffer_size_dw = p->info.buffer_size;
 			p->info.valid_data = 0;
 
@@ -512,13 +519,13 @@ repeat_blocking_raw:
 		uint32_t _size;
 		uint32_t key;
 		uint32_t asic;
-
+		uint32_t datarow[100];
 
 		if (data_processing == DATA_PROCESSING::DECODE) {
-			SCISDK_CITIROC_DECODED_BUFFER *p;
-			p = (SCISDK_CITIROC_DECODED_BUFFER *)buffer;
+			SCISDK_PETIROC_DECODED_BUFFER *p;
+			p = (SCISDK_PETIROC_DECODED_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_CITIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_PETIROC_DECODED) return NI_INVALID_BUFFER_TYPE;
 
 			uint32_t buffer_size_dw = p->info.buffer_size * settings.packet_size;
 
@@ -575,28 +582,23 @@ repeat_blocking_raw:
 							sm = DECODE_SM::DATA_A;
 							break;
 						case DECODE_SM::DATA_A:
-							p->data[p->info.valid_data].pixel[ridx].hg  = (f&0x3FFF);
-							p->data[p->info.valid_data].pixel[ridx].lg  = (f>>14)&0x3FFF;
-							p->data[p->info.valid_data].pixel[ridx].hit = (f>>28)&0x1;
+							datarow[ridx * 3 + 2] = (f >> 0) & 0x3FF;
+							datarow[ridx * 3 + 1] = (f >> 10) & 0x3FF;
+							datarow[ridx * 3 + 0] = (f >> 20) & 0x3FF;
 							ridx++;
 							if (ridx == settings.channels) {
-								sm = DECODE_SM::TRG_CNT;
+								sm = DECODE_SM::FOOTER;
 							}
-							break;
-						case DECODE_SM::TRG_CNT:
-							p->data[p->info.valid_data].info.trigger_count = f;
-							sm = DECODE_SM::VLD_CNT;
-							break;
-						case DECODE_SM::VLD_CNT:
-							p->data[p->info.valid_data].info.validation_counter = f;
-							sm = DECODE_SM::FLAGS;
-							break;
-						case DECODE_SM::FLAGS:
-							p->data[p->info.valid_data].info.flags = f;
-							sm = DECODE_SM::FOOTER;
 							break;
 						case DECODE_SM::FOOTER:
 							if (f == 0xC0000000) {
+								for (int i = 0; i < 32; i++)
+								{
+									p->data[p->info.valid_data].pixel[i].hit = (datarow[64 + i] & 0x1);
+									p->data[p->info.valid_data].pixel[i].charge = gray_to_bin(datarow[(i * 2) + 1], 10);
+									p->data[p->info.valid_data].pixel[i].fine = gray_to_bin(datarow[(i * 2) + 0], 10);
+									p->data[p->info.valid_data].pixel[i].coarse =  gray_to_bin(datarow[64 + i] >> 1, 9);	
+								}
 								p->info.valid_data++;
 							}
 							sm = DECODE_SM::HEADER_1;
@@ -612,10 +614,10 @@ repeat_blocking_raw:
 
 		}
 		else {
-			SCISDK_CITIROC_RAW_BUFFER *p;
-			p = (SCISDK_CITIROC_RAW_BUFFER *)buffer;
+			SCISDK_PETIROC_RAW_BUFFER *p;
+			p = (SCISDK_PETIROC_RAW_BUFFER *)buffer;
 
-			if (p->magic != BUFFER_TYPE_CITIROC_RAW) return NI_INVALID_BUFFER_TYPE;
+			if (p->magic != BUFFER_TYPE_PETIROC_RAW) return NI_INVALID_BUFFER_TYPE;
 
 			uint32_t buffer_size_dw = p->info.buffer_size;
 
@@ -647,7 +649,7 @@ repeat_blocking_raw:
 
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ExecuteCommand(string cmd, string param) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ExecuteCommand(string cmd, string param) {
 	if (cmd == "start") {
 		return CmdStart();
 	}
@@ -656,14 +658,14 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::ExecuteCommand(string cmd, string param) 
 	}
 	return NI_INVALID_COMMAND;
 }
-NI_RESULT SciSDK_DT5550W_CitirocFrame::ReadStatus(void *buffer) {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::ReadStatus(void *buffer) {
 
 	return NI_OK;
 }
 
 
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::CmdStart() {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::CmdStart() {
 	if (isRunning) {
 		return NI_ALREADY_RUNNING;
 	}
@@ -687,7 +689,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::CmdStart() {
 
 	if (threaded) {
 		producer.canRun = true;
-		producer.t = new std::thread(&SciSDK_DT5550W_CitirocFrame::producer_thread, this);
+		producer.t = new std::thread(&SciSDK_DT5550W_PetirocFrame::producer_thread, this);
 		producer.isRunning = true;
 		isRunning = true;
 	}
@@ -697,7 +699,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::CmdStart() {
 	return NI_OK;
 }
 
-NI_RESULT SciSDK_DT5550W_CitirocFrame::CmdStop() {
+NI_RESULT SciSDK_DT5550W_PetirocFrame::CmdStop() {
 	if (!isRunning) {
 		return NI_NOT_RUNNING;
 	}
@@ -714,7 +716,7 @@ NI_RESULT SciSDK_DT5550W_CitirocFrame::CmdStop() {
 	return NI_OK;
 }
 
-void SciSDK_DT5550W_CitirocFrame::producer_thread() {
+void SciSDK_DT5550W_PetirocFrame::producer_thread() {
 	bool toTarget = false;
 	while (!toTarget && producer.canRun) {
 		uint32_t vd = 0;
