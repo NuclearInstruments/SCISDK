@@ -21,6 +21,8 @@
 #include "scisdk_oscilloscope_dual.h"
 #include "scisdk_TOFspectrum.h"
 #include "scisdk_frame.h"
+#include "scisdk_DT5550W_citirocframe.h"
+#include "scisdk_DT5550W_petirocframe.h"
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -477,6 +479,12 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						}
 						else if (ToUpper(r.at("Type")) == "FRAMETRANSFER") {
 							mmcs.push_back(new SciSDK_Frame(_hal, r, parent + "/" + (string)it.key()));
+						}
+						else if (ToUpper(r.at("Type")) == "CITIROCFRAME") {
+							mmcs.push_back(new SciSDK_DT5550W_CitirocFrame(_hal, r, parent + "/" + (string)it.key()));
+						}
+						else if (ToUpper(r.at("Type")) == "PETIROCFRAME") {
+							mmcs.push_back(new SciSDK_DT5550W_PetirocFrame(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}
