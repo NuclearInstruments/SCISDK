@@ -22,6 +22,6 @@ class bd_dt1260 : public  SciSDK_Node {
     private:
     struct {
         bd_reg offset;
-    } board_params
+    } board_params;
 };
 #endif 

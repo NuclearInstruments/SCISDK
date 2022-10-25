@@ -64,6 +64,6 @@ private:
 
 	SciSDK_Device * FindDeviceByName(string Name);
 	std::vector<std::string> SplitPath(string path, char separator);
-	NI_RESULT SciSDK::LocateDevice(string path, SciSDK_Device **dev, string *subpath);
+	NI_RESULT LocateDevice(string path, SciSDK_Device **dev, string *subpath);
 };
 #endif

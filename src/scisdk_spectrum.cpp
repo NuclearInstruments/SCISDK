@@ -1,6 +1,7 @@
 #include "scisdk_spectrum.h"
 #include <functional>
 #include <chrono>
+#include <thread>
 
 /*
 		DEVICE DRIVER FOR OSCILLOSCPE

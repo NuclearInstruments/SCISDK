@@ -294,8 +294,8 @@ NI_RESULT SciSDK_Oscilloscope::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 		}
 		SCISDK_OSCILLOSCOPE_DECODED_BUFFER *p;
 		p = (SCISDK_OSCILLOSCOPE_DECODED_BUFFER*)*buffer;
-		p->analog = (int32_t*)malloc(sizeof(int32_t) * (settings.nanalog * settings.nsamples +8));
-		p->digital = (uint8_t*)malloc(sizeof(uint8_t) * (settings.ndigital * settings.nsamples +8));
+		p->analog = (int32_t*)malloc(sizeof(int32_t) * (settings.nchannels*settings.nanalog * settings.nsamples +8));
+		p->digital = (uint8_t*)malloc(sizeof(uint8_t) * (settings.nchannels*settings.nanalog *settings.ndigital * settings.nsamples +8));
 
 		if ((p->analog == NULL) || (p->digital == NULL)) {
 			return NI_ALLOC_FAILED;
@@ -399,9 +399,12 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 	bool ready = false;
 	bool armed = false;
 	bool running = false;
+	
+	
 	if (buffer == NULL) {
 		return NI_INVALID_BUFFER;
 	}
+
 	CheckOscilloscopeStatus(&ready, &armed, &running);
 	if ((!armed) && (!ready) && (!running)) {
 		if (!auto_arm) {
@@ -432,6 +435,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		}
 	}
 
+
 	if (_hal->ReadReg(&zero_posizition, address.status_position)) return NI_ERROR_INTERFACE;
 	if (zero_posizition > settings.nsamples) return NI_ERROR_INTERFACE;
 
@@ -444,7 +448,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		timestamp = std::chrono::duration_cast<std::chrono::microseconds>(ts.time_since_epoch()).count();
 	}
 	
-	
+
 	if (data_processing  == DATA_PROCESSING::DECODE) {
 		SCISDK_OSCILLOSCOPE_DECODED_BUFFER *p;
 		p = (SCISDK_OSCILLOSCOPE_DECODED_BUFFER*)buffer;
@@ -459,9 +463,12 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		//check service buffer
 		if (__buffer == NULL) return NI_ERROR_GENERIC;
 
+
 		//download data
 		uint32_t buffer_size = settings.nchannels * settings.nsamples;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
+			
+
 		/*for (int i = 0; i < 4; i++) {
 			cout << __buffer[i] << endl;
 		}
@@ -470,6 +477,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 			cout << __buffer[i] << endl;
 		}
 		cout << "----" << endl;*/
+	
 		CmdResetReadValidFlag();
 		if (dv < buffer_size) {
 			return NI_INCOMPLETE_READ;
@@ -477,6 +485,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		//decode data
 		p->trigger_position = pretrigger;
 		p->timecode = timestamp;
+
 
 		for (int n = 0; n< settings.nchannels; n++)
 		{
@@ -486,13 +495,15 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 				int k = 0;
 				for (int i = current; i < settings.nsamples; i++)
 				{
-					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
+					p->analog[k + (settings.nsamples*n)] =  __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d=0;d<settings.ndigital;d++)
 						p->digital[k + (settings.nsamples*(n+d))] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
 					k++;
+					
 				}
 				for (int i = 0; i < current; i++)
 				{
+					
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d = 0; d<settings.ndigital; d++)
 						p->digital[k + (settings.nsamples*(n+d))] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
@@ -504,6 +515,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 				int k = 0;
 				for (int i = settings.nsamples + current; i < settings.nsamples ; i++)
 				{
+					
 					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
 					for (int d = 0; d<settings.ndigital; d++)
 						p->digital[k + (settings.nsamples*(n+d))] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
@@ -519,6 +531,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 				}
 			}
 		}
+
 		return NI_OK;
 	}
 	else if (data_processing == DATA_PROCESSING::RAW) {

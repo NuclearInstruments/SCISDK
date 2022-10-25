@@ -6,11 +6,21 @@
 // defined with this macro as being exported.
 
 
-#ifdef SCISDK_DLL_EXPORTS
-#define SCISDK_DLL_API extern "C" __declspec(dllexport)
+#ifdef _MSC_VER
+    #ifdef R5560_SDKLIB_EXPORTS
+        #define SCISDK_DLL_API extern "C" __declspec(dllexport)// __declspec(dllexport)
+    #else
+        #define SCISDK_DLL_API extern "C" __declspec(dllimport)
+    #endif
 #else
-#define SCISDK_DLL_API extern "C" __declspec(dllimport)
+    #ifdef R5560_SDKLIB_EXPORTS
+        #define SCISDK_DLL_API __attribute__((visibility("default")))
+    #else
+        #define SCISDK_DLL_API
+    #endif
+    
 #endif
+
 
 
 SCISDK_DLL_API void * SCISDK_InitLib();

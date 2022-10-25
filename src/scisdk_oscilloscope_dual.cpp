@@ -299,8 +299,8 @@ NI_RESULT SciSDK_Oscilloscope_Dual::AllocateBuffer(T_BUFFER_TYPE bt, void **buff
 		}
 		SCISDK_OSCILLOSCOPE_DECODED_BUFFER *p;
 		p = (SCISDK_OSCILLOSCOPE_DECODED_BUFFER*)*buffer;
-		p->analog = (int32_t*)malloc(sizeof(int32_t) * (settings.nanalog * settings.nsamples + 8));
-		p->digital = (uint8_t*)malloc(sizeof(uint8_t) * (settings.ndigital * settings.nsamples + 8));
+		p->analog = (int32_t*)malloc(sizeof(int32_t) * (settings.nchannels*settings.nanalog * settings.nsamples + 8));
+		p->digital = (uint8_t*)malloc(sizeof(uint8_t) * (settings.nchannels*settings.ndigital * settings.nsamples + 8));
 
 		if ((p->analog == NULL) || (p->digital == NULL)) {
 			return NI_ALLOC_FAILED;
