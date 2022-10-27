@@ -5,14 +5,28 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 		char* str_tmp = "";
-	int int_tmp = 0;
+	int int_tmp = -1;
   void* _sdk = SCISDK_InitLib();
 	char * res = "";
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl;
 
 
-	SCISDK_s_error(SCISDK_GetComponentList("board0", "oscilloscope", &str_tmp, true, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_GetComponentList("board0", "ALL", &str_tmp, true, _sdk), &res, _sdk);
+	cout << str_tmp << endl;
+	cout << "******" << endl;	
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog", _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_GetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", &str_tmp, _sdk), &res, _sdk);
+	cout << str_tmp << endl;
+	SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_dtrack", 5, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_dtrack", &int_tmp, _sdk), &res, _sdk);
+	cout << to_string(int_tmp) << endl;
+	cout << "******" << endl;	
+
+	SCISDK_s_error(SCISDK_GetParameterListOfValues("board0:/MMCComponents/Oscilloscope_0.trigger_mode", &str_tmp, _sdk), &res, _sdk);
+	cout << str_tmp << endl;
+	SCISDK_s_error(SCISDK_GetParameterDescription("board0:/MMCComponents/Oscilloscope_0.trigger_mode", &str_tmp, _sdk), &res, _sdk);
+	cout << str_tmp << endl;
 	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), &res, _sdk);
 	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", &int_tmp, _sdk), &res, _sdk);
 	//SCISDK_s_error(SCISDK_SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0, _sdk), &res, _sdk);

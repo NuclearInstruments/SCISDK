@@ -40,6 +40,7 @@ SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle);
 SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle);
 SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle);
 SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void*handle);
+SCISDK_DLL_API int SCISDK_ReadStatus(char *Path, void *buffer, void*handle);
 SCISDK_DLL_API int SCISDK_s_error(int err_no, char** value, void* handle);
 SCISDK_DLL_API int SCISDK_ExecuteCommand(char* Path, char* value, void* handle);
 SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, bool return_json, void* handle);

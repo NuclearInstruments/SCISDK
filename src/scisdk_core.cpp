@@ -209,6 +209,14 @@ NI_RESULT SciSDK::ReadData(string Path, void *buffer) {
 	return dev->ReadData(subpath, buffer);
 }
 
+NI_RESULT SciSDK::ReadStatus(string Path, void *buffer) {
+	SciSDK_Device * dev;
+	string subpath;
+	int ret;
+	if ((ret = LocateDevice(Path, &dev, &subpath)) != 0) return ret;
+	return dev->ReadStatus(subpath, buffer);
+}
+
 NI_RESULT SciSDK::DecodeData(string Path, void *buffer_in, void *buffer_out) {
 
 	return NI_OK;

@@ -264,7 +264,13 @@ NI_RESULT SciSDK_Device::ReadData(string Path, void *buffer) {
 	node = FindMMC(Path);
 	if (!node) return NI_NOT_FOUND;
 	return node->ReadData(buffer);
+}
 
+NI_RESULT SciSDK_Device::ReadStatus(string Path, void *buffer){
+	SciSDK_Node *node = NULL;
+	node = FindMMC(Path);
+	if (!node) return NI_NOT_FOUND;
+	return node->ReadStatus(buffer);
 }
 
 NI_RESULT SciSDK_Device::GetComponentList(string Type, string * res, bool return_json)
