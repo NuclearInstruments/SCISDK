@@ -11,6 +11,17 @@ int main(int argc, char* argv[]) {
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl;
 
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "", _sdk), &res, _sdk);
+	SCISDK_SPECTRUM_DECODED_BUFFER *spb;
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", 1, (void**)&spb, _sdk), &res, _sdk);
+	while(1){
+	SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/Spectrum_0", (void *)spb, _sdk), &res, _sdk);
+	//	for (int i=0;i<10;i++)
+	//		cout << ob->analog[i] << " ";
+		cout << spb->info.valid_bins;
+		cout << endl;
+	}
+	
 
 	SCISDK_s_error(SCISDK_GetComponentList("board0", "ALL", &str_tmp, true, _sdk), &res, _sdk);
 	cout << str_tmp << endl;
