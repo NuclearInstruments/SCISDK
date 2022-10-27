@@ -126,6 +126,14 @@ NI_RESULT SciSDK_Spectrum::IGetParamU32(string name, uint32_t *value) {
 	else if (name == "limit") {
 		*value = limit_value;
 		return NI_OK;
+	} 
+	else if (name == "bins") {
+		*value = settings.nbins;
+		return NI_OK;
+	}
+	else if (name == "max_counts") {
+		*value = 1<<settings.bitbin;
+		return NI_OK;
 	}
 
 
