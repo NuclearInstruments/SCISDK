@@ -1,137 +1,50 @@
-{"Registers":[
-{
-  "Name": "ttt",
-  "Address": 4103,
-  "RegionSize": 1,
-  "Description": "",
-  "Category": "Undefined"
-},
-{
-  "Name": "cnt",
-  "Address": 131078,
-  "RegionSize": 1,
-  "Description": "",
-  "Category": "Undefined"
-},
-{
-  "Name": "wwr",
-  "Address": 131079,
-  "RegionSize": 1,
-  "Description": "",
-  "Category": "Undefined"
-},
-{
-  "Name": "www",
-  "Address": 131080,
-  "RegionSize": 1,
-  "Description": "",
-  "Category": "Undefined"
-}],
+{"Registers":[],
 "MMCComponents":[
-{
-  "Name": "Oscilloscope_0",
-  "Type": "Oscilloscope",
-  "Address": 0,
-  "Version": "1.0.0.0",
-  "nsamples": 1024,
-  "Registers": [
-    {
-      "Name": "READ_STATUS",
-      "Address": 4096,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "READ_POSITION",
-      "Address": 4097,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_MODE",
-      "Address": 4098,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_PRETRIGGER",
-      "Address": 4099,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_LEVEL",
-      "Address": 4100,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_ARM",
-      "Address": 4101,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_DECIMATOR",
-      "Address": 4102,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ],
-  "Channels": 4
-},
 {
   "Name": "Spectrum_0",
   "Type": "Spectrum",
-  "Address": 65536,
+  "Address": 0,
   "Version": "1.0.0.0",
   "bins": 16384,
   "Registers": [
     {
       "Name": "STATUS",
-      "Address": 131072,
+      "Address": 65536,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG",
-      "Address": 131073,
+      "Address": 65537,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_LIMIT",
-      "Address": 131074,
+      "Address": 65538,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_REBIN",
-      "Address": 131075,
+      "Address": 65539,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_MIN",
-      "Address": 131076,
+      "Address": 65540,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_MAX",
-      "Address": 131077,
+      "Address": 65541,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
@@ -140,98 +53,142 @@
   "CountsBit": 16
 },
 {
-  "Name": "List_0",
-  "Type": "ListModule",
-  "Address": 131082,
-  "Version": "1.1.0.0",
-  "WordSize": 0,
-  "Channels": 1,
-  "Registers": [
-    {
-      "Name": "STATUS",
-      "Address": 131083,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG",
-      "Address": 131084,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ]
-},
-{
-  "Name": "CP_0",
-  "Type": "CustomPacket",
-  "Address": 131086,
-  "Version": "1.1.0.0",
-  "Channels": 0,
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 66560,
+  "Version": "1.0.0.0",
+  "nsamples": 1024,
   "Registers": [
     {
       "Name": "READ_STATUS",
-      "Address": 131087,
+      "Address": 67584,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "READ_VALID_WORDS",
-      "Address": 131088,
+      "Name": "READ_POSITION",
+      "Address": 67585,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CONFIG",
-      "Address": 131089,
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 67586,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 67587,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 67588,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 67589,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 67590,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     }
   ],
-  "UseDMA": false,
-  "listOfWord": [
+  "Channels": 1
+},
+{
+  "Name": "REGFILE_0",
+  "Type": "RegisterFile",
+  "Address": 67592,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
     {
-      "PioWE": [
-        {
-          "Type": "Constant",
-          "Signal": "FFFFFFFF",
-          "BitStart": 0,
-          "BitStop": 31,
-          "SliceStart": 31,
-          "SliceStop": 0,
-          "Value": "FFFFFFFF",
-          "ValueFormat": "Hex"
-        }
-      ]
+      "Name": "REG_THRS",
+      "Address": 67593,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
     },
     {
-      "PioWE": [
-        {
-          "Type": "Input",
-          "Signal": "IN_1",
-          "BitStart": 0,
-          "BitStop": 15,
-          "SliceStart": 15,
-          "SliceStop": 0,
-          "Value": "IN_1",
-          "ValueFormat": ""
-        },
-        {
-          "Type": "Input",
-          "Signal": "IN_2",
-          "BitStart": 16,
-          "BitStop": 31,
-          "SliceStart": 15,
-          "SliceStop": 0,
-          "Value": "IN_2",
-          "ValueFormat": ""
-        }
-      ]
+      "Name": "REG_POL",
+      "Address": 67594,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "INT_TIME",
+      "Address": 67595,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "PRE_INT",
+      "Address": 67596,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "GAIN",
+      "Address": 67597,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "OFFSET",
+      "Address": 67598,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLLEN",
+      "Address": 67599,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLHOLD",
+      "Address": 67600,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRIG_INIB",
+      "Address": 67601,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
     }
   ],
-  "BufferLength": 0
-}],"Device":"DT5560","Project":"dt5560sethanos"}
+  "Channels": 0
+},
+{
+  "Name": "RateMeter_0",
+  "Type": "MCRateMeter",
+  "Address": 131072,
+  "Version": "1.0.0.0",
+  "Channels": 1,
+  "Registers": []
+}],"Device":"DT5560","Project":"QDCSpectrum"}
