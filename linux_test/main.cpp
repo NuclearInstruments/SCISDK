@@ -11,9 +11,18 @@ int main(int argc, char* argv[]) {
 	int int_tmp = -1;
   	void* _sdk = SCISDK_InitLib();
 	char * res = "";
+	int ret = 0;
 
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl;
+
+	ret = SCISDK_GetAllParameters("board0:/MMCComponents/REGFILE_0", &res, _sdk);
+	cout << "*******" << endl << ret << endl;
+	cout << "*******" << endl << res << endl;
+
+	ret = SCISDK_SetParameterInteger("board0:/MMCComponents/REGFILE_0.REG_THRS", 12000, _sdk);
+	cout << "*******" << endl << ret << endl;
+	return 0;
 
 	SCISDK_SPECTRUM_DECODED_BUFFER *spb;
 	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", 1, (void**)&spb, _sdk), &res, _sdk);
@@ -34,7 +43,6 @@ int main(int argc, char* argv[]) {
 	cout << spe_status->integration_time<< endl;
 	cout << spe_status->progress<< endl;
 	cout << spe_status->total_counter<< endl;
-	cout << "*1*" <<endl;
 	cout << "*****************" <<endl;
 	return 0;
 
