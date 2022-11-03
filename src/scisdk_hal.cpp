@@ -460,6 +460,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	uint32_t addressStatus,
 	uint32_t timeout_ms,
 	uint32_t *read_data) {
+ 
 	uint32_t rd, vd;
 	switch (_model) {
 	case BOARD_MODEL::DT1260:
@@ -488,15 +489,17 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 		if (h_lib_instance != NULL) {
 			#ifdef _MSC_VER 
 				typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tR5560_Handle *handle, uint32_t *read_data);
-				READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFIFO");
+				READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
 			#else
 				int (*read_data_proc)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tR5560_Handle *handle, uint32_t *read_data);
-				*(void**)(&read_data_proc)  =  dlsym(h_lib_instance, "NI_ReadFIFO");
+				*(void**)(&read_data_proc)  =  dlsym(h_lib_instance, "NI_ReadFifo");
 			#endif
+
 			if (read_data_proc) {
 				mtx.lock();
-				NI_RESULT r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
+				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
 				mtx.unlock();
+				*read_data = rd;
 				return r;
 			}
 		}

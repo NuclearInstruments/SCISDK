@@ -2,6 +2,7 @@
 #include <functional>
 #include <chrono>
 #include <thread>
+#include <unistd.h>
 
 /*
 DEVICE DRIVER FOR DIGITIZER
@@ -289,14 +290,15 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 		}
 		else {
 			_size = buffer_size_dw;
-		}
+		}	
+		
 		_size = buffer_size_dw > _size ? _size : buffer_size_dw;
 		uint32_t chunk_size = (settings.nchannels * settings.wordsize) / 4;
 		_size = floor(_size / chunk_size) * chunk_size;
 		if (_size > 0) {
 			uint32_t *data;
 			data = (uint32_t*)p->data;
-			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, 0, timeout, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, address.status, timeout, &vd);
 			p->info.valid_samples = vd * 4;
 			if (vd == 0) return NI_NO_DATA_AVAILABLE;
 			else return NI_OK;
@@ -369,12 +371,16 @@ NI_RESULT SciSDK_List::CmdStop() {
 	}
 
 	//Critical section : set stop
+	
 	producer.canRun = false;
-	producer.t->join();
+	if (producer.isRunning)
+		producer.t->join();
+
 	_hal->WriteReg(0, address.config);
+
 	if (__buffer)
 		free(__buffer);
-
+		
 	producer.isRunning = false;
 	isRunning = false;
 	return NI_OK;
@@ -410,7 +416,7 @@ void SciSDK_List::producer_thread() {
 
 		if (_size > 0) {
 
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, 100, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();

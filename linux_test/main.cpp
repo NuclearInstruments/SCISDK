@@ -1,5 +1,5 @@
-#include<iostream>
-#include <SciSDK_DLL.h>
+#include <iostream>
+#include "SciSDK_DLL.h"
 #include <scisdk_defines.h>
 #include <unistd.h>
 
@@ -14,14 +14,30 @@ int main(int argc, char* argv[]) {
 	int ret = 0;
 
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
-	cout << res << endl;
+	cout << res << endl << "-*-*-*-*-*-*-" << endl;
 
-	ret = SCISDK_GetAllParameters("board0:/MMCComponents/REGFILE_0", &res, _sdk);
-	cout << "*******" << endl << ret << endl;
-	cout << "*******" << endl << res << endl;
+	SCISDK_LIST_RAW_BUFFER *lrb;
+	ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk, 1024);
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/List_0.thread"), "false", _sdk);
+	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/List_0.timeout"), 5000, _sdk);
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/List_0.acq_mode"), "blocking", _sdk);
+	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/List_0.start"), "", _sdk);
 
-	ret = SCISDK_SetParameterInteger("board0:/MMCComponents/REGFILE_0.REG_THRS", 12000, _sdk);
-	cout << "*******" << endl << ret << endl;
+	ret = SCISDK_ReadData((char*)("board0:/MMCComponents/List_0"), (void *)lrb, _sdk);	
+
+	if (ret==0) {
+		int s = lrb->info.valid_samples/4;
+		uint32_t *pp;
+		pp = (uint32_t*) lrb->data;
+		for (int i =0;i<255;i++) {
+			cout << i << " " << pp[i] <<endl;
+		}
+	}
+	cout << "end" << endl;
+	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/List_0.stop"), "", _sdk);
+	cout << ret << endl;
+	ret = SCISDK_FreeBuffer((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk);
+	cout << ret << endl;
 	return 0;
 
 	SCISDK_SPECTRUM_DECODED_BUFFER *spb;
