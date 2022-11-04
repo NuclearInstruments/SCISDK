@@ -347,9 +347,10 @@ NI_RESULT SciSDK_List::CmdStart() {
 	_hal->WriteReg(1, address.config);
 	h_mutex.unlock();
 
-	if (__buffer)
+	if (__buffer) {
 		free(__buffer);
-
+		__buffer = NULL;
+	}
 	transfer_size = settings.nchannels * settings.acq_len;
 	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
 
@@ -378,9 +379,10 @@ NI_RESULT SciSDK_List::CmdStop() {
 
 	_hal->WriteReg(0, address.config);
 
-	if (__buffer)
+	if (__buffer) {
 		free(__buffer);
-		
+		__buffer = NULL;
+	}
 	producer.isRunning = false;
 	isRunning = false;
 	return NI_OK;

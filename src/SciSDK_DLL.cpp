@@ -101,7 +101,7 @@ SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char** value, void* han
 
 	int res = _sdk->GetParameter(_Path, &_value);
 	char *v = (char*)_value.c_str();
-	*value = (char*)malloc(strlen(v) * sizeof(char));
+	*value = (char*)malloc((strlen(v)+3) * sizeof(char));
 	strcpy(*value, v);
 	return res;
 }
@@ -213,10 +213,12 @@ SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle) {
 }
 
 SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle) {
+
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (buffer_type == NULL)return NI_ERROR;
+	if (buffer_type != 0 & buffer_type != 1)return NI_ERROR;
 	if (buffer == NULL)return NI_ERROR;
+
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
@@ -268,7 +270,7 @@ SCISDK_DLL_API int SCISDK_s_error(int err_no, char** value, void* handle) {
 
 	ret_string = _sdk->s_error(err_no);
 	char* str_tmp = (char*)ret_string.c_str();
-	*value = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	*value = (char*)malloc((strlen(str_tmp)+3) * sizeof(char));
 
 	strcpy(*value, str_tmp);
 	return NI_OK;
@@ -300,7 +302,7 @@ SCISDK_DLL_API int SCISDK_GetComponentList(char* name, char* Type, char** ret, b
 
 	int res = _sdk->GetComponentList(_name, _type, &res_string, (bool)return_json);
 	char* str_tmp = (char*)res_string.c_str();
-	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	*ret = (char*)malloc((strlen(str_tmp)+3) * sizeof(char));
 	strcpy(*ret, str_tmp);
 	return 0;
 }
@@ -315,10 +317,10 @@ SCISDK_DLL_API int SCISDK_GetAllParameters(char * Path, char ** ret, void * hand
 	string _path(Path);
 	string _ret;
 
-	*ret = "";
+	
 	int res = _handle->GetAllParameters(_path, &_ret);
 	char* str_tmp = (char*)_ret.c_str();
-	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	*ret = (char*)malloc((strlen(str_tmp)+10) * sizeof(char));
 	strcpy(*ret, str_tmp);
 	return res;
 }
@@ -332,11 +334,11 @@ SCISDK_DLL_API int SCISDK_GetParameterDescription(char * Path, char ** ret, void
 	SciSDK* _handle = (SciSDK*)handle;
 	string _path(Path);
 	string _ret;
-	*ret = "";
+	
 
 	int res = _handle->GetParameterDescription(_path, &_ret);
 	char* str_tmp = (char*)_ret.c_str();
-	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	*ret = (char*)malloc((strlen(str_tmp)+10) * sizeof(char));
 	strcpy(*ret, str_tmp);
 	return res;
 }
@@ -350,11 +352,11 @@ SCISDK_DLL_API int SCISDK_GetParameterListOfValues(char * Path, char ** ret, voi
 	SciSDK* _handle = (SciSDK*)handle;
 	string _path(Path);
 	string _ret;
-	*ret = "";
+	
 
 	int res = _handle->GetParameterListOfValues(_path, &_ret);
 	char* str_tmp = (char*)_ret.c_str();
-	*ret = (char*)malloc(strlen(str_tmp) * sizeof(char));
+	*ret = (char*)malloc((strlen(str_tmp)+10) * sizeof(char));
 	strcpy(*ret, str_tmp);
 	return res;
 }
@@ -393,7 +395,7 @@ SCISDK_DLL_API int SCISDK_GetParametersProperties(char * Path, char ** ret, void
 	int res = _handle->GetParametersProperties(_path, &_ret);
 
 	char* str_tmp = (char*)_ret.c_str();
-	*ret = (char*)malloc(sizeof(char) * strlen(str_tmp));
+	*ret = (char*)malloc(sizeof(char) * (strlen(str_tmp)+3));
 	strcpy(*ret, str_tmp);
 	return res;
 }
