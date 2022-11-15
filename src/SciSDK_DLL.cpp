@@ -213,10 +213,12 @@ SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle) {
 }
 
 SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer, void*handle) {
+
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (buffer_type == NULL)return NI_ERROR;
+	if (buffer_type != 0 & buffer_type != 1)return NI_ERROR;
 	if (buffer == NULL)return NI_ERROR;
+
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);

@@ -43,7 +43,7 @@ private:
 	} spectrum_limit;
 
 	int32_t limit_value=0;
-	int32_t rebin;
+	int32_t rebin=0;
 	int32_t emin;
 	int32_t emax;
 	int32_t current_cfg_reg = 0;

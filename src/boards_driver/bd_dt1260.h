@@ -23,6 +23,6 @@ class bd_dt1260 : public  SciSDK_Node {
         NI_RESULT UpdateHardware();
     struct {
         bd_reg offset;
-    } board_params
+    } board_params;
 };
 #endif 

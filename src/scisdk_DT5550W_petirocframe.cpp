@@ -236,7 +236,7 @@ NI_RESULT SciSDK_DT5550W_PetirocFrame::AllocateBuffer(T_BUFFER_TYPE bt, void **b
 		}
 		for (int i = 0; i < size; i++) {
 			p->data[i].n = settings.channels;
-			p->data[i].pixel = (uint32_t*)malloc(sizeof(uint32_t) * (settings.channels));
+			p->data[i].pixel = (SCISDK_PETIROC_PIXEL*)malloc(sizeof(SCISDK_PETIROC_PIXEL) * (settings.channels));
 			if (p->data[i].pixel == NULL) {
 				return NI_ALLOC_FAILED;
 			}

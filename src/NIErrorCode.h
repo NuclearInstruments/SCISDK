@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #pragma once
-typedef uint32_t	NI_RESULT;
+typedef int	NI_RESULT;
 
 #define		NI_OK									0x00000000
 #define		NI_ERROR_GENERIC						0x00000001

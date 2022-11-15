@@ -1,6 +1,7 @@
 #include "scisdk_TOFspectrum.h"
 #include <functional>
 #include <chrono>
+#include <thread>
 
 /*
 		DEVICE DRIVER FOR TOF SPECTRUM

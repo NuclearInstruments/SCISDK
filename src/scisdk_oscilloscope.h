@@ -36,58 +36,75 @@ private:
 	uint32_t pretrigger=0;
 	uint32_t trigger_channel = 0;
 	uint32_t trigger_dtrack = 0;
-	int32_t timeout;
-	bool auto_arm;
-	enum class TRIGGER_TYPE {
-		DISABLED,
-		SELF,
-		EXT,
-		ANALOG,
-		DIGITAL_TRACK
-	} trigger;
 	uint32_t trigger_level=0;
+	int32_t timeout;
 
-	enum class ACQ_MODE {
-		BLOCKING,
-		NON_BLOCKING
-	} acq_mode;
+bool auto_arm;
 
-	enum class DATA_PROCESSING {
-		RAW,
-		DECODE
-	} data_processing;
+enum class TRIGGER_TYPE {
+	DISABLED,
+	SELF,
+	EXT,
+	ANALOG,
+	DIGITAL_TRACK
+} trigger = TRIGGER_TYPE::SELF;
 
-	enum class TRIGGER_POLARITY {
-		POSITIVE,
-		NEGATIVE
-	} trigger_polarity;
 
-	NI_RESULT ConfigureOscilloscope();
-	NI_RESULT CmdArm();
-	NI_RESULT CmdResetReadValidFlag();
-	NI_RESULT CheckOscilloscopeStatus(bool *ready, bool *armed, bool *running);
 
-	struct  {
-		uint32_t base;
-		uint32_t cfg_decimator;
-		uint32_t cfg_trigger_mode;
-		uint32_t cfg_trigger_level;
-		uint32_t cfg_pretrigger;
-		uint32_t cmd_arm;
-		uint32_t status_read;
-		uint32_t status_position;
-		uint32_t timestamp;
-		bool has_timestamp;
-	} address;
 
-	struct {
-		uint32_t nsamples;
-		uint32_t nchannels;
-		uint32_t nanalog;
-		uint32_t ndigital;
-	} settings;
+enum class ACQ_MODE {
+	BLOCKING,
+	NON_BLOCKING
+} acq_mode = ACQ_MODE::BLOCKING;
 
-	uint32_t *__buffer;
+
+
+enum class DATA_PROCESSING {
+	RAW,
+	DECODE
+} data_processing=DATA_PROCESSING::DECODE;
+
+
+
+enum class TRIGGER_POLARITY {
+	POSITIVE,
+	NEGATIVE
+} trigger_polarity =TRIGGER_POLARITY::POSITIVE;
+
+
+
+   NI_RESULT ConfigureOscilloscope();
+    NI_RESULT CmdArm();
+    NI_RESULT CmdResetReadValidFlag();
+    NI_RESULT CheckOscilloscopeStatus(bool *ready, bool *armed, bool *running);
+
+
+
+   struct  {
+        uint32_t base;
+        uint32_t cfg_decimator;
+        uint32_t cfg_trigger_mode;
+        uint32_t cfg_trigger_level;
+        uint32_t cfg_pretrigger;
+        uint32_t cmd_arm;
+        uint32_t status_read;
+        uint32_t status_position;
+        uint32_t timestamp;
+        bool has_timestamp;
+    } address;
+
+
+
+   struct {
+        uint32_t nsamples;
+        uint32_t nchannels;
+        uint32_t nanalog;
+        uint32_t ndigital;
+    } settings;
+
+
+
+   uint32_t *__buffer;
 
 
 };

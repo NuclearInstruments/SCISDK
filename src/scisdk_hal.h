@@ -1,7 +1,10 @@
 #ifndef HEADER_H_SCISDK_HAL
 #define HEADER_H_SCISDK_HAL
-
-#include <windows.h> 
+#ifdef _MSC_VER 
+	#include <windows.h> 
+#else
+	#define HINSTANCE void *
+#endif
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -9,6 +12,9 @@
 #include "NIErrorCode.h"
 #include "scisdk_SciElement.h"
 #include <mutex>
+
+
+
 
 using namespace std;
 #include "json.hpp"

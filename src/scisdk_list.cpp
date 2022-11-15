@@ -2,6 +2,7 @@
 #include <functional>
 #include <chrono>
 #include <thread>
+#include <unistd.h>
 
 /*
 DEVICE DRIVER FOR DIGITIZER
@@ -33,7 +34,8 @@ SciSDK_List::SciSDK_List(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	threaded_buffer_size = 100000;
 	isRunning = false;
 
-
+	threaded=false;
+	high_performance=false;
 	__buffer = NULL;
 	cout << "List: " << name << " addr: " << address.base << endl;
 
@@ -288,14 +290,15 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 		}
 		else {
 			_size = buffer_size_dw;
-		}
+		}	
+		
 		_size = buffer_size_dw > _size ? _size : buffer_size_dw;
 		uint32_t chunk_size = (settings.nchannels * settings.wordsize) / 4;
 		_size = floor(_size / chunk_size) * chunk_size;
 		if (_size > 0) {
 			uint32_t *data;
 			data = (uint32_t*)p->data;
-			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, 0, timeout, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, address.status, timeout, &vd);
 			p->info.valid_samples = vd * 4;
 			if (vd == 0) return NI_NO_DATA_AVAILABLE;
 			else return NI_OK;
@@ -344,9 +347,10 @@ NI_RESULT SciSDK_List::CmdStart() {
 	_hal->WriteReg(1, address.config);
 	h_mutex.unlock();
 
-	if (__buffer)
+	if (__buffer) {
 		free(__buffer);
-
+		__buffer = NULL;
+	}
 	transfer_size = settings.nchannels * settings.acq_len;
 	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
 
@@ -368,12 +372,17 @@ NI_RESULT SciSDK_List::CmdStop() {
 	}
 
 	//Critical section : set stop
+	
 	producer.canRun = false;
-	producer.t->join();
-	_hal->WriteReg(0, address.config);
-	if (__buffer)
-		free(__buffer);
+	if (producer.isRunning)
+		producer.t->join();
 
+	_hal->WriteReg(0, address.config);
+
+	if (__buffer) {
+		free(__buffer);
+		__buffer = NULL;
+	}
 	producer.isRunning = false;
 	isRunning = false;
 	return NI_OK;
@@ -409,7 +418,7 @@ void SciSDK_List::producer_thread() {
 
 		if (_size > 0) {
 
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, 100, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();

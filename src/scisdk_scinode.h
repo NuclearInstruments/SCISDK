@@ -174,7 +174,7 @@ protected:
 private:
 	vector<SciSDK_Paramcb> params;
 	bool FindParameterByName(string name, SciSDK_Paramcb **p);
-	bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, double value);
-	bool SciSDK_Node::OutOfRange(SciSDK_Paramcb *p, string value);
+	bool OutOfRange(SciSDK_Paramcb *p, double value);
+	bool OutOfRange(SciSDK_Paramcb *p, string value);
 };
 #endif 

@@ -73,10 +73,13 @@ int main(int argc, char* argv[])
 	void* _sdk = SCISDK_InitLib();
 	char * res = "";
 	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), &res, _sdk);
+	
 	cout << res << endl;
 
 	char* str_tmp = "";
 	int int_tmp = 0;
+	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_dtrack", &int_tmp, _sdk), &res, _sdk);
+	cout << endl << "********" << to_string(int_tmp) << endl;
 	
 	/*SCISDK_RM_RAW_BUFFER *rmb;
 	SCISDK_AllocateBuffer("board0:/MMCComponents/RateMeter_0", 0, (void**)&rmb, _sdk);

@@ -1,6 +1,7 @@
 #include "scisdk_spectrum.h"
 #include <functional>
 #include <chrono>
+#include <thread>
 
 /*
 		DEVICE DRIVER FOR OSCILLOSCPE
@@ -35,6 +36,8 @@ SciSDK_Spectrum::SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path) : SciSDK_
 	settings.bitbin = (uint32_t)j.at("CountsBit");
 	emin = 0;
 	emax = settings.nbins - 1;
+	spectrum_limit = LIMIT_TYPE::FREE_RUNNING;
+	rebin =0;
 
 	cout << "Spectrum: " << name << " addr: " << address.base << endl;
 	RegisterParameter("rebin", "set rebin factor. 0: no rebin", SciSDK_Paramcb::Type::U32, this);
@@ -47,6 +50,8 @@ SciSDK_Spectrum::SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path) : SciSDK_
 	RegisterParameter("limitmode", "set limit mode for the integration on the spectrum", SciSDK_Paramcb::Type::str, listOfLimit, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
+	RegisterParameter("bins", "maximum number of bins in the spectrum", SciSDK_Paramcb::Type::U32, this);
+	RegisterParameter("max_counts", "maximum number of counts per bin", SciSDK_Paramcb::Type::U32, this);
 }
 
 NI_RESULT SciSDK_Spectrum::ISetParamU32(string name, uint32_t value) {
@@ -124,6 +129,14 @@ NI_RESULT SciSDK_Spectrum::IGetParamU32(string name, uint32_t *value) {
 	}
 	else if (name == "limit") {
 		*value = limit_value;
+		return NI_OK;
+	} 
+	else if (name == "bins") {
+		*value = settings.nbins;
+		return NI_OK;
+	}
+	else if (name == "max_counts") {
+		*value = 1<<settings.bitbin;
 		return NI_OK;
 	}
 
