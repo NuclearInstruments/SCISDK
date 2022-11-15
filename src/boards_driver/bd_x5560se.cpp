@@ -11,7 +11,7 @@ Framework Compatible version: 1.0
 
 */
 
-bd_dt1260::bd_dt1260(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
+bd_x5560se::bd_x5560se(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
     board_params.offset.value = 2048;
     board_params.offset.address = 4294967289;
 
@@ -19,7 +19,7 @@ bd_dt1260::bd_dt1260(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j,
 }
 
 
-NI_RESULT bd_dt1260::ISetParamI32(string name, uint32_t value)
+NI_RESULT bd_x5560se::ISetParamI32(string name, uint32_t value)
 {
 	if (name == "analog_offset") {
         if ((value > 4095) || (value<0)) {
@@ -33,7 +33,7 @@ NI_RESULT bd_dt1260::ISetParamI32(string name, uint32_t value)
     return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT bd_dt1260::IGetParamI32(string name, uint32_t *value)
+NI_RESULT bd_x5560se::IGetParamI32(string name, uint32_t *value)
 {
     if (name == "analog_offset") {
         *value = board_params.offset.value;
