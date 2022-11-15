@@ -56,8 +56,24 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	if ((model == "V2495") || (model == "DT2495")) {
 		_model = BOARD_MODEL::X2495;
 	}
-	if ((model == "V2740") || (model == "DT2740")) {
+	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")) {
 		_model = BOARD_MODEL::X2495;
+#ifdef _MSC_VER 
+		h_lib_instance = LoadLibrary(L"CAEN_FELib.dll");
+#else
+		h_lib_instance = dlopen("./caen_feelib.so", RTLD_LAZY);
+		if (!h_lib_instance) {
+			/* fail to load the library */
+			fprintf(stderr, "Error: %s\n", dlerror());
+		}
+#endif
+		if (h_lib_instance == NULL) {
+			cout << "CAEN_FEELib library not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "CAEN_FEELib library loaded correclty ..." << endl;
+		}
 	}
 
 	vector<std::string> p = SplitPath(Path, ':');
@@ -119,6 +135,28 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+		if (h_lib_instance != NULL) {
+			_handle = malloc(sizeof(FEELibHandle));
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CONNECT_PROC_PTR)(const char* url, FEELibHandle* handle);
+			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_Open");
+#else
+			int (*connectTCP)(const char* url, FEELibHandle * handle);
+			*(void**)(&connectTCP) = dlsym(h_lib_instance, "CAEN_FELib_Open");
+#endif
+			if (connectTCP) {
+				mtx.lock();
+				string url = "dig2://" + p[0];
+				int error_code = connectTCP(url.c_str(), (FEELibHandle*)_handle);
+				mtx.unlock();
+				if (error_code == 0) {
+					return NI_OK;
+				}
+				else {
+					return NI_ERROR;
+				}
+			}
+		}
 		break;
 	default:
 		break;
@@ -193,6 +231,32 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(FEELibHandle);
+			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_Close");
+#else
+			int (*close_connection)(FEELibHandle);
+			*(void**)(&close_connection) = dlsym(h_lib_instance, "NI_ClosCAEN_FELib_CloseeConnection");
+#endif
+			if (close_connection) {
+				mtx.lock();
+				int res = close_connection(*((FEELibHandle*)(_handle)));
+				mtx.unlock();
+				if (res == 0) {
+#ifdef _MSC_VER 
+					FreeLibrary(h_lib_instance);
+#else
+					dlclose(h_lib_instance);
+#endif
+					free(_handle);
+					return NI_OK;
+				}
+				else {
+					return NI_ERROR;
+				}
+			}
+		}
 		break;
 	default:
 		break;
@@ -267,6 +331,24 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+		// write register of X274X board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(FEELibHandle handle, uint32_t address, uint32_t value);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetUserRegister");
+#else
+			int (*write_reg)(FEELibHandle handle, uint32_t address, uint32_t value);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "CAEN_FELib_SetUserRegister");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(*((FEELibHandle*)(_handle)), address*4, value);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+		}
 		break;
 	default:
 		break;
@@ -325,6 +407,24 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+		// write register of X274X board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(FEELibHandle handle, uint32_t address, uint32_t *value);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetUserRegister");
+#else
+			int (*read_reg)(FEELibHandle handle, uint32_t address, uint32_t *value);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "CAEN_FELib_GetUserRegister");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(*((FEELibHandle*)(_handle)), address*4, value);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+		}
 		break;
 	default:
 		break;
@@ -386,6 +486,9 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+		for (int i = 0; i < length; i++) {
+			WriteReg(value[i], address + i);
+		}
 		break;
 	default:
 		break;
@@ -446,6 +549,52 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+
+		// read data from X274X board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* FEE_GET_HANDLE_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
+			FEE_GET_HANDLE_PTR CAEN_FELib_GetHandle = (FEE_GET_HANDLE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
+			typedef int(__cdecl* FEE_SET_VALUE_PTR)(FEELibHandle handle, const char* path, const char* value);
+			FEE_SET_VALUE_PTR CAEN_FELib_SetValue = (FEE_SET_VALUE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
+			typedef int(__cdecl* FEE_SEND_CMD_PTR)(FEELibHandle handle, const char* path);
+			FEE_SEND_CMD_PTR CAEN_FELib_SendCommand = (FEE_SEND_CMD_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SendCommand");
+			typedef int(__cdecl* FEE_READ_DATA_PTR)(FEELibHandle handle, int timeout, char * data, uint32_t *size);
+			FEE_READ_DATA_PTR CAEN_FELib_ReadData = (FEE_READ_DATA_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadData");
+#else
+			int (*CAEN_FELib_GetHandle)(FEELibHandle handle, const char* path, uint64_t * pathHandle);
+			*(void**)(&CAEN_FELib_GetHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetHandle");
+			int (*CAEN_FELib_SetValue)(FEELibHandle handle, const char* path, const char* value);
+			*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
+			int (*CAEN_FELib_SendCommand)(FEELibHandle handle, const char* path);
+			*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
+			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, uint32_t *size);
+			*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
+#endif
+			if ((CAEN_FELib_GetHandle) && (CAEN_FELib_SetValue) && (CAEN_FELib_SendCommand) && (CAEN_FELib_ReadData)) {
+				uint64_t ep_od_handle;
+				*read_data = 0;
+				mtx.lock();
+				int res = 0;
+				uint32_t rd = 0;
+				string size_transfer = std::to_string(length);
+				string address_transfer = std::to_string(address*4);
+				res += CAEN_FELib_GetHandle(*((FEELibHandle*)(_handle)), "/endpoint/opendata", &ep_od_handle);
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendataaddress", address_transfer.c_str());
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendatasize", size_transfer.c_str());
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/OpenDataMode", "RAM");
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/opendataread");
+				res += CAEN_FELib_ReadData(*((FEELibHandle*)(_handle)), timeout_ms, (char*)value, &rd);
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
+				*read_data = rd/4;
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+		}
+		
 		break;
 	default:
 		break;
@@ -508,6 +657,62 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
+
+		// read fifo from X274X board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* FEE_GET_HANDLE_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
+			FEE_GET_HANDLE_PTR CAEN_FELib_GetHandle = (FEE_GET_HANDLE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
+			typedef int(__cdecl* FEE_SET_VALUE_PTR)(FEELibHandle handle, const char* path, const char* value);
+			FEE_SET_VALUE_PTR CAEN_FELib_SetValue = (FEE_SET_VALUE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
+			typedef int(__cdecl* FEE_SEND_CMD_PTR)(FEELibHandle handle, const char* path);
+			FEE_SEND_CMD_PTR CAEN_FELib_SendCommand = (FEE_SEND_CMD_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SendCommand");
+			typedef int(__cdecl* FEE_READ_DATA_PTR)(FEELibHandle handle, int timeout, char* data, uint32_t* size);
+			FEE_READ_DATA_PTR CAEN_FELib_ReadData = (FEE_READ_DATA_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadData");
+#else
+			int (*CAEN_FELib_GetHandle)(FEELibHandle handle, const char* path, uint64_t * pathHandle);
+			*(void**)(&CAEN_FELib_GetHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetHandle");
+			int (*CAEN_FELib_SetValue)(FEELibHandle handle, const char* path, const char* value);
+			*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
+			int (*CAEN_FELib_SendCommand)(FEELibHandle handle, const char* path);
+			*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
+			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, uint32_t * size);
+			*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
+#endif
+			if ((CAEN_FELib_GetHandle) && (CAEN_FELib_SetValue) && (CAEN_FELib_SendCommand) && (CAEN_FELib_ReadData)) {
+				uint32_t avail_word=0;
+				uint64_t ep_od_handle;
+				*read_data = 0;
+				
+				ReadReg(&avail_word, addressStatus);
+				avail_word = avail_word >> 8;
+				avail_word = avail_word > length ? length : avail_word;
+				if (avail_word == 0) {
+					*read_data = 0;
+					return NI_OK;
+				}
+
+				mtx.lock();
+				int res = 0;
+				uint32_t rd = 0;
+				string size_transfer = std::to_string(length);
+				string address_transfer = std::to_string(avail_word * 4);
+				res += CAEN_FELib_GetHandle(*((FEELibHandle*)(_handle)), "/endpoint/opendata", &ep_od_handle);
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendataaddress", address_transfer.c_str());
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendatasize", size_transfer.c_str());
+				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/OpenDataMode", "FIFO");
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/opendataread");
+				res += CAEN_FELib_ReadData(*((FEELibHandle*)(_handle)), timeout_ms, (char*)value, &rd);
+				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
+				*read_data = rd / 4;
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+		}
+		
 		break;
 	default:
 		break;

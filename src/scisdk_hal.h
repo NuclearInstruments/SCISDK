@@ -104,4 +104,6 @@ typedef struct {
 	tZMQEndpoint *zmq;
 } tR5560_Handle;
 
+typedef uint64_t FEELibHandle;
+
 #endif
