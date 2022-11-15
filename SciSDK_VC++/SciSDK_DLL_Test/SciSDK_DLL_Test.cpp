@@ -1,7 +1,6 @@
 // SciSDK_DLL_Test.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include "../../src/SciSDK_DLL.h"
 
 #include <bitset>
@@ -9,7 +8,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 

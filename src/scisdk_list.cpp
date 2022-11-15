@@ -2,8 +2,11 @@
 #include <functional>
 #include <chrono>
 #include <thread>
-#include <unistd.h>
 
+#ifdef _MSC_VER
+#else
+#include <unistd.h>
+#endif
 /*
 DEVICE DRIVER FOR DIGITIZER
 

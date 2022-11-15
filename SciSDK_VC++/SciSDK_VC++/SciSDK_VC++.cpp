@@ -1,7 +1,6 @@
 // SciSDK_VC++.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include "../../src/scisdk_core.h"
 #include <bitset>
 #include <functional>

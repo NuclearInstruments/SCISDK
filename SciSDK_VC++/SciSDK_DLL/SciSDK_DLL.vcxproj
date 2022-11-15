@@ -22,32 +22,32 @@
     <ProjectGuid>{7224C5D2-D84D-488A-A9B9-09449129D995}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SciSDK_DLL</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\src\SciSDK_DLL.h" />
     <ClInclude Include="..\..\src\scisdk_DT5550W_citirocconfig.h" />
     <ClInclude Include="..\..\src\scisdk_DT5550W_citirocframe.h" />
+    <ClInclude Include="..\..\src\scisdk_DT5550W_petirocframe.h" />
     <ClInclude Include="..\..\src\scisdk_fftmon.h" />
     <ClInclude Include="..\..\src\scisdk_frame.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="..\..\src\SciSDK_DLL.cpp" />
     <ClCompile Include="..\..\src\scisdk_DT5550W_citirocconfig.cpp" />
     <ClCompile Include="..\..\src\scisdk_DT5550W_citirocframe.cpp" />
+    <ClCompile Include="..\..\src\scisdk_DT5550W_petirocframe.cpp" />
     <ClCompile Include="..\..\src\scisdk_fftmon.cpp" />
     <ClCompile Include="..\..\src\scisdk_frame.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />

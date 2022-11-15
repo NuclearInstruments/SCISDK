@@ -7,13 +7,13 @@
 
 
 #ifdef _MSC_VER
-    #ifdef R5560_SDKLIB_EXPORTS
+    #ifdef SCISDK_DLL_EXPORTS
         #define SCISDK_DLL_API extern "C" __declspec(dllexport)// __declspec(dllexport)
     #else
         #define SCISDK_DLL_API extern "C" __declspec(dllimport)
     #endif
 #else
-    #ifdef R5560_SDKLIB_EXPORTS
+    #ifdef SCISDK_DLL_EXPORTS
         #define SCISDK_DLL_API __attribute__((visibility("default")))
     #else
         #define SCISDK_DLL_API
