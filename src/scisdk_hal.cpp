@@ -11,7 +11,10 @@
 NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 
 	std::transform(model.begin(), model.end(), model.begin(), ::toupper);
-
+	if (model == "FAKEBOARD") {
+		_model = BOARD_MODEL::FAKEBOARD;
+		cout << "FAKEBOARD library loaded ..." << endl;
+	}
 	if ((model == "DT1260") || (model == "SCIDK")) {
 		_model = BOARD_MODEL::DT1260;
 		//load the correct dll
@@ -78,6 +81,10 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 
 	vector<std::string> p = SplitPath(Path, ':');
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "FAKEBOARD " << Path << "connected." << endl;
+		return NI_OK;
+		break;
 	case BOARD_MODEL::DT1260:
 		// connection to dt1260 board
 		if (p[0] == "usb") {
@@ -168,6 +175,11 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 NI_RESULT SciSDK_HAL::CloseConnection() {
 
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "FAKEBOARD disconnected." << endl;
+		return NI_OK;
+		break;
+
 	case BOARD_MODEL::DT1260:
 		// close connection with DT1260 board
 		if (h_lib_instance != NULL) {
@@ -266,6 +278,10 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 
 NI_RESULT SciSDK_HAL::Enumerate(string board_model, vector<string> devices) {
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "FAKEBOARD found." << endl;
+		return NI_OK;
+		break;
 	case BOARD_MODEL::DT1260:
 		break;
 	case BOARD_MODEL::DT5550X:
@@ -286,6 +302,10 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	uint32_t address) {
 
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "Write reg  @" << address << " Value: " << value << endl;
+		return NI_OK;
+		break;
 	case BOARD_MODEL::DT1260:
 		// write register of DT1260 board
 		if (h_lib_instance != NULL) {
@@ -360,6 +380,11 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	uint32_t address) {
 
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "Read reg  @" << address  << endl;
+		*value = 0;
+		return NI_OK;
+		break;
 	case BOARD_MODEL::DT1260:
 		// read register form DT1260 board
 		if (h_lib_instance != NULL) {
@@ -439,6 +464,10 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	uint32_t *written_data) {
 
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "WriteData  @" << address << " Size: " << length << endl;
+		return NI_OK;
+		break;
 	case BOARD_MODEL::DT1260:
 		// write data to DT1260 board
 		if (h_lib_instance != NULL) {
@@ -503,6 +532,11 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	uint32_t *read_data) {
 	uint32_t rd, vd;
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "ReadData  @" << address << " Size: " << length << endl;
+		return NI_OK;
+		break;
+		
 	case BOARD_MODEL::DT1260:
 		// write data from DT2160 board
 		if (h_lib_instance != NULL) {			
@@ -612,6 +646,11 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
  
 	uint32_t rd, vd;
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "ReadFIFO  @" << address << " Size: " << length << endl;
+		return NI_OK;
+		break;
+		
 	case BOARD_MODEL::DT1260:
 		// read FIFO from DT1260 board
 		if (h_lib_instance != NULL) {
@@ -729,6 +768,11 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(uint32_t *value,
 	uint32_t *read_data) {
 	uint32_t rd, vd;
 	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "ReadFIFO-DMA  @" << address << " Size: " << length << endl;
+		return NI_OK;
+		break;
+		
 	case BOARD_MODEL::DT1260:
 		return NI_NOT_IMPLEMENTED;
 		break;

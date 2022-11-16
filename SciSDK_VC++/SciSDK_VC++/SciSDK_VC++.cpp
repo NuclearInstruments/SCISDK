@@ -249,9 +249,16 @@ void dump_to_file(SCISDK_OSCILLOSCOPE_DECODED_BUFFER *osc_data) {
 int main()
 {
 	SciSDK sdk;
+
+	int res = sdk.AddNewDevice("usb:10500", "FAKEBOARD", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
+	sdk.p_error(sdk.SetRegister("board0:/Registers/a", 1));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/ch/0..63/par/ChEnable", "true"));
+	
+	exit(0);
+	
 	//DAVIDE 13250
 	//ANDREA 10500
-	int res = sdk.AddNewDevice("usb:10500", "dt1260", "C:/temp/test_newosc/library/RegisterFile.json", "board0");
+	//int res = sdk.AddNewDevice("usb:10500", "dt1260", "C:/temp/test_newosc/library/RegisterFile.json", "board0");
 	//void* _sdk = SCISDK_InitLib();
 
 	// REGISTRI

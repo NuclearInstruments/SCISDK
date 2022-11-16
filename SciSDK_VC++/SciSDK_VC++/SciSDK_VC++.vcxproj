@@ -149,6 +149,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\boards_driver\bd_dt1260.h" />
+    <ClInclude Include="..\..\src\boards_driver\bd_feelib.h" />
     <ClInclude Include="..\..\src\json.hpp" />
     <ClInclude Include="..\..\src\magic_numbers.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
@@ -177,6 +179,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\boards_driver\bd_dt1260.cpp" />
+    <ClCompile Include="..\..\src\boards_driver\bd_feelib.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_custom_packet.cpp" />
     <ClCompile Include="..\..\src\scisdk_device.cpp" />

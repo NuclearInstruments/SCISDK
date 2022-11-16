@@ -673,6 +673,16 @@ bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {
 		return true;
 	}
 	else {
+		//search name start with "boardapi/" in params
+		for (int i = 0; i < params.size(); i++) {
+			if (params.at(i).Name.find("boardapi/") != string::npos) {
+				if (params.at(i).Name.substr(params.at(i).Name.find("boardapi/") + 9) == name) {
+					*p = &params.at(i);
+					return true;
+				}
+			}
+		}
+	
 		return false;
 	}
 }

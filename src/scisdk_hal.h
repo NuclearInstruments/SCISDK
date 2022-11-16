@@ -19,6 +19,7 @@
 using namespace std;
 #include "json.hpp"
 enum class BOARD_MODEL {
+	FAKEBOARD,
 	DT1260,
 	DT5550X,
 	X5560,

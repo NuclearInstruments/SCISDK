@@ -74,7 +74,12 @@ public:
 	SciSDK_Node(SciSDK_HAL *hal, json j, string path)  {
 		_path = path;
 		_hal = hal;
-		name = (string)j.at("Name");
+		if (path == "/Device") {
+			name = "boardapi";
+		}
+		else {
+			name = (string)j.at("Name");
+		}
 		try {
 			type = (string)j.at("Type");
 		} catch (json::exception& e) {
