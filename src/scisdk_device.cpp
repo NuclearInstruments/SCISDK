@@ -71,7 +71,7 @@ NI_RESULT SciSDK_Device::Connect() {
 			return NI_INVALID_CFG_JSON;
 		}
 
-		SetParameter("Registers.error", "10");
+
 	}
 	return NI_OK;
 }
@@ -91,14 +91,23 @@ bool StartWith(string str, string starts) {
 	}
 }
 
-NI_RESULT SciSDK_Device::LocateParameter(string Path, string *name, SciSDK_Node **node) {
-	vector<string> qPP = SplitPath(Path, '.');
-	if (qPP.size() != 2) return NI_INVALID_PATH;
-	string path = qPP[0];
-	*name = qPP[1];
-	*node = FindMMC(path);
-	if (!*node) return NI_NOT_FOUND;
-	return NI_OK;
+NI_RESULT SciSDK_Device::LocateParameter(string Path, string* name, SciSDK_Node** node) {
+	//check if Path starts with boardapi
+	if (StartWith(Path, "/boardapi/")) {
+		*name = Path.substr(10);
+		*node = FindBoardApi(Path);
+		if (!*node) return NI_NOT_FOUND;
+		return NI_OK;
+	}
+	else {
+		vector<string> qPP = SplitPath(Path, '.');
+		if (qPP.size() != 2) return NI_INVALID_PATH;
+		string path = qPP[0];
+		*name = qPP[1];
+		*node = FindMMC(path);
+		if (!*node) return NI_NOT_FOUND;
+		return NI_OK;
+	}
 }
 
 NI_RESULT SciSDK_Device::SetParameter(string Path, string value) {
@@ -383,6 +392,17 @@ SciSDK_Node * SciSDK_Device::FindMMC(string Path) {
 	return NULL;
 }
 
+SciSDK_Node* SciSDK_Device::FindBoardApi(string Path) {
+	for (auto n : mmcs) {
+		//cout << " ### " << n->GetPath() << endl;
+		if ((n->GetType() == "boardapi"))
+		{
+			return n;
+		}
+	}
+	return NULL;
+}
+
 std::vector<std::string> SciSDK_Device::SplitPath(string path, char separator) {
 
 	std::stringstream test(path);
@@ -464,7 +484,7 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 					if (StartWith(ToUpper(it.key()), ToUpper("Device")) == true) {
 						string model = it.value().get<string>();
 						if (model == "x2740_wave") {
-							//mmcs.push_back(new bd_feelib(_hal, rs, parent + "/" + (string)it.key()));
+							mmcs.push_back(new bd_feelib(_hal, rs, parent + "/" + (string)it.key()));
 						}
 					} 
 					else {

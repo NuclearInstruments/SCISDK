@@ -76,15 +76,19 @@ public:
 		_hal = hal;
 		if (path == "/Device") {
 			name = "boardapi";
+			type = "boardapi";
+			_path = "";
 		}
 		else {
 			name = (string)j.at("Name");
+			try {
+				type = (string)j.at("Type");
+			}
+			catch (json::exception& e) {
+				type = "Register";
+			}
 		}
-		try {
-			type = (string)j.at("Type");
-		} catch (json::exception& e) {
-			type = "Register";
-		}
+
 	}
 
 	//bool operator==(const string rhs) const { return (this->_path + "/" + this->name) == rhs; }
@@ -135,6 +139,7 @@ public:
 	virtual NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT ReadData(void *buffer) { return NI_NOT_IMPLEMENTED; }
+	//virtual NI_RESULT ReadData(string endpoint, void* buffer) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT ExecuteCommand(string cmd, string param) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ReadStatus(void *buffer) { return NI_NOT_IMPLEMENTED; }
@@ -181,5 +186,6 @@ private:
 	bool FindParameterByName(string name, SciSDK_Paramcb **p);
 	bool OutOfRange(SciSDK_Paramcb *p, double value);
 	bool OutOfRange(SciSDK_Paramcb *p, string value);
+	bool FindBoardApiParameterByName(string name, SciSDK_Paramcb** p);
 };
 #endif 

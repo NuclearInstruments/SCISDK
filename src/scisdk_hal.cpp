@@ -156,6 +156,8 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				string url = "dig2://" + p[0];
 				int error_code = connectTCP(url.c_str(), (FEELibHandle*)_handle);
 				mtx.unlock();
+
+				
 				if (error_code == 0) {
 					return NI_OK;
 				}
@@ -810,6 +812,347 @@ string SciSDK_HAL::ReadFirmwareInformationApp() {
 
 	return NI_OK;
 }
+
+
+string SciSDK_HAL::GetFirmwareTree() {
+
+	switch (_model) {
+	case BOARD_MODEL::DT1260:
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		// gettree
+		if (h_lib_instance != NULL) {
+			char* jsonString =(char*) malloc(2000000);
+			if (jsonString == NULL) return "";
+#ifdef _MSC_VER 
+			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, char* jsonString, size_t size);
+			READ_REG_PROC_PTR CAEN_FELib_GetDeviceTree = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetDeviceTree");
+#else
+			int (*CAEN_FELib_GetDeviceTree)(FEELibHandle handle, char* jsonString, size_t size);
+			*(void**)(&CAEN_FELib_GetDeviceTree) = dlsym(h_lib_instance, "CAEN_FELib_GetDeviceTree");
+#endif
+			if (CAEN_FELib_GetDeviceTree) {
+				mtx.lock();
+				int res = CAEN_FELib_GetDeviceTree(*((FEELibHandle*)(_handle)), jsonString, 2000000);
+				mtx.unlock();
+				if (res != 0) {
+					free(jsonString);
+					return "";
+				}
+				string r(jsonString);
+				free(jsonString);
+				return r;
+			}
+		}
+		
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+
+NI_RESULT SciSDK_HAL::SetBoardParamater(string path, string value){
+
+	switch (_model) {
+	case BOARD_MODEL::DT1260:
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		// gettree
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, const char* path, const char* value);
+			READ_REG_PROC_PTR CAEN_FELib_SetValue = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
+#else
+			int (*CAEN_FELib_SetValue)(FEELibHandle handle, const char* path, const char* value);
+			*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
+#endif
+			if (CAEN_FELib_SetValue) {
+				mtx.lock();
+				int res = CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), path.c_str(), value.c_str());
+				mtx.unlock();
+				if (res != 0) {
+					return NI_FEELIB_INTERNAL_ERROR + abs(res);
+				}
+				return NI_OK;
+			}
+		}
+
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+NI_RESULT SciSDK_HAL::GetBoardParamater(string path, string &value) {
+
+	switch (_model) {
+	case BOARD_MODEL::DT1260:
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		// gettree
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, const char* path, const char* value);
+			READ_REG_PROC_PTR CAEN_FELib_GetValue = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetValue");
+#else
+			int (*CAEN_FELib_GetValue)(FEELibHandle handle, const char* path, const char* value);
+			*(void**)(&CAEN_FELib_GetValue) = dlsym(h_lib_instance, "CAEN_FELib_GetValue");
+#endif
+			if (CAEN_FELib_GetValue) {
+				char v[300];
+				mtx.lock();
+				int res = CAEN_FELib_GetValue(*((FEELibHandle*)(_handle)), path.c_str(),v);
+				mtx.unlock();
+				if (res != 0) {
+					value = "";
+					return NI_FEELIB_INTERNAL_ERROR + abs(res);
+				}
+				value = string(v);
+				return NI_OK;
+			}
+		}
+
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+NI_RESULT SciSDK_HAL::FELib_GetConnectionHandle(uint64_t *handle) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+		*handle =*((uint64_t*) _handle);
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+
+
+NI_RESULT SciSDK_HAL::FELib_GetHandle(uint64_t handle, const char* path, uint64_t* pathHandle) {
+
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
+		FN_PTR CAEN_FELib_GetHandle = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
+#else
+		int (*CAEN_FELib_GetHandle)(FEELibHandle handle, const char* path, uint64_t * pathHandle);
+		*(void**)(&CAEN_FELib_GetHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetHandle");
+#endif
+		if (CAEN_FELib_GetHandle) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_GetHandle(handle, path, pathHandle);
+			mtx.unlock();	
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+
+NI_RESULT SciSDK_HAL::FELib_GetParentHandle(uint64_t handle, const char* path, uint64_t* pathHandle) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
+		FN_PTR CAEN_FELib_GetParentHandle = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetParentHandle");
+#else
+		int (*CAEN_FELib_GetParentHandle)(FEELibHandle handle, const char* path, uint64_t * pathHandle);
+		*(void**)(&CAEN_FELib_GetParentHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetParentHandle");
+#endif
+		if (CAEN_FELib_GetParentHandle) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_GetParentHandle(handle, path, pathHandle);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+
+NI_RESULT SciSDK_HAL::FELib_GetValue(uint64_t handle, const char* path, char value[256]) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path, char value[256]);
+		FN_PTR CAEN_FELib_GetValue = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetValue");
+#else
+		int (*CAEN_FELib_GetValue)(uint64_t handle, const char* path, char value[256]);
+		*(void**)(&CAEN_FELib_GetValue) = dlsym(h_lib_instance, "CAEN_FELib_GetValue");
+#endif
+		if (CAEN_FELib_GetValue) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_GetValue(handle, path, value);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+NI_RESULT SciSDK_HAL::FELib_SetValue(uint64_t handle, const char* path, const char* value) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path, const char* value);
+		FN_PTR CAEN_FELib_SetValue = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
+#else
+		int (*CAEN_FELib_SetValue)(uint64_t handle, const char* path, const char* value);
+		*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
+#endif
+		if (CAEN_FELib_SetValue) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_SetValue(handle, path, value);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+NI_RESULT SciSDK_HAL::FELib_SendCommand(uint64_t handle, const char* path) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path);
+		FN_PTR CAEN_FELib_SendCommand = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SendCommand");
+#else
+		int (*CAEN_FELib_SendCommand)(uint64_t handle, const char* path);
+		*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
+#endif
+		if (CAEN_FELib_SendCommand) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_SendCommand(handle, path);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+NI_RESULT SciSDK_HAL::FELib_SetReadDataFormat(uint64_t handle, const char* jsonString) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* jsonString);
+		FN_PTR CAEN_FELib_SetReadDataFormat = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetReadDataFormat");
+#else
+		int (*CAEN_FELib_SetReadDataFormat)(uint64_t handle, const char* jsonString);
+		*(void**)(&CAEN_FELib_SetReadDataFormat) = dlsym(h_lib_instance, "CAEN_FELib_SetReadDataFormat");
+#endif
+		if (CAEN_FELib_SetReadDataFormat) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_SetReadDataFormat(handle, jsonString);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+
+
+NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__cdecl* FN_PTR)(uint64_t handle, int timeout, ...);
+		FN_PTR CAEN_FELib_ReadData = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadData");
+#else
+		int (*CAEN_FELib_ReadData)(uint64_t handle, int timeout, ...);
+		*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
+#endif
+		if (CAEN_FELib_ReadData) {
+			va_list args;
+
+			va_start(args, timeout);
+			
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_ReadData(handle, timeout, args);
+			mtx.unlock();
+			va_end(args);
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+NI_RESULT SciSDK_HAL::FELib_HasData(uint64_t handle, int timeout) {
+	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
+
+	if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, int timeout);
+		FN_PTR CAEN_FELib_HasData = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_HasData");
+#else
+		int (*CAEN_FELib_HasData)(uint64_t handle, int timeout);
+		*(void**)(&CAEN_FELib_HasData) = dlsym(h_lib_instance, "CAEN_FELib_HasData");
+#endif
+		if (CAEN_FELib_HasData) {
+			char v[300];
+			mtx.lock();
+			int res = CAEN_FELib_HasData(handle, timeout);
+			mtx.unlock();
+			return res;
+		}
+	}
+	else {
+		return NI_ERROR_INTERFACE;
+	}
+}
+
 
 std::vector<std::string> SciSDK_HAL::SplitPath(string path, char separator) {
 	std::stringstream test(path);

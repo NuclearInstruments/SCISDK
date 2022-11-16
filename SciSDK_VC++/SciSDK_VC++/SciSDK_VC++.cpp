@@ -250,12 +250,20 @@ int main()
 {
 	SciSDK sdk;
 	uint32_t v;
+	string test;
 	//int res = sdk.AddNewDevice("usb:10500", "FAKEBOARD", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
 	int res = sdk.AddNewDevice("10.105.250.18", "V2740", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/cfg/ch/0..63/par/ChEnable", "true"));
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/cfg/ch/0/par/ChEnable", &test));
+	cout << "test " << test << endl;
 	sdk.p_error(sdk.SetRegister("board0:/Registers/a", 1));
 	sdk.p_error(sdk.SetRegister("board0:/Registers/b", 3));
 	sdk.p_error(sdk.GetRegister("board0:/Registers/c", &v));
 	cout << "Register access result: " << v << endl;
+
+	char* buffer = (char *) malloc(100000);
+	sdk.SetParameter("board0:/boardapi/readout.datatype", "scope");
+	sdk.ReadData("board0:/boardapi", buffer);
 	int ret=0;
 	////// OSCILLOSCOPE (decoded & raw)
 	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));

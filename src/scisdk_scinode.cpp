@@ -156,27 +156,36 @@ NI_RESULT SciSDK_Node::SetParam(string name, double value) {
 
 NI_RESULT SciSDK_Node::SetParam(string name, string value) {
 	SciSDK_Paramcb *p = NULL;
+	if (type == "boardapi") {
 
-	if (FindParameterByName(name, &p)) {
-		if (OutOfRange(p, value)) return NI_PARAMETER_OUT_OF_RANGE;
-		switch (p->type) {
-		case SciSDK_Paramcb::Type::I32:
-			return p->caller->ISetParamI32(name, std::stol(value)); break;
-		case SciSDK_Paramcb::Type::U32:
-			return p->caller->ISetParamU32(name, std::stoul(value)); break;
-		case SciSDK_Paramcb::Type::I64:
-			return p->caller->ISetParamI64(name, std::stoll(value)); break;
-		case SciSDK_Paramcb::Type::U64:
-			return p->caller->ISetParamU64(name, std::stoull(value)); break;
-		case SciSDK_Paramcb::Type::d:
-			return p->caller->ISetParamDouble(name, std::stod(value)); break;
-		case SciSDK_Paramcb::Type::str:
-			return p->caller->ISetParamString(name, value); break;
-		default: return NI_ERROR; break;
+		if (FindBoardApiParameterByName(name, &p)) {
+			return p->caller->ISetParamString(name, value);
+		} else {
+			return NI_NOT_FOUND;
 		}
 	}
 	else {
-		return NI_NOT_FOUND;
+		if (FindParameterByName(name, &p)) {
+			if (OutOfRange(p, value)) return NI_PARAMETER_OUT_OF_RANGE;
+			switch (p->type) {
+			case SciSDK_Paramcb::Type::I32:
+				return p->caller->ISetParamI32(name, std::stol(value)); break;
+			case SciSDK_Paramcb::Type::U32:
+				return p->caller->ISetParamU32(name, std::stoul(value)); break;
+			case SciSDK_Paramcb::Type::I64:
+				return p->caller->ISetParamI64(name, std::stoll(value)); break;
+			case SciSDK_Paramcb::Type::U64:
+				return p->caller->ISetParamU64(name, std::stoull(value)); break;
+			case SciSDK_Paramcb::Type::d:
+				return p->caller->ISetParamDouble(name, std::stod(value)); break;
+			case SciSDK_Paramcb::Type::str:
+				return p->caller->ISetParamString(name, value); break;
+			default: return NI_ERROR; break;
+			}
+		}
+		else {
+			return NI_NOT_FOUND;
+		}
 	}
 }
 
@@ -189,6 +198,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint32_t *value) {
 	double d;
 	string s;
 	NI_RESULT res;
+
 	if (FindParameterByName(name, &p)) {
 		switch (p->type) {
 		case SciSDK_Paramcb::Type::I32:
@@ -227,6 +237,7 @@ NI_RESULT SciSDK_Node::GetParam(string name, uint32_t *value) {
 	else {
 		return NI_NOT_FOUND;
 	}
+	
 }
 
 NI_RESULT SciSDK_Node::GetParam(string name, int32_t *value) {
@@ -434,43 +445,53 @@ NI_RESULT SciSDK_Node::GetParam(string name, string *value) {
 	double d;
 	string s;
 	NI_RESULT res;
-	if (FindParameterByName(name, &p)) {
-		switch (p->type) {
-		case SciSDK_Paramcb::Type::I32:
-			res = p->caller->IGetParamI32(name, &i32);
-			*value = std::to_string(i32);
-			return res;
-			break;
-		case SciSDK_Paramcb::Type::U32:
-			res = p->caller->IGetParamU32(name, &u32);
-			*value = std::to_string(u32);
-			return res;
-			break;
-		case SciSDK_Paramcb::Type::I64:
-			res = p->caller->IGetParamI64(name, &i64);
-			*value = std::to_string(i64);
-			return res;
-			break;
-		case SciSDK_Paramcb::Type::U64:
-			res = p->caller->IGetParamU64(name, &u64);
-			*value = std::to_string(u64);
-			return res;
-			break;
-		case SciSDK_Paramcb::Type::d:
-			res = p->caller->IGetParamDouble(name, &d);
-			*value = std::to_string(d);
-			return res;
-			break;
-		case SciSDK_Paramcb::Type::str:
-			res = p->caller->IGetParamString(name, &s);
-			*value = s;
-			return res;
-			break;
-		default: return NI_ERROR; break;
+	if (type == "boardapi") {
+		if (FindBoardApiParameterByName(name, &p)) {
+			return p->caller->IGetParamString(name, value);
+		}
+		else {
+			return NI_NOT_FOUND;
 		}
 	}
 	else {
-		return NI_NOT_FOUND;
+		if (FindParameterByName(name, &p)) {
+			switch (p->type) {
+			case SciSDK_Paramcb::Type::I32:
+				res = p->caller->IGetParamI32(name, &i32);
+				*value = std::to_string(i32);
+				return res;
+				break;
+			case SciSDK_Paramcb::Type::U32:
+				res = p->caller->IGetParamU32(name, &u32);
+				*value = std::to_string(u32);
+				return res;
+				break;
+			case SciSDK_Paramcb::Type::I64:
+				res = p->caller->IGetParamI64(name, &i64);
+				*value = std::to_string(i64);
+				return res;
+				break;
+			case SciSDK_Paramcb::Type::U64:
+				res = p->caller->IGetParamU64(name, &u64);
+				*value = std::to_string(u64);
+				return res;
+				break;
+			case SciSDK_Paramcb::Type::d:
+				res = p->caller->IGetParamDouble(name, &d);
+				*value = std::to_string(d);
+				return res;
+				break;
+			case SciSDK_Paramcb::Type::str:
+				res = p->caller->IGetParamString(name, &s);
+				*value = s;
+				return res;
+				break;
+			default: return NI_ERROR; break;
+			}
+		}
+		else {
+			return NI_NOT_FOUND;
+		}
 	}
 }
 
@@ -672,17 +693,19 @@ bool SciSDK_Node::FindParameterByName(string name, SciSDK_Paramcb **p) {
 		*p = &(*f);
 		return true;
 	}
-	else {
-		//search name start with "boardapi/" in params
-		for (int i = 0; i < params.size(); i++) {
-			if (params.at(i).Name.find("boardapi/") != string::npos) {
-				if (params.at(i).Name.substr(params.at(i).Name.find("boardapi/") + 9) == name) {
-					*p = &params.at(i);
-					return true;
-				}
-			}
-		}
-	
+	else {	
 		return false;
 	}
+}
+
+bool SciSDK_Node::FindBoardApiParameterByName(string name,  SciSDK_Paramcb** p) {
+	if (FindParameterByName("boardapi/" + name, p)) return true;
+	vector<string> substrings;
+	stringstream ss(name);
+	string item;
+	while (getline(ss, item, '/')) {
+		substrings.push_back(item);
+	}
+	if (substrings.size() < 1) return NI_NOT_FOUND;
+	return FindParameterByName("boardapi/" + substrings[0] + "/**", p);
 }

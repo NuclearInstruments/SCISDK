@@ -27,6 +27,8 @@ enum class BOARD_MODEL {
 	X2740
 };
 
+
+
 class SciSDK_HAL {
 
 public:
@@ -70,7 +72,23 @@ public:
 		uint32_t *read_data);
 
 	string ReadFirmwareInformationApp();
+	string GetFirmwareTree();
 
+	NI_RESULT SetBoardParamater(string path, string value);
+	NI_RESULT GetBoardParamater(string path, string &value);
+	NI_RESULT FELib_GetConnectionHandle(uint64_t* handle);
+	NI_RESULT FELib_GetHandle(uint64_t handle, const char* path, uint64_t* pathHandle);
+	NI_RESULT FELib_GetParentHandle(uint64_t handle, const char* path, uint64_t* pathHandle);
+	NI_RESULT FELib_GetValue(uint64_t handle, const char* path, char value[256]);
+	NI_RESULT FELib_SetValue(uint64_t handle, const char* path, const char* value);
+	NI_RESULT FELib_SendCommand(uint64_t handle, const char* path);
+	NI_RESULT FELib_SetReadDataFormat(uint64_t handle, const char* jsonString);
+
+	NI_RESULT FELib_ReadData(uint64_t handle, int timeout,  ... );
+	NI_RESULT FELib_HasData(uint64_t handle, int timeout);
+
+
+	
 private:
 	std::vector<std::string> SplitPath(string path, char separator);
 	void *_handle;

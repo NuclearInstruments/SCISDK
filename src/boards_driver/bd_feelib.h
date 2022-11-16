@@ -14,6 +14,10 @@ using json = nlohmann::json;
 
 using namespace std;
 
+enum class FEELIB_DATATYPE {
+    SCOPE
+} ;
+
 class bd_feelib : public  SciSDK_Node {
     public:
 	    bd_feelib(SciSDK_HAL *hal, json j, string path);
@@ -21,7 +25,13 @@ class bd_feelib : public  SciSDK_Node {
         NI_RESULT IGetParamI32(string name, uint32_t *value);
         NI_RESULT ISetParamString(string name, string value);
         NI_RESULT IGetParamString(string name, string* value);
+        NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size);
+        NI_RESULT ReadData(void* buffer);
     private:
-   
+        int ExtractRootPath(string fullpath, string& rootpath, string& board_path);
+        int ConfigureEndpoint();
+		FEELIB_DATATYPE _datatype = FEELIB_DATATYPE::SCOPE;
+
+        int acquisition_timeout_ms=1000;
 };
 #endif 

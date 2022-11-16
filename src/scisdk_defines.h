@@ -309,4 +309,16 @@
 			uint32_t valid_data;
 		} info;
 	}SCISDK_PETIROC_RAW_BUFFER;	
+
+
+
+	typedef struct  {
+		uint64_t timestamp;
+		uint32_t trigger_id;
+		size_t event_size;
+		uint16_t** waveform;
+		size_t* n_samples;
+		size_t* n_allocated_samples;
+		unsigned n_channels;
+	} SCISDK_FE_SCOPE_EVENT;
 #endif

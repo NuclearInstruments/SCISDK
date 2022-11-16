@@ -67,6 +67,7 @@ private:
 	NI_RESULT BuildTree(json rs, string parent);
 	NI_RESULT LocateParameter(string Path, string *name, SciSDK_Node **node);
 	SciSDK_Node * FindMMC(string Path);
+	SciSDK_Node* FindBoardApi(string Path);
 	std::vector<SciSDK_Node *> mmcs;
 
 	string _Name;

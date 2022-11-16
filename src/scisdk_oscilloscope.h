@@ -37,7 +37,7 @@ private:
 	uint32_t trigger_channel = 0;
 	uint32_t trigger_dtrack = 0;
 	uint32_t trigger_level=0;
-	int32_t timeout;
+	int32_t timeout=5000;
 
 bool auto_arm;
 
