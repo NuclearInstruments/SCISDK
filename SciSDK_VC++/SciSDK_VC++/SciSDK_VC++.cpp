@@ -253,41 +253,62 @@ int main()
 	string test;
 	//int res = sdk.AddNewDevice("usb:10500", "FAKEBOARD", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
 	int res = sdk.AddNewDevice("10.105.250.18", "V2740", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
-	sdk.p_error(sdk.SetParameter("board0:/boardapi/cfg/ch/0..63/par/ChEnable", "true"));
-	sdk.p_error(sdk.GetParameter("board0:/boardapi/cfg/ch/0/par/ChEnable", &test));
+
+	//TEST PARTE CAEN
+	
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/reset", ""));
+	sdk.SetParameter("board0:/boardapi/readout.datatype", "scope");
+	
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/ch/0..63/par/ChEnable", "true"));
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/felib/ch/0/par/ChEnable", &test));
 	cout << "test " << test << endl;
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/RecordLengthS", "50"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/PreTriggerS", "4"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/AcqTriggerSource", "SwTrg | TestPulse"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulsePeriod", "100000"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulseWidth", "1000"));
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/armacquisition", ""));
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/swstartacquisition", ""));
+
+	SCISDK_FE_SCOPE_EVENT* evnt;
+	sdk.p_error(sdk.AllocateBuffer("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&evnt, 50));
+	sdk.ReadData("board0:/boardapi", evnt);
+	
+	//in evnt ho i dati scope
+	int ret=0;
+
+
+	//TEST PARTE SCICOMPILER
+
+	//ACCESSO AI REGISTRI
 	sdk.p_error(sdk.SetRegister("board0:/Registers/a", 1));
 	sdk.p_error(sdk.SetRegister("board0:/Registers/b", 3));
 	sdk.p_error(sdk.GetRegister("board0:/Registers/c", &v));
 	cout << "Register access result: " << v << endl;
 
-	char* buffer = (char *) malloc(100000);
-	sdk.SetParameter("board0:/boardapi/readout.datatype", "scope");
-	sdk.ReadData("board0:/boardapi", buffer);
-	int ret=0;
-	////// OSCILLOSCOPE (decoded & raw)
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 33000));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
-	//sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
-	//SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-	//sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
-	//sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
+	//// OSCILLOSCOPE (decoded & raw)
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 33000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.timeout", 5000));
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**) &ob));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/Oscilloscope_0.reset_read_valid_flag", ""));
 
-	//	std::ofstream out("c:/temp/output.txt");
-	//	 ret = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
-	//
-	//	if (ret == NI_OK) {
-	//		cout << ob->timecode << endl;
-	//		for (int i = 0; i < ob->info.samples_analog; i++) {
-	//			out << ob->analog[i] << endl;
-	//		}
-	//		out.close();
-	//	}
-	//	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
+		std::ofstream out("c:/temp/output.txt");
+		 ret = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+	
+		if (ret == NI_OK) {
+			cout << "Oscilloscope TS: " << ob->timecode << endl;
+			for (int i = 0; i < ob->info.samples_analog; i++) {
+				out << ob->analog[i] << endl;
+			}
+			out.close();
+		}
+		sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
 
 	 
 	//// LIST raw
@@ -307,8 +328,6 @@ int main()
 			}
 		}
 	
-	 
-//	sdk.p_error(sdk.SetParameter("board0:/boardapi/ch/0..63/par/ChEnable", "true"));
 	
 	exit(0);
 	

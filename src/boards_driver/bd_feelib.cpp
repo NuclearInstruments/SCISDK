@@ -23,7 +23,7 @@ Framework Compatible version: 1.0
 */
 
 bd_feelib::bd_feelib(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
-    RegisterParameter("boardapi/cfg/**", "router all board api to string access", SciSDK_Paramcb::Type::str, this);
+    RegisterParameter("boardapi/felib/**", "router all board api to string access", SciSDK_Paramcb::Type::str, this);
 	const std::list<std::string> listOfDataFormat = { "scope" };
 	RegisterParameter("boardapi/readout.datatype", "select data format", SciSDK_Paramcb::Type::str, listOfDataFormat, this);
 
@@ -62,7 +62,7 @@ NI_RESULT bd_feelib::ISetParamString(string name, string value)
 		if (ret) {
 			return NI_INVALID_PARAMETER_PATH;
 		}
-		if (rootpath == "cfg") {
+		if (rootpath == "felib") {
 			cout << "boardapi: set string " << name << " to " << value << endl;
 			return _hal->SetBoardParamater("/" + board_path, value);
 		}
@@ -88,7 +88,7 @@ NI_RESULT bd_feelib::IGetParamString(string name, string* value)
 		if (ret) {
 			return NI_INVALID_PARAMETER_PATH;
 		}
-		if (rootpath == "cfg") {
+		if (rootpath == "felib") {
 			cout << "boardapi: get string " << name << endl;
 			return  _hal->GetBoardParamater("/" + board_path, *value);
 		}
@@ -125,16 +125,38 @@ int bd_feelib::ConfigureEndpoint() {
 			uint64_t ep_folder_handle;
 			ret = _hal->FELib_GetParentHandle(ep_handle, NULL, &ep_folder_handle);
 			if (ret) return ret;
-			ret = _hal->FELib_SetValue(ep_folder_handle, "/par/activeendpoint", "scope");
+			ret = _hal->FELib_SetValue(handle, "/endpoint/par/activeendpoint", "scope");
 			if (ret) return ret;
 			ret = _hal->FELib_SetReadDataFormat(ep_handle, SCOPE_DATA_FORMAT);
 			if (ret) return ret;
+			return NI_OK;
 		}
 		break;
 	}
-	
+	return NI_INVALID_ACQ_MODE;
 }
 
+
+
+NI_RESULT bd_feelib::ExecuteCommand(string cmd, string param) {
+	string rootpath;
+	string board_path;
+	int ret = ExtractRootPath(cmd, rootpath, board_path);
+	if (ret) {
+		return NI_INVALID_PARAMETER_PATH;
+	}
+	if (rootpath == "felib") {
+		int ret = 0;
+		uint64_t handle;
+		uint64_t ep_handle;
+		if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
+		ret = _hal->FELib_SendCommand(handle, ("/" + board_path).c_str());
+		return ret;
+	}
+
+
+	return NI_INVALID_COMMAND;
+}
 
 NI_RESULT bd_feelib::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size) {
 	int ret;
@@ -213,6 +235,7 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 			p->n_samples,
 			&p->event_size
 		);
+		return ret;
 	}
 	break;
 

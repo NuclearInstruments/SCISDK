@@ -1106,20 +1106,20 @@ NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
 
 	if (h_lib_instance != NULL) {
 #ifdef _MSC_VER 
-		typedef int(__cdecl* FN_PTR)(uint64_t handle, int timeout, ...);
-		FN_PTR CAEN_FELib_ReadData = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadData");
+		typedef int(__stdcall* FN_PTR)(uint64_t handle, int timeout, va_list args);
+		FN_PTR CAEN_FELib_ReadDataV = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadDataV");
 #else
-		int (*CAEN_FELib_ReadData)(uint64_t handle, int timeout, ...);
-		*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
+		int (*CAEN_FELib_ReadDataV)(uint64_t handle, int timeout, va_list args);
+		*(void**)(&CAEN_FELib_ReadDataV) = dlsym(h_lib_instance, "CAEN_FELib_ReadDataV");
 #endif
-		if (CAEN_FELib_ReadData) {
+		if (CAEN_FELib_ReadDataV) {
 			va_list args;
 
 			va_start(args, timeout);
 			
 			char v[300];
 			mtx.lock();
-			int res = CAEN_FELib_ReadData(handle, timeout, args);
+			int res = CAEN_FELib_ReadDataV(handle, timeout, args);
 			mtx.unlock();
 			va_end(args);
 			return res;

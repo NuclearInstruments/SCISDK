@@ -26,12 +26,13 @@ class bd_feelib : public  SciSDK_Node {
         NI_RESULT ISetParamString(string name, string value);
         NI_RESULT IGetParamString(string name, string* value);
         NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size);
+        NI_RESULT ExecuteCommand(string cmd, string param);
         NI_RESULT ReadData(void* buffer);
     private:
         int ExtractRootPath(string fullpath, string& rootpath, string& board_path);
         int ConfigureEndpoint();
 		FEELIB_DATATYPE _datatype = FEELIB_DATATYPE::SCOPE;
 
-        int acquisition_timeout_ms=1000;
+        int acquisition_timeout_ms=10000;
 };
 #endif 
