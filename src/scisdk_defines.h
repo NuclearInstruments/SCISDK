@@ -321,4 +321,54 @@
 		size_t* n_allocated_samples;
 		unsigned n_channels;
 	} SCISDK_FE_SCOPE_EVENT;
+
+
+
+	/*
+	* OPENDPP STRUCT TYPEDEF
+	CHANNEL U8 0 Channel (7 bits)
+	TIMESTAMP U64 0 Timestamp (48 bits)
+	TIMESTAMP_NS U64 0 Timestamp in nanoseconds (51 bits)
+	FINE_TIMESTAMP U16 0 Fine timestamp (10 bits)
+	ENERGY U16 0 Energy (16 bits)
+	FLAGS_B U16 0 Event low priority flags (12 bits). See Low Priority.
+	FLAGS_A U8 0 Event high priority flags (8 bits). See High Priority.
+	PSD U16 0 Pulse Shape Discrimination (16 bits)
+	USER_INFO U64 1 User Info word
+	USER_INFO_SIZE SIZE_T 0 Number of User Info word
+	TRUNCATED BOOL 0 Set if the event is truncated
+	WAVEFORM U16 1 Waveform samples
+	WAVEFORM_SIZE SIZE_T 0 Number of waveform samples.
+	BOARD_FAIL BOOL 0 Set if the logical AND between of the ErrorFlag and
+	ErrorFlagDataMask is not 0. Present in all the events
+	SPECIAL_EVENT BOOL 0 Set if Special event
+	EVENT_SIZE SIZE_T 0 Total event raw size, useful for statistics and to
+	discriminate between compressed events (if == 8, see
+	EnDataReduction) and standard events (if > 8).
+	FLUSH BOOL 0 Flush of the aggregate word. Shared by all the events in
+	the aggregate. Useful for debug purposes.
+	AGGREGATE_COUNTER U32 0 Aggregate counter section in the Event Aggregate
+	structure. Shared by all the events
+	*/
+
+	typedef struct {
+		uint8_t channel;
+		uint64_t timestamp;
+		uint64_t timestamp_ns;
+		uint16_t fine_timestamp;
+		uint16_t energy;
+		uint16_t flags_b;
+		uint8_t flags_a;
+		uint16_t psd;
+		uint64_t* user_info;
+		uint32_t user_info_size;
+		bool truncated;
+		uint16_t* waveform;
+		uint32_t waveform_size;
+		bool board_fail;
+		bool special_event;
+		uint32_t event_size;
+		bool flush;
+		uint32_t aggregate_counter;
+	} SCISDK_FE_OPENDPP_EVENT;
 #endif

@@ -251,8 +251,34 @@ int main()
 	SciSDK sdk;
 	uint32_t v;
 	string test;
+	int res = 0;
 	//int res = sdk.AddNewDevice("usb:10500", "FAKEBOARD", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
-	int res = sdk.AddNewDevice("10.105.250.18", "V2740", "C:/OpenHardware/UserProjects/SciSDKDev2740Wave/library/RegisterFile.json", "board0");
+
+	//TEST DPP
+	res = sdk.AddNewDevice("10.105.250.18", "V2740", "2740dppscidk.json", "board0");
+	sdk.p_error(res);
+	if (res) exit(res);
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/reset", ""));
+	sdk.SetParameter("board0:/boardapi/readout.datatype", "dpp");
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TrgOutMode", "UserTrgout"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/ch/0..63/par/ChEnable", "true"));
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/felib/ch/0/par/ChEnable", &test));
+	cout << "test " << test << endl;
+
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/AcqTriggerSource", "SwTrg | TestPulse"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulsePeriod", "100000"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulseWidth", "1000"));
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/armacquisition", ""));
+	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/swstartacquisition", ""));
+
+	SCISDK_FE_OPENDPP_EVENT* dpp_evnt;
+	sdk.p_error(sdk.AllocateBuffer("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&dpp_evnt));
+	sdk.ReadData("board0:/boardapi", dpp_evnt);
+
+	exit(0);
+
+	//TEST SCOPE
+	res = sdk.AddNewDevice("10.105.250.18", "V2740", "SciSDKDev2740Wave.json", "board0");
 
 	//TEST PARTE CAEN
 	

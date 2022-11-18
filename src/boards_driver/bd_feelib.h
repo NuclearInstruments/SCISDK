@@ -15,7 +15,8 @@ using json = nlohmann::json;
 using namespace std;
 
 enum class FEELIB_DATATYPE {
-    SCOPE
+    SCOPE,
+	DPP
 } ;
 
 class bd_feelib : public  SciSDK_Node {
@@ -26,6 +27,7 @@ class bd_feelib : public  SciSDK_Node {
         NI_RESULT ISetParamString(string name, string value);
         NI_RESULT IGetParamString(string name, string* value);
         NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size);
+        NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer);
         NI_RESULT ExecuteCommand(string cmd, string param);
         NI_RESULT ReadData(void* buffer);
     private:

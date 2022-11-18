@@ -483,7 +483,7 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 				else {
 					if (StartWith(ToUpper(it.key()), ToUpper("Device")) == true) {
 						string model = it.value().get<string>();
-						if (model == "x2740_wave") {
+						if ((model == "x2740_wave") || (model == "x2740_dpp") || (model == "x2745_wave") || (model == "x2745_dpp")) {
 							mmcs.push_back(new bd_feelib(_hal, rs, parent + "/" + (string)it.key()));
 						}
 					} 

@@ -3,6 +3,9 @@
 #include <chrono>
 #include <thread>
 
+#define DPP_MAX_USER_INFO 4
+#define DPP_MAX_NWAVE 4
+#define DPP_MAX_SAMPLE_WAVE 4096
 #define SCOPE_DATA_FORMAT " \
 	[ \
 		{ \"name\" : \"TIMESTAMP\", \"type\" : \"U64\" }, \
@@ -10,6 +13,29 @@
 		{ \"name\" : \"WAVEFORM\", \"type\" : \"U16\", \"dim\" : 2 }, \
 		{ \"name\" : \"WAVEFORM_SIZE\", \"type\" : \"SIZE_T\", \"dim\" : 1 }, \
 		{ \"name\" : \"EVENT_SIZE\", \"type\" : \"SIZE_T\" } \
+	] \
+"
+
+#define OPENDPP_DATA_FORMAT " \
+	[ \
+		{ \"name\" : \"CHANNEL\", \"type\" : \"U8\" }, \
+		{ \"name\" : \"TIMESTAMP\", \"type\" : \"U64\" }, \
+		{ \"name\" : \"TIMESTAMP_NS\", \"type\" : \"U64\" }, \
+		{ \"name\" : \"FINE_TIMESTAMP\", \"type\" : \"U16\" }, \
+		{ \"name\" : \"ENERGY\", \"type\" : \"U16\" }, \
+		{ \"name\" : \"FLAGS_B\", \"type\" : \"U16\" }, \
+		{ \"name\" : \"FLAGS_A\", \"type\" : \"U8\" }, \
+		{ \"name\" : \"PSD\", \"type\" : \"U16\" }, \
+		{ \"name\" : \"USER_INFO\", \"type\" : \"U64\", \"dim\" : 1 }, \
+		{ \"name\" : \"USER_INFO_SIZE\", \"type\" : \"SIZE_T\" }, \
+		{ \"name\" : \"TRUNCATED\", \"type\" : \"BOOL\" }, \
+		{ \"name\" : \"WAVEFORM\", \"type\" : \"U16\", \"dim\" : 1 }, \
+		{ \"name\" : \"WAVEFORM_SIZE\", \"type\" : \"SIZE_T\" }, \
+		{ \"name\" : \"BOARD_FAIL\", \"type\" : \"BOOL\" }, \
+		{ \"name\" : \"SPECIAL_EVENT\", \"type\" : \"BOOL\" }, \
+		{ \"name\" : \"EVENT_SIZE\", \"type\" : \"SIZE_T\" }, \
+		{ \"name\" : \"FLUSH\", \"type\" : \"BOOL\" }, \
+		{ \"name\" : \"AGGREGATE_COUNTER\", \"type\" : \"U32\" } \
 	] \
 "
 static unsigned long long value_to_ull(const char* value);
@@ -24,7 +50,7 @@ Framework Compatible version: 1.0
 
 bd_feelib::bd_feelib(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
     RegisterParameter("boardapi/felib/**", "router all board api to string access", SciSDK_Paramcb::Type::str, this);
-	const std::list<std::string> listOfDataFormat = { "scope" };
+	const std::list<std::string> listOfDataFormat = { "scope", "dpp"};
 	RegisterParameter("boardapi/readout.datatype", "select data format", SciSDK_Paramcb::Type::str, listOfDataFormat, this);
 
 	ConfigureEndpoint();
@@ -51,7 +77,12 @@ NI_RESULT bd_feelib::ISetParamString(string name, string value)
 			_datatype = FEELIB_DATATYPE::SCOPE;
 			ConfigureEndpoint();
 			return NI_OK;
-		}	else {
+		}	else if (value == "dpp") {
+			_datatype = FEELIB_DATATYPE::DPP;
+			ConfigureEndpoint();
+			return NI_OK;
+		}
+		else {
 			return NI_INVALID_PARAMETER;
 		}
 	}
@@ -77,6 +108,10 @@ NI_RESULT bd_feelib::IGetParamString(string name, string* value)
 			case FEELIB_DATATYPE::SCOPE:
 				*value = "scope";
 				return NI_OK;
+			case FEELIB_DATATYPE::DPP:
+				*value = "dpp";
+				return NI_OK;
+
 			default:
 				return NI_INVALID_PARAMETER;
 		}
@@ -128,6 +163,24 @@ int bd_feelib::ConfigureEndpoint() {
 			ret = _hal->FELib_SetValue(handle, "/endpoint/par/activeendpoint", "scope");
 			if (ret) return ret;
 			ret = _hal->FELib_SetReadDataFormat(ep_handle, SCOPE_DATA_FORMAT);
+			if (ret) return ret;
+			return NI_OK;
+		}
+		break;
+		case  FEELIB_DATATYPE::DPP:
+		{
+			int ret = 0;
+			uint64_t handle;
+			uint64_t ep_handle;
+			if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
+			ret = _hal->FELib_GetHandle(handle, "/endpoint/opendpp", &ep_handle);
+			if (ret) return ret;
+			uint64_t ep_folder_handle;
+			ret = _hal->FELib_GetParentHandle(ep_handle, NULL, &ep_folder_handle);
+			if (ret) return ret;
+			ret = _hal->FELib_SetValue(handle, "/endpoint/par/activeendpoint", "opendpp");
+			if (ret) return ret;
+			ret = _hal->FELib_SetReadDataFormat(ep_handle, OPENDPP_DATA_FORMAT);
 			if (ret) return ret;
 			return NI_OK;
 		}
@@ -201,10 +254,48 @@ NI_RESULT bd_feelib::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size) {
 		return NI_OK;
 	}
 	break;
+
+	case  FEELIB_DATATYPE::DPP:
+	{
+		AllocateBuffer(bt, buffer);
+	}
 	
 	default:
 		return NI_INVALID_ACQ_MODE;
 	}
+}
+
+NI_RESULT bd_feelib::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer) {
+	switch (_datatype) {
+
+	case  FEELIB_DATATYPE::DPP:
+	{
+		//allocate SCISDK_FE_OPENDPP_EVENT buffer
+		SCISDK_FE_OPENDPP_EVENT* evt;
+		*buffer = (SCISDK_FE_OPENDPP_EVENT*)malloc(sizeof(*evt));
+		evt = (SCISDK_FE_OPENDPP_EVENT*)*buffer;
+		if (evt == NULL) {
+			return NI_ALLOC_FAILED;
+		}
+
+		evt->user_info = (uint64_t*)malloc(sizeof(uint64_t)* DPP_MAX_USER_INFO);
+		if (evt->user_info == NULL) {
+			return NI_ALLOC_FAILED;
+		}
+		evt->waveform = (uint16_t*)malloc(sizeof(uint16_t) * DPP_MAX_NWAVE* DPP_MAX_SAMPLE_WAVE);
+
+		if (evt->waveform == NULL) {
+			return NI_ALLOC_FAILED;
+		}
+		
+		buffer = (void**)evt;
+		return NI_OK;
+	}
+	break;
+	default:
+		return NI_INVALID_ACQ_MODE;
+	}
+	
 }
 
 NI_RESULT bd_feelib::ReadData(void* buffer) {
@@ -238,6 +329,38 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 		return ret;
 	}
 	break;
+
+	case  FEELIB_DATATYPE::DPP:
+	{
+		SCISDK_FE_OPENDPP_EVENT* p;
+		p = (SCISDK_FE_OPENDPP_EVENT*)buffer;
+
+		uint64_t ep_handle;
+
+		ret = _hal->FELib_GetHandle(handle, "/endpoint/opendpp", &ep_handle);
+		if (ret) return ret;
+		int ret = _hal->FELib_ReadData(ep_handle, acquisition_timeout_ms,
+			&p->channel,
+			&p->timestamp,
+			&p->timestamp_ns,
+			&p->fine_timestamp,
+			&p->energy,
+			&p->flags_b,
+			&p->flags_a,
+			&p->psd,
+			p->user_info,
+			&p->user_info_size,
+			&p->truncated,
+			p->waveform,
+			&p->waveform_size,
+			&p->board_fail,
+			&p->special_event,
+			&p->event_size,
+			&p->flush,
+			&p->aggregate_counter
+		);
+		return ret;
+	}
 
 	default:
 		return NI_INVALID_ACQ_MODE;

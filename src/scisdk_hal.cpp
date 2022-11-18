@@ -136,6 +136,10 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					}
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -165,6 +169,10 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					return NI_ERROR;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		break;
 	default:
@@ -204,6 +212,10 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				free(_handle);
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		free(_handle);
 		return NI_ERROR;
@@ -239,6 +251,10 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 					return NI_ERROR;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -270,6 +286,10 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 					return NI_ERROR;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		break;
 	default:
@@ -325,6 +345,10 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 				mtx.unlock();
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -348,6 +372,10 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		break;
 	case BOARD_MODEL::X2495:
@@ -370,6 +398,10 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		break;
 	default:
@@ -404,6 +436,10 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 				mtx.unlock();
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -428,6 +464,10 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -451,6 +491,10 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		break;
 	default:
@@ -488,6 +532,10 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -511,6 +559,10 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -555,6 +607,10 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 				mtx.unlock();
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -579,6 +635,10 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -629,6 +689,10 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		
 		break;
@@ -669,6 +733,10 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 				mtx.unlock();
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -692,6 +760,10 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 				*read_data = rd;
 				return r;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		return NI_ERROR;
 		break;
@@ -752,6 +824,10 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 					return NI_OK;
 				}
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 		
 		break;
@@ -849,6 +925,10 @@ string SciSDK_HAL::GetFirmwareTree() {
 				free(jsonString);
 				return r;
 			}
+			else {
+				return "";
+			}
+
 		}
 		
 		break;
@@ -891,6 +971,10 @@ NI_RESULT SciSDK_HAL::SetBoardParamater(string path, string value){
 				}
 				return NI_OK;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 
 		break;
@@ -935,6 +1019,10 @@ NI_RESULT SciSDK_HAL::GetBoardParamater(string path, string &value) {
 				value = string(v);
 				return NI_OK;
 			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
 		}
 
 		break;
@@ -977,6 +1065,9 @@ NI_RESULT SciSDK_HAL::FELib_GetHandle(uint64_t handle, const char* path, uint64_
 			mtx.unlock();	
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1001,6 +1092,10 @@ NI_RESULT SciSDK_HAL::FELib_GetParentHandle(uint64_t handle, const char* path, u
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1025,6 +1120,10 @@ NI_RESULT SciSDK_HAL::FELib_GetValue(uint64_t handle, const char* path, char val
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1048,6 +1147,10 @@ NI_RESULT SciSDK_HAL::FELib_SetValue(uint64_t handle, const char* path, const ch
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1071,6 +1174,10 @@ NI_RESULT SciSDK_HAL::FELib_SendCommand(uint64_t handle, const char* path) {
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1094,6 +1201,10 @@ NI_RESULT SciSDK_HAL::FELib_SetReadDataFormat(uint64_t handle, const char* jsonS
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1124,6 +1235,10 @@ NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
 			va_end(args);
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1147,6 +1262,10 @@ NI_RESULT SciSDK_HAL::FELib_HasData(uint64_t handle, int timeout) {
 			mtx.unlock();
 			return res;
 		}
+		else {
+			return NI_INVALID_METHOD;
+		}
+
 	}
 	else {
 		return NI_ERROR_INTERFACE;
