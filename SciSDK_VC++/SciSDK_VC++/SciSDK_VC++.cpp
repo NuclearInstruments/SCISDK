@@ -263,9 +263,18 @@ int main()
 	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TrgOutMode", "UserTrgout"));
 	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/ch/0..63/par/ChEnable", "true"));
 	sdk.p_error(sdk.GetParameter("board0:/boardapi/felib/ch/0/par/ChEnable", &test));
-	cout << "test " << test << endl;
+	
 
-	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/AcqTriggerSource", "SwTrg | TestPulse"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAMask", "1"));
+
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAPairLogic", "None"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAMajorityLev", "2"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAMainLogic", "OR"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAGateWidth", "800"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/ITLAPolarity", "Direct"));
+	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/AcqTriggerSource", "ITLA"));
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/felib/par/AcqTriggerSource", &test));
+	cout << "Check /boardapi/felib/par/AcqTriggerSource " << test << endl;
 	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulsePeriod", "100000"));
 	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulseWidth", "1000"));
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/armacquisition", ""));
