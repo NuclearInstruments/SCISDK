@@ -868,7 +868,8 @@ INPUT                  = src/SciSDK_DLL.h \
                          src/scisdk_defines.h \
                          src/NIErrorCode.h \
                          README.md \
-                         docs/oscilloscope.md 
+                         docs/oscilloscope.md \
+                         docs/mmc.md
                          
 
 # This tag can be used to specify the character encoding of the source files
