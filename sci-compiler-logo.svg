@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" width="61px" height="74px" viewBox="-0.5 -0.5 61 74" content="&lt;mxfile host=&quot;drawio-plugin&quot; modified=&quot;2021-03-16T23:58:23.462Z&quot; agent=&quot;5.0 (Macintosh; Intel Mac OS X 10_16_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36&quot; version=&quot;13.7.9&quot; etag=&quot;JoeaGLJ54FcERO7YrWLQ&quot; type=&quot;embed&quot;&gt;&lt;diagram id=&quot;JMB9aH8b_oZ7EWDuqJgx&quot; name=&quot;Page-1&quot;&gt;7VdNc5swEP01HDsjkGPDsSVJe+lMZnzoWYENaAwsI8ux6a+vCCtA4KSu62kmSS+M9LT7tB9P0uDxuDx8VaLOv2MKhRew9ODxay8Igigy3xZoCOC8AzIl0w7yB2AtfwKBjNCdTGHrGGrEQsvaBROsKki0gwmlcO+aPWDh7lqLDGbAOhHFHP0hU513aHjFBvwbyCy3O/uMVkphjQnY5iLF/QjiNx6PFaLuRuUhhqKtna1L53f7zGofmIJKn+RAcTyKYkfJUWC6sdlmCnc1mYHScDhWY3Fvzdk8Br/PzCgCsAStGmNCRJy2JDH4pIV8VMG+edS4rCcZcjMDSu+ZVP3fpwpV+rnVh5ndF5hsPP4l16VhvPbN8AErTWI0re7mMRaonpw5Y8tlHBvcsNzKwnpttVDaslZYgcXIhj3NFW56LS1bbrM44l6m4Wq5MLhxzEDfgZKmAKDWtUhklRFNgqVM7LYb0Enu8I9j9dkVC80KtgS6Lb3fGnYVgXSm/1Ez2fFu7oeTYA/CuIUWU1AILR9d/mN9pR3uUJqde7F88leOWhYLl2GLO5UAOY2FP+GxMm3c6CwNlXlKY9oompFZ3Rps59EOkuw8BoH2BTtNs8EfaZbUdYZkXQGuXhDgR9DYRBycXURj00D+UmMT2ktJLnr9B8HG0IzFcPkHYfUe3oPZqfOjMEiDs1+KEw5n9P/+/1f3f/gq1394lt7erqQ+0HVvpsPPRWc+/KHxm18=&lt;/diagram&gt;&lt;/mxfile&gt;" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(0.077586, 0, 0, 0.077586, -47.585999, 5.663442)" style="">
+    <g>
+      <g>
+        <path class="st1" d="M1000,397.5c-46.6-38.5-70.8-100.9-54-160.7c9.6-35.8,30.6-68.3,54.9-95.6c19.5-20.4,49,2.3,38.7,24.8 c-1.5,3.3-3.9,6.1-6.6,8.4c-24.1,20.4-46.4,43.1-59.6,72C949.3,296.6,964.4,356.2,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c-60.2,5.8-121.4-21.3-151.8-75.4c-18.5-32.1-26.6-70-28.8-106.4c-0.6-28.3,36.3-33,44.9-9.9 c1.3,3.4,1.6,7.1,1.3,10.7c-2.6,31.5-2.3,63.3,8.8,93C892.8,362,945.6,393.5,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c-38.5,46.6-100.9,70.8-160.7,54c-35.8-9.6-68.3-30.6-95.6-54.9c-20.4-19.5,2.3-49,24.8-38.7 c3.3,1.5,6.1,3.9,8.4,6.6c20.4,24.1,43.1,46.4,72,59.6C899.1,448.2,958.7,433.1,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c5.8,60.2-21.3,121.4-75.4,151.8c-32.1,18.5-70,26.6-106.4,28.8c-28.3,0.6-33-36.3-9.9-44.9 c3.4-1.3,7.1-1.6,10.7-1.3c31.5,2.6,63.3,2.3,93-8.8C964.5,504.7,996,451.9,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c46.6,38.5,70.8,100.9,54,160.7c-9.6,35.8-30.6,68.3-54.9,95.6c-19.5,20.4-49-2.3-38.7-24.8 c1.5-3.3,3.9-6.1,6.6-8.4c24.1-20.4,46.4-43.1,59.6-72C1050.7,498.4,1035.6,438.7,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c60.2-5.8,121.4,21.3,151.8,75.4c18.5,32.1,26.6,70,28.8,106.4c0.6,28.3-36.3,33-44.9,9.9 c-1.3-3.4-1.6-7.1-1.3-10.7c2.6-31.5,2.3-63.3-8.8-93C1107.2,433,1054.4,401.5,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c38.5-46.6,100.9-70.8,160.7-54c35.8,9.6,68.3,30.6,95.6,54.9c20.4,19.5-2.3,49-24.8,38.7 c-3.3-1.5-6.1-3.9-8.4-6.6c-20.4-24.1-43.1-46.4-72-59.6C1100.9,346.8,1041.3,361.8,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+        <path class="st1" d="M1000,397.5c-5.8-60.2,21.3-121.4,75.4-151.8c32.1-18.5,70-26.6,106.4-28.8c28.3-0.6,33,36.3,9.9,44.9 c-3.4,1.3-7.1,1.6-10.7,1.3c-31.5-2.6-63.3-2.3-93,8.8C1035.5,290.3,1004,343.1,1000,397.5L1000,397.5z" style="fill: rgb(9, 129, 163);"/>
+      </g>
+    </g>
+    <g>
+      <g>
+        <circle class="st0" cx="1052.8" cy="121.8" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="842.4" cy="165.2" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="724.4" cy="344.7" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="767.8" cy="555.1" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="947.2" cy="673.1" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="1157.6" cy="629.7" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="1275.6" cy="450.3" r="16.5" style="fill: rgb(0, 116, 199);"/>
+        <circle class="st0" cx="1232.2" cy="239.9" r="16.5" style="fill: rgb(0, 116, 199);"/>
+      </g>
+    </g>
+  </g>
+</svg>
