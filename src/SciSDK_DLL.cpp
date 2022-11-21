@@ -138,7 +138,7 @@ SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out
 	return _sdk->DecodeData(_Path, buffer_in, buffer_out);
 }
 
-SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buffer, void *handle) {
+SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle) {
 	printf("OK");
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
@@ -162,7 +162,7 @@ SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, int buffer_type, void **buf
 	return res;
 }
 
-SCISDK_DLL_API int SCISDK_AllocateBufferSize(char * Path, int buffer_type, void ** buffer, void * handle, int size)
+SCISDK_DLL_API int SCISDK_AllocateBufferSize(char * Path, T_BUFFER_TYPE buffer_type, void ** buffer, void * handle, int size)
 {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
@@ -398,4 +398,11 @@ SCISDK_DLL_API int SCISDK_GetParametersProperties(char * Path, char ** ret, void
 	*ret = (char*)malloc(sizeof(char) * (strlen(str_tmp)+3));
 	strcpy(*ret, str_tmp);
 	return res;
+}
+
+
+SCISDK_DLL_API int SCISDK_free_string(char * _str){
+	if (_str == NULL)return NI_ERROR;
+	free(_str);
+	return NI_OK;
 }
