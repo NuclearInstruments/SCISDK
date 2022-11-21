@@ -1,57 +1,49 @@
-# Tips & Tricks
+# Oscilloscope driver
 
-[TOC]
+The oscilloscope allows to acquire waveform and download them to the user PC.
 
-## Diagrams with Graphviz
+The oscilloscope can be configured to acquire one or multiple channels. 
+The acquisition can be triggered by an external signal, by a software trigger, by self trigger or by leading edge trigger.
 
-To get the best looking class diagrams for your documentation, generate them with Graphviz as vector graphics with transparent background:
+## Parameters
+The following parameters can be configured:
 
-```
-# Doxyfile
-HAVE_DOT = YES
-DOT_IMAGE_FORMAT = svg
-DOT_TRANSPARENT = YES
-```
+| Parameter         | Acces Mode | Description                                                                              | Default value |
+| ----------------- | ---------- | ---------------------------------------------------------------------------------------- | ------------- |
+| decimator         | R/W        | set x-axis decimation factor                                                             | 0             |
+| pretrigger        | R/W        | set pretrigger memory length (in samples)                                                | 0             |
+| trigger_level     | R/W        | set trigger level on selected analog channel                                             | 0             |
+| trigger_channel   | R/W        | set trigger channel when trigger mode is set to "analog"                                 | 0             |
+| auto_arm          | R/W        | set 1 to enable the auto arm feature                                                     | 1             |
+| trigger_mode      | R/W        | set trigger mode: disabled, self, analog, ext, digital                                   | self          |
+| data_processing   | R/W        | set data processing mode: raw, decode                                                    | decode        |
+| acq_mode          | R/W        | set data processing mode: blocking, non-blocking                                         | blocking      |
+| trigger_polarity  | R/W        | set trigger polarity: pos, neg                                                           | pos           |
+| timeout           | R/W        | set timeout for blocking acquisition in ms                                               | 5000          |
+| nanalog           | R          | get number of analog tracks per channel                                                  |               |
+| ndigital          | R          | get number of digital tracks per channel                                                 |               |
+| nchannels         | R          | get number of channels                                                                   |               |
+| buffer_type       | R          | get buffer type: SCISDK_OSCILLOSCOPE_RAW_BUFFER or SCISDK_OSCILLOSCOPE_DECODED_BUFFER    |               |
 
-## Disable Dark Mode
+## Decimation
+The input signal is sampled at a rate ADC sample rate (for example on DT5560 is 125 Msps). The decimation factor can be set to reduce the sampling rate.
+0 means no decimation, 1 means 1/2 decimation (i.e. 62.5 Msps), 2 means 1/4 decimation (i.e 31.25 Msps), etc.
+Decimation can be used to extend the acquisition time. For example, if the memory size is 1 Ksamples and the decimation factor is 0, the acquisition time is 1 Ksamples/125 Msps = 8 us. If the decimation factor is 1, the acquisition time is 1 Ksamples/62.5 Msps = 16 us.
 
-If for some reason you don't want the theme to automatically switch to dark mode depending on the browser preference,
-you can disable dark mode by adding the `light-mode` class to the html-tag in the header template:
+## Trigger
+Following trigger modes are available:
+- <b> self trigger </b> acquires data in free running mode. The acquisition is started by the user with the ReadData function
 
-```html
-<html xmlns="http://www.w3.org/1999/xhtml" class="light-mode">
-```
+- <b> analog </b> trigger the acquisition when the selected analog channel crosses the trigger level. The trigger level can be set with the trigger_level parameter.
+The polarity of the trigger can be set with the trigger_polarity parameter.
 
-The same can be done to always enable dark-mode:
+- <b> digital </b> trigger the acquisition when the selected digital channel transitions from 0 to 1 or from 1 to 0. The polarity of the trigger can be set with the trigger_polarity parameter. The channel is selected with the trigger_channel parameter.
 
-```html
-<html xmlns="http://www.w3.org/1999/xhtml" class="dark-mode">
-```
+- <b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the SciCompiler block
 
+## Acquisition Modes
+Following acquisition modes are available:
+- <b> blocking </b> mode waits for the acquisition to complete before returning from the ReadData function. The <b>timeout</b> can be set with the timeout parameter. 
 
-**This only works if you don't use the dark-mode toggle extension.**
+- <b> non-blocking </b> mode returns immediately from the ReadData function. If trigger does not occur within the timeout, the function returns NI_NO_DATA_AVAILABLE 
 
-## Choosing Sidebar Width
-
-If you have enabled the sidebar-only theme variant, make sure to carefully choose a proper width for your sidebar.
-It should be wide enough to hold the icon, project title and version number. If the content is too wide, it will be
-cut off.
-
-```css
-html {
-    /* Make sure sidebar is wide enough to contain the page title (logo + title + version) */
-    --side-nav-fixed-width: 335px;
-}
-```
-
-The choosen width should also be set in the Doxyfile:
-
-```
-# Doxyfile
-TREEVIEW_WIDTH = 335
-```
-
-<span class="next_section_button">
-
-Read Next: [Example](https://jothepro.github.io/doxygen-awesome-css/class_my_library_1_1_example.html)
-</span>
