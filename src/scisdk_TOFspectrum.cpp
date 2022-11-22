@@ -29,7 +29,6 @@ SciSDK_TOFSpectrum::SciSDK_TOFSpectrum(SciSDK_HAL *hal, json j, string path) : S
 		}
 	}
 
-
 	settings.nbins = (uint32_t)j.at("bins");
 	settings.bitbin = (uint32_t)j.at("CountsBit");
 	binwidth = 10;
