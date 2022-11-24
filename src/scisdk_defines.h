@@ -2,65 +2,103 @@
 #define HEADER_H_SCISDK_DEFINES
 #include <stdint.h>
 
-	typedef struct {
-		uint32_t magic;
-		int32_t *analog;
-		uint8_t *digital;
-		uint32_t trigger_position;
-		uint64_t timecode;
+	/**
+	 * @brief Oscilloscope decoded data type
+	 * @details This type is used to store decoded data from oscilloscope.
+	 * The data in this structure is already decoded.
+	 * The first sample in the analog/digital buffer rappresent the first sample of the channel 1
+	 * 
+	 * Example with 3 channels, 1024 samples per channel, pretrigger T
+	 * Samples between 0 and T-1 are pre-trigger samples
+	 * Samples between T and 1023 are post-trigger samples
+	 * 
+	 * | Channel 1                      | Channel 2                      | Channel 3                      |
+	 * | ------------------------------ | ------------------------------ | ------------------------------ |
+	 * | 0  ...  T ............... 1024 | 0  ...  T ............... 1024 | 0  ...  T ............... 1024 |
+	 */
+	typedef struct {		
+		uint32_t magic;									/**< Magic number to identify the data type*/
+		int32_t *analog;								/**< Pointer to analog data allocated by the AllocateBuffer function*/
+		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
+		uint32_t trigger_position;						/**< Trigger position in samples*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
 		struct  {
-			uint32_t samples_analog;
-			uint32_t samples_digital;
-			uint32_t tracks_analog_per_channel;
-			uint32_t tracks_digital_per_channel;
-			uint32_t channels;
+			uint32_t samples_analog;					/**< Number of samples in analog buffer*/
+			uint32_t samples_digital;					/**< Number of samples in digital buffer*/
+			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+			uint32_t channels;							/**< Number of channels*/
 		} info;
 	}SCISDK_OSCILLOSCOPE_DECODED_BUFFER;
 
+	/**
+	 * @brief Oscilloscope raw data type
+	 * @details This type is used to store raw data from oscilloscope.
+	 * The reference document for the raw data format is the  [Oscilloscope driver](oscilloscope.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
-		uint32_t zero_position;
-		uint32_t trigger_position;
-		uint64_t timecode;
+		uint32_t magic;									/**< Magic number to identify the data type*/
+		uint32_t *data;									/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
+		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
 		struct  {
-			uint32_t buffer_size;
-			uint32_t samples_analog;
-			uint32_t samples_digital;
-			uint32_t tracks_analog_per_channel;
-			uint32_t tracks_digital_per_channel;
-			uint32_t channels;
+			uint32_t buffer_size;						/**< Size of the buffer in samples*/
+			uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
+			uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
+			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+			uint32_t channels;							/**< Number of channels*/
 		} info;
 	}SCISDK_OSCILLOSCOPE_RAW_BUFFER;
 
+	/**
+	 * @brief Oscilloscope decoded data type
+	 * @details This type is used to store decoded data from oscilloscope.
+	 * The data in this structure is already decoded.
+	 * The first sample in the analog/digital buffer rappresent the first sample of the channel 1
+	 * 
+	 * Example with 3 channels, 1024 samples per channel, pretrigger T
+	 * Samples between 0 and T-1 are pre-trigger samples
+	 * Samples between T and 1023 are post-trigger samples
+	 * 
+	 * | Channel 1                      | Channel 2                      | Channel 3                      |
+	 * | ------------------------------ | ------------------------------ | ------------------------------ |
+	 * | 0  ...  T ............... 1024 | 0  ...  T ............... 1024 | 0  ...  T ............... 1024 |
+	 */
 	typedef struct {
-		uint32_t magic;
-		int32_t *analog;
-		uint8_t *digital;
-		uint32_t trigger_position;
-		uint64_t timecode;
-		struct {
-			uint32_t samples_analog;
-			uint32_t samples_digital;
-			uint32_t tracks_analog_per_channel;
-			uint32_t tracks_digital_per_channel;
-			uint32_t channels;
+		uint32_t magic;									/**< Magic number to identify the data type*/
+		int32_t *analog;								/**< Pointer to analog data allocated by the AllocateBuffer function*/
+		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
+		uint32_t trigger_position;						/**< Trigger position in samples*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
+		struct  {
+			uint32_t samples_analog;					/**< Number of samples in analog buffer*/
+			uint32_t samples_digital;					/**< Number of samples in digital buffer*/
+			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+			uint32_t channels;							/**< Number of channels*/
 		} info;
 	}SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER;
 
+	/**
+	 * @brief Oscilloscope raw data type
+	 * @details This type is used to store raw data from oscilloscope.
+	 * The reference document for the raw data format is the  [Oscilloscope Dual driver](oscilloscope-dual.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
-		uint32_t zero_position;
-		uint32_t trigger_position;
-		uint64_t timecode;
-		struct {
-			uint32_t buffer_size;
-			uint32_t samples_analog;
-			uint32_t samples_digital;
-			uint32_t tracks_analog_per_channel;
-			uint32_t tracks_digital_per_channel;
-			uint32_t channels;
+		uint32_t magic;									/**< Magic number to identify the data type*/
+		uint32_t *data;									/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
+		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
+		struct  {
+			uint32_t buffer_size;						/**< Size of the buffer in samples*/
+			uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
+			uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
+			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+			uint32_t channels;							/**< Number of channels*/
 		} info;
 	}SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER;
 

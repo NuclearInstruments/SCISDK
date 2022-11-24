@@ -869,6 +869,7 @@ INPUT                  = src/SciSDK_DLL.h \
                          src/NIErrorCode.h \
                          README.md \
                          docs/oscilloscope.md \
+                         docs/oscilloscope-dual.md \
                          docs/mmc.md
                          
 
