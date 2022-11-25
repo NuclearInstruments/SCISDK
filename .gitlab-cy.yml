@@ -1,0 +1,36 @@
+stages:
+  - pages
+  - push
+
+
+pages:
+
+  stage: pages
+
+  image: registry.lanni/pages/doxygen:latest
+
+  script:
+    - doxygen
+    - mkdir -p public
+    - mv docs/html/* public/
+    
+  when: always
+
+  artifacts:
+    paths:
+      - public
+
+push_github:
+  stage: push
+ 
+
+  image: registry.lanni/nibuntu/services-20.04:latest
+
+  script:
+    - git config --global --add safe.directory '*'
+    - git config remote.github_cicd.url >&- || git remote add github_cicd https://NuclearInstruments:${GITHUB_TOKEN}@github.com/NuclearInstruments/SCISDK.git
+    # git push origin localBranchName:remoteBranchName
+    - git push -u github_cicd HEAD:master --force
+
+  rules:
+    #- if: $CI_COMMIT_TAG
