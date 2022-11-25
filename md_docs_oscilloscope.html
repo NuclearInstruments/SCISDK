@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SciSDK Library: Oscilloscope driver</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/NuclearInstruments/SCISDK" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="sci-compiler-logo.svg"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SciSDK Library
+   </div>
+   <div id="projectbrief">SDK for SciCompiler projects</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('md_docs_oscilloscope.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Oscilloscope driver </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>The oscilloscope allows to acquire waveform and download them to the user PC.</p>
+<p>The oscilloscope can be configured to acquire one or multiple channels. The acquisition can be triggered by an external signal, by a software trigger, by self trigger or by leading edge trigger.</p>
+<h1><a class="anchor" id="autotoc_md19"></a>
+Parameters</h1>
+<p>The following parameters can be configured:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter </th><th class="markdownTableHeadNone">Acces Mode </th><th class="markdownTableHeadNone">Description </th><th class="markdownTableHeadNone">Default value  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">decimator </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set x-axis decimation factor </td><td class="markdownTableBodyNone">0  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">pretrigger </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set pretrigger memory length (in samples) </td><td class="markdownTableBodyNone">0  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">trigger_level </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set trigger level on selected analog channel </td><td class="markdownTableBodyNone">0  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">trigger_channel </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set trigger channel when trigger mode is set to "analog" </td><td class="markdownTableBodyNone">0  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">auto_arm </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set 1 to enable the auto arm feature </td><td class="markdownTableBodyNone">1  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">trigger_mode </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set trigger mode: disabled, self, analog, ext, digital </td><td class="markdownTableBodyNone">self  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">data_processing </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set data processing mode: raw, decode </td><td class="markdownTableBodyNone">decode  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">acq_mode </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set data processing mode: blocking, non-blocking </td><td class="markdownTableBodyNone">blocking  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">trigger_polarity </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set trigger polarity: pos, neg </td><td class="markdownTableBodyNone">pos  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">timeout </td><td class="markdownTableBodyNone">R/W </td><td class="markdownTableBodyNone">set timeout for blocking acquisition in ms </td><td class="markdownTableBodyNone">5000  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">nanalog </td><td class="markdownTableBodyNone">R </td><td class="markdownTableBodyNone">get number of analog tracks per channel </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">ndigital </td><td class="markdownTableBodyNone">R </td><td class="markdownTableBodyNone">get number of digital tracks per channel </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">nchannels </td><td class="markdownTableBodyNone">R </td><td class="markdownTableBodyNone">get number of channels </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">buffer_type </td><td class="markdownTableBodyNone">R </td><td class="markdownTableBodyNone">get buffer type: <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html" title="Oscilloscope raw data type.">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a> or <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html" title="Oscilloscope decoded data type.">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md20"></a>
+Decimation</h2>
+<p>The input signal is sampled at a rate ADC sample rate (for example on DT5560 is 125 Msps). The decimation factor can be set to reduce the sampling rate. 0 means no decimation, 1 means 1/2 decimation (i.e. 62.5 Msps), 2 means 1/4 decimation (i.e 31.25 Msps), etc. Decimation can be used to extend the acquisition time. For example, if the memory size is 1 Ksamples and the decimation factor is 0, the acquisition time is 1 Ksamples/125 Msps = 8 us. If the decimation factor is 1, the acquisition time is 1 Ksamples/62.5 Msps = 16 us.</p>
+<h2><a class="anchor" id="autotoc_md21"></a>
+Trigger</h2>
+<p>Following trigger modes are available:</p><ul>
+<li><b> self trigger </b> acquires data in free running mode. The acquisition is started by the user with the ReadData function</li>
+<li><b> analog </b> trigger the acquisition when the selected analog channel crosses the trigger level. The trigger level can be set with the trigger_level parameter. The polarity of the trigger can be set with the trigger_polarity parameter. Trigger level operare as a leading edge trigger. The trigger is activated when the analog signal crosses the trigger level in the selected polarity.</li>
+<li><b> digital </b> trigger the acquisition when the selected digital channel transitions from 0 to 1 or from 1 to 0. The polarity of the trigger can be set with the trigger_polarity parameter. The channel is selected with the trigger_channel parameter.</li>
+<li><b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the SciCompiler block</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md22"></a>
+Acquisition Modes</h2>
+<p>Following acquisition modes are available:</p><ul>
+<li><b> blocking </b> mode waits for the acquisition to complete before returning from the ReadData function. The <b>timeout</b> can be set with the timeout parameter.</li>
+<li><b> non-blocking </b> mode returns immediately from the ReadData function. If trigger does not occur within the timeout, the function returns NI_TIMEOUT</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md23"></a>
+Polarity</h2>
+<p>The polarity of the trigger can be set with the trigger_polarity parameter. Following values are available:</p><ul>
+<li><b> pos </b> positive polarity</li>
+<li><b> neg </b> negative polarity</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md24"></a>
+Auto Arm</h2>
+<p>The auto arm feature can be enabled with the auto_arm parameter. When enabled, the acquisition is automatically armed by the ReadData function.</p>
+<h2><a class="anchor" id="autotoc_md25"></a>
+Data Processing</h2>
+<p>The data processing mode can be set with the data_processing parameter. Following values are available:</p><ul>
+<li><b> raw </b> returns the raw data from the oscilloscope. The oscilloscope buffer is not decoded indeed the data is returned as it is stored in the oscilloscope memory.</li>
+<li><b> decode </b> returns decoded data from the oscilloscope. The oscilloscpe buffer is decoded internally to the DLL</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md26"></a>
+Commands</h1>
+<p>The following commands are available:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Command </th><th class="markdownTableHeadNone">Description </th><th class="markdownTableHeadNone">Parameter  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">arm </td><td class="markdownTableBodyNone">if auto-arm is not enabled, arm the trigger of the oscillocope </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">reset_read_valid_flag </td><td class="markdownTableBodyNone">reset the data ready flag </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md27"></a>
+Output data Format</h1>
+<h2><a class="anchor" id="autotoc_md28"></a>
+Raw Data</h2>
+<p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line">    uint32_t magic;</div>
+<div class="line">    uint32_t *data;</div>
+<div class="line">    uint32_t zero_position;</div>
+<div class="line">    uint32_t trigger_position;</div>
+<div class="line">    uint64_t timecode;</div>
+<div class="line">    <span class="keyword">struct  </span>{</div>
+<div class="line">        uint32_t buffer_size;</div>
+<div class="line">        uint32_t samples_analog;</div>
+<div class="line">        uint32_t samples_digital;</div>
+<div class="line">        uint32_t tracks_analog_per_channel;</div>
+<div class="line">        uint32_t tracks_digital_per_channel;</div>
+<div class="line">        uint32_t channels;</div>
+<div class="line">    } info;</div>
+<div class="line">}<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a>;</div>
+</div><!-- fragment --><p><code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_OSCILLOSCOPE_RAW_BUFFER_MAGIC <code>data</code> : it's the array of the raw data. The data is stored in the oscilloscope memory as it is. The first element of the array is the first sample acquired by the oscilloscope on channel 0; the second element is the second sample acquired by the oscilloscope on channel 0. After the last sample acquired by the oscilloscope on channel 0, the first sample acquired by the oscilloscope on channel 1 is stored in the data buffer.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Raw Memory  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Word 0  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Word 1023  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 2  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 3  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 4  </td></tr>
+</table>
+<p>Each sample will be organized in the data buffer as follows:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">31 .. 20 </th><th class="markdownTableHeadNone">19 </th><th class="markdownTableHeadNone">18 </th><th class="markdownTableHeadNone">17 </th><th class="markdownTableHeadNone">16 </th><th class="markdownTableHeadNone">15 .. 0  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">xxxxxxxx </td><td class="markdownTableBodyNone">d3 </td><td class="markdownTableBodyNone">d2 </td><td class="markdownTableBodyNone">d1 </td><td class="markdownTableBodyNone">d0 </td><td class="markdownTableBodyNone">analog  </td></tr>
+</table>
+<p><code>zero_position</code> : the position of the trigger in the data buffer. The trigger position is the position of the first sample acquired by the oscilloscope after the trigger event. The trigger position is expressed in samples.</p>
+<p><code>trigger_position</code> : will be set equal to the pre_trigger parameter. The trigger position is expressed in samples. It is relative to the zero position.</p>
+<p><code>timecode</code> : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope.</p>
+<p><code>info</code> : it contains information about the oscilloscope buffer. The fields are:</p><ul>
+<li><code>buffer_size</code> : the size of the buffer in bytes</li>
+<li><code>samples_analog</code> : the number of analog samples per channel</li>
+<li><code>samples_digital</code> : the number of digital samples per channel</li>
+<li><code>tracks_analog_per_channel</code> : the number of analog tracks per channel</li>
+<li><code>tracks_digital_per_channel</code> : the number of digital tracks per channel</li>
+<li><code>channels</code> : the number of channels</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md29"></a>
+Decoded</h2>
+<p>Data is returned in the user buffer in the following format:</p>
+<div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line">    uint32_t magic;</div>
+<div class="line">    int32_t *analog;</div>
+<div class="line">    uint8_t *digital;</div>
+<div class="line">    uint32_t trigger_position;</div>
+<div class="line">    uint64_t timecode;</div>
+<div class="line">    <span class="keyword">struct  </span>{</div>
+<div class="line">        uint32_t samples_analog;</div>
+<div class="line">        uint32_t samples_digital;</div>
+<div class="line">        uint32_t tracks_analog_per_channel;</div>
+<div class="line">        uint32_t tracks_digital_per_channel;</div>
+<div class="line">        uint32_t channels;</div>
+<div class="line">    } info;</div>
+<div class="line">}<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a>;</div>
+</div><!-- fragment --><p><code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_OSCILLOSCOPE_DECODE_BUFFER_MAGIC <code>analog</code> : it's the array of the analog data.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Analog Channels  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Analog Word 0  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Analog Word 1023  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 2  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 3  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 4  </td></tr>
+</table>
+<p>The format of the 32 bit analog word is the following (with oscilloscope in 16 bit mode): </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">31 .. 16 </th><th class="markdownTableHeadNone">15 .. 0  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">xxxxxxxx </td><td class="markdownTableBodyNone">analog  </td></tr>
+</table>
+<p><code>digital</code> : it's the array of the analog data.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Digital Channels  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Digital Word 0  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Channel 1 - Digital Word 1023  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 2  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 3  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Channel 4  </td></tr>
+</table>
+<p>The format of the 8 bit digital word is the following: </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">7 .. 4 </th><th class="markdownTableHeadNone">3 </th><th class="markdownTableHeadNone">2 </th><th class="markdownTableHeadNone">1 </th><th class="markdownTableHeadNone">0  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">xxxxxx </td><td class="markdownTableBodyNone">d3 </td><td class="markdownTableBodyNone">d2 </td><td class="markdownTableBodyNone">d1 </td><td class="markdownTableBodyNone">d0  </td></tr>
+</table>
+<p><code>position</code> : the position of the trigger in the data buffer. The trigger position is the position of the first sample acquired by the oscilloscope after the trigger event. The trigger position is expressed in samples. The samples before the trigger position are the pre-trigger samples.</p>
+<p><code>timecode</code> : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope in SciCompiler.</p>
+<p><code>info</code> : it contains information about the oscilloscope buffer. The fields are:</p><ul>
+<li><code>samples_analog</code> : the number of analog samples per channel</li>
+<li><code>samples_digital</code> : the number of digital samples per channel</li>
+<li><code>tracks_analog_per_channel</code> : the number of analog tracks per channel</li>
+<li><code>tracks_digital_per_channel</code> : the number of digital tracks per channel</li>
+<li><code>channels</code> : the number of channels</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md30"></a>
+Basic Examples</h1>
+<h2><a class="anchor" id="autotoc_md31"></a>
+C</h2>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;self&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
+C++</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">sdk-&gt;setParameter(&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;, &quot;self&quot;);</div>
+<div class="line">sdk-&gt;setParameter(&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;, 150);</div>
+<div class="line">sdk-&gt;setParameter(&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;, 0);</div>
+<div class="line">sdk-&gt;setParameter(&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;, &quot;decode&quot;);</div>
+<div class="line">sdk-&gt;setParameter(&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;, &quot;blocking&quot;);</div>
+<div class="line"> </div>
+<div class="line">SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;</div>
+<div class="line">sdk-&gt;allocateBuffer(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, T_BUFFER_TYPE_DECODED, (void**)&amp;ob);</div>
+<div class="line">sdk-&gt;readData(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, (void *)ob);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
+Python</h2>
+<div class="fragment"><div class="line">sdk.SetParameterString(&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;,&quot;decode&quot;)</div>
+<div class="line">sdk.SetParameterString(&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;,&quot;self&quot;)</div>
+<div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;, 150)</div>
+<div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;, 0)</div>
+<div class="line">sdk.SetParameterString(&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line"> </div>
+<div class="line">res, buf = sdk.AllocateBuffer(&quot;board0:/MMCComponents/Oscilloscope_0&quot;)</div>
+<div class="line">res, buf = sdk.ReadData(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, buf)</div>
+<div class="line">if (res == 0) {</div>
+<div class="line">    # do something with the buffer</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
+C Sharp</h2>
+<div class="fragment"><div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;,&quot;decode&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;, &quot;blocking&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.timeout&quot;, 1000);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;, 0);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;,&quot;self&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;, 150);</div>
+<div class="line"> </div>
+<div class="line">// allocate buffer</div>
+<div class="line">SciSDKOscilloscopeDecodedBuffer buffer;</div>
+<div class="line">buffer = new SciSDKOscilloscopeDecodedBuffer();</div>
+<div class="line">sdk.AllocateBuffer(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, BufferType.BUFFER_TYPE_DECODED, ref buffer);</div>
+<div class="line">if (sdk.ReadData(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, ref buffer) == 0)</div>
+<div class="line">{</div>
+<div class="line">    // do something with the buffer</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md35"></a>
+VB.NET</h2>
+<div class="fragment"><div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;,&quot;decode&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.timeout&quot;, 1000)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;, 0)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;,&quot;self&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;, 150)</div>
+<div class="line"> </div>
+<div class="line">&#39;allocate buffer</div>
+<div class="line">dim buffer as new SciSDKOscilloscopeDecodedBuffer()</div>
+<div class="line">sdk.AllocateBuffer(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, BufferType.BUFFER_TYPE_DECODED, buffer)</div>
+<div class="line">if (sdk.ReadData(&quot;board0:/MMCComponents/Oscilloscope_0&quot;, buffer) == 0)</div>
+<div class="line">{</div>
+<div class="line">    &#39;do something with the buffer</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
+Additional Examples</h1>
+<h2><a class="anchor" id="autotoc_md37"></a>
+Trigger on external signal</h2>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;ext&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md38"></a>
+Trigger on analog signal</h2>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;analog&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_channel&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_level&quot;</span>, 3000, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md39"></a>
+Non blocking mode</h2>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;ext&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;non-blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// poll ReadData until it returns 0 for a maximum of 10000ms in non-blocking mode</span></div>
+<div class="line"><span class="keywordtype">int</span> res = <a class="code" href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a>;</div>
+<div class="line"><span class="keywordtype">int</span> timeout = 10000;</div>
+<div class="line"><span class="keywordflow">while</span> ((res == <a class="code" href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a>) &amp;&amp; (timeout &gt; 0))</div>
+<div class="line">{</div>
+<div class="line">    res = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+<div class="line">    timeout -= 10;</div>
+<div class="line">    </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * do something else</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (res == <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">        </div>
+<div class="line">    } <span class="keywordflow">else</span> {</div>
+<div class="line">        Sleep(10);</div>
+<div class="line">    }</div>
+<div class="line">} </div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md40"></a>
+Processing decoded data and store in a file, one channel per column</h2>
+<p>The following example acquire a waveform from an oscilloscope with multiple channels and store the data in a file. The data is stored in a file with one column per channel. The first column is the time (in sample), the other columns are the data from the channels.</p>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;self&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line">res = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (res == <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    FILE *fp = fopen(<span class="stringliteral">&quot;data.txt&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">if</span> (fp != NULL) {</div>
+<div class="line">        <span class="comment">//header of the file</span></div>
+<div class="line">        fprintf(fp, <span class="stringliteral">&quot;    time&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; ob-&gt;n_channels; i++) {</div>
+<div class="line">            fprintf(fp, <span class="stringliteral">&quot;    CH%02d&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="comment">//Data, fixed column width of 8</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; ob-&gt;<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ae8b5377262184b4dd5102d60bf27814d">info</a>.<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#aaf44ea693a36ca4390b46d19f0112549">samples_analog</a>; i++) {</div>
+<div class="line">            fprintf(fp, <span class="stringliteral">&quot;%8d\t&quot;</span>, i);</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; ob-&gt;<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ae8b5377262184b4dd5102d60bf27814d">info</a>.<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ac03d3d0d1f8876cab96c47e8ef47461b">channels</a>; j++) {</div>
+<div class="line">                fprintf(fp, <span class="stringliteral">&quot;%8d\t&quot;</span>, ob-&gt;<a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a58d35a4c3e9eaa19d737705e3a508e47">analog</a>[j][i]);</div>
+<div class="line">            }</div>
+<div class="line">            fprintf(fp, <span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line">        fclose(fp);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md41"></a>
+Processing decoded data and store in a file, one channel per column</h2>
+<p>Is not required to release and reallocate the buffer, it is possible to reuse the same buffer for multiple acquisitions.</p>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;self&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.pretrigger&quot;</span>, 150, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.decimator&quot;</span>, 0, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a> *ob;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> res = <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>;</div>
+<div class="line"><span class="keywordtype">int</span> count = 1000;</div>
+<div class="line"><span class="keywordflow">while</span> (count-- &gt; 0) {</div>
+<div class="line">    res = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, (<span class="keywordtype">void</span> *)ob, _sdk);</div>
+<div class="line">    <span class="keywordflow">if</span> (res == <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">        <span class="comment">//do something with the data</span></div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">SCISDK_FreeBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ob, _sdk);</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:187</div></div>
+<div class="ttc" id="a_n_i_error_code_8h_html_ae749d3c5e8d435a8bc05e47792d996d8"><div class="ttname"><a href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a></div><div class="ttdeci">#define NI_OK</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:8</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_aaf44ea693a36ca4390b46d19f0112549"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#aaf44ea693a36ca4390b46d19f0112549">SCISDK_OSCILLOSCOPE_DECODED_BUFFER::samples_analog</a></div><div class="ttdeci">uint32_t samples_analog</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:26</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_a58d35a4c3e9eaa19d737705e3a508e47"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a58d35a4c3e9eaa19d737705e3a508e47">SCISDK_OSCILLOSCOPE_DECODED_BUFFER::analog</a></div><div class="ttdeci">int32_t * analog</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:21</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a></div><div class="ttdoc">Oscilloscope decoded data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:19</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_ae8b5377262184b4dd5102d60bf27814d"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ae8b5377262184b4dd5102d60bf27814d">SCISDK_OSCILLOSCOPE_DECODED_BUFFER::info</a></div><div class="ttdeci">struct SCISDK_OSCILLOSCOPE_DECODED_BUFFER::@0 info</div></div>
+<div class="ttc" id="a_n_i_error_code_8h_html_ab44d3b4fb5f18b8063b2e8e7299096f9"><div class="ttname"><a href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a></div><div class="ttdeci">#define NI_TIMEOUT</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:39</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_ac03d3d0d1f8876cab96c47e8ef47461b"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ac03d3d0d1f8876cab96c47e8ef47461b">SCISDK_OSCILLOSCOPE_DECODED_BUFFER::channels</a></div><div class="ttdeci">uint32_t channels</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:30</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ad1b5907dd78816dc2f481b44a99c2915"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">SCISDK_FreeBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_FreeBuffer(char *Path, int buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Release the memory allocated by SCISDK_AllocateBuffer() or SCISDK_AllocateBufferSize()</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a></div><div class="ttdoc">Oscilloscope raw data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:39</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+var scisdk__defines_8h =
+[
+    [ "SCISDK_OSCILLOSCOPE_DECODED_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_OSCILLOSCOPE_RAW_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_OSCILLOSCOPE_STATUS", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___s_t_a_t_u_s" ],
+    [ "SCISDK_DIGITIZER_DECODED_BUFFER", "struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_DIGITIZER_RAW_BUFFER", "struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_LIST_RAW_BUFFER", "struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_CP_PACKET", "struct_s_c_i_s_d_k___c_p___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___c_p___p_a_c_k_e_t" ],
+    [ "SCISDK_CP_DECODED_BUFFER", "struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_CP_RAW_BUFFER", "struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_RM_RAW_BUFFER", "struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_SPECTRUM_DECODED_BUFFER", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_SPECTRUM_STATUS", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s" ],
+    [ "SCISDK_FFT_DECODED_BUFFER", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_FFT_RAW_BUFFER", "struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_FFT_STATUS", "struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s" ],
+    [ "SCISDK_FRAME_PACKET", "struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t" ],
+    [ "SCISDK_FRAME_DECODED_BUFFER", "struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_FRAME_RAW_BUFFER", "struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_CITIROC_PIXEL", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l" ],
+    [ "SCISDK_CITIROC_PACKET", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t" ],
+    [ "SCISDK_CITIROC_DECODED_BUFFER", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_CITIROC_RAW_BUFFER", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_PETIROC_PIXEL", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l.html", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l" ],
+    [ "SCISDK_PETIROC_PACKET", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t" ],
+    [ "SCISDK_PETIROC_DECODED_BUFFER", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_PETIROC_RAW_BUFFER", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_FE_SCOPE_EVENT", "struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html", "struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t" ],
+    [ "SCISDK_FE_OPENDPP_EVENT", "struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html", "struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t" ],
+    [ "T_BUFFER_TYPE", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82e", [
+      [ "T_BUFFER_TYPE_RAW", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c", null ],
+      [ "T_BUFFER_TYPE_DECODED", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d", null ]
+    ] ]
+];

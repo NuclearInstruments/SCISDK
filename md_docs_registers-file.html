@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SciSDK Library: Register File</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/NuclearInstruments/SCISDK" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="sci-compiler-logo.svg"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SciSDK Library
+   </div>
+   <div id="projectbrief">SDK for SciCompiler projects</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('md_docs_registers-file.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Register File </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>The register file component allows to create a group of register having a common root node. The usage of the register file is similar to the usage of the register component except that groups the registers in a common root node. For example the register files can be used to group the registers that are used to configure the charge integrator parameters in a firmware</p>
+<div class="fragment"><div class="line">charge_integrator</div>
+<div class="line">└─── gain</div>
+<div class="line">└─── offset  </div>
+<div class="line">└─── pre_integrator</div>
+<div class="line">└─── integrator</div>
+<div class="line">└─── trigger_threshold</div>
+<div class="line">└─── trigger_inhibit  </div>
+<div class="line">└─── baseline_length    </div>
+</div><!-- fragment --><p>Each element in the register file works as a regular register. It is possible to access to every single element in the register file for read and write.</p>
+<p>A read or write to register is a blocking operation and the execution do not contine till operation is completed.</p>
+<p><em>Register in register file can be configure as read only or read/write.</em></p>
+<p>A vairant of the register file is the multichannel register. The behaviour of the multichannel register is similar to the register file but it allows to configure the number of channels that the register file will have. The number of channels is defined by SciCompiler. Each register has a common name and a channel number.</p>
+<div class="fragment"><div class="line">threshold</div>
+<div class="line">└─── CH0</div>
+<div class="line">└─── CH1  </div>
+<div class="line">└─── CH2</div>
+<div class="line">└─── ....</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md54"></a>
+Endpoint</h1>
+<p>In order to a register inside a register file the path is:</p>
+<div class="fragment"><div class="line">board0:/MMCComponents/&lt;name of the register file&gt;.&lt;name of the register&gt;</div>
+</div><!-- fragment --><p>Inside a sub-page the path is:</p>
+<div class="fragment"><div class="line">board0:/MMCComponents/page1/&lt;name of the register file&gt;.&lt;name of the register&gt;</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md55"></a>
+Methods</h1>
+<p>Set a value in the register</p>
+<div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> SetParameterInteger(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span> value, <span class="keywordtype">void</span>* handle);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> SetParameterString(<span class="keywordtype">char</span>* Path, <span class="keywordtype">char</span> * value, <span class="keywordtype">void</span>* handle);</div>
+</div><!-- fragment --><p>Get a value in the register </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aed920280b3d640e6cfb6862e19d8518c">SCISDK_GetParameterInteger</a>(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span> *value, <span class="keywordtype">void</span>*handle);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a567cbbbd335966f9ee7bc8d2ce9e730b">SCISDK_GetParameterString</a>(<span class="keywordtype">char</span>* Path, <span class="keywordtype">char</span>** value, <span class="keywordtype">void</span>* handle);</div>
+</div><!-- fragment --><ul>
+<li><code>Path</code>: the full path of the register</li>
+<li><code>value</code>: value to be set or value read, can be an integer or a string (in decimal format)</li>
+<li><code>handle</code>: handle to the library</li>
+</ul>
+<p>Python, C++, C# and Java uses classes indeed handle is not required</p>
+<p><em>C++:</em> </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">sdk.SetParameter(Path, value);</div>
+<div class="line">sdk.GetParameter(Path, &amp;value);</div>
+</div><!-- fragment --><p><em>C Sharp:</em> </p><div class="fragment"><div class="line">sdk.SetParameterInteger(Path, value);</div>
+<div class="line">sdk.GetParameterInteger(Path, ref value);</div>
+</div><!-- fragment --><p><em>Python:</em> </p><div class="fragment"><div class="line">err = sdk.SetParameterInteger(Path, value)</div>
+<div class="line">err, value = sdk.GetParameterInteger(Path, value)</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md56"></a>
+Example</h1>
+<p>The following examples uses three register A, B, C in the register file <em>rf</em>. The firmware will calcualte C=A+B (and store the result in C). We set register A and B to 10 and 20 and we read the value of C.</p>
+<h2><a class="anchor" id="autotoc_md57"></a>
+C</h2>
+<div class="fragment"><div class="line">SetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.A&quot;</span>, 10, handle);</div>
+<div class="line">SetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.B&quot;</span>, 20, handle);</div>
+<div class="line"><span class="keywordtype">int</span> value;</div>
+<div class="line">GetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.C&quot;</span>, &amp;value, handle);</div>
+<div class="line">printf(<span class="stringliteral">&quot;C=%d\n&quot;</span>, value);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md58"></a>
+C++</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/rf.A&quot;, 10);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/rf.B&quot;, 20);</div>
+<div class="line">int value;</div>
+<div class="line">sdk.GetParameter(&quot;board0:/MMCComponents/rf.C&quot;, &amp;value);</div>
+<div class="line">printf(&quot;C=%d\n&quot;, value);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md59"></a>
+C Sharp</h2>
+<div class="fragment"><div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.A&quot;, 10);</div>
+<div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.B&quot;, 20);</div>
+<div class="line">int value;</div>
+<div class="line">sdk.GetParameterInteger(&quot;board0:/MMCComponents/rf.C&quot;, ref value);</div>
+<div class="line">Console.WriteLine(&quot;C={0}&quot;, value);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md60"></a>
+Python</h2>
+<div class="fragment"><div class="line">err = sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.A&quot;, 10)</div>
+<div class="line">err = sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.B&quot;, 20)</div>
+<div class="line">err, value = sdk.GetParameterInteger(&quot;board0:/MMCComponents/rf.C&quot;)</div>
+<div class="line">print(&quot;C={0}&quot;.format(value))</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ae14dc46e0324021b6c0d349568b3a292"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a></div><div class="ttdeci">#define SCISDK_DLL_API</div><div class="ttdef"><b>Definition:</b> SciSDK_DLL.h:19</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a567cbbbd335966f9ee7bc8d2ce9e730b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a567cbbbd335966f9ee7bc8d2ce9e730b">SCISDK_GetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_GetParameterString(char *Path, char **value, void *handle)</div><div class="ttdoc">Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aed920280b3d640e6cfb6862e19d8518c"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aed920280b3d640e6cfb6862e19d8518c">SCISDK_GetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_GetParameterInteger(char *Path, int *value, void *handle)</div><div class="ttdoc">Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
+</body>
+</html>
