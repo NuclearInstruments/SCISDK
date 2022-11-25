@@ -19,5 +19,12 @@ The following parameters can be configured:
 
 | Parameter         | Acces Mode | Description                                                                              | Default value |
 | ----------------- | ---------- | ---------------------------------------------------------------------------------------- | ------------- |
-| decimator         | R/W        | set x-axis decimation factor                                                             | 0             |
+| rebin             | R/W        | set x-axis rebin factor. 0 no rebin is applied                                           | 0             |
+| min               | R/W        | minimum value of the input (before rebin) energy will be put on histogram                | 0             |
+| max               | R/W        | maximum value of the input (before rebin) energy will be put on histogram                | 65535         |
+| limitmode         | R/W        | spectrum integration limit target: freerun, time_ms, total_count, peak_count             | freerun       |
+| limit             | R/W        | target value when limit mode is set to: time_ms, total_count, peak_count                 | 0             |
+
+
+
 
