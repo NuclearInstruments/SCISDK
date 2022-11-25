@@ -7,4 +7,8 @@ The SciSDK is a cross-platform library to write custom control and readout softw
 SciCompiler is a Nuclear Instruments (http://www.nuclearinstruments.eu) tool to generate FPGA firmware con NI/Caen OpenHardware FPGA (https://www.caen.it/families/open-fpga-digitizers/)
 
 
-You can access to the SciSDK User Guide website (https://nuclearinstruments.github.io/cicd_demo/)
+## Documentation
+
+<b>You can access to the SciSDK User Guide website (https://nuclearinstruments.github.io/SCISDK)</b>
+
+
