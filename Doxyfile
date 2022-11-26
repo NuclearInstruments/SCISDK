@@ -874,6 +874,7 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/registers-file.md \
                          docs/spectrum.md \
                          docs/tof-spectrum.md \
+                         docs/list.md \
                          docs/mmc.md
                          
 

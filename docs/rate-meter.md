@@ -47,182 +47,118 @@ The data output structure is the following:
 The `magic` field is a 32 bit value that identify the data format.
 The `data` field is a pointer to the data buffer. The data buffer is an array of 32 bit values. The number of elements in the array is defined by the `total_bins` field. The `valid_bins` field is the number of bins that contains data. The `valid_bins` field is always equal to `total_bins` field. 
 
-`timecode` it's the epoch of the readout PC when the data is readout from the fpga. The timecode is expressed in milliseconds.
+Data in the `data` array are the rate of the i-th channel in the integration time.
 
-Data in the `data` array are the counts of each bin. The first element of the array is the bin with the lowest time. The last element of the array is the bin with the highest time in the spectrum.
-Each element of the array is a 32 bit value. 
 | Data Format |
 | ----------- |
-| bin 0       |
-| bin 1       |
-| bin 2       |
+| ch 0        |
+| ch 1        |
+| ch 2        |
 | ...         |
-| bin n       |
+| ch n        |
 
-
-## Status
-The status of the spectrum is stored in a SCISDK_SPECTRUM_STATUS structure.
-    
-```c
-    typedef struct {
-		bool running;					
-		bool completed;					
-		uint32_t progress;				
-		uint32_t peak_max;				
-		uint32_t total_counter;			
-		double integration_time;		
-    }SCISDK_SPECTRUM_STATUS;
-```
-
-The `running` field is true if the spectrum is running.
-The `completed` field is  always false.
- 
-The `progress` field is unused.
-
-The `peak_max` field is the value of the bin with the highest count. 
-
-The `total_counter` field is the total number of counts in the histogram.
-
-The `integration_time` field is the integration time of the spectrum in milliseconds.
-
-The current version of the library do not report the `peak_max`, `total_counter`,  `integration_time` fields. These fields are always 0.
 
 
 ## Basic Examples
-The following example shows how to use the spectrum component.
+The following example shows how to use the Rate Meter component.
 
 ### C
 ```c
 
-    SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
+    SCISDK_RM_RAW_BUFFER *obRm;
     
-    int res = SCISDK_AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk);
+    int res = SCISDK_AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&obRm, _sdk);
     if (res != NI_OK) {
         printf("Error allocating buffer\n");
         return -1;
     }
-    SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.binwidth", "100",_sdk);
-    SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.start_delay", "0",_sdk);
-    SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk;
-    SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk);
-    SCISDK_ReadData("board0:/MMCComponents/TOF_0", (void *)obSpectrum, _sdk);
-    
+
+    SCISDK_ReadData("board0:/MMCComponents/RateMeter_0", (void *)ob, _sdk);
+    for (int i=0;i<ob->info.nchannels;i++) {
+        printf("ch %d: %f\n", i, ob->data[i]);
+    }
     ....
 
-    SCISDK_FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
+    SCISDK_FreeBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&obRm, _sdk);
 
 ```
 
 ### C++
 ```c++
-    SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
+    SCISDK_RM_RAW_BUFFER *obRm;
     
-    int res = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk);
+    int res = sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&obRm, _sdk);
     if (res != NI_OK) {
         cout << "Error allocating buffer" << endl;
         return -1;
     }
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.binwidth", "100",_sdk);
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.start_delay", "0", _sdk);
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk;
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk);
-    sdk.ReadData("board0:/MMCComponents/TOF_0", (void *)obSpectrum, _sdk);
+
+    sdk.ReadData("board0:/MMCComponents/RateMeter_0", (void *)obRm, _sdk);
+    for (int i=0;i<obRm->info.nchannels;i++) {
+        cout << "ch " << i << ": " << obRm->data[i] << endl;
+    }
     
     ....
 
-    sdk.FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
+    sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, (void**)&obRm, _sdk);
 
 ```
 
 ### Python
 ```python
-    res, obSpectrum = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED)
+    res, obSpectrum = sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", 0)
     if res != 0:
         print("Error allocating buffer")
         return -1
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.binwidth", "100")
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.start_delay", "0")
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "")
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "")
-    res, obSpectrum = sdk.ReadData("board0:/MMCComponents/TOF_0", obSpectrum)
-    
+   
+    res, obRm = sdk.ReadData("board0:/MMCComponents/RateMeter_0", obRm)
+    for i in range(obRm.info.nchannels):
+        print("ch %d: %f" % (i, obRm.data[i]))
+
     ....
 
-    sdk.FreeBuffer("board0:/MMCComponents/TOF_0", 1, obSpectrum)
+    sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", 0, obRm)
 
 ```
 
 ### C Sharp
 ```csharp
-    SCISDK_SPECTRUM_DECODED_BUFFER obSpectrum;
+    SCISDK_RM_RAW_BUFFER obRm;
     
-    int res = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, ref obSpectrum);
+    int res = sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, ref obRm);
     if (res != 0) {
         Console.WriteLine("Error allocating buffer");
         return -1;
     }
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.binwidth", "100");
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.start_delay", "0");
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "");
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "");
-    dk.ReadData("board0:/MMCComponents/TOF_0", ref obSpectrum);
+
+    dk.ReadData("board0:/MMCComponents/RateMeter_0", ref obRm);
+    for (int i=0;i<obRm.info.nchannels;i++) {
+        Console.WriteLine("ch {0}: {1}", i, obRm.data[i]);
+    }
     
     ....
 
-    sdk.FreeBuffer("board0:/MMCComponents/TOF_0", 1, ref obSpectrum);
+    sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, ref obRm);
 
 ```
 
 ### VB.NET
 ```vb
-    Dim obSpectrum As SCISDK_SPECTRUM_DECODED_BUFFER
+    Dim obRm As SCISDK_RM_RAW_BUFFER
     
-    Dim res As Integer = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, obSpectrum)
+    Dim res As Integer = sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, obRm)
     If res <> 0 Then
         Console.WriteLine("Error allocating buffer")
         Return -1
     End If
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.binwidth", "100")
-    sdk.SetParameter("board0:/MMCComponents/TOF_0.start_delay", "0")
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "")
-    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "")
-    sdk.ReadData("board0:/MMCComponents/TOF_0", obSpectrum)
+
+    sdk.ReadData("board0:/MMCComponents/RateMeter_0", obRm)
+    For i As Integer = 0 To obRm.info.nchannels - 1
+        Console.WriteLine("ch {0}: {1}", i, obRm.data(i))
     
     ....
 
-    sdk.FreeBuffer("board0:/MMCComponents/TOF_0", 1, obSpectrum)
+    sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", T_BUFFER_TYPE_RAW, obRm)
 
 ```
-
-
-## Additional Examples
-
-### Print spectrum
-This example print a spectrum every second.
-```c
-
-    SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
-    
-    int res = SCISDK_AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk);
-    if (res != NI_OK) {
-        printf("Error allocating buffer\n");
-        return -1;
-    }
-    SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.binwidth", "100",_sdk);
-    SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.start_delay", "0", _sdk);
-    SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk;
-    SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk);
-
-    while (1) {
-        //Just leave in your code of of two of this sleep functions
-        usleep(1000*1000);  // LINUX: sleep for 1s
-        Sleep(1000);        // WINDOWS: sleep for 1s 
-        int res = SCISDK_ReadData("board0:/MMCComponents/TOF_0", (void *)obSpectrum, _sdk);
-        if (res == NI_OK) {
-            for (int i = 0; i < obSpectrum->info.valid_bins; i++) {
-                printf("[%5d] -- %9d\n", i, obSpectrum->data[i]);
-            }
-        }
-    }
-    SCISDK_FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
 
