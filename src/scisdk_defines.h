@@ -136,49 +136,81 @@
 	}SCISDK_DIGITIZER_RAW_BUFFER;
 
 
-
+	/**
+	 * @brief List raw data type
+	 * @details This type is used to store raw data from list.
+	 * The reference document for the raw data format is the  [List  driver](list.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		char *data;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		char *data;						/**< Pointer to data allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t samples;
-			uint32_t valid_samples;
-			uint32_t channels;
+			uint32_t buffer_size;		/**< Size of the buffer in bytes*/
+			uint32_t samples;			/**< Number of samples in the buffer expressed in FPGA Word*/	
+			uint32_t valid_samples;		/**< Number of valid samples in the buffer expressed in FPGA Word*/
+			uint32_t channels;			/**< Number of channels, always 1*/
 		} info;
 	}SCISDK_LIST_RAW_BUFFER;
 
+	/**
+	 * @brief Custom Packet body decoded data
+	 * @details Packet structure for custom packet body is defined by SciCompiler Custom Packet Editor
+	 * The user can add a custom number of rows. Every rows is 32 bit wide.
+	 * Inside a row the user can add a custom number of fields. Every field can have a with between 1 and 32 bit.
+	 * It is possible to create filed larger than 32 bit by using multiple rows.
+	 * The inputs to custom packet can be larger from 1 to 1024 bits.
+	 * On FPGA side will appear as a single input, but in the custom packet, if larger than 32 bit
+	 * will use multiple rows.
+	 * It is possible to cast rows to a custom structure to recostruct the original FPGA data layout.
+	 */
 	typedef struct {
-		uint32_t *row;
-		uint32_t n;
+		uint32_t *row;			/**< Pointer to the row data, this express every raw in the event created by SciCompiler*/
+		uint32_t n;				/**< Number of row in the event*/
 	}SCISDK_CP_PACKET;
 
+	/**
+	 * @brief Custom Packet Decoded data structure
+	 * @details This type is used to store data for custom packet in Decoded mode
+	 * The reference document for the data format is the  [Custom Packet Driver](custom-packet.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		SCISDK_CP_PACKET *data;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		SCISDK_CP_PACKET *data;			/**< Pointer to data allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t packet_size;
-			uint32_t valid_data;
+			uint32_t buffer_size;		/**< Size of the buffer in number of SCISDK_CP_PACKET allocated*/
+			uint32_t packet_size;		/**<  Number of 32-bit rows in the data packet*/
+			uint32_t valid_data;		/**< Number of valid data in the buffer expressed in number of SCISDK_CP_PACKET*/
 		} info;
 	}SCISDK_CP_DECODED_BUFFER;
 
+
+	/**
+	 * @brief Custom Packet Raw data structure
+	 * @details This type is used to store data for custom packet in raw mode
+	 * The reference document for the data format is the  [Custom Packet Driver](custom-packet.md)
+	 * @note When used in RAW mode the custom packet behave like a list with 32 bit word size and the meaning of packet is lost
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
+		uint32_t magic;				/**< Magic number to identify the data type*/
+		uint32_t *data;				/**< Pointer to data allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t valid_data;
+			uint32_t buffer_size;	/**< Size of the buffer in in DWORD*/
+			uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
 		} info;
 	}SCISDK_CP_RAW_BUFFER;
 
+	/**
+	 * @brief Rate Meter data structure
+	 * @details This type is used to store data from rate meter component
+	 * The reference document for the data format is the  [Rate Meter](rate-meter.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		double *data;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		double *data;					/**< Pointer to data containings the counts in the integration time allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t valid_data;
-			uint32_t nchannels;
+			uint32_t buffer_size;		/**< Size of the buffer in samples*/
+			uint32_t valid_data;		/**< Number of valid samples in the buffer*/
+			uint32_t nchannels;			/**< Number of channels*/
 		}info;
 	}SCISDK_RM_RAW_BUFFER;
 
