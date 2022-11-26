@@ -872,6 +872,8 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/oscilloscope-dual.md \
                          docs/registers.md \
                          docs/registers-file.md \
+                         docs/spectrum.md \
+                         docs/tof-spectrum.md \
                          docs/mmc.md
                          
 
