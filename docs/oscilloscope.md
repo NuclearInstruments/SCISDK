@@ -211,22 +211,31 @@ SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing"
 SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk);
 
 SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob, _sdk);
+int res = SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob, _sdk);
+
+if (res != NI_OK) {
+	printf("Error allocating buffer\n");
+	return -1;
+}
 
 SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk);
 ```
 
 ### C++
 ```c++
-sdk->setParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self");
-sdk->setParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150);
-sdk->setParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0);
-sdk->setParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode");
-sdk->setParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
+sdk->SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self");
+sdk->SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150);
+sdk->SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0);
+sdk->SetParameter("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode");
+sdk->SetParameter("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
 
 SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
-sdk->allocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
-sdk->readData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+int res = sdk->AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
+if (res != NI_OK) {
+	cout << "Error allocating buffer" << endl;
+	return -1;
+}
+sdk->ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
 ```
 
 ### Python
@@ -276,7 +285,7 @@ sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode","self")
 sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150)
 
 'allocate buffer
-dim buffer as new SciSDKOscilloscopeDecodedBuffer()
+dim buffer as SciSDKOscilloscopeDecodedBuffer
 sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", BufferType.BUFFER_TYPE_DECODED, buffer)
 if (sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buffer) == 0)
 {

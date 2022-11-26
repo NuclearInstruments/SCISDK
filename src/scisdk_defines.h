@@ -187,26 +187,34 @@
 		T_BUFFER_TYPE_DECODED
 	} T_BUFFER_TYPE;
 
-
+	/**
+	 * @brief Spectrum decoded data
+	 * @details This type is used to store data from spectrum.
+	 * The reference document for the data format is the  [Spectrum](spectrum.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
-		uint64_t timecode;
-		uint32_t inttime;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		uint32_t *data;					/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint64_t timecode;				/**< Epoch of the PC related to when the spectrum has been readout*/
+		uint32_t inttime;				/**< Integration time in clock cycles (calculated by the FPGA)*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t total_bins;
-			uint32_t valid_bins;
+			uint32_t buffer_size;		/**< Size of the data in samples (on sample per bin)*/
+			uint32_t total_bins;		/**< Total number of bins*/
+			uint32_t valid_bins;		/**< Number of valid bins, depends on rebin factor*/
 		} info;
 	}SCISDK_SPECTRUM_DECODED_BUFFER;
 
+	/**
+	 * @brief Spectrum status structure
+	 * @details This type is used to store spectrum status
+	 */
 	typedef struct {
-		bool running;
-		bool completed;
-		uint32_t progress;
-		uint32_t peak_max;				//future develop
-		uint32_t total_counter;			//future develop
-		double integration_time;		//future develop
+		bool running;					/**< True if the spectrum is running*/
+		bool completed;					/**< True if the limit is not freeruning and the limit has been reached*/
+		uint32_t progress;				/**< Progress of the spectrum in respect of the limit in percent*/
+		uint32_t peak_max;				/**< Maximum peak value*/
+		uint32_t total_counter;			/**< Total number of counts on the whole spectrum*/
+		double integration_time;		/**< Integration time in ms*/
 	}SCISDK_SPECTRUM_STATUS;
 
 
