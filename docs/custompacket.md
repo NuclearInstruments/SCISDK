@@ -50,6 +50,7 @@ The following parameters can be configured:
 | high_performance      | R/W        | if true the internal FIFO access lock the bus in priority mode.                          | false         |
 | threaded_buffer_size  | R/W        | size in dword of the internal buffer                                                     | 100000        |
 | check_align_word      | R/W        | if true, check the packet alignment                                                      | false         |
+| data_processing       | R/W        | set data processing mode: raw, decode                                                    | decode        |
 | buffer_type           | R          | get buffer type: SCISDK_OSCILLOSCOPE_RAW_BUFFER or SCISDK_OSCILLOSCOPE_DECODED_BUFFER    |               |
 
 ### Acquisition length
@@ -88,6 +89,10 @@ The alignament algorithm is the following:
 
 In order to set to true the `check_align_word` parameter, the first word in the packet definition must be a constant. If the first word is a variable, the `check_align_word` parameter will be set to false and any attempt to set it to true will return NI_PARAMETER_CAN_NOT_BE_SET_WITH_THIS_CONFIG.
 
+## Data processing mode
+The `data_processing` parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode.
+In raw mode the data are not processed and the user will receive the raw data from the FPGA. In decode mode the data are processed and the user will receive the data as they are pushed in the FPGA fifo, loosing the concept of packet. The custom packet behavior is the same of the list
+In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.
 
 ## Commands
 The following commands are available:
@@ -278,7 +283,7 @@ if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
 	return -1;
 }
-
+SCISDK_SetParameterString("board0:/MMCComponents/CP_0.data_processing", "raw", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.thread", "false", _sdk);
 SCISDK_SetParameterInteger("board0:/MMCComponents/CP_0.timeout", 5000, _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "blocking", _sdk);
@@ -322,6 +327,7 @@ if (ret != NI_OK) {
 	return -1;
 }
 
+SCISDK_SetParameterString("board0:/MMCComponents/CP_0.data_processing", "decode", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.thread", "false", _sdk);
 SCISDK_SetParameterInteger("board0:/MMCComponents/CP_0.timeout", 5000, _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "blocking", _sdk);
@@ -365,6 +371,7 @@ PACKET 1
 ```cpp
 SCISDK_CP_DECODED_BUFFER *lrb;
 sdk->AllocateBufferSize("board0:/MMCComponents/CP_0", 1, (void**)&lrb, 1024);
+sdk->SetParameter("board0:/MMCComponents/CP_0.data_processing", "decode");
 sdk->SetParameter("board0:/MMCComponents/CP_0.thread", "false");
 sdk->SetParameter("board0:/MMCComponents/CP_0.timeout", 5000);
 sdk->SetParameter("board0:/MMCComponents/CP_0.acq_mode", "blocking");
@@ -387,6 +394,7 @@ if res != 0:
 	exit(-1)
 
 sdk.SetParameter("board0:/MMCComponents/CP_0.thread", "false")
+sdk.SetParameter("board0:/MMCComponents/CP_0.data_processing", "decode")
 sdk.SetParameter("board0:/MMCComponents/CP_0.timeout", 5000)
 sdk.SetParameter("board0:/MMCComponents/CP_0.acq_mode", "blocking")
 sdk.ExecuteCommand("board0:/MMCComponents/CP_0.start", "")
@@ -399,6 +407,7 @@ res, lrb = sdk.ReadData("board0:/MMCComponents/CP_0", lrb)
 ```csharp
 SCISDK_CP_DECODED_BUFFER lrb = new SCISDK_CP_DECODED_BUFFER();
 sdk.AllocateBufferSize("board0:/MMCComponents/CP_0", 1, ref lrb, 1024);
+sdk.SetParameter("board0:/MMCComponents/CP_0.data_processing", "decode");
 sdk.SetParameter("board0:/MMCComponents/CP_0.thread", "false");
 sdk.SetParameter("board0:/MMCComponents/CP_0.timeout", 5000);
 sdk.SetParameter("board0:/MMCComponents/CP_0.acq_mode", "blocking");
@@ -420,6 +429,7 @@ if (res != 0) {
 
 Dim lrb As New SCISDK_CP_DECODED_BUFFER()
 sdk.AllocateBufferSize("board0:/MMCComponents/CP_0", 0, lrb, 1024)
+sdk.SetParameter("board0:/MMCComponents/CP_0.data_processing", "decode")
 sdk.SetParameter("board0:/MMCComponents/CP_0.thread", "false")
 sdk.SetParameter("board0:/MMCComponents/CP_0.timeout", 5000)
 sdk.SetParameter("board0:/MMCComponents/CP_0.acq_mode", "blocking")
@@ -484,6 +494,7 @@ if (ret != NI_OK) {
 	return -1;
 }
 
+SCISDK_SetParameterString("board0:/MMCComponents/CP_0.data_processing", "decode", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.thread", "false", _sdk);
 SCISDK_SetParameterInteger("board0:/MMCComponents/CP_0.timeout", 5000, _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "blocking", _sdk);
@@ -515,7 +526,7 @@ if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
 	return -1;
 }
-
+SCISDK_SetParameterString("board0:/MMCComponents/CP_0.data_processing", "decode", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.thread", "false", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "non-blocking", _sdk);
 SCISDK_ExecuteCommand("board0:/MMCComponents/CP_0.start", "", _sdk);
@@ -573,7 +584,7 @@ if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
 	return -1;
 }
-
+SCISDK_SetParameterString("board0:/MMCComponents/CP_0.data_processing", "raw", _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.thread", "false", _sdk);
 SCISDK_SetParameterInteger("board0:/MMCComponents/CP_0.timeout", 5000, _sdk);
 SCISDK_SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "blocking", _sdk);
