@@ -150,6 +150,18 @@ NI_RESULT SciSDK_Digitizer::IGetParamU32(string name, uint32_t *value) {
 	else if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
 		return NI_OK;
+	} else if (name == "channel_count") {
+		*value = (int32_t)settings.nchannels;
+		return NI_OK;
+	}  else if (name == "fifo_size") {
+		int mult = settings.nchannels >1 ? 1:2;
+		*value = (int32_t)settings.nsamples * mult;
+		return NI_OK;
+	} else if (name == "max_ch_samples") {
+		int mult = enabledch >1 ? 1:2;
+		int scale = settings.nchannels/enabledch;
+		*value = (int32_t)settings.nsamples * mult * scale;
+		return NI_OK;
 	}
 
 	return NI_INVALID_PARAMETER;
@@ -429,6 +441,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			p->timecode = timestamp;
 			p->user = user;
 			p->info.valid_samples = acq_len;
+			p->info.enabled_channels = enabledch;
 			h_mutex.unlock();
 			return NI_OK;
 		} else {

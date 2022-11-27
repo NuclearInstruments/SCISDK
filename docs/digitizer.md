@@ -195,6 +195,7 @@ In decode mode the user will receive data already decoded. The user has not to c
 			uint32_t samples;
 			uint32_t valid_samples;
 			uint32_t channels;
+            uint32_t enabled_channels;
 		} info;
 	}SCISDK_DIGITIZER_DECODED_BUFFER;
 ```
@@ -211,5 +212,156 @@ The `timecode` field contains the timestamp of the event.
 The `counter` field contains the index of the event.
 The `user` field contains the user defined dword data.
 The `info` field contains the information about the buffer:
-- `samples`: the number of samples per channel when all the channels are enabled
-- 
+- `samples`: the maximum number of samples per channel when all the channels are enabled. If less channels are enabled the number of samples will be less channels are enabled this number should be scaled accordingling to the following formula: 
+    `max_acq_len = samples * (total_channels/enabled_channels)`
+
+- `valid_samples`: the real number of valid samples in the buffer. This number can be up to `samples * enabled_channels` if just one channel is enabled.
+- `channels`: the number of channels for which the digitizer has been created.
+- `enabled_channels`: the number of channels enabled channel in the current acquisition.
+
+
+
+ ## Basic Example
+
+ ### C
+
+```c
+	SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+	SCISDK_AllocateBufferSize("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.data_processing", "decode", _sdk);
+	SCISDK_SetParameterInteger("board0:/MMCComponents/Digitizer_0.enabledch", 1, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.acq_len", 1000, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.timeout", 100, _sdk);
+	SCISDK_ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "", _sdk);
+	while (1) {
+		int ret = ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb, _sdk);
+		if (ret == NI_OK) {
+            // process the data 
+		}
+	}
+```
+
+### C++
+
+```c++
+    SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+    sdk.AllocateBufferSize("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100);
+    sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+
+    while (1) {
+        int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		if (ret == NI_OK) {
+            // process the data 
+		}
+    }
+```
+
+### Python
+```python
+    res, ddb = sdk.AllocateBufferSize("board0:/MMCComponents/Digitizer_0", 1)
+    if res != 0:
+        print("Error allocating buffer")
+        exit(-1)
+
+
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode")
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1)
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000)
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100)
+    sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "")
+
+    while True:
+        ret, ddb = sdk.ReadData("board0:/MMCComponents/Digitizer_0", ddb)
+        if ret == NI_OK:
+            # process the data 
+```
+
+### CSharp
+```csharp
+    SCISDK_DIGITIZER_DECODED_BUFFER ddb = new SCISDK_DIGITIZER_DECODED_BUFFER();
+    sdk.AllocateBufferSize("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, ref ddb);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000);
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100);
+    sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+
+    while (true) {
+        int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", ref ddb);
+        if (ret == NI_OK) {
+            // process the data 
+        }
+    }
+```
+
+### VB.NET
+
+```vb
+    Dim ddb As SCISDK_DIGITIZER_DECODED_BUFFER
+    sdk.AllocateBufferSize("board0:/MMCComponents/Digitizer_0", 1, ddb)
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.data_processing", "decode")
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.enabledch", 1)
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.acq_len", 1000)
+    sdk.SetParameter("board0:/MMCComponents/Digitizer_0.timeout", 100)
+    sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "")
+
+    While True
+        Dim ret As Integer = sdk.ReadData("board0:/MMCComponents/Digitizer_0", ddb)
+        If ret = NI_OK Then
+            ' process the data 
+        End If
+    End While
+```
+
+## Additional Examples
+
+### Read decoded data and write on file, on channel per column
+
+```c
+	SCISDK_DIGITIZER_DECODED_BUFFER *ddb;
+	SCISDK_AllocateBufferSize("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_DECODED, (void**)&ddb, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.data_processing", "decode", _sdk);
+	SCISDK_SetParameterInteger("board0:/MMCComponents/Digitizer_0.enabledch", 4, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.acq_len", 1000, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.timeout", 100, _sdk);
+	SCISDK_ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "", _sdk);
+	while (1) {
+		int ret = ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb, _sdk);
+		if (ret == NI_OK) {
+			std::ofstream out("c:/temp/output.txt");
+			for (int i = 0; i < ddb->info.valid_samples; i++) {
+                for (int j = 0; j < ddb->info.enabled_channels;j++){
+				    out << ddb->analog[i+(j*
+                        ddb->info.valid_samples)] << "   " << endl;
+			    }
+            }
+			out.close();
+		}
+	}
+```
+
+### Read raw data and write on file
+
+```c
+	// DIGITIZER raw
+	SCISDK_DIGITIZER_RAW_BUFFER *ddb;
+	SCISDK_AllocateBufferSize("board0:/MMCComponents/Digitizer_0", T_BUFFER_TYPE_RAW, (void**)&ddb, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.data_processing", "raw", _sdk);
+	SCISDK_SetParameterInteger("board0:/MMCComponents/Digitizer_0.enabledch", 4, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.acq_len", 1000, _sdk);
+	SCISDK_SetParameterString("board0:/MMCComponents/Digitizer_0.timeout", 100, _sdk);
+	SCISDK_ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "", _sdk);
+
+	while (1) {
+		int ret = sdk.ReadData("board0:/MMCComponents/Digitizer_0", (void *)ddb);
+		if (ret == NI_OK) {
+			for (int i = 0; i < ddb->info.valid_samples; i++) {
+				cout << std::hex  << ddb->data[i] << endl;
+			}	
+		}
+	}
+```

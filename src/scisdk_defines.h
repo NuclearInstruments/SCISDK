@@ -121,6 +121,7 @@
 			uint32_t samples;
 			uint32_t valid_samples;
 			uint32_t channels;
+			uint32_t enabled_channels;
 		} info;
 	}SCISDK_DIGITIZER_DECODED_BUFFER;
 	
