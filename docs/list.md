@@ -109,7 +109,7 @@ The data output structure is the following:
 		} info;
 	}SCISDK_LIST_RAW_BUFFER;
 ```
-`magic` : magic number to identify the buffer type. It is set to SCISDK_OSCILLOSCOPE_RAW_BUFFER_MAGIC
+`magic` : magic number to identify the buffer type. It is set to SCISDK_LIST_RAW_BUFFER_MAGIC
 `data` : it's the array of the raw data. The data is stored as a char array. The user must cast it to the correct type.
 For example if input signal size is 64 bit, the user must cast the data to uint64_t*.
 This example show how to cast the data to uint64_t*:
@@ -207,7 +207,7 @@ ret = SCISDK_ReadData("board0:/MMCComponents/List_0", (void *)lrb, _sdk);
 ```
 
 ### C++
-```c++
+```cpp
 SCISDK_LIST_RAW_BUFFER *lrb;
 sdk->AllocateBufferSize("board0:/MMCComponents/List_0", 0, (void**)&lrb, 1024);
 sdk->SetParameter("board0:/MMCComponents/List_0.thread", "false");
@@ -339,7 +339,7 @@ DATA_STRUCT *data = (DATA_STRUCT*)list_data->data;
 }
 ```
 
-### Use non-blocking mode in C++
+### Use non-blocking mode in C
 
 ```c
 SCISDK_LIST_RAW_BUFFER *lrb;
