@@ -28,7 +28,7 @@ The following parameters can be configured:
 | Parameter             | Acces Mode | Description                                                                              | Default value |
 | --------------------- | ---------- | ---------------------------------------------------------------------------------------- | ------------- |
 | acq_len               | R/W        | maximum number of sample to be transferred per physical FIFO access                      | 1024          |
-| acq_mode              | R/W        | select blocking/non-blocking mode                                                        | true          |
+| acq_mode              | R/W        | select blocking/non-blocking mode                                                        | blocking      |
 | timeout               | R/W        | set the timout in ms in blocking mode                                                    | 100           |
 | thread                | R/W        | enable the internal thread: true/false                                                   | false         |
 | high_performance      | R/W        | if true the internal FIFO access lock the bus in priority mode.                          | false         |
