@@ -604,7 +604,7 @@ repeat_blocking_raw:
 			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 			if (_size > 0) {
 				uint32_t *buffer = (uint32_t*)malloc((_size + 8) * sizeof(uint32_t));
-				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base, 0, timeout, &vd);
+				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base,  address.status, timeout, &vd);
 
 				if (vd == 0) {
 					free(buffer);
@@ -700,7 +700,7 @@ repeat_blocking_raw:
 			}
 
 			if (_size > 0) {
-				int ret = _hal->ReadFIFO(p->data, _size, address.base, 0, timeout, &vd);
+				int ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
 				p->info.valid_data = vd;
 				if (vd == 0) {
 					return NI_NO_DATA_AVAILABLE;
@@ -844,7 +844,7 @@ void SciSDK_Frame::producer_thread() {
 
 		if (_size > 0) {
 
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, 100, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();

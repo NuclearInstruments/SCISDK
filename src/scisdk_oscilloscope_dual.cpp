@@ -264,7 +264,8 @@ NI_RESULT SciSDK_Oscilloscope_Dual::IGetParamString(string name, string *value) 
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	}  if (name == "trigger_polarity") {
+	}  
+	if (name == "trigger_polarity") {
 		if (trigger_polarity == TRIGGER_POLARITY::POSITIVE) {
 			*value = "pos";
 			return NI_OK;
