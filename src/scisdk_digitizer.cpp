@@ -293,6 +293,7 @@ NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int 
 		return NI_PARAMETER_OUT_OF_RANGE;
 	}
 }
+
 NI_RESULT SciSDK_Digitizer::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	if (bt == T_BUFFER_TYPE_DECODED) {
 		if (*buffer == NULL) {
@@ -504,6 +505,7 @@ NI_RESULT SciSDK_Digitizer::ExecuteCommand(string cmd, string param) {
 	}
 	return NI_INVALID_COMMAND;
 }
+
 NI_RESULT SciSDK_Digitizer::ReadStatus(void *buffer) {
 
 	return NI_OK;
@@ -580,7 +582,7 @@ void SciSDK_Digitizer::producer_thread() {
 		}
 		_size = _size > transfer_size ? transfer_size : _size;
 		if (_size > 0) {
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, 100, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();

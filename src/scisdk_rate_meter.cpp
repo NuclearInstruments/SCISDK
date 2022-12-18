@@ -113,11 +113,12 @@ NI_RESULT SciSDK_Ratemeter::ReadData(void * buffer)
 
 	if (_hal->ReadData(data, p->info.nchannels, address, 100, &vd)) return NI_ERROR_INTERFACE;
 
-	if (vd < p->info.nchannels) return NI_ERROR_INTERFACE;
+	//if (vd < p->info.nchannels) return NI_ERROR_INTERFACE;
 
 	for (int i = 0; i < p->info.nchannels; i++) {
 		p->data[i] = (double)data[i];
 	}
+
 
 	free(data);
 	return NI_OK;

@@ -16,39 +16,37 @@ int main(int argc, char* argv[]) {
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl << "-*-*-*-*-*-*-" << endl;
 
-	int rr = 2;
-	while(rr>0) {
-		SCISDK_LIST_RAW_BUFFER *lrb;
-		ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk, 1024);
-		ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/List_0.thread"), "false", _sdk);
-		ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/List_0.timeout"), 5000, _sdk);
-		ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/List_0.acq_mode"), "blocking", _sdk);
-		ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/List_0.start"), "", _sdk);
-
-		ret = SCISDK_ReadData((char*)("board0:/MMCComponents/List_0"), (void *)lrb, _sdk);	
-		
-		/*
-		if (ret==0) {
-			int s = lrb->info.valid_samples/4;
-			uint32_t *pp;
-			pp = (uint32_t*) lrb->data;
-			for (int i =0;i<255;i++) {
-				cout << i << " " << pp[i] <<endl;
-			}
+	SCISDK_CP_RAW_BUFFER *cprb;
+	ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&cprb, _sdk, 1024);
+	cout << ret << endl << "-*-*-*-1-*-*-" << endl;
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.thread"), "false", _sdk);
+	cout << ret << endl << "-*-*-*-2-*-*-" << endl;
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.data_processing"), "raw", _sdk);
+	cout << ret << endl << "-*-*-*-2b-*-*-" << endl;
+	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/CP_0.timeout"), 5000, _sdk);
+	cout << ret << endl << "-*-*-*-3-*-*-" << endl;
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.acq_mode"), "blocking", _sdk);
+	cout << ret << endl << "-*-*-*-4-*-*-" << endl;
+	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/CP_0.start"), "", _sdk);
+	cout << ret << endl << "-*-*-*-5-*-*-" << endl;
+	ret = SCISDK_ReadData((char*)("board0:/MMCComponents/CP_0"), (void *)cprb, _sdk);
+	cout << ret << endl << "-*-*-*-6-*-*-" << endl;	
+	
+	
+	if (ret==0) {
+		int s = cprb->info.valid_data/4;
+		uint32_t *pp;
+		pp = (uint32_t*) cprb->data;
+		for (int i =0;i<255;i++) {
+			cout << i << " " << pp[i] <<endl;
 		}
-		*/
-
-		ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/List_0.stop"), "", _sdk);
-		//cout << ret << endl;
-		ret = SCISDK_FreeBuffer((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk);
-		//cout << ret << endl;
-		rr--;
 	}
 
-	cout << "******" << endl;	
-	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self", _sdk), &res, _sdk);
-	SCISDK_s_error(SCISDK_GetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", &str_tmp, _sdk), &res, _sdk);
-	cout << str_tmp << endl;
+	cout  << endl << "-*-*-*-6b-*-*-" << endl;
+	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/CP_0.stop"), "", _sdk);
+	cout << ret << endl << "-*-*-*-7-*-*-" << endl;	
+	ret = SCISDK_FreeBuffer((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&cprb, _sdk);
+	cout << ret << endl << "-*-*-*-8-*-*-" << endl;	
 
 	return 0;
 

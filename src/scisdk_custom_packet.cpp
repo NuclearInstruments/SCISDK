@@ -26,7 +26,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 		if (idx == 0) {
 			if (((string)r.at("PioWE")[0].at("Type") == "Constant") && ((string)r.at("PioWE")[0].at("ValueFormat") == "Hex")) {
 				string first_word_txt = (string)r.at("PioWE")[0].at("Value");
-				cout << first_word_txt << endl;
+				cout << "********* " << first_word_txt << endl;
 				first_word_const_value = std::stoul(first_word_txt, nullptr, 16);
 				valid_align_word = true;
 			}
@@ -530,7 +530,7 @@ repeat_blocking_raw:
 			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 			if (_size > 0) {
 				uint32_t *buffer = (uint32_t*)malloc((_size + 8) * sizeof(uint32_t));
-				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base, 0, timeout, &vd);
+				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base, address.status, timeout, &vd);
 
 				if (vd == 0) {
 					free(buffer);
@@ -594,18 +594,19 @@ repeat_blocking_raw:
 			}
 
 			if (_size > 0) {
-				int ret = _hal->ReadFIFO(p->data, _size, address.base, 0, timeout, &vd);
+				int ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
 				p->info.valid_data = vd;
 				if (vd == 0) {
+					cout << "TIMEOUT" << endl;
 					return NI_NO_DATA_AVAILABLE;
 				}
 			}
 			else {
+				cout << "NO-DATA" << endl;
 				return NI_NO_DATA_AVAILABLE;
 			}
 			return NI_OK;
 		}
-
 	}
 
 
@@ -672,10 +673,14 @@ NI_RESULT SciSDK_CustomPacket::CmdStop() {
 
 	//Critical section : set stop
 	producer.canRun = false;
-	producer.t->join();
+	if (producer.isRunning)
+		producer.t->join();
+
 	_hal->WriteReg(0, address.config);
+	
 	if (__buffer)
 		free(__buffer);
+		__buffer = NULL;
 
 	producer.isRunning = false;
 	isRunning = false;
@@ -712,7 +717,7 @@ void SciSDK_CustomPacket::producer_thread() {
 
 		if (_size > 0) {
 
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, 0, 100, &vd);
+			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, timeout, &vd);
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();
