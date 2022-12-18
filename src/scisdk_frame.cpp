@@ -436,31 +436,31 @@ repeat_blocking:
 								}
 								break;
 							case DECODE_SM::TIMESTAMP_1:
-								p->data[p->info.valid_data].timestamp = ((uint64_t)pQ.front()) << 32UL;
+								p->data[p->info.valid_data].info.timestamp = ((uint64_t)pQ.front()) << 32UL;
 								sm = DECODE_SM::TIMESTAMP_2;
 								break;
 							case DECODE_SM::TIMESTAMP_2:
-								p->data[p->info.valid_data].timestamp += ((uint64_t)pQ.front());
+								p->data[p->info.valid_data].info.timestamp += ((uint64_t)pQ.front());
 								sm = DECODE_SM::COUNT_IN_1;
 								break;
 							case DECODE_SM::COUNT_IN_1:
-								p->data[p->info.valid_data].trigger_count = ((uint64_t)pQ.front()) << 32UL;
+								p->data[p->info.valid_data].info.trigger_count = ((uint64_t)pQ.front()) << 32UL;
 								sm = DECODE_SM::COUNT_IN_2;
 								break;
 							case DECODE_SM::COUNT_IN_2:
-								p->data[p->info.valid_data].trigger_count += ((uint64_t)pQ.front());
+								p->data[p->info.valid_data].info.trigger_count += ((uint64_t)pQ.front());
 								sm = DECODE_SM::COUNT_OUT_1;
 								break;
 							case DECODE_SM::COUNT_OUT_1:
-								p->data[p->info.valid_data].event_count = ((uint64_t)pQ.front()) << 32UL;
+								p->data[p->info.valid_data].info.event_count = ((uint64_t)pQ.front()) << 32UL;
 								sm = DECODE_SM::COUNT_OUT_2;
 								break;
 							case DECODE_SM::COUNT_OUT_2:
-								p->data[p->info.valid_data].event_count += ((uint64_t)pQ.front());
+								p->data[p->info.valid_data].info.event_count += ((uint64_t)pQ.front());
 								sm = DECODE_SM::HITS_1;
 								break;
 							case DECODE_SM::HITS_1:
-								p->data[p->info.valid_data].hits = ((uint64_t)pQ.front());
+								p->data[p->info.valid_data].info.hits = ((uint64_t)pQ.front());
 								if (settings.channels > 32) {
 									sm = DECODE_SM::HITS_2;
 								}
@@ -469,13 +469,14 @@ repeat_blocking:
 								}
 								break;
 							case DECODE_SM::HITS_2:
-								p->data[p->info.valid_data].hits += ((uint64_t)pQ.front()) << 32UL;
+								p->data[p->info.valid_data].info.hits += ((uint64_t)pQ.front()) << 32UL;
 								sm = DECODE_SM::PIXELS;
 								break;
 							case DECODE_SM::PIXELS:
 								p->data[p->info.valid_data].pixel[ridx++] = pQ.front();
 								if (ridx == settings.channels) {
 									p->info.valid_data++;
+									sm = DECODE_SM::HEADER_1;
 								}
 								break;
 						}

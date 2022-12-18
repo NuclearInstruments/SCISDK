@@ -278,7 +278,7 @@
 
 	/**
 	 * @brief FFT monitor raw data structure
-	 * @details This type is used to store FFT moditor raw result
+	 * @details This type is used to store FFT monitor raw result
 	 * The reference document for the data format is the  [FFT](fft.md)
 	 */
 	typedef struct {
@@ -301,34 +301,49 @@
 	}SCISDK_FFT_STATUS;
 
 
-
+	/**
+	 * @brief Single decoded event by the frame transfer driver
+	 * @details This type is used to store a single decoded event by the frame transfer driver,
+	 * multiple event are stored in a SCISDK_FRAME_DECODED_BUFFER
+	 * The reference document for the data format is the  [Frame](frame.md)
+	 */
 	typedef struct {
-		uint32_t *pixel;
-		uint32_t n;
+		uint32_t *pixel;					/**< Pointer to the pixel array*/
+		uint32_t n;							/**< Number of pixel in the array*/
 		struct {
-			uint64_t timestamp;
-			uint64_t trigger_count;
-			uint64_t event_count;
-			uint64_t hits;
-		};
+			uint64_t timestamp;				/**< Timestamp of the event*/
+			uint64_t trigger_count;			/**< Progressive trigger counter calculated in FPGA*/
+			uint64_t event_count;			/**< Progressive event counter calculated in FPGA*/
+			uint64_t hits;					/**< hits vector, each 1 indicate that the respective Pixel generate a trigger for the event*/
+		} info;
 	}SCISDK_FRAME_PACKET;
 
+	/**
+	 * @brief Decoded events list created by the frame transfer driver
+	 * @details This type is used to store a list of SCISDK_FRAME_PACKET
+	 * The reference document for the data format is the  [Frame](frame.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		SCISDK_FRAME_PACKET *data;
+		uint32_t magic;						/**< Magic number to identify the data type*/
+		SCISDK_FRAME_PACKET *data;			/**< Pointer to the array of SCISDK_FRAME_PACKET*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t valid_data;
+			uint32_t buffer_size;			/**< Size of the data buffer in events*/
+			uint32_t valid_data;			/**< Number of valid events in the buffer*/
 		} info;
 	}SCISDK_FRAME_DECODED_BUFFER;
 
+	/**
+	 * @brief Frame raw data structure
+	 * @details This type is used to store frame raw result
+	 * The reference document for the data format is the [Frame](frame.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
+		uint32_t magic;				/**< Magic number to identify the data type*/
+		uint32_t *data;				/**< Pointer to data allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t packet_size;
-			uint32_t valid_data;
+			uint32_t buffer_size;	/**< Size of the data buffer in DWORD*/
+			uint32_t packet_size;	/**< Size of the packet in DWORD, calculated from JSON file*/
+			uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
 		} info;
 	}SCISDK_FRAME_RAW_BUFFER;
 

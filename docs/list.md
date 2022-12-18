@@ -242,7 +242,7 @@ res, lrb = sdk.ReadData("board0:/MMCComponents/List_0", lrb)
 ### C Sharp
 
 ```csharp
-SCISDK_LIST_RAW_BUFFER lrb = new SCISDK_LIST_RAW_BUFFER();
+SciSDKListRawBuffer lrb = new SciSDKListRawBuffer();
 sdk.AllocateBufferSize("board0:/MMCComponents/List_0", 0, ref lrb, 1024);
 sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false");
 sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 5000);
@@ -263,7 +263,7 @@ if (res != 0) {
 
 ```vb
 
-Dim lrb As New SCISDK_LIST_RAW_BUFFER()
+Dim lrb As New SciSDKListRawBuffer()
 sdk.AllocateBufferSize("board0:/MMCComponents/List_0", 0, lrb, 1024)
 sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false")
 sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 5000)
