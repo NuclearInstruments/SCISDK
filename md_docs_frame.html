@@ -1,0 +1,665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SciSDK Library: Frame (imaging) driver</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/NuclearInstruments/SCISDK" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="sci-compiler-logo.svg"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SciSDK Library
+   </div>
+   <div id="projectbrief">SDK for SciCompiler projects</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('md_docs_frame.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Frame (imaging) driver </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>The frame driver is a special list that allow to transfer data from FPGA to the PC as pixelated images. Each pixel is a 32 bit word, the value of the pixel is the value of the input signal at the time of the pixel acquisition. The value of the pixel can be:</p><ul>
+<li>the ADC value of the relative input signal</li>
+<li>the energy calcualted with QDC or PHA algorithm</li>
+<li>the number of hits (triggers) in a fixed time window</li>
+<li>the time of arrival It depends by the kind of physical measurement that the user want to perform.</li>
+</ul>
+<p>Frame transfer works in list mode. Inside the FPGA a FIFO store the packet of data each time a trigger events is detected. Trigger mode includes: external trigger, or between hits of all channels, and between all channels, trigger for a master board.</p>
+<p>When configured in internal trigger (or/and) a coincidence windows allows a user to define a time window in which the trigger should active. The coincidence window is defined in FPGA clock cycles. For example if the sapling clock is 125 MHz and the coincidence window is 1000 FPGA clock cycles, the coincidence window is 8 us. If trigger is set to and, all channels must be active the DV input (hit) within 8us otherwise the event is ignored.</p>
+<p>It is possible to received decoded and raw data. Raw data is the pure content of the FIFO buffer, including headers of the packet indeed should be recostructed by the user using the suggested algorithm. Decoded data is a struct contating all the pixels and the information about the event. The struct is defined in the <code>scisdk_frame.h</code> file.</p>
+<p>On the PC side a buffer can be allocated using the <code>SCISDK_AllocateBuffer</code> function. The buffer is freed using the <code>SCISDK_FreeBuffer</code> function.</p>
+<p>The <code>SCISDK_AllocateBuffer</code> function requires to specify a size paramter that has a different meaning depending on the buffer type:</p><ul>
+<li>RAW : the size is the number of DWORD that can be stored in the buffer</li>
+<li>DECODED : the size is the number of events that can be stored in the buffer</li>
+</ul>
+<p>The <code>SCISDK_ReadData</code> function will read an amount of data according to the sizes programmaed in the buffer</p>
+<p>The readout can be configure to work in two different mode:</p><ul>
+<li>blocking : the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached.</li>
+<li>non-blocking : the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read.</li>
+</ul>
+<p>More over the list can be configured to work:</p><ul>
+<li>polling : the <code>SCISDK_ReadData</code> function will read the data from the hardware FIFO when the user call the function.</li>
+<li>threaded : on start command, the list will start a thread that will read the data from the hardware FIFO and store it in an internal buffer (thread buffer). The <code>SCISDK_ReadData</code> function will read the data from the thread buffer. Thread mode increase the perfomance of the list because, while the use elaborate the previous data, the list accumulate next data in the thread buffer.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md139"></a>
+Parameters</h1>
+<p>The following parameters can be configured:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter   </th><th class="markdownTableHeadNone">Acces Mode   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Default value    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">acq_mode   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">select blocking/non-blocking mode   </td><td class="markdownTableBodyNone">blocking    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">data_processing   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set data processing mode: raw, decode   </td><td class="markdownTableBodyNone">decode    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">timeout   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set the timout in ms in blocking mode   </td><td class="markdownTableBodyNone">100    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">thread   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">enable the internal thread: true/false   </td><td class="markdownTableBodyNone">false    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">high_performance   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">if true the internal FIFO access lock the bus in priority mode.   </td><td class="markdownTableBodyNone">false    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">threaded_buffer_size   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">size in dword of the internal buffer   </td><td class="markdownTableBodyNone">100000    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">trigger_mode   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set trigger mode: or, and, trig, sync_trig   </td><td class="markdownTableBodyNone">or    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">trigger_mask   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set bit to 1 to mask specific channel from trigger   </td><td class="markdownTableBodyNone">0x00000000    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">wait_coincidence   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">coincidence window width from trigger (clk cycles) waiting for all channels energy   </td><td class="markdownTableBodyNone">0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">sync_mode   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set the ip as master/slave   </td><td class="markdownTableBodyNone">master    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer type: <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html" title="Oscilloscope raw data type.">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a> or <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html" title="Oscilloscope decoded data type.">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a>   </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md140"></a>
+Blocking/Non blocking mode</h2>
+<p>In blocking mode the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached. In non-blocking mode the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read. The maximum number of bytes that can be read is the size of the buffer allocated with the function <code>SCISDK_AllocateBuffer</code>. In blocking mode the timeout is set with the <code>timeout</code> parameter. The timeout is expressed in ms. In non-blocking mode the timeout is not used. In both mode, if the buffer is fill with even just a single word the function will return NI_OK. If there is no data at all the read function will return NI_NO_DATA_AVAILABLE.</p>
+<h2><a class="anchor" id="autotoc_md141"></a>
+Threaded mode</h2>
+<p>In threaded mode the frame will start a thread that will read the data from the hardware FIFO and store it in an internal buffer (thread buffer). The <code>SCISDK_ReadData</code> function will read the data from the thread buffer. While in polling mode, if the user do not call the <code>SCISDK_ReadData</code> function, the FIFO in the FPGA can be full and the data will be lost. In threaded mode the data are stored in the thread buffer automatically. The internall thread will poll the FPGA to check if data is available and will store it in the thread buffer. Thread mode increase the perfomance of the frame because, but consume continuously the communication bandiwdth between the FPGA and the PC. The user lost the control on how much time the specific frame will access to the shared bus.</p>
+<h2><a class="anchor" id="autotoc_md142"></a>
+High performance mode</h2>
+<p>We discurage to enable this parameter. If enabled, the highe performace mode force the internal physical ReadFIFO function to ignore the word available field of the FIFO. When this parameter is disable, the ReadFIFO function check the word available field of the FIFO and will make a read only if this number if not 0. More over the read size will be the minimum between word available and acq_len parameter. In this way the ReadFIFO function will not lock the bus for a long time. In high perforamnce mode, the ReadFIFO will always setup a read cycle with size equal to acq_len parameter. This will lock the bus for a long time untill all data are received. This will increase significantly the transfer speed but no other access, even to read/write register can be done until all data are received or the timeout is reached. Use this mode only if you are sure that the bus is not shared with other readout block and you don't need</p>
+<h1><a class="anchor" id="autotoc_md143"></a>
+Commands</h1>
+<p>The following commands are available:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Command   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Parameter    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">start   </td><td class="markdownTableBodyNone">Clear the FIFO and start the acqusition   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">stop   </td><td class="markdownTableBodyNone">Stop the acquisition   </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<p>Start will clear the FIFO content, create the internal thread and allocate the thread buffer if thread mode is enable and start the acquisition. All list parameter can not be changed while the acquisition is in progress. Stop the list before change any parameter or the property set will be rejected.</p>
+<h1><a class="anchor" id="autotoc_md144"></a>
+Buffer Allocation</h1>
+<p>The buffer is allocated using the <code>SCISDK_AllocateBuffer</code> function. The buffer is freed using the <code>SCISDK_FreeBuffer</code> function. When used in RAW mode, because the frame is a FIFO, is not possible to know a priori the number of bytes that will be transferred. The <code>SCISDK_AllocateBuffer</code> take indeed an extra parameter to specify the size of the buffer (in word) on the PC side; the <code>SCISDK_ReadData</code> function will try to read the maximum number of bytes that can fit in the buffer.</p>
+<p>When used in DECODED mode the driver knows the number of pixel and the structure of the header and will allocate the buffer accordingly. The user specify the size in order to create a buffer capable to store multiple events (improving the performance of the readout).</p>
+<p>This is an example on how allocate a frame buffer RAW: </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(&lt;path to list&gt;, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;list_data, &lt;number of word&gt;)</div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
+<div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a></div><div class="ttdeci">@ T_BUFFER_TYPE_RAW</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:228</div></div>
+</div><!-- fragment --><p> This example allocate a buffer with 1000 words:</p>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a> list_data;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;list_data, 1000)</div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a></div><div class="ttdoc">List raw data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:154</div></div>
+</div><!-- fragment --><p>This is an example on how allocate a frame buffer DECODED: </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(&lt;path to list&gt;, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;list_data, &lt;number of events&gt;)</div>
+<div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:229</div></div>
+</div><!-- fragment --><p>This example allocate a buffer with 10 events: </p><div class="fragment"><div class="line">SCISDK_LIST_DECODED_BUFFER list_data;</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;list_data, 10)</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md145"></a>
+Output data Format</h1>
+<p>The IP do not support sparse data format indeed, indipendelty from the datavalid (DV) status, all pixel will be transfered to the PC, so the size of raw event or the number of pixel in the decoded event will be always the same.</p>
+<h2><a class="anchor" id="autotoc_md146"></a>
+Raw Data</h2>
+<p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line">    uint32_t magic;</div>
+<div class="line">    uint32_t *data;</div>
+<div class="line">    <span class="keyword">struct </span>{</div>
+<div class="line">        uint32_t buffer_size;</div>
+<div class="line">        uint32_t packet_size;</div>
+<div class="line">        uint32_t valid_data;</div>
+<div class="line">    } info;</div>
+<div class="line">}<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html">SCISDK_FRAME_RAW_BUFFER</a>;</div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html">SCISDK_FRAME_RAW_BUFFER</a></div><div class="ttdoc">Frame raw data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:340</div></div>
+</div><!-- fragment --><p> <code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_FRAME_RAW_BUFFER_MAGIC <code>data</code> : it's the array of the raw data. The data is stored as a uint32_t word. In order to access to the data the user must implement a proper decoding function.</p>
+<p>The decode algorithm appears to be a state machine that processes a sequence of bytes in a specific order to extract and decode information from them.</p>
+<p>The algorithm reads bytes from a queue called pQ and stores the decoded information in a data structure called p. p is a <a class="el" href="struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html" title="Frame raw data structure.">SCISDK_FRAME_RAW_BUFFER</a> struct. The state machine has the following states, in every step the algorithm pop the front element of the queue pQ and processes it:</p>
+<p><code>HEADER_1</code>: In this state, the algorithm checks if the front element of the queue pQ is equal to 0xFFFFFFFF. If it is, the state machine transitions to the HEADER_2 state. Otherwise, it remains in the HEADER_1 state discardinf data.</p>
+<p><code>HEADER_2</code>: In this state, the algorithm checks if the front element of the queue pQ is equal to 0x12345678. If it is, the state machine transitions to the TIMESTAMP_1 state. Otherwise, it transitions back to the HEADER_1 state.</p>
+<p><code>TIMESTAMP_1</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the most significant 32 bits of a 64-bit timestamp in p. The state machine then transitions to the TIMESTAMP_2 state.</p>
+<p><code>TIMESTAMP_2</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the least significant 32 bits of the timestamp in p. The state machine then transitions to the COUNT_IN_1 state.</p>
+<p><code>COUNT_IN_1</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the most significant 32 bits of a 64-bit trigger count in p. The state machine then transitions to the COUNT_IN_2 state.</p>
+<p><code>COUNT_IN_2</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the least significant 32 bits of the trigger count in p. The state machine then transitions to the COUNT_OUT_1 state.</p>
+<p><code>COUNT_OUT_1</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the most significant 32 bits of a 64-bit event count in p. The state machine then transitions to the COUNT_OUT_2 state.</p>
+<p><code>COUNT_OUT_2</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the least significant 32 bits of the event count in p. The state machine then transitions to the HITS_1 state.</p>
+<p><code>HITS_1</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the number of hits in p. If the number of channels is greater than 32, the state machine transitions to the HITS_2 state. Otherwise, it transitions to the PIXELS state.</p>
+<p><code>HITS_2</code>: In this state, the algorithm extracts the front element of the queue pQ and stores it as the number of additional hits in p. The state machine then transitions to the PIXELS state.</p>
+<p><code>PIXELS</code>: In this state, the algorithm extracts all the pixels data value. The use must provide the information of the number of pixel present in the IP from the front of the queue pQ and</p>
+<h2><a class="anchor" id="autotoc_md147"></a>
+Decoded Data</h2>
+<p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line">    uint32_t *pixel;</div>
+<div class="line">    uint32_t n;</div>
+<div class="line">    <span class="keyword">struct </span>{</div>
+<div class="line">        uint64_t timestamp;</div>
+<div class="line">        uint64_t trigger_count;</div>
+<div class="line">        uint64_t event_count;</div>
+<div class="line">        uint64_t hits;</div>
+<div class="line">    };</div>
+<div class="line">}<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html">SCISDK_FRAME_PACKET</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line">    uint32_t magic;</div>
+<div class="line">    <a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html">SCISDK_FRAME_PACKET</a> *data;</div>
+<div class="line">    <span class="keyword">struct </span>{</div>
+<div class="line">        uint32_t buffer_size;</div>
+<div class="line">        uint32_t valid_data;</div>
+<div class="line">    } info;</div>
+<div class="line">}<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FRAME_DECODED_BUFFER</a>;</div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FRAME_DECODED_BUFFER</a></div><div class="ttdoc">Decoded events list created by the frame transfer driver.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:326</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html">SCISDK_FRAME_PACKET</a></div><div class="ttdoc">Single decoded event by the frame transfer driver.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:310</div></div>
+</div><!-- fragment --><p> <code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_LIST_RAW_BUFFER_MAGIC <code>pixel</code> : it's the array of the pixel data. The data is stored as an array of uint32_t word. <code>n</code> : it's the number of pixel in the event. <code>timestamp</code> : it's the timestamp of the event. <code>trigger_count</code> : it's the trigger count of the event. It counts the number of trigger events for the programmed trigger soruce even if the trigger is not accepted by the IP because it is busy. <code>event_count</code> : it's the event counter of the accepted trigger. <code>hits</code> : it's the hit flag buffer. It is a 64 bit word where each bit represents a pixel. If the bit is set to 1, the pixel has been hit.</p>
+<h1><a class="anchor" id="autotoc_md148"></a>
+Basic Examples</h1>
+<h2><a class="anchor" id="autotoc_md149"></a>
+C RAW</h2>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html">SCISDK_FRAME_RAW_BUFFER</a> *lrb;</div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>), 0, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error allocating buffer\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.timeout&quot;</span>, 5000, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.data_processing&quot;</span>, <span class="stringliteral">&quot;raw&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;or&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;</span>, <span class="stringliteral">&quot;master&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.start&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, (<span class="keywordtype">void</span> *)lrb, _sdk);  </div>
+<div class="ttc" id="a_n_i_error_code_8h_html_ae749d3c5e8d435a8bc05e47792d996d8"><div class="ttname"><a href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a></div><div class="ttdeci">#define NI_OK</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:8</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a612babf059fa19eaac91fae6da160f85"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBufferSize(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md150"></a>
+C DECODED</h2>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FRAME_DECODED_BUFFER</a> *drb;</div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>), 0, (<span class="keywordtype">void</span>**)&amp;drb, _sdk, 10);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error allocating buffer\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.timeout&quot;</span>, 5000, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;or&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;</span>, <span class="stringliteral">&quot;master&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.start&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, (<span class="keywordtype">void</span> *)lrb, _sdk);  </div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md151"></a>
+C++ RAW</h2>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html">SCISDK_FRAME_RAW_BUFFER</a> *lrb;</div>
+<div class="line">sdk-&gt;AllocateBufferSize(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, 0, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.timeout&quot;</span>, 5000);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.data_processing&quot;</span>, <span class="stringliteral">&quot;raw&quot;</span>);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;or&quot;</span>);</div>
+<div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;</span>, <span class="stringliteral">&quot;master&quot;</span>);</div>
+<div class="line">sdk-&gt;ExecuteCommand(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.start&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> res = sdk-&gt;ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, (<span class="keywordtype">void</span> *)lrb);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (res != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error reading data\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md152"></a>
+Python RAW</h2>
+<div class="fragment"><div class="line">res, lrb = sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Frame_0&quot;, 0, 1024)</div>
+<div class="line"> </div>
+<div class="line">if res != 0:</div>
+<div class="line">    print(&quot;Error allocating buffer&quot;)</div>
+<div class="line">    exit(-1)</div>
+<div class="line"> </div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.thread&quot;, &quot;false&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.timeout&quot;, 5000)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.data_processing&quot;, &quot;raw&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;, &quot;or&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;, &quot;master&quot;)</div>
+<div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/Frame_0.start&quot;, &quot;&quot;)</div>
+<div class="line"> </div>
+<div class="line">res, lrb = sdk.ReadData(&quot;board0:/MMCComponents/Frame_0&quot;, lrb)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md153"></a>
+Python Decoded</h2>
+<div class="fragment"><div class="line">res, drb = sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Frame_0&quot;, 0, 10)</div>
+<div class="line"> </div>
+<div class="line">if res != 0:</div>
+<div class="line">    print(&quot;Error allocating buffer&quot;)</div>
+<div class="line">    exit(-1)</div>
+<div class="line"> </div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.thread&quot;, &quot;false&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.timeout&quot;, 5000)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.data_processing&quot;, &quot;decode&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;, &quot;or&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;, &quot;master&quot;)</div>
+<div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/Frame_0.start&quot;, &quot;&quot;)</div>
+<div class="line"> </div>
+<div class="line">res, lrb = sdk.ReadData(&quot;board0:/MMCComponents/Frame_0&quot;, drb)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md154"></a>
+C Sharp RAW</h2>
+<div class="fragment"><div class="line">SciSDKFrameRawBuffer lrb = new SciSDKFrameRawBuffer();</div>
+<div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Frame_0&quot;, 0, ref lrb, 1024);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.thread&quot;, &quot;false&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.timeout&quot;, 5000);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;, &quot;blocking&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.data_processing&quot;, &quot;raw&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;, &quot;or&quot;);</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;, &quot;master&quot;);</div>
+<div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/Frame_0.start&quot;, &quot;&quot;);</div>
+<div class="line"> </div>
+<div class="line">int res = sdk.ReadData(&quot;board0:/MMCComponents/Frame_0&quot;, ref lrb);</div>
+<div class="line"> </div>
+<div class="line">if (res != 0) {</div>
+<div class="line">    Console.WriteLine(&quot;Error reading data&quot;);</div>
+<div class="line">    return -1;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md155"></a>
+VB.NET RAW</h2>
+<div class="fragment"><div class="line">Dim lrb As New SciSDKFrameRawBuffer()</div>
+<div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Frame_0&quot;, 0, lrb, 1024)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.thread&quot;, &quot;false&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.timeout&quot;, 5000)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.data_processing&quot;, &quot;raw&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;, &quot;or&quot;)</div>
+<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;, &quot;master&quot;)</div>
+<div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/Frame_0.start&quot;, &quot;&quot;)</div>
+<div class="line"> </div>
+<div class="line">Dim res As Integer = sdk.ReadData(&quot;board0:/MMCComponents/Frame_0&quot;, lrb)</div>
+<div class="line"> </div>
+<div class="line">If res &lt;&gt; 0 Then</div>
+<div class="line">    Console.WriteLine(&quot;Error reading data&quot;)</div>
+<div class="line">    Return -1</div>
+<div class="line">End If</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md156"></a>
+Additional Examples</h1>
+<h2><a class="anchor" id="autotoc_md157"></a>
+C read and print decoded data</h2>
+<p>This example print a decoded frame to the console.</p>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FRAME_DECODED_BUFFER</a> *drb;</div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>), 0, (<span class="keywordtype">void</span>**)&amp;drb, _sdk, 10);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error allocating buffer\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.timeout&quot;</span>, 5000, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.trigger_mode&quot;</span>, <span class="stringliteral">&quot;or&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.sync_mode&quot;</span>, <span class="stringliteral">&quot;master&quot;</span>, _sdk);</div>
+<div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0.start&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
+<div class="line"> </div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Frame_0&quot;</span>, (<span class="keywordtype">void</span> *)lrb, _sdk);  </div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error reading data\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a14b237edd1b5982e9c86317b83ed63b0">valid_data</a>; i++) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;**** Frame %d ****\n&quot;</span>, i);</div>
+<div class="line"> </div>
+<div class="line">    printf(<span class="stringliteral">&quot;Timestamp: %d\n&quot;</span>, drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a6e2032b50e6c4185b93dd47865c44b06">timestamp</a>);</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Event: %d\n&quot;</span>, drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#aed4870e3f56319496a876342848fefb6">event_count</a>);</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Trigger: %d\n&quot;</span>, drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#acfb7c37358a31e7291e9b62f1272c61f">trigger_count</a>);</div>
+<div class="line">    printf(<span class="stringliteral">&quot;HITS: %X\n&quot;</span>, drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a55be01de3aa1f0d3bedb176c8431aa4f">hits</a>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#afbd67a79f073eee4c8b44376c74b5517">n</a>; j++) {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;%8d &quot;</span>, drb-&gt;<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">data</a>[i].<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714">pixel</a>[j]);</div>
+<div class="line">    }</div>
+<div class="line">    printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line">}</div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_a14b237edd1b5982e9c86317b83ed63b0"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a14b237edd1b5982e9c86317b83ed63b0">SCISDK_FRAME_DECODED_BUFFER::valid_data</a></div><div class="ttdeci">uint32_t valid_data</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:331</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html_afcc6f6ca1d6f17ffc895d292508b4759"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#afcc6f6ca1d6f17ffc895d292508b4759">SCISDK_FRAME_DECODED_BUFFER::data</a></div><div class="ttdeci">SCISDK_FRAME_PACKET * data</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:328</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_a518593c748eb04cb615a28175ec29192"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">SCISDK_FRAME_PACKET::info</a></div><div class="ttdeci">struct SCISDK_FRAME_PACKET::@13 info</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_a55be01de3aa1f0d3bedb176c8431aa4f"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a55be01de3aa1f0d3bedb176c8431aa4f">SCISDK_FRAME_PACKET::hits</a></div><div class="ttdeci">uint64_t hits</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:317</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_a6e2032b50e6c4185b93dd47865c44b06"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a6e2032b50e6c4185b93dd47865c44b06">SCISDK_FRAME_PACKET::timestamp</a></div><div class="ttdeci">uint64_t timestamp</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:314</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_abf024cd43223999709803b10bfc12714"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714">SCISDK_FRAME_PACKET::pixel</a></div><div class="ttdeci">uint32_t * pixel</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:311</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_acfb7c37358a31e7291e9b62f1272c61f"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#acfb7c37358a31e7291e9b62f1272c61f">SCISDK_FRAME_PACKET::trigger_count</a></div><div class="ttdeci">uint64_t trigger_count</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:315</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_aed4870e3f56319496a876342848fefb6"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#aed4870e3f56319496a876342848fefb6">SCISDK_FRAME_PACKET::event_count</a></div><div class="ttdeci">uint64_t event_count</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:316</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t_html_afbd67a79f073eee4c8b44376c74b5517"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#afbd67a79f073eee4c8b44376c74b5517">SCISDK_FRAME_PACKET::n</a></div><div class="ttdeci">uint32_t n</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:312</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md158"></a>
+Example of decoding RAW data in C++</h2>
+<p>Suppose to have dump the raw data field of the frame into a file called data.bin.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"> </div>
+<div class="line">uint32_t packet_size = 32+9;    <span class="comment">//&lt;&lt;write here the packet size in DWORD, it is written in the json&gt;&gt;</span></div>
+<div class="line">uint32_t channels=32;           <span class="comment">//&lt;&lt;write here the number of channels, it is written in the json&gt;&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// we suppose to use the SCISDK_FRAME_PACKET to store the event</span></div>
+<div class="line"><span class="keyword">enum class</span> DECODE_SM {</div>
+<div class="line">    HEADER_1,</div>
+<div class="line">    HEADER_2,</div>
+<div class="line">    TIMESTAMP_1,</div>
+<div class="line">    TIMESTAMP_2,</div>
+<div class="line">    COUNT_IN_1,</div>
+<div class="line">    COUNT_IN_2,</div>
+<div class="line">    COUNT_OUT_1,</div>
+<div class="line">    COUNT_OUT_2,</div>
+<div class="line">    HITS_1,</div>
+<div class="line">    HITS_2,</div>
+<div class="line">    PIXELS</div>
+<div class="line">} ;</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html">SCISDK_FRAME_PACKET</a> p;</div>
+<div class="line"> </div>
+<div class="line">p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714">pixel</a> = (uint32_t*)malloc(<span class="keyword">sizeof</span>(uint32_t)*channels);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714">pixel</a> == NULL) {</div>
+<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;Error: failed to allocate memory.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    <span class="keywordflow">return</span> 1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">std::ifstream file(<span class="stringliteral">&quot;data.bin&quot;</span>, std::ios::binary);</div>
+<div class="line"><span class="comment">// Check if the file was successfully opened</span></div>
+<div class="line"><span class="keywordflow">if</span> (!file.is_open()) {</div>
+<div class="line">std::cerr &lt;&lt; <span class="stringliteral">&quot;Error: failed to open file.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="keywordflow">return</span> 1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create a queue to hold the data</span></div>
+<div class="line">std::queue&lt;uint32_t&gt; pQ;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Read the data from the file and push it onto the queue</span></div>
+<div class="line">uint32_t data;</div>
+<div class="line"><span class="keywordflow">while</span> (file.read((<span class="keywordtype">char</span>*)&amp;data, <span class="keyword">sizeof</span>(data))) {</div>
+<div class="line">pQ.push(data);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Close the file</span></div>
+<div class="line">file.close();</div>
+<div class="line">  </div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (pQ.size() &gt;= packet_size) {</div>
+<div class="line">    DECODE_SM sm;</div>
+<div class="line">    sm = DECODE_SM::HEADER_1;</div>
+<div class="line">    <span class="keywordflow">while</span> (pQ.size() &gt;= packet_size) {</div>
+<div class="line">        <span class="keywordflow">switch</span> (sm) {</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::HEADER_1 : </div>
+<div class="line">                <span class="keywordflow">if</span> (pQ.front() == 0xFFFFFFFF){</div>
+<div class="line">                    sm = DECODE_SM::HEADER_2;</div>
+<div class="line">                    ridx = 0;</div>
+<div class="line">                } </div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::HEADER_2:</div>
+<div class="line">                <span class="keywordflow">if</span> (pQ.front() == 0x12345678) {</div>
+<div class="line">                    sm = DECODE_SM::TIMESTAMP_1;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::TIMESTAMP_1:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a6e2032b50e6c4185b93dd47865c44b06">timestamp</a> = ((uint64_t)pQ.front()) &lt;&lt; 32UL;</div>
+<div class="line">                sm = DECODE_SM::TIMESTAMP_2;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::TIMESTAMP_2:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a6e2032b50e6c4185b93dd47865c44b06">timestamp</a> += ((uint64_t)pQ.front());</div>
+<div class="line">                sm = DECODE_SM::COUNT_IN_1;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::COUNT_IN_1:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#acfb7c37358a31e7291e9b62f1272c61f">trigger_count</a> = ((uint64_t)pQ.front()) &lt;&lt; 32UL;</div>
+<div class="line">                sm = DECODE_SM::COUNT_IN_2;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::COUNT_IN_2:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#acfb7c37358a31e7291e9b62f1272c61f">trigger_count</a> += ((uint64_t)pQ.front());</div>
+<div class="line">                sm = DECODE_SM::COUNT_OUT_1;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::COUNT_OUT_1:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#aed4870e3f56319496a876342848fefb6">event_count</a> = ((uint64_t)pQ.front()) &lt;&lt; 32UL;</div>
+<div class="line">                sm = DECODE_SM::COUNT_OUT_2;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::COUNT_OUT_2:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#aed4870e3f56319496a876342848fefb6">event_count</a> += ((uint64_t)pQ.front());</div>
+<div class="line">                sm = DECODE_SM::HITS_1;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::HITS_1:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a55be01de3aa1f0d3bedb176c8431aa4f">hits</a> = ((uint64_t)pQ.front());</div>
+<div class="line">                <span class="keywordflow">if</span> (channels &gt; 32) {</div>
+<div class="line">                    sm = DECODE_SM::HITS_2;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="keywordflow">else</span> {</div>
+<div class="line">                    sm = DECODE_SM::PIXELS;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::HITS_2:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a518593c748eb04cb615a28175ec29192">info</a>.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a55be01de3aa1f0d3bedb176c8431aa4f">hits</a> += ((uint64_t)pQ.front()) &lt;&lt; 32UL;</div>
+<div class="line">                sm = DECODE_SM::PIXELS;</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            <span class="keywordflow">case</span> DECODE_SM::PIXELS:</div>
+<div class="line">                p.<a class="code" href="struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714">pixel</a>[ridx++] = pQ.front();</div>
+<div class="line">                <span class="keywordflow">if</span> (ridx == channels) {</div>
+<div class="line">                    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">                        Event is decoded and ready to be used</span></div>
+<div class="line"><span class="comment">                    */</span></div>
+<div class="line">                    sm = DECODE_SM::HEADER_1;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        pQ.pop();</div>
+<div class="line">        </div>
+<div class="line">    }</div>
+<div class="line">} <span class="keywordflow">else</span> {</div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">        Not enough data to decode the event</span></div>
+<div class="line"><span class="comment">    */</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md159"></a>
+Example of decoding RAW data in Python</h2>
+<p>Suppose to have dump the raw data field of the frame into a file called data.bin</p>
+<div class="fragment"><div class="line">import struct</div>
+<div class="line"> </div>
+<div class="line">packet_size = 32+9  # packet size in DWORD, written in the json</div>
+<div class="line">channels = 32  # number of channels, written in the json</div>
+<div class="line"> </div>
+<div class="line"># we suppose to use the SCISDK_FRAME_PACKET to store the event</div>
+<div class="line">class DECODE_SM:</div>
+<div class="line">    HEADER_1 = 0</div>
+<div class="line">    HEADER_2 = 1</div>
+<div class="line">    TIMESTAMP_1 = 2</div>
+<div class="line">    TIMESTAMP_2 = 3</div>
+<div class="line">    COUNT_IN_1 = 4</div>
+<div class="line">    COUNT_IN_2 = 5</div>
+<div class="line">    COUNT_OUT_1 = 6</div>
+<div class="line">    COUNT_OUT_2 = 7</div>
+<div class="line">    HITS_1 = 8</div>
+<div class="line">    HITS_2 = 9</div>
+<div class="line">    PIXELS = 10</div>
+<div class="line"> </div>
+<div class="line"># create a queue to hold the data</div>
+<div class="line">pQ = deque()  </div>
+<div class="line"> </div>
+<div class="line"># read the data from the file and push it onto the queue</div>
+<div class="line">with open(&quot;data.bin&quot;, &quot;rb&quot;) as file:</div>
+<div class="line">    while True:</div>
+<div class="line">        data = file.read(4)</div>
+<div class="line">        if not data:</div>
+<div class="line">            break</div>
+<div class="line">        pQ.append(struct.unpack(&quot;I&quot;, data)[0])</div>
+<div class="line"> </div>
+<div class="line"># decode the data from the queue</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">sm = DECODE_SM.HEADER_1</div>
+<div class="line">ridx = 0</div>
+<div class="line">while pQ:</div>
+<div class="line">    if sm == DECODE_SM.HEADER_1:</div>
+<div class="line">        if pQ[0] == 0xFFFFFFFF:</div>
+<div class="line">            sm = DECODE_SM.HEADER_2</div>
+<div class="line">            ridx = 0</div>
+<div class="line">    elif sm == DECODE_SM.HEADER_2:</div>
+<div class="line">        if pQ[0] == 0x12345678:</div>
+<div class="line">            sm = DECODE_SM.TIMESTAMP_1</div>
+<div class="line">    elif sm == DECODE_SM.TIMESTAMP_1:</div>
+<div class="line">        p.info.timestamp = ((uint64_t)pQ[0]) &lt;&lt; 32UL</div>
+<div class="line">        sm = DECODE_SM.TIMESTAMP_2</div>
+<div class="line">    elif sm == DECODE_SM.TIMESTAMP_2:</div>
+<div class="line">        p.info.timestamp += ((uint64_t)pQ[0])</div>
+<div class="line">        sm = DECODE_SM.COUNT_IN_1</div>
+<div class="line">    elif sm == DECODE_SM.COUNT_IN_1:</div>
+<div class="line">        p.info.trigger_count = ((uint64_t)pQ[0]) &lt;&lt; 32UL</div>
+<div class="line">        sm = DECODE_SM.COUNT_IN_2</div>
+<div class="line">    elif sm == DECODE_SM.COUNT_IN_2:</div>
+<div class="line">        p.info.trigger_count += ((uint64_t)pQ[0])</div>
+<div class="line">        sm = DECODE_SM.COUNT_OUT_1</div>
+<div class="line">    elif sm == DECODE_SM.COUNT_OUT_1:</div>
+<div class="line">        p.info.event_count = ((uint64_t)pQ[0]) &lt;&lt; 32UL</div>
+<div class="line">        sm = DECODE_SM.COUNT_OUT_2</div>
+<div class="line">    elif sm == DECODE_SM.COUNT_OUT_2:</div>
+<div class="line">        p.info.event_count += ((uint64_t)pQ[0])</div>
+<div class="line">        sm = DECODE_SM.HITS_1</div>
+<div class="line">    elif sm == DECODE_SM.HITS_1:</div>
+<div class="line">        p.info.hits = ((uint64_t)pQ[0])</div>
+<div class="line">        if channels &gt; 32:</div>
+<div class="line">            sm = DECODE_SM.HITS_2</div>
+<div class="line">        else:</div>
+<div class="line">            sm = DECODE_SM.PIXELS</div>
+<div class="line">    elif sm == DECODE_SM.HITS_2:</div>
+<div class="line">        p.info.hits += ((uint64_t)pQ[0]) &lt;&lt; 32UL</div>
+<div class="line">        sm = DECODE_SM.PIXELS</div>
+<div class="line">    elif sm == DECODE_SM.PIXELS:</div>
+<div class="line">        p.pixel[ridx] = pQ[0]</div>
+<div class="line">        ridx += 1</div>
+<div class="line">        if ridx == channels:</div>
+<div class="line">            # event is decoded and ready to be used</div>
+<div class="line">            sm = DECODE_SM.HEADER_1</div>
+<div class="line">            ridx = 0</div>
+<div class="line"> </div>
+<div class="line">    pQ.pop(0)</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['oscilloscope_20driver_410',['Oscilloscope driver',['../md_docs_oscilloscope.html',1,'']]],
-  ['oscilloscope_20dual_20driver_411',['Oscilloscope Dual driver',['../md_docs_oscilloscope-dual.html',1,'']]]
+  ['board_20endpoint_20driver_460',['Board Endpoint driver',['../md_docs_boardendpoint.html',1,'']]]
 ];

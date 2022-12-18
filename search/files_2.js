@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['oscilloscope_2ddual_2emd_241',['oscilloscope-dual.md',['../oscilloscope-dual_8md.html',1,'']]],
-  ['oscilloscope_2emd_242',['oscilloscope.md',['../oscilloscope_8md.html',1,'']]]
+  ['dt1260_2emd_275',['dt1260.md',['../dt1260_8md.html',1,'']]],
+  ['dt5550w_5fcitiroc_2emd_276',['dt5550w_citiroc.md',['../dt5550w__citiroc_8md.html',1,'']]]
 ];
