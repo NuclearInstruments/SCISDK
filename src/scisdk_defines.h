@@ -109,30 +109,39 @@
 		bool running;
 	}SCISDK_OSCILLOSCOPE_STATUS;
 
-
+	/**
+	 * @brief Digitizer decoded data type
+	 * @details This type is used to store decoded waveform from the digitizer component.
+	 * The reference document for the raw data format is the  [Digitizer  driver](digitizer.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		int32_t *analog;
-		uint64_t hits;
-		uint64_t timecode;
-		uint32_t counter;
-		uint32_t user;
+		uint32_t magic;							/**< Magic number to identify the data type*/
+		int32_t *analog;						/**< Pointer to analog data allocated by the AllocateBuffer function*/
+		uint64_t hits;							/**< Channel that generate a trigger (hits)*/
+		uint64_t timecode;						/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
+		uint32_t counter;						/**< Counter progressive value*/
+		uint32_t user;							/**< User value field from SciCompiler IP block*/	
 		struct {
-			uint32_t samples;
-			uint32_t valid_samples;
-			uint32_t channels;
-			uint32_t enabled_channels;
+			uint32_t samples;					/**< Number of samples allocated in analog buffer*/
+			uint32_t valid_samples;				/**< Number of valid samples in analog buffer*/
+			uint32_t channels;					/**< Number of channels of the digitizer*/
+			uint32_t enabled_channels;			/**< Number of enabled channels*/
 		} info;
 	}SCISDK_DIGITIZER_DECODED_BUFFER;
 	
+	/**
+	 * @brief Digitizer raw data type
+	 * @details This type is used to store raw from the digitizer component.
+	 * The reference document for the raw data format is the  [Digitizer  driver](digitizer.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		int32_t *data;
+		uint32_t magic;							/**< Magic number to identify the data type*/
+		int32_t *data;							/**< Pointer to data allocated by the AllocateBuffer function*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t samples;
-			uint32_t valid_samples;
-			uint32_t channels;
+			uint32_t buffer_size;				/**< Size in DWORD of the data buffer*/
+			uint32_t samples;					/**< Number of samples allocated in the data buffer*/
+			uint32_t valid_samples;				/**< Number of valid samples allocated in the data buffer*/
+			uint32_t channels;					/**< Number of channels of the digitizer*/
 		} info;
 	}SCISDK_DIGITIZER_RAW_BUFFER;
 
@@ -251,25 +260,37 @@
 	}SCISDK_SPECTRUM_STATUS;
 
 
+	/**
+	 * @brief FFT monitor decoded data structure
+	 * @details This type is used to store FFT moditor decoded result
+	 * The reference document for the data format is the  [FFT](fft.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		double *mag;
-		double *ph;
-		uint64_t timecode;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		double *mag;					/**< Magnitude array llocated by the AllocateBuffer function*/
+		double *ph;						/**< Phase array llocated by the AllocateBuffer function*/
+		uint64_t timecode;				/**< Timestamp of the acquisition*/
 		struct {
-			uint32_t samples;
-			uint32_t channels;
+			uint32_t samples;			/**< the number of samples per channel*/
+			uint32_t channels;			/**< the number of channel*/
 		} info;
 	}SCISDK_FFT_DECODED_BUFFER;
 
+	/**
+	 * @brief FFT monitor raw data structure
+	 * @details This type is used to store FFT moditor raw result
+	 * The reference document for the data format is the  [FFT](fft.md)
+	 */
 	typedef struct {
-		uint32_t magic;
-		uint32_t *data;
-		uint64_t timecode;
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		uint32_t *data;					/**< Real/Imaginary part  array llocated by the AllocateBuffer function
+											The first DWORD is the Real, the second is the Immaginary part
+										*/					
+		uint64_t timecode;				/**< Timestamp of the acquisition*/
 		struct {
-			uint32_t buffer_size;
-			uint32_t samples;
-			uint32_t channels;
+			uint32_t buffer_size;		/**< Size of the data buffer in DWORD*/
+			uint32_t samples;			/**< Number of samples (Re+Im) in data per channel*/
+			uint32_t channels;			/**< Number of channel*/
 		} info;
 	}SCISDK_FFT_RAW_BUFFER;
 

@@ -39,7 +39,6 @@ SciSDK_FFT::SciSDK_FFT(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, 
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking" };
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
-	const std::list<std::string> listOfTriggerPolarity = { "pos","neg" };
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 }
