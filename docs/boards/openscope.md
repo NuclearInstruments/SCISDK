@@ -1,4 +1,4 @@
-# OpenScope driver
+# OpenScope Board Driver
 
 Caen board uses a custom endpoint to readout data with the host using accelerated DMA transfers and DDR4 memory. 
 This driver is compatible with the following boards:
@@ -35,6 +35,7 @@ ask to the FELib SDK to set/read the `ChEnable` parameter of the channel 0.
 The documentation of the board specific API is available in the [board SDK documentation](https://www.caen.it/products/caen-felib-library/)
 
 
+**Data type in SetParameter must be STRING, indeed just the SCISDK_SetParameterString function is supported because the felib requires all parameters to be a string.**
 
 ## OpenScope data structure
 

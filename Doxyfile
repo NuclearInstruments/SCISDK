@@ -878,8 +878,15 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/fft.md \
                          docs/frame.md \
                          docs/mmc.md \
-                         docs/opendpp.md \
-                         docs/openscope.md 
+                         docs/boardendpoint.md \
+                         docs/boards/opendpp.md \
+                         docs/boards/openscope.md \
+                         docs/boards/dt1260.md \
+                         docs/boards/dt5550.md \
+                         docs/boards/dt5550w_citiroc.md \
+                         docs/boards/dt5550w_petiroc.md \
+                         docs/boards/x5560se.md \
+                         docs/boards/x5560.md 
                          
 
 # This tag can be used to specify the character encoding of the source files
