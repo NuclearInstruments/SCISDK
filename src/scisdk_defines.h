@@ -466,6 +466,11 @@
 	structure. Shared by all the events
 	*/
 
+	/**
+	 * @brief OpenDPP structure
+	 * @details This type is used to store decoded events from CAEN OpenDPP result
+	 * The reference document for the data format is the [OpenDPP](opendpp.md)
+	 */
 	typedef struct {
 		uint8_t channel;
 		uint64_t timestamp;
