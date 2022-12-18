@@ -877,6 +877,10 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/list.md \
                          docs/fft.md \
                          docs/frame.md \
+                         docs/citiroc-config.md \
+                         docs/citiroc-frame.md \
+                         docs/petiroc-config.md \
+                         docs/petiroc-frame.md \
                          docs/mmc.md \
                          docs/boardendpoint.md \
                          docs/boards/opendpp.md \
