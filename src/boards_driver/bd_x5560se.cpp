@@ -1,4 +1,4 @@
-#include "bd_dt1260.h"
+#include "bd_x5560se.h"
 #include <functional>
 #include <chrono>
 #include <thread>
@@ -43,7 +43,7 @@ NI_RESULT bd_x5560se::IGetParamI32(string name, uint32_t *value)
     return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT bd_dt1260::UpdateHardware()
+NI_RESULT bd_x5560se::UpdateHardware()
 {
     int ret = _hal->WriteReg(board_params.offset.value, board_params.offset.address);
 		

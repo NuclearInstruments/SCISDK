@@ -52,11 +52,11 @@ int main(int argc, char* argv[]) {
 	cout << ret << endl << "-*-*-*-7-*-*-" << endl;	
 	ret = SCISDK_FreeBuffer((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&cprb, _sdk);
 	cout << ret << endl << "-*-*-*-8-*-*-" << endl;	
-	*/
+	
 	return 0;
 
 	SCISDK_SPECTRUM_DECODED_BUFFER *spb;
-	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", 1, (void**)&spb, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", T_BUFFER_TYPE_DECODED, (void**)&spb, _sdk), &res, _sdk);
 	
 	SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/Spectrum_0", (void *)spb, _sdk), &res, _sdk);
 	//	for (int i=0;i<10;i++)
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 	/////////////////////////////////////////////////////////////////
 	cout << "*****************" <<endl;
 	SCISDK_SPECTRUM_STATUS *spe_status;
-	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", 1, (void**)&spe_status, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", T_BUFFER_TYPE_DECODED, (void**)&spe_status, _sdk), &res, _sdk);
 	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "", _sdk), &res, _sdk);	
 	sleep(2);
 	SCISDK_s_error(SCISDK_ReadStatus("board0:/MMCComponents/Spectrum_0", (void *)spe_status, _sdk), &res, _sdk);
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 	SCISDK_LIST_RAW_BUFFER *lsb;
 
 	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/List_0.start", "", _sdk), &res, _sdk);
-	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/List_0", 1000, (void**)&lsb, _sdk), &res, _sdk);
+	//SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/List_0", 1000, (void**)&lsb, _sdk), &res, _sdk);
 	SCISDK_s_error(SCISDK_ReadData("board0:/MMCComponents/List_0", (void *)lsb, _sdk), &res, _sdk);
 	cout << "buffer_size " << lsb->info.buffer_size << endl;
 	cout << "channels " << lsb->info.channels << endl;
@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
 	cout << "buffer type " << int_tmp << endl;
 	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
 	
-	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", 1, (void**)&ob, _sdk), &res, _sdk);
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob, _sdk), &res, _sdk);
 	cout << ob->magic << endl;
 	cout << ob->timecode << endl;
 	cout << ob->trigger_position << endl;
@@ -151,5 +151,7 @@ int main(int argc, char* argv[]) {
 	// cout << "command result: " << int_tmp << endl;
 	// cout << "operation result " << str_tmp << endl;
 	// cout << SCISDK_FreeLib(_sdk) << endl;
+
+	*/
 	return 0;
 }

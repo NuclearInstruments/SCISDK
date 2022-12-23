@@ -41,6 +41,8 @@ libscisdk_a_SOURCES =    \
 						scisdk_oscilloscope.cpp \
 						scisdk_register.cpp \
 						scisdk_spectrum.cpp \
-						boards_driver/bd_dt1260.cpp 
+						boards_driver/bd_dt1260.cpp \
+						boards_driver/bd_feelib.cpp \
+						boards_driver/bd_x5560se.cpp
 						
 ###############################################################################
