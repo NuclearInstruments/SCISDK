@@ -163,7 +163,47 @@ Because the oscilloscope is in blocking mode the function will wait for a wavefo
 ## 5. Compiling from source
 
 ### 5.1. Compiling for Windows
-### 5.2. Compiling for Linux
+
+### 5.2. Compiling for Linux 
+
+This library uses autotools. The tool will generate both the static (.a) and the shared library (.so)
+
+In order to install autoconf
+
+```
+sudo apt-get update
+sudo apt-get install autoconf
+```
+
+We strogly suggest to compile the library in the linuxbuild folder in order to do not generate output file in the main folder
+
+```
+autoconf
+mkdir -p linuxbuild
+cd linuxbuild
+../configure
+make
+```
+
+In order to install the library in the os default library folder
+
+```
+make install
+```
+
+
+**Compile library to a target directory**
+It is also possible to compile the library and install them in a local folder
+
+```
+mkdir -p linuxbuild
+cd linuxbuild
+mkdir -p output
+../configure --prefix=output
+make
+make install
+```
+
 
 ### 5.3. Compiling on Raspberry Pi
 ### 5.3. Cross-compiling for arm, aaarch64
