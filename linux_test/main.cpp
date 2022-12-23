@@ -16,19 +16,24 @@ int main(int argc, char* argv[]) {
 	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	cout << res << endl << "-*-*-*-*-*-*-" << endl;
 
-	SCISDK_CP_RAW_BUFFER *cprb;
-	ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&cprb, _sdk, 1024);
+	SCISDK_DIGITIZER_DECODED_BUFFER *cprb;
+	ret = SCISDK_AllocateBuffer((char*)("board0:/MMCComponents/Digitizer_0"), T_BUFFER_TYPE_DECODED, (void**)&cprb, _sdk);
 	cout << ret << endl << "-*-*-*-1-*-*-" << endl;
-	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.thread"), "false", _sdk);
-	cout << ret << endl << "-*-*-*-2-*-*-" << endl;
-	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.data_processing"), "raw", _sdk);
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/Digitizer_0.data_processing"), "decoded", _sdk);
 	cout << ret << endl << "-*-*-*-2b-*-*-" << endl;
-	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/CP_0.timeout"), 5000, _sdk);
+	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/Digitizer_0.timeout"), 100, _sdk);
 	cout << ret << endl << "-*-*-*-3-*-*-" << endl;
-	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/CP_0.acq_mode"), "blocking", _sdk);
+	ret = SCISDK_SetParameterString((char*)("board0:/MMCComponents/Digitizer_0.acq_mode"), "blocking", _sdk);
 	cout << ret << endl << "-*-*-*-4-*-*-" << endl;
-	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/CP_0.start"), "", _sdk);
+	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/Digitizer_0.acq_len"), 1000, _sdk);
+	cout << ret << endl << "-*-*-*-4-*-*-" << endl;
+	ret = SCISDK_SetParameterInteger((char*)("board0:/MMCComponents/Digitizer_0.enabledch"), 1, _sdk);
+	cout << ret << endl << "-*-*-*-4-*-*-" << endl;
+	ret = SCISDK_ExecuteCommand((char*)("board0:/MMCComponents/Digitizer_0.start"), "", _sdk);
 	cout << ret << endl << "-*-*-*-5-*-*-" << endl;
+	
+	
+	/*
 	ret = SCISDK_ReadData((char*)("board0:/MMCComponents/CP_0"), (void *)cprb, _sdk);
 	cout << ret << endl << "-*-*-*-6-*-*-" << endl;	
 	
@@ -47,7 +52,7 @@ int main(int argc, char* argv[]) {
 	cout << ret << endl << "-*-*-*-7-*-*-" << endl;	
 	ret = SCISDK_FreeBuffer((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&cprb, _sdk);
 	cout << ret << endl << "-*-*-*-8-*-*-" << endl;	
-
+	*/
 	return 0;
 
 	SCISDK_SPECTRUM_DECODED_BUFFER *spb;

@@ -1,6 +1,7 @@
 #ifndef HEADER_H_SCISDK_DEFINES
 #define HEADER_H_SCISDK_DEFINES
 #include <stdint.h>
+#include <stdlib.h>
 
 	/**
 	 * @brief Oscilloscope decoded data type

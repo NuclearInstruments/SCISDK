@@ -316,10 +316,10 @@ NI_RESULT SciSDK_Frame::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size
 			if (p->data[i].pixel == NULL) {
 				return NI_ALLOC_FAILED;
 			}
-			p->data[i].event_count = 0;
-			p->data[i].hits = 0x0;
-			p->data[i].timestamp = 0x0;
-			p->data[i].trigger_count = 0x0;
+			p->data[i].info.event_count = 0;
+			p->data[i].info.hits = 0x0;
+			p->data[i].info.timestamp = 0x0;
+			p->data[i].info.trigger_count = 0x0;
 		}
 
 		p->magic = BUFFER_TYPE_FRAME_DECODED;
@@ -630,31 +630,31 @@ repeat_blocking_raw:
 						}
 						break;
 					case DECODE_SM::TIMESTAMP_1:
-						p->data[p->info.valid_data].timestamp = ((uint64_t)buffer[i]) << 32UL;
+						p->data[p->info.valid_data].info.timestamp = ((uint64_t)buffer[i]) << 32UL;
 						sm = DECODE_SM::TIMESTAMP_2;
 						break;
 					case DECODE_SM::TIMESTAMP_2:
-						p->data[p->info.valid_data].timestamp += ((uint64_t)buffer[i]);
+						p->data[p->info.valid_data].info.timestamp += ((uint64_t)buffer[i]);
 						sm = DECODE_SM::COUNT_IN_1;
 						break;
 					case DECODE_SM::COUNT_IN_1:
-						p->data[p->info.valid_data].trigger_count = ((uint64_t)buffer[i]) << 32UL;
+						p->data[p->info.valid_data].info.trigger_count = ((uint64_t)buffer[i]) << 32UL;
 						sm = DECODE_SM::COUNT_IN_2;
 						break;
 					case DECODE_SM::COUNT_IN_2:
-						p->data[p->info.valid_data].trigger_count += ((uint64_t)buffer[i]);
+						p->data[p->info.valid_data].info.trigger_count += ((uint64_t)buffer[i]);
 						sm = DECODE_SM::COUNT_OUT_1;
 						break;
 					case DECODE_SM::COUNT_OUT_1:
-						p->data[p->info.valid_data].event_count = ((uint64_t)buffer[i]) << 32UL;
+						p->data[p->info.valid_data].info.event_count = ((uint64_t)buffer[i]) << 32UL;
 						sm = DECODE_SM::COUNT_OUT_2;
 						break;
 					case DECODE_SM::COUNT_OUT_2:
-						p->data[p->info.valid_data].event_count += ((uint64_t)buffer[i]);
+						p->data[p->info.valid_data].info.event_count += ((uint64_t)buffer[i]);
 						sm = DECODE_SM::HITS_1;
 						break;
 					case DECODE_SM::HITS_1:
-						p->data[p->info.valid_data].hits = ((uint64_t)buffer[i]);
+						p->data[p->info.valid_data].info.hits = ((uint64_t)buffer[i]);
 						if (settings.channels > 32) {
 							sm = DECODE_SM::HITS_2;
 						}
@@ -663,7 +663,7 @@ repeat_blocking_raw:
 						}
 						break;
 					case DECODE_SM::HITS_2:
-						p->data[p->info.valid_data].hits += ((uint64_t)buffer[i]) << 32UL;
+						p->data[p->info.valid_data].info.hits += ((uint64_t)buffer[i]) << 32UL;
 						sm = DECODE_SM::PIXELS;
 						break;
 					case DECODE_SM::PIXELS:

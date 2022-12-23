@@ -1,5 +1,5 @@
 #include "scisdk_hal.h"
-
+#include <stdarg.h>
 #ifdef _MSC_VER 
 	
 #else
