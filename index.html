@@ -201,8 +201,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
-<div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:229</div></div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a></div><div class="ttdoc">Oscilloscope decoded data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:19</div></div>
+<div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:230</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a></div><div class="ttdoc">Oscilloscope decoded data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:20</div></div>
 </div><!-- fragment --><p> <em> The code above configure the oscilloscope in self trigger mode, set the pregtrigger to 150 samples, disable the decimator on X axe, enable the internal library data decoder and set the acquisition mode to blocking (in means that the library wait for a waveform up to the timeout). All the parameter of the oscilloscope are descibed in the <a class="el" href="md_docs_oscilloscope.html">oscilloscope driver documentation</a> Than the library allocate the correct buffer to readout the data. The buffer is allocated using the function SCISDK_AllocateBuffer. The function takes the path of the element and the type of the buffer to allocate (RAW/Decoded). The function use the information in the firmware JSON file to allocate the correct buffer. In the end the library readout the data from the oscilloscope using the function SCISDK_ReadData. The function takes the path of the element and the pointer to the buffer (pre-allocated with SCISDK_AllocateBuffer ) where to store the data. Because the oscilloscope is in blocking mode the function will wait for a waveform up to the timeout. If the timeout is reached the function will return an error (NI_NO_DATA_AVAILABLE). <em></em></em></p>
 <p><em><em></em></em></p>
 <h1><a class="anchor" id="autotoc_md6"></a>
@@ -213,10 +213,33 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md8"></a>
 5.1. Compiling for Windows</h2>
-<p><em><em></em></em></p>
+<p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md9"></a>
 5.2. Compiling for Linux</h2>
-<p><em><em> </em></em></p>
+<p><em><em> This library uses autotools. The tool will generate both the static (.a) and the shared library (.so)</em></em></p>
+<p><em><em>In order to install autoconf</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">sudo apt-get update</div>
+<div class="line">sudo apt-get install autoconf</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em>We strogly suggest to compile the library in the linuxbuild folder in order to do not generate output file in the main folder</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">autoconf</div>
+<div class="line">mkdir -p linuxbuild</div>
+<div class="line">cd linuxbuild</div>
+<div class="line">../configure</div>
+<div class="line">make</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em>In order to install the library in the os default library folder</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">make install</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em><b>Compile library to a target directory</b> It is also possible to compile the library and install them in a local folder</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">mkdir -p linuxbuild</div>
+<div class="line">cd linuxbuild</div>
+<div class="line">mkdir -p output</div>
+<div class="line">../configure --prefix=output</div>
+<div class="line">make</div>
+<div class="line">make install</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em></em></em></p>
 <h2><a class="anchor" id="autotoc_md10"></a>
 5.3. Compiling on Raspberry Pi</h2>
 <p><em><em></em></em></p>

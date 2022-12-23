@@ -9,4 +9,6 @@ digraph "src/SciSDK_DLL.h"
   Node2 [label="scisdk_defines.h",height=0.2,width=0.4,color="black",URL="$scisdk__defines_8h.html",tooltip=" "];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="stdint.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="stdlib.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
 }
