@@ -1,17 +1,44 @@
 import ctypes
 import os
-from scisdk_defines import *
+from scisdk.scisdk_defines import *
+
 
 class SciSDK:
     scisdk_dll = None
     lib_ptr = None
+    libname = None
 
     def __init__(self) -> None:
         #os.path.dirname(__file__) + "\\
-        self.scisdk_dll = ctypes.CDLL("SciSDK_DLL.dll")
+        libname = ""
+
+        if os.name == 'nt':
+            self.libname = ctypes.CDLL("SciSDK_DLL.dll")
+        else:
+            self.libname = ctypes.CDLL("libscisdk.so")
+
+        try:
+            self.scisdk_dll = ctypes.CDLL(self.libname)
+        except OSError as e:
+            if e.errno == os.errno.ENOENT:
+                print("Error: " + self.libname + " not found")
+                return NIErrors.NI_LIBRARY_ERROR
+            elif e.errno == os.errno.EINVAL:
+                print("Error: " + self.libname + " has the wrong architecture for the current process")
+                return NIErrors.NI_LIBRARY_ERROR
+            elif e.errno == os.errno.ELIBBAD:
+                print("Error:" + self.libname + " has missing dependencies")
+                return NIErrors.NI_LIBRARY_ERROR
+            else:
+                print("Error: unable to load libscisdk.so: " + str(e))
+                return NIErrors.NI_LIBRARY_ERROR
+
+
+
         init_lib_api = self.scisdk_dll.SCISDK_InitLib
         init_lib_api.restype = ctypes.c_void_p
         self.lib_ptr = init_lib_api()
+        return NIErrors.NI_OK
         
     def AddNewDevice(self, device_path: str, device_model: str, json_file_path: str, name: str) -> int:
         add_new_device_api = self.scisdk_dll.SCISDK_AddNewDevice
@@ -156,6 +183,25 @@ class SciSDK:
                 buffer_type = 1
             elif type == "SCISDK_FFT_RAW_BUFFER":
                 buffer_pointer = ctypes.POINTER(FFTRawBuffer)
+            elif type == "SCISDK_FRAME_DECODED_BUFFER":
+                buffer_pointer = ctypes.POINTER(FramePacketDecodedBuffer)
+                buffer_type = 1
+            elif type == "SCISDK_FRAME_RAW_BUFFER":
+                buffer_pointer = ctypes.POINTER(FramePacketRawBuffer)
+            elif type == "SCISDK_CITIROC_DECODED_BUFFER":
+                buffer_pointer = ctypes.POINTER(CitirocDecodedBuffer)
+                buffer_type = 1
+            elif type == "SCISDK_CITIROC_RAW_BUFFER":
+                buffer_pointer = ctypes.POINTER(CitirocRawBuffer)
+            elif type == "SCISDK_PETIROC_DECODED_BUFFER":
+                buffer_pointer = ctypes.POINTER(PetirocDecodedBuffer)
+                buffer_type = 1
+            elif type == "SCISDK_PETIROC_RAW_BUFFER":
+                buffer_pointer = ctypes.POINTER(PetirocRawBuffer)      
+            elif type == "SCISDK_FE_SCOPE_EVENT":
+                buffer_pointer = ctypes.POINTER(FEScopePacket)
+            elif type == "SCISDK_FE_OPENDPP_EVENT":
+                buffer_pointer = ctypes.POINTER(FEOpenDppPacket)      
             else:
                 raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
 
@@ -189,7 +235,7 @@ class SciSDK:
                     return err, None
 
 
-    # read data - oscilloscope decoded buffer
+    # read data
     def ReadData(self, path: str, buffer):
         read_data_api = self.scisdk_dll.SCISDK_ReadData
         if type(buffer) == OscilloscopeDecodedBuffer:
@@ -215,7 +261,23 @@ class SciSDK:
         elif type(buffer) == FFTDecodedBuffer:
             read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTDecodedBuffer), ctypes.c_void_p]    
         elif type(buffer) == FFTRawBuffer:
-            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTRawBuffer), ctypes.c_void_p]    
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTRawBuffer), ctypes.c_void_p]  
+        elif type(buffer) == FramePacketDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FramePacketDecodedBuffer), ctypes.c_void_p]   
+        elif type(buffer) == FramePacketRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FramePacketRawBuffer), ctypes.c_void_p]      
+        elif type(buffer) == CitirocDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(CitirocDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == CitirocRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(CitirocRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == PetirocDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(PetirocDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == PetirocRawBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(PetirocRawBuffer), ctypes.c_void_p]    
+        elif type(buffer) == FEScopePacket:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FEScopePacket), ctypes.c_void_p]    
+        elif type(buffer) == FEOpenDppPacket:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FEOpenDppPacket), ctypes.c_void_p]    
         else:
             raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
 
@@ -260,6 +322,25 @@ class SciSDK:
             buffer_type = 1
         elif type(buffer) == FFTRawBuffer:
             buffer_pointer = ctypes.POINTER(FFTRawBuffer)
+        elif type(buffer) == FramePacketDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(FramePacketDecodedBuffer)
+            buffer_type = 1
+        elif type(buffer) == FramePacketRawBuffer:
+            buffer_pointer = ctypes.POINTER(FramePacketRawBuffer)
+        elif type(buffer) == CitirocDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(CitirocDecodedBuffer)
+            buffer_type = 1
+        elif type(buffer) == CitirocRawBuffer:
+            buffer_pointer = ctypes.POINTER(CitirocRawBuffer)
+        elif type(buffer) == PetirocDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(PetirocDecodedBuffer)
+            buffer_type = 1
+        elif type(buffer) == PetirocRawBuffer:
+            buffer_pointer = ctypes.POINTER(PetirocRawBuffer)
+        elif type(buffer) == FEScopePacket:
+            buffer_pointer = ctypes.POINTER(FEScopePacket)
+        elif type(buffer) == FEOpenDppPacket:
+            buffer_pointer = ctypes.POINTER(FEOpenDppPacket)
         else:
             raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
 

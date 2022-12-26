@@ -3,7 +3,7 @@ from unicodedata import decimal
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import os
-from scisk import SciSDK
+from scisdk.scisdk import SciSDK
 from scisdk.scisdk_defines import *
 
 fig = plt.figure("Digitizer analog data - channel 0")
