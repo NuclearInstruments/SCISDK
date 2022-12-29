@@ -1,9 +1,17 @@
-from time import sleep
+from random import randint
+from unicodedata import decimal
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import os
 from scisdk.scisdk import SciSDK
 from scisdk.scisdk_defines import *
 
+fig = plt.figure("Time of Flight Spectrum Data")
+ax1 = fig.add_subplot(1,1,1)
+
 sdk = SciSDK()
 
+# add new device
 #DT1260
 res = sdk.AddNewDevice("usb:10500","dt1260", "./DT1260RegisterFile.json","board0")
 #DT5560
@@ -17,6 +25,7 @@ if not res == 0:
     print("Program exit due connection error")
     exit()
 
+# configure firmware register
 sdk.SetRegister("board0:/Registers/delay", 300)
 
 # set board parameters
@@ -32,35 +41,22 @@ sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "")
 sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "")
 
 
-
-for i in range(10):
-    print ("Wait " + str(i) + "s/10s ...")
-    sleep(1)
-
 # allocate buffer
 res, buf = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0")
 
-if res == 0:
-    # read data
-    res, buf = sdk.ReadData("board0:/MMCComponents/TOF_0", buf)
 
+def updateGraph(i, buffer): # function that provides to plot new data on graph
+    res, buffer = sdk.ReadData("board0:/MMCComponents/TOF_0", buffer)# read data from board
     if res == 0:
-        str_tmp = ""
-        for i in range(buf.info.total_bins):
-            str_tmp += str(buf.data[i]) + "\n"
+        xar = []
+        yar = []
+        for index in range(buffer.info.valid_bins):
+            xar.append(index)
+            yar.append(buffer.data[index])
+        ax1.clear()
+        ax1.plot(xar,yar)
 
-        # write data into a file
-        file = open("output.txt", "w")
-        file.write(str_tmp)
-        file.close()
-    else:
-        # print error description
-        res, err = sdk.s_error(res)
-        print("Read data error:", err)
-
-    sdk.FreeBuffer("board0:/MMCComponents/TOF_0", buf)
-
-else:
-    # print error description
-    res, err = sdk.s_error(res)
-    print("Allocate buffer error:", err)
+# update graph every 50ms
+ani = animation.FuncAnimation(fig, updateGraph, fargs=[buf,],interval=100)
+# updateGraph(None, buf, decimator)
+plt.show()

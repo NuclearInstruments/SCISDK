@@ -198,7 +198,7 @@ NI_RESULT SciSDK_TOFSpectrum::ReadData(void *buffer) {
 
 NI_RESULT SciSDK_TOFSpectrum::ConfigureSpectrum() {
 	int ret = 0;
-	ret |= _hal->WriteReg(binwidth , address.binwidth );
+	ret |= _hal->WriteReg(binwidth-3 , address.binwidth );
 	ret |= _hal->WriteReg(startdelay, address.startdelay);
 	
 	if (ret)
@@ -210,7 +210,7 @@ NI_RESULT SciSDK_TOFSpectrum::ConfigureSpectrum() {
 
 NI_RESULT SciSDK_TOFSpectrum::CmdStart() {
 	int ret = 0;
-	current_cfg_reg = 1 << 2;
+	current_cfg_reg = 1;
 	ret |= _hal->WriteReg(current_cfg_reg, address.cfg);
 	if (ret)
 		return NI_ERROR_INTERFACE;
@@ -230,8 +230,8 @@ NI_RESULT SciSDK_TOFSpectrum::CmdStop() {
 
 NI_RESULT SciSDK_TOFSpectrum::CmdReset() {
 	int ret = 0;
-	current_cfg_reg = 0;
-	ret |= _hal->WriteReg(1, address.cfg);
+	current_cfg_reg = 2;
+	ret |= _hal->WriteReg(current_cfg_reg, address.cfg);
 	if (ret)
 		return NI_ERROR_INTERFACE;
 	else {
