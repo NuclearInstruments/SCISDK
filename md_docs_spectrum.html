@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('md_docs_spectrum.html',''); initResiza
 <li>the number of bits on the y-axis</li>
 </ul>
 <p>Number of bins and number of bits define the memory occupancy of the spectrum indeed they are defined at compile time by SciCompiler.</p>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md104"></a>
 Parameters</h1>
 <p>The following parameters can be configured:</p>
 <table class="markdownTable">
@@ -150,13 +150,13 @@ Parameters</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">type of the buffer: (always decoded)   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md63"></a>
+<h3><a class="anchor" id="autotoc_md105"></a>
 Rebinning</h3>
 <p>The spectrum component support rebin. Rebin is a process that reduce the number of bins of the histogram. The rebin factor is a power of 2. Rebin set to 0 means no rebin is applied. Rebin set to 1 means that the number of bins is divided by 2. A couple of bins are merged in one bin summing together the counts of each one. The rebin factor is set by the parameter <code>rebin</code>. The rebin factor is applied to the x-axis of the histogram. That means that if rebin is changed while the spectrum is running it is mandatory to reset the histogram. Rebin is applied before the energy is put on the histogram. The rebin factor is applied after the min and max parameters. This parameter is an hardware rebin, is useful to reduce the readout speed of the histogram. The rebin is applied in the fpga and the histogram is readout with less bins by the software in agree with what is set in <code>rebin</code> parameter. If speed is not a problem it is better to use the software rebin while post processing. This allows to preserve the original histogram resolution and change it in runtime.</p>
-<h3><a class="anchor" id="autotoc_md64"></a>
+<h3><a class="anchor" id="autotoc_md106"></a>
 Min and Max</h3>
 <p>The min and max parameters are used to set the range of the histogram. The min and max parameters are applied before the rebin factor. They are useful to cutoff unwanted values like value close to the baseline that can have a too high rate.</p>
-<h3><a class="anchor" id="autotoc_md65"></a>
+<h3><a class="anchor" id="autotoc_md107"></a>
 Limit mode</h3>
 <p>The limit mode is used to set the integration time of the spectrum. The limit mode can be set to:</p><ul>
 <li>freerun: the spectrum is integrated until the user stop it</li>
@@ -175,7 +175,7 @@ Limit mode</h3>
 <li>stop the spectrum with <code>stop</code> command (abort)</li>
 <li>restart the limit counter with <code>reset_counters</code> command</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md66"></a>
+<h2><a class="anchor" id="autotoc_md108"></a>
 Commands</h2>
 <p>The following commands are available:</p>
 <table class="markdownTable">
@@ -190,16 +190,16 @@ Commands</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">reset_counters   </td><td class="markdownTableBodyNone">reset all limit counters and statistics counters in order to restart limits   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md67"></a>
+<h3><a class="anchor" id="autotoc_md109"></a>
 Resets the spectrum</h3>
 <p><code>start</code> and <code>stop</code> commands do not reset the spectrum. They should be consideder as a start and pause of the spectrum. A <code>start</code> command after a <code>stop</code> command will continue the integration from the last bin value. In order to reset the spectrum it is necessary to use the <code>reset</code> command. The <code>reset</code> command reset all the bins in the histogram to 0. The <code>reset</code> command is useful to restart the spectrum from scratch. <code>reset</code> command execute also the <code>reset_counters</code> command.</p>
-<h3><a class="anchor" id="autotoc_md68"></a>
+<h3><a class="anchor" id="autotoc_md110"></a>
 Reset counters</h3>
 <p>This command is useful to reset all limit counters and statistics counters in order to restart limits. This command is executed by <code>reset</code> command implicitally. When this command is executed the progress in the status is also reset to 0.</p>
-<h2><a class="anchor" id="autotoc_md69"></a>
+<h2><a class="anchor" id="autotoc_md111"></a>
 Output data Format</h2>
 <p>Spectrum component support only decoded output data format. </p>
-<h3><a class="anchor" id="autotoc_md70"></a>
+<h3><a class="anchor" id="autotoc_md112"></a>
 Decoded Data</h3>
 <p>The data output structure is the following:</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -230,7 +230,7 @@ Decoded Data</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">bin n   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md71"></a>
+<h2><a class="anchor" id="autotoc_md113"></a>
 Status</h2>
 <p>The status of the spectrum is stored in a <a class="el" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html" title="Spectrum status structure.">SCISDK_SPECTRUM_STATUS</a> structure.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -253,10 +253,10 @@ Status</h2>
 <p>The <code>total_counter</code> field is the total number of counts in the histogram.</p>
 <p>The <code>integration_time</code> field is the integration time of the spectrum in milliseconds.</p>
 <p>The current version of the library do not report the <code>peak_max</code>, <code>total_counter</code>, <code>integration_time</code> fields. These fields are always 0.</p>
-<h2><a class="anchor" id="autotoc_md72"></a>
+<h2><a class="anchor" id="autotoc_md114"></a>
 Basic Examples</h2>
 <p>The following example shows how to use the spectrum component.</p>
-<h3><a class="anchor" id="autotoc_md73"></a>
+<h3><a class="anchor" id="autotoc_md115"></a>
 C</h3>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_SPECTRUM_DECODED_BUFFER</a> *obSpectrum;</div>
 <div class="line"> </div>
@@ -281,7 +281,7 @@ C</h3>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ad1b5907dd78816dc2f481b44a99c2915"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">SCISDK_FreeBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_FreeBuffer(char *Path, int buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Release the memory allocated by SCISDK_AllocateBuffer() or SCISDK_AllocateBufferSize()</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:230</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md74"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md116"></a>
 C++</h3>
 <div class="fragment"><div class="line">{c++}</div>
 <div class="line">   SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;</div>
@@ -300,7 +300,7 @@ C++</h3>
 <div class="line">   ....</div>
 <div class="line"> </div>
 <div class="line">   sdk.FreeBuffer(&quot;board0:/MMCComponents/Spectrum_0&quot;, 1, (void**)&amp;obSpectrum, _sdk);</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md75"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md117"></a>
 Python</h3>
 <div class="fragment"><div class="line">res, obSpectrum = sdk.AllocateBuffer(&quot;board0:/MMCComponents/Spectrum_0&quot;, T_BUFFER_TYPE_DECODED)</div>
 <div class="line">if res != 0:</div>
@@ -315,7 +315,7 @@ Python</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/Spectrum_0&quot;, 1, obSpectrum)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md76"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md118"></a>
 C Sharp</h3>
 <div class="fragment"><div class="line">SCISDK_SPECTRUM_DECODED_BUFFER obSpectrum;</div>
 <div class="line"> </div>
@@ -333,7 +333,7 @@ C Sharp</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/Spectrum_0&quot;, 1, ref obSpectrum);</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md77"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md119"></a>
 VB.NET</h3>
 <div class="fragment"><div class="line">Dim obSpectrum As SCISDK_SPECTRUM_DECODED_BUFFER</div>
 <div class="line"> </div>
@@ -351,9 +351,9 @@ VB.NET</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/Spectrum_0&quot;, 1, obSpectrum)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md78"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md120"></a>
 Additional Examples</h2>
-<h3><a class="anchor" id="autotoc_md79"></a>
+<h3><a class="anchor" id="autotoc_md121"></a>
 Print spectrum</h3>
 <p>This example print a spectrum every second. </p><div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_SPECTRUM_DECODED_BUFFER</a> *obSpectrum;</div>
 <div class="line"> </div>
@@ -382,7 +382,7 @@ Print spectrum</h3>
 <div class="ttc" id="astruct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r_html_a8e8f6ceb547884d5a09e02575f965e95"><div class="ttname"><a href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a8e8f6ceb547884d5a09e02575f965e95">SCISDK_SPECTRUM_DECODED_BUFFER::data</a></div><div class="ttdeci">uint32_t * data</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:240</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r_html_ac6c7a979778b948c4e8115bcf38cc182"><div class="ttname"><a href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ac6c7a979778b948c4e8115bcf38cc182">SCISDK_SPECTRUM_DECODED_BUFFER::info</a></div><div class="ttdeci">struct SCISDK_SPECTRUM_DECODED_BUFFER::@10 info</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r_html_ae87f5f931286a23ffda90da96601d522"><div class="ttname"><a href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html#ae87f5f931286a23ffda90da96601d522">SCISDK_SPECTRUM_DECODED_BUFFER::valid_bins</a></div><div class="ttdeci">uint32_t valid_bins</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:246</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md80"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md122"></a>
 Limit and progress</h3>
 <p>Configure the spectrum with a time limit of 10s, poll and print the status percentage and when completed will be true, readout and print the spectrum</p>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_SPECTRUM_DECODED_BUFFER</a> *obSpectrum;</div>
@@ -416,7 +416,7 @@ Limit and progress</h3>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_af08b6e91ece60f4b3dc311557efd1ff3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#af08b6e91ece60f4b3dc311557efd1ff3">SCISDK_ReadStatus</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadStatus(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Query the board for the specific Memory Mapped Componet (oscilloscope, spectrum, list) status using t...</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s_html_a747d45d2b82d43fdb6875ecdd3b8b58e"><div class="ttname"><a href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#a747d45d2b82d43fdb6875ecdd3b8b58e">SCISDK_SPECTRUM_STATUS::completed</a></div><div class="ttdeci">bool completed</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:256</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s_html_a9667a0b4f5d3d59173b4ceb333ffb513"><div class="ttname"><a href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#a9667a0b4f5d3d59173b4ceb333ffb513">SCISDK_SPECTRUM_STATUS::progress</a></div><div class="ttdeci">uint32_t progress</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:257</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md81"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md123"></a>
 Rebin example</h3>
 <p>This example set the rebin factor to 2 and print the spectrum </p><div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_SPECTRUM_DECODED_BUFFER</a> *obSpectrum;</div>
 <div class="line"> </div>

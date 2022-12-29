@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('md_docs_tof_spectrum.html',''); initRe
 <li>the number of bits on the y-axis</li>
 </ul>
 <p>Number of bins and number of bits define the memory occupancy of the spectrum indeed they are defined at compile time by SciCompiler.</p>
-<h1><a class="anchor" id="autotoc_md83"></a>
+<h1><a class="anchor" id="autotoc_md125"></a>
 Parameters</h1>
 <p>The following parameters can be configured:</p>
 <table class="markdownTable">
@@ -169,14 +169,14 @@ Parameters</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">type of the buffer: (always decoded)   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md84"></a>
+<h3><a class="anchor" id="autotoc_md126"></a>
 Bin width</h3>
 <p>The bin width is the x-axis bin size in clock cycles. The minimum bin width is 3 clock cycles. The bin width is set with the parameter <code>binwidth</code>. The bin width is used to calculate the time base of the histogram. The time base is calculated as follow: </p><pre class="fragment">binwidth * clock_period * index_of_the_bin
 </pre><p> For example, if the <code>binwidth</code> is set to 10 and the clock of the board is 100 MHz, each bin will last 100ns.</p>
-<h3><a class="anchor" id="autotoc_md85"></a>
+<h3><a class="anchor" id="autotoc_md127"></a>
 Start delay</h3>
 <p>The start delay is the minimum delay between the T0 and the first event. The start delay is set with the parameter <code>start_delay</code>. Any events before this delay are discarded. The histrogram start after the start delay. In any case, at least one clock cycle between T0 and first event must be present. The start delay is usefull to cut-off for example prompt gamma events or to compensate a delay between the T0 and the expected time of the first event in order to do not waste bins on the hisgram.</p>
-<h2><a class="anchor" id="autotoc_md86"></a>
+<h2><a class="anchor" id="autotoc_md128"></a>
 Commands</h2>
 <p>The following commands are available:</p>
 <table class="markdownTable">
@@ -189,13 +189,13 @@ Commands</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">reset   </td><td class="markdownTableBodyNone">reinitialize all bins in the histogram to 0   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md87"></a>
+<h3><a class="anchor" id="autotoc_md129"></a>
 Resets the histogram</h3>
 <p><code>start</code> and <code>stop</code> commands do not reset the spectrum. They should be consideder as a start and pause of the spectrum. A <code>start</code> command after a <code>stop</code> command will continue the integration from the last bin value. In order to reset the spectrum it is necessary to use the <code>reset</code> command. The <code>reset</code> command reset all the bins in the histogram to 0.</p>
-<h2><a class="anchor" id="autotoc_md88"></a>
+<h2><a class="anchor" id="autotoc_md130"></a>
 Output data Format</h2>
 <p>The ToF spectrum uses the same data structures of the energy spectrum </p>
-<h3><a class="anchor" id="autotoc_md89"></a>
+<h3><a class="anchor" id="autotoc_md131"></a>
 Decoded Data</h3>
 <p>The data output structure is the following:</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -226,7 +226,7 @@ Decoded Data</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">bin n   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md90"></a>
+<h2><a class="anchor" id="autotoc_md132"></a>
 Status</h2>
 <p>The status of the spectrum is stored in a <a class="el" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html" title="Spectrum status structure.">SCISDK_SPECTRUM_STATUS</a> structure.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -244,10 +244,10 @@ Status</h2>
 <p>The <code>total_counter</code> field is the total number of counts in the histogram.</p>
 <p>The <code>integration_time</code> field is the integration time of the spectrum in milliseconds.</p>
 <p>The current version of the library do not report the <code>peak_max</code>, <code>total_counter</code>, <code>integration_time</code> fields. These fields are always 0.</p>
-<h2><a class="anchor" id="autotoc_md91"></a>
+<h2><a class="anchor" id="autotoc_md133"></a>
 Basic Examples</h2>
 <p>The following example shows how to use the spectrum component.</p>
-<h3><a class="anchor" id="autotoc_md92"></a>
+<h3><a class="anchor" id="autotoc_md134"></a>
 C</h3>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_SPECTRUM_DECODED_BUFFER</a> *obSpectrum;</div>
 <div class="line"> </div>
@@ -272,7 +272,7 @@ C</h3>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ad1b5907dd78816dc2f481b44a99c2915"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">SCISDK_FreeBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_FreeBuffer(char *Path, int buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Release the memory allocated by SCISDK_AllocateBuffer() or SCISDK_AllocateBufferSize()</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:230</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md93"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md135"></a>
 C++</h3>
 <div class="fragment"><div class="line">{c++}</div>
 <div class="line">   SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;</div>
@@ -291,7 +291,7 @@ C++</h3>
 <div class="line">   ....</div>
 <div class="line"> </div>
 <div class="line">   sdk.FreeBuffer(&quot;board0:/MMCComponents/TOF_0&quot;, 1, (void**)&amp;obSpectrum, _sdk);</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md94"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md136"></a>
 Python</h3>
 <div class="fragment"><div class="line">res, obSpectrum = sdk.AllocateBuffer(&quot;board0:/MMCComponents/TOF_0&quot;, T_BUFFER_TYPE_DECODED)</div>
 <div class="line">if res != 0:</div>
@@ -306,7 +306,7 @@ Python</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/TOF_0&quot;, 1, obSpectrum)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md95"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md137"></a>
 C Sharp</h3>
 <div class="fragment"><div class="line">SCISDK_SPECTRUM_DECODED_BUFFER obSpectrum;</div>
 <div class="line"> </div>
@@ -324,7 +324,7 @@ C Sharp</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/TOF_0&quot;, 1, ref obSpectrum);</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md96"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md138"></a>
 VB.NET</h3>
 <div class="fragment"><div class="line">Dim obSpectrum As SCISDK_SPECTRUM_DECODED_BUFFER</div>
 <div class="line"> </div>
@@ -342,9 +342,9 @@ VB.NET</h3>
 <div class="line">....</div>
 <div class="line"> </div>
 <div class="line">sdk.FreeBuffer(&quot;board0:/MMCComponents/TOF_0&quot;, 1, obSpectrum)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md97"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md139"></a>
 Additional Examples</h2>
-<h3><a class="anchor" id="autotoc_md98"></a>
+<h3><a class="anchor" id="autotoc_md140"></a>
 Print spectrum</h3>
 <p>This example print a spectrum every second. ```c </p><pre class="fragment">SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
 

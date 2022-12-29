@@ -9,5 +9,7 @@ var searchData=
   ['citiroc_2dframe_2emd_15',['citiroc-frame.md',['../citiroc-frame_8md.html',1,'']]],
   ['coarse_16',['coarse',['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l.html#a679cfec69074dea4c356c08ca58ae43a',1,'SCISDK_PETIROC_PIXEL']]],
   ['completed_17',['completed',['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#a747d45d2b82d43fdb6875ecdd3b8b58e',1,'SCISDK_SPECTRUM_STATUS']]],
-  ['counter_18',['counter',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a4bb3a754a4fd4a870c2f65567ab15037',1,'SCISDK_DIGITIZER_DECODED_BUFFER']]]
+  ['counter_18',['counter',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a4bb3a754a4fd4a870c2f65567ab15037',1,'SCISDK_DIGITIZER_DECODED_BUFFER']]],
+  ['custom_20packet_20driver_19',['Custom Packet driver',['../md_docs_custompacket.html',1,'']]],
+  ['custompacket_2emd_20',['custompacket.md',['../custompacket_8md.html',1,'']]]
 ];
