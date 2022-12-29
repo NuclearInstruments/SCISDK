@@ -15,7 +15,7 @@ ax2.set_title("Channel 1")
 # initialize scisdk library
 sdk = SciSDK()
 # add new device
-res = sdk.AddNewDevice("usb:13250","dt1260", "./RegisterFile.json","board0")
+res = sdk.AddNewDevice("usb:10500","dt1260", "./DT1260RegisterFile.json","board0")
 if res != 0:
     print ("Script exit due to connetion error")
     exit()
@@ -26,7 +26,7 @@ res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_leve
 res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode","self")
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0)
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150)
-decimator = 160
+decimator = 1
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", decimator)
 res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking")
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 3000)
