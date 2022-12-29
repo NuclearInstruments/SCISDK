@@ -1,6 +1,6 @@
 /*
 !.gitignore
-!*.scf
-!*.jpg
-!*.md
+!*.niu
+!*.NIU
+!*.fpga
 !output/
