@@ -217,11 +217,11 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 	}
 	else if (name == "buffer_type") {
 		if (data_processing == DATA_PROCESSING::RAW) {
-			*value = "SCISDK_DIGITIZER_DECODED_BUFFER";
+			*value = "SCISDK_DIGITIZER_RAW_BUFFER";
 			return NI_OK;
 		}
 		else if (data_processing == DATA_PROCESSING::DECODE) {
-			*value = "SCISDK_DIGITIZER_RAW_BUFFER";
+			*value = "SCISDK_DIGITIZER_DECODED_BUFFER";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;

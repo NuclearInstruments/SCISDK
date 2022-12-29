@@ -13,32 +13,29 @@ class SciSDK:
         libname = ""
 
         if os.name == 'nt':
-            self.libname = ctypes.CDLL("SciSDK_DLL.dll")
+            self.libname = "SciSDK_DLL.dll"
         else:
-            self.libname = ctypes.CDLL("libscisdk.so")
+            self.libname = "libscisdk.so"
 
         try:
             self.scisdk_dll = ctypes.CDLL(self.libname)
         except OSError as e:
             if e.errno == os.errno.ENOENT:
                 print("Error: " + self.libname + " not found")
-                return NIErrors.NI_LIBRARY_ERROR
             elif e.errno == os.errno.EINVAL:
                 print("Error: " + self.libname + " has the wrong architecture for the current process")
-                return NIErrors.NI_LIBRARY_ERROR
             elif e.errno == os.errno.ELIBBAD:
                 print("Error:" + self.libname + " has missing dependencies")
-                return NIErrors.NI_LIBRARY_ERROR
             else:
                 print("Error: unable to load libscisdk.so: " + str(e))
-                return NIErrors.NI_LIBRARY_ERROR
+            
 
 
 
         init_lib_api = self.scisdk_dll.SCISDK_InitLib
         init_lib_api.restype = ctypes.c_void_p
         self.lib_ptr = init_lib_api()
-        return NIErrors.NI_OK
+        
         
     def AddNewDevice(self, device_path: str, device_model: str, json_file_path: str, name: str) -> int:
         add_new_device_api = self.scisdk_dll.SCISDK_AddNewDevice
@@ -203,7 +200,7 @@ class SciSDK:
             elif type == "SCISDK_FE_OPENDPP_EVENT":
                 buffer_pointer = ctypes.POINTER(FEOpenDppPacket)      
             else:
-                raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
+                raise Exception("Isn't a valid buffer type") 
 
             if size == None:
                 allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBuffer

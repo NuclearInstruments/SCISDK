@@ -16,7 +16,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+keywords = ["SciCompiler", "firmware", "fpga", "Nuclear Instruments", "CAEN"]
+dependencies = [
+    "ctype",
+]
 [project.urls]
 "Homepage" = "https://github.com/NuclearInstruments/SCISDK"
 "Bug Tracker" = "https://github.com/NuclearInstruments/SCISDK/issues"

@@ -12,7 +12,16 @@ ax1 = fig.add_subplot(1,1,1)
 # initialize scisdk library
 sdk = SciSDK()
 # add new device
-res = sdk.AddNewDevice("usb:13250","dt1260", "./oscilloscope.json","board0")
+
+#DT1260
+res = sdk.AddNewDevice("usb:10500","dt1260", "./DT1260RegisterFile.json","board0")
+#DT5560
+#res = sdk.AddNewDevice("192.168.50.10:8888","DT5560", "./DT5560RegisterFile.json","board0")
+#DT5550
+#res = sdk.AddNewDevice("usb:11000","DT5550", "./DT5550RegisterFile.json","board0")
+#V2740
+#res = sdk.AddNewDevice("192.168.50.10","V2740", "./V2740RegisterFile.json","board0")
+
 if res != 0:
     print ("Script exit due to connetion error")
     exit()
@@ -23,7 +32,7 @@ res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_leve
 res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode","self")
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0)
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150)
-decimator = 160
+decimator = 1
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", decimator)
 res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking")
 res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 3000)
