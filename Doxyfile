@@ -868,20 +868,23 @@ INPUT                  = src/SciSDK_DLL.h \
                          src/scisdk_defines.h \
                          src/NIErrorCode.h \
                          docs/README.md \
+                         docs/mmc.md \
+                         docs/registers.md \
+                         docs/registers-file.md \                         
                          docs/oscilloscope.md \
                          docs/oscilloscope-dual.md \
-                         docs/registers.md \
-                         docs/registers-file.md \
+                         docs/digitizer.md \
+                         docs/custompacket.md \
                          docs/spectrum.md \
                          docs/tof-spectrum.md \
                          docs/list.md \
                          docs/fft.md \
                          docs/frame.md \
+                         docs/rate-meter.md \
                          docs/citiroc-config.md \
                          docs/citiroc-frame.md \
                          docs/petiroc-config.md \
                          docs/petiroc-frame.md \
-                         docs/mmc.md \
                          docs/boardendpoint.md \
                          docs/boards/opendpp.md \
                          docs/boards/openscope.md \
