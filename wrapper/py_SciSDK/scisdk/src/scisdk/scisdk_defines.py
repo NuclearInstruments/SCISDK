@@ -91,7 +91,7 @@ class ListRawBufferInfo(ctypes.Structure):
 
 class ListRawBuffer(ctypes.Structure):
     _fields_ = [('magic', ctypes.c_uint32),
-                ('data', ctypes.c_char_p),
+                ('data', ctypes.POINTER(ctypes.c_char)),
                 ('info', ListRawBufferInfo)]
 
 # Custom packet packet

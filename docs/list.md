@@ -132,12 +132,19 @@ Immagine that the input size is 128 bits organized as follows:
 This example show how to cast the data to a pack struct:
 
 ```c
-typedef struct __attribute__((__packed__)) struct {
+
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
+PACK(typedef struct DATA_STRUCT {
 	uint64_t timestramp;
 	uint32_t energy;
 	uint8_t channel;
 	uint16_t flags;
-}DATA_STRUCT;
+});
 
 DATA_STRUCT *data = (DATA_STRUCT*)list_data->data;
 for (int i = 0; i < list_data->info.valid_samples; i++) {
@@ -161,7 +168,7 @@ Imagine we have a 32 bit word with following bit organization:
 This example show how to cast the data to a pack struct:
 
 ```c
-typedef struct __attribute__((__packed__)) struct {
+PACK(typedef struct DATA_STRUCT {
 	uint8_t channel:8;
 	uint8_t valid:1;
 	uint8_t pileup:1;
@@ -169,7 +176,7 @@ typedef struct __attribute__((__packed__)) struct {
 	uint8_t veto_marker:1;
 	uint8_t padding:3;
 	uint16_t energy:16;
-}DATA_STRUCT;
+});
 
 DATA_STRUCT *data = (DATA_STRUCT*)list_data->data;
 
@@ -190,7 +197,7 @@ for (int i = 0; i < list_data->info.valid_samples; i++) {
 ### C
 ```c
 SCISDK_LIST_RAW_BUFFER *lrb;
-ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk, 1024);
+ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), T_BUFFER_TYPE_RAW, (void**)&lrb, _sdk, 1024);
 
 if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
@@ -209,7 +216,7 @@ ret = SCISDK_ReadData("board0:/MMCComponents/List_0", (void *)lrb, _sdk);
 ### C++
 ```cpp
 SCISDK_LIST_RAW_BUFFER *lrb;
-sdk->AllocateBufferSize("board0:/MMCComponents/List_0", 0, (void**)&lrb, 1024);
+sdk->AllocateBufferSize("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&lrb, 1024);
 sdk->SetParameter("board0:/MMCComponents/List_0.thread", "false");
 sdk->SetParameter("board0:/MMCComponents/List_0.timeout", 5000);
 sdk->SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking");
@@ -299,7 +306,13 @@ Decode a 64 bit list data with the following bit organization:
 
 ```c
 
-typedef struct __attribute__((__packed__)) struct {
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
+PACK(typedef struct DATA_STRUCT {
 	uint8_t channel:5;
 	uint8_t valid:1;
 	uint8_t pileup:1;
@@ -307,11 +320,11 @@ typedef struct __attribute__((__packed__)) struct {
 	uint32_t timestamp:24;
 	uint16_t qshort:16;
 	uint16_t qlong:16;
-}DATA_STRUCT;
+}DATA_STRUCT);
 
 
 SCISDK_LIST_RAW_BUFFER *lrb;
-ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk, 1024);
+ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), T_BUFFER_TYPE_RAW, (void**)&lrb, _sdk, 1024);
 
 if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
@@ -343,7 +356,7 @@ DATA_STRUCT *data = (DATA_STRUCT*)list_data->data;
 
 ```c
 SCISDK_LIST_RAW_BUFFER *lrb;
-ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), 0, (void**)&lrb, _sdk, 100);
+ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), T_BUFFER_TYPE_RAW, (void**)&lrb, _sdk, 100);
 
 if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
