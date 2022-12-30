@@ -36,9 +36,9 @@ int main()
 	}
 	else {
 		SCISDK_s_error(ret, &res, _sdk);
+		cout << res << endl;
 		exit(-1);
 	}
-
 
 	SCISDK_LIST_RAW_BUFFER* lrb;
 	ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/List_0"), T_BUFFER_TYPE_RAW, (void**)&lrb, _sdk, 100);

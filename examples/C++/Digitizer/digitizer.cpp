@@ -20,6 +20,7 @@ int main()
 	}
 	else {
 		SCISDK_s_error(ret, &res, _sdk);
+		cout << res << endl;
 		exit(-1);
 	}
 

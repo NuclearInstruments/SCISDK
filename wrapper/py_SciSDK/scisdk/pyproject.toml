@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "scisdk"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Andrea Abba", email="abba@nuclearinstruments.eu" },
 ]
@@ -18,7 +18,6 @@ classifiers = [
 ]
 keywords = ["SciCompiler", "firmware", "fpga", "Nuclear Instruments", "CAEN"]
 dependencies = [
-    "ctype",
 ]
 [project.urls]
 "Homepage" = "https://github.com/NuclearInstruments/SCISDK"

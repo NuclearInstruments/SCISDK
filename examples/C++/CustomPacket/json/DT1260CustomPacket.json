@@ -1,0 +1,141 @@
+{"Registers":[
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "CP_0",
+  "Type": "CustomPacket",
+  "Address": 0,
+  "Version": "1.1.0.0",
+  "Channels": 0,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 1,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_VALID_WORDS",
+      "Address": 2,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 3,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "UseDMA": false,
+  "listOfWord": [
+    {
+      "PioWE": [
+        {
+          "Type": "Constant",
+          "Signal": "ABBA1234",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "ABBA1234",
+          "ValueFormat": "Hex"
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_1",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_1",
+          "ValueFormat": ""
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_1",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 63,
+          "SliceStop": 32,
+          "Value": "IN_1",
+          "ValueFormat": ""
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_2",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_2",
+          "ValueFormat": ""
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_3",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_3",
+          "ValueFormat": ""
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_4",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_4",
+          "ValueFormat": ""
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_5",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_5",
+          "ValueFormat": ""
+        }
+      ]
+    }
+  ],
+  "BufferLength": 0
+}],"Device":"SCIDK","Project":"custompacket"}
