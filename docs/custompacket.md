@@ -240,7 +240,15 @@ ROW 4:
 This example show how to cast the data to a pack struct:
 
 ```c
-typedef struct __attribute__((__packed__)) struct {
+
+
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
+PACK(typedef struct DATA_STRUCT {
 	uint32_t align_word : 32;
 	uint8_t pk_type : 8;
 	uint8_t pileup : 1;
@@ -252,7 +260,7 @@ typedef struct __attribute__((__packed__)) struct {
 	uint64_t timestamp : 64;
 	uint16_t qshort : 16;
 	uint16_t qlong : 16;
-}DATA_STRUCT;
+});
 
 DATA_STRUCT *data = (DATA_STRUCT*)list_data->data;
 for (int i = 0; i < list_data->info.valid_samples; i++) {
@@ -370,7 +378,7 @@ PACKET 1
 ### C++
 ```cpp
 SCISDK_CP_DECODED_BUFFER *lrb;
-sdk->AllocateBufferSize("board0:/MMCComponents/CP_0", 1, (void**)&lrb, 1024);
+sdk->AllocateBufferSize("board0:/MMCComponents/CP_0", T_BUFFER_TYPE_DECODE, (void**)&lrb, 1024);
 sdk->SetParameter("board0:/MMCComponents/CP_0.data_processing", "decode");
 sdk->SetParameter("board0:/MMCComponents/CP_0.thread", "false");
 sdk->SetParameter("board0:/MMCComponents/CP_0.timeout", 5000);
@@ -472,7 +480,7 @@ ROW 4:
 
 ```c
 
-typedef struct __attribute__((__packed__)) struct {
+PACK(typedef struct DATA_STRUCT {
 	uint32_t align_word : 32;
 	uint8_t pk_type : 8;
 	uint8_t pileup : 1;
@@ -484,10 +492,10 @@ typedef struct __attribute__((__packed__)) struct {
 	uint64_t timestamp : 64;
 	uint16_t qshort : 16;
 	uint16_t qlong : 16;
-}DATA_STRUCT;
+});
 
 SCISDK_CP_DECODED_BUFFER *lrb;
-ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&lrb, _sdk, 1024);
+ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), T_BUFFER_TYPE_DECODE, (void**)&lrb, _sdk, 1024);
 
 if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
@@ -578,7 +586,7 @@ if (fp == NULL) {
 
 //configure CP
 SCISDK_CP_RAW_BUFFER *lrb;
-ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), 0, (void**)&lrb, _sdk, 1024);
+ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CP_0"), T_BUFFER_TYPE_RAW, (void**)&lrb, _sdk, 1024);
 
 if (ret != NI_OK) {
 	printf("Error allocating buffer\n");
