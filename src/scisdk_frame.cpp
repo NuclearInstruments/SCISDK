@@ -422,9 +422,12 @@ repeat_blocking:
 				if (pQ.size() >= settings.packet_size) {
 					DECODE_SM sm;
 					sm = DECODE_SM::HEADER_1;
-					while (pQ.size() >= settings.packet_size) {
+					while (pQ.size() > 0) {
 						switch (sm) {
 							case DECODE_SM::HEADER_1 : 
+								if (pQ.size() < settings.packet_size) {
+									break;
+								}
 								if (pQ.front() == 0xFFFFFFFF){
 									sm = DECODE_SM::HEADER_2;
 									ridx = 0;
@@ -478,6 +481,10 @@ repeat_blocking:
 									p->info.valid_data++;
 									sm = DECODE_SM::HEADER_1;
 								}
+								else {
+									sm = DECODE_SM::PIXELS;
+								}
+
 								break;
 						}
 
@@ -604,10 +611,39 @@ repeat_blocking_raw:
 			_size = buffer_size_dw > _size ? _size : buffer_size_dw;
 			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 			if (_size > 0) {
+				auto t_start = std::chrono::high_resolution_clock::now();
 				uint32_t *buffer = (uint32_t*)malloc((_size + 8) * sizeof(uint32_t));
-				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base,  address.status, timeout, &vd);
+				if (buffer == NULL) return NI_ALLOC_FAILED;
+				uint32_t vdd = 0;
+				uint32_t single_transfer_size = 0;
+				while (_size > 0) {
+					if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+						single_transfer_size = _size;
+					}
+					else {
+						uint32_t status;
+						NI_RESULT ret = _hal->ReadReg(&status, address.status);
+						single_transfer_size = (status >> 8) & 0xFFFFFF;
+					}
+					if (single_transfer_size > 0) {
+						NI_RESULT ret = _hal->ReadFIFO(&buffer[vdd], single_transfer_size, address.base, address.status, timeout, &vd);
+						_size = _size - vd;
+						vdd += vd;
+					}
+					if (acq_mode == ACQ_MODE::NON_BLOCKING) {
 
-				if (vd == 0) {
+					}
+					else {
+						auto t_end = std::chrono::high_resolution_clock::now();
+						double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+						if (elapsed_time_ms >= timeout) {
+							break;
+						}
+					}
+				}
+				//NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base,  address.status, timeout, &vd);
+
+				if (vdd == 0) {
 					free(buffer);
 					return NI_NO_DATA_AVAILABLE;
 				}
@@ -616,7 +652,7 @@ repeat_blocking_raw:
 				int ridx = 0;
 				DECODE_SM sm;
 				sm = DECODE_SM::HEADER_1;
-				for (int i = 0; i < vd; i++) {
+				for (int i = 0; i < vdd; i++) {
 					switch (sm) {
 					case DECODE_SM::HEADER_1:
 						if (buffer[i] == 0xFFFFFFFF) {
@@ -670,8 +706,11 @@ repeat_blocking_raw:
 						p->data[p->info.valid_data].pixel[ridx++] = buffer[i];
 						if (ridx == settings.channels) {
 							p->info.valid_data++;
+							sm = DECODE_SM::HEADER_1;
 						}
-						sm = DECODE_SM::HEADER_1;
+						else {
+							sm = DECODE_SM::PIXELS;
+						}
 						break;
 					}
 				}
