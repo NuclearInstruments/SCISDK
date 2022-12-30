@@ -8720,7 +8720,7 @@
   <Name>custompacket</Name>
   <Name_userside>custompacket</Name_userside>
   <CreationDate>30/12/2022 09:58:13</CreationDate>
-  <LastEditDate>30/12/2022 11:01:41</LastEditDate>
+  <LastEditDate>30/12/2022 11:11:42</LastEditDate>
   <AppVersion>2022.11.12.1</AppVersion>
   <PrjFolder>C:\GIT\scisdk\examples\firmware\DT1260</PrjFolder>
   <PrjTarget>SCIDK</PrjTarget>

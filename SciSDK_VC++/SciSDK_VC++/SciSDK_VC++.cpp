@@ -179,13 +179,45 @@ void DemoSciCompilerList() {
 }
 
 
+
+void DemoSciCompilerFrame() {
+	int res = 0;
+	res = sdk.AddNewDevice("usb:10500", "dt1260", "DT1260Frame.json", "board0");
+
+	SCISDK_FRAME_DECODED_BUFFER* ddb;
+
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.thread", "false"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.trigger_mode", "trig"));
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/ImageReadout_0", T_BUFFER_TYPE_DECODED, (void**)&ddb, 1000));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/ImageReadout_0.start", ""));
+
+	while (1) {
+		res = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", (void*)ddb);
+		if (res == NI_OK) {
+			uint32_t* p;
+			for (int i = 0; i < ddb->info.valid_data ; i++) {
+				cout << setw(6) << ddb->data[i].pixel[0] << " " << setw(6) << ddb->data[i].pixel[1] << " " << setw(6) << ddb->data[i].pixel[2] << endl;
+				cout << setw(6) << ddb->data[i].pixel[3] << " " << setw(6) << ddb->data[i].pixel[4] << " " << setw(6) << ddb->data[i].pixel[5] << endl;
+				cout << setw(6) << ddb->data[i].pixel[6] << " " << setw(6) << ddb->data[i].pixel[7] << " " << setw(6) << ddb->data[i].pixel[8] << endl;
+			}
+			cout << "-----  -----" << endl;
+
+		}
+	}
+	exit(0);
+
+}
+
+
+
 int main()
 {
 
 	//Just run one demo at time!
 
-	DemoSciCompilerRegister();
-	
+	//DemoSciCompilerRegister();
+	DemoSciCompilerFrame();
 
 	return 0;
 
