@@ -218,13 +218,13 @@ class SciSDK:
                     return err, None
             else:
                 allocate_buffer_api = self.scisdk_dll.SCISDK_AllocateBufferSize
-                allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_int, ctypes.c_void_p]    
+                allocate_buffer_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(buffer_pointer), ctypes.c_void_p, ctypes.c_int]    
                 allocate_buffer_api.restype = ctypes.c_int
                 # convert string to bytes array
                 path_b = path.encode('utf-8')
                 # call C lib function
                 buf_tmp = buffer_pointer()
-                err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), size, self.lib_ptr)
+                err = allocate_buffer_api(ctypes.c_char_p(path_b), ctypes.c_int(buffer_type), ctypes.byref(buf_tmp), self.lib_ptr, size)
                 if err == 0:
                     buffer = buf_tmp.contents
                     return err, buffer

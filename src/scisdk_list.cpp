@@ -286,6 +286,14 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 		//Non threaded mode: data are downloaded under the control of the user
 		uint32_t vd;
 		uint32_t _size;
+		uint32_t* data;
+		uint32_t last_index = 0;
+		data = (uint32_t*)p->data;
+		p->info.valid_samples = 0;
+		
+		auto t_start = std::chrono::high_resolution_clock::now();
+		double elapsed_time_ms = 0;
+		
 		if (acq_mode == ACQ_MODE::NON_BLOCKING) {
 			uint32_t status;
 			NI_RESULT ret = _hal->ReadReg(&status, address.status);
@@ -299,12 +307,39 @@ NI_RESULT SciSDK_List::ReadData(void *buffer) {
 		uint32_t chunk_size = (settings.nchannels * settings.wordsize) / 4;
 		_size = floor(_size / chunk_size) * chunk_size;
 		if (_size > 0) {
-			uint32_t *data;
-			data = (uint32_t*)p->data;
-			NI_RESULT ret = _hal->ReadFIFO(data, _size, address.base, address.status, timeout, &vd);
-			p->info.valid_samples = vd * 4;
-			if (vd == 0) return NI_NO_DATA_AVAILABLE;
-			else return NI_OK;
+			while (_size > 0) {
+				uint32_t single_transfer_size = 0;
+				if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+					single_transfer_size = _size;
+				} else {
+					uint32_t status;
+					NI_RESULT ret = _hal->ReadReg(&status, address.status);
+					single_transfer_size = (status >> 8) & 0xFFFFFF;
+				}
+				if (single_transfer_size > 0) {
+					NI_RESULT ret = _hal->ReadFIFO(&data[last_index], single_transfer_size, address.base, address.status, timeout, &vd);
+					p->info.valid_samples += vd * 4;
+					_size = _size - vd;
+					last_index += vd;
+				}
+				if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+					if (vd == 0) return NI_NO_DATA_AVAILABLE;
+					else return NI_OK;
+				}
+				else {
+					auto t_end = std::chrono::high_resolution_clock::now();
+					elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+					if (elapsed_time_ms >= timeout) {
+						if (p->info.valid_samples == 0) {
+							return NI_NO_DATA_AVAILABLE;
+						}
+						else {
+							return NI_OK;
+						}
+					}
+				}
+			}
+			return NI_OK;
 		}
 		else {
 			return NI_NO_DATA_AVAILABLE;

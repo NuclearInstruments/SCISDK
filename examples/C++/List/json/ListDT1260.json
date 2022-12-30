@@ -1,0 +1,33 @@
+{"Registers":[
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "List_0",
+  "Type": "ListModule",
+  "Address": 0,
+  "Version": "1.1.0.0",
+  "WordSize": 1,
+  "Channels": 1,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 1,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 2,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+}],"Device":"SCIDK","Project":"List"}
