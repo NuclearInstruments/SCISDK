@@ -16,6 +16,8 @@ bd_dt1260::bd_dt1260(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j,
     board_params.offset.address = 4294967289;
 
     RegisterParameter("analog.offset", "set analog offset", SciSDK_Paramcb::Type::U32, this);
+
+
 }
 
 
@@ -30,6 +32,7 @@ NI_RESULT bd_dt1260::ISetParamU32(string name, uint32_t value)
             return NI_OK;
         }
     }
+    
 
     return NI_INVALID_PARAMETER;
 }
