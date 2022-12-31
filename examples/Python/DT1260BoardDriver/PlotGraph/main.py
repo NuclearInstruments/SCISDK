@@ -15,17 +15,13 @@ sdk = SciSDK()
 
 #DT1260
 res = sdk.AddNewDevice("usb:10500","dt1260", "./DT1260RegisterFile.json","board0")
-#DT5560
-#res = sdk.AddNewDevice("192.168.50.10:8888","DT5560", "./DT5560RegisterFile.json","board0")
-#DT5550
-#res = sdk.AddNewDevice("usb:11000","DT5550", "./DT5550RegisterFile.json","board0")
-#V2740
-#res = sdk.AddNewDevice("192.168.50.10","V2740", "./V2740RegisterFile.json","board0")
 
 if res != 0:
     print ("Script exit due to connetion error")
     exit()
 
+#USE THE BOARD DRIVER TO SET THE ANALOG INPUT OFFSET
+res = sdk.SetParameterInteger("board0:/boardapi/analog.offset",300)  #range 0 to 4095
 
 # set oscilloscope parameters
 res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing","decode")

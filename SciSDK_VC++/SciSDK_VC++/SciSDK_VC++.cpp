@@ -185,7 +185,7 @@ void DemoSciCompilerFrame() {
 	res = sdk.AddNewDevice("usb:10500", "dt1260", "DT1260Frame.json", "board0");
 
 	SCISDK_FRAME_DECODED_BUFFER* ddb;
-
+	sdk.SetParameter("board0:/boardapi/analog.offset", 300);
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.acq_mode", "blocking"));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.thread", "false"));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/ImageReadout_0.trigger_mode", "trig"));

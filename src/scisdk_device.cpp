@@ -24,6 +24,12 @@
 #include "scisdk_DT5550W_citirocframe.h"
 #include "scisdk_DT5550W_petirocframe.h"
 #include "boards_driver/bd_feelib.h"
+#include "boards_driver/bd_dt1260.h"
+
+void toLower(std::string& str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return std::tolower(c); });
+}
 
 SciSDK_Device::SciSDK_Device(string DevicePath, string DeviceModel, string JSONFwFilePath, string Name) {
 	_DevicePath = DevicePath;
@@ -483,8 +489,11 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 				else {
 					if (StartWith(ToUpper(it.key()), ToUpper("Device")) == true) {
 						string model = it.value().get<string>();
+						toLower(model);
 						if ((model == "x2740_wave") || (model == "x2740_dpp") || (model == "x2745_wave") || (model == "x2745_dpp")) {
 							mmcs.push_back(new bd_feelib(_hal, rs, parent + "/" + (string)it.key()));
+						} else if ((model == "dt1260") || (model == "scidk") ) {
+							mmcs.push_back(new bd_dt1260(_hal, rs, parent + "/" + (string)it.key()));
 						}
 					} 
 					else {
