@@ -44,7 +44,7 @@ AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@
 # 						scisdk_spectrum.cpp \
 # 						boards_driver/bd_dt1260.cpp \
 # 						boards_driver/bd_feelib.cpp \
-# 						boards_driver/bd_x5560se.cpp
+# 						boards_driver/bd_dt5560se.cpp
 
 lib_LTLIBRARIES = libscisdk.la
 
