@@ -290,7 +290,13 @@ Decoded Data</h2>
 <li>16 bit energy (Qlong) from IN_5</li>
 </ul>
 <p>This example show how to cast the data to a pack struct:</p>
-<div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>__attribute__((__packed__)) struct {</div>
+<div class="fragment"><div class="line"><span class="preprocessor">#ifdef _MSC_VER</span></div>
+<div class="line"><span class="preprocessor">#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))</span></div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line"><span class="preprocessor">#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line">PACK(<span class="keyword">typedef</span> <span class="keyword">struct</span> DATA_STRUCT {</div>
 <div class="line">    uint32_t align_word : 32;</div>
 <div class="line">    uint8_t pk_type : 8;</div>
 <div class="line">    uint8_t pileup : 1;</div>
@@ -302,7 +308,7 @@ Decoded Data</h2>
 <div class="line">    uint64_t timestamp : 64;</div>
 <div class="line">    uint16_t qshort : 16;</div>
 <div class="line">    uint16_t qlong : 16;</div>
-<div class="line">}DATA_STRUCT;</div>
+<div class="line">});</div>
 <div class="line"> </div>
 <div class="line">DATA_STRUCT *data = (DATA_STRUCT*)list_data-&gt;data;</div>
 <div class="line">for (<span class="keywordtype">int</span> i = 0; i &lt; list_data-&gt;info.valid_samples; i++) {</div>
@@ -412,7 +418,7 @@ C</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md95"></a>
 C++</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_CP_DECODED_BUFFER</a> *lrb;</div>
-<div class="line">sdk-&gt;AllocateBufferSize(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>, 1, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
+<div class="line">sdk-&gt;AllocateBufferSize(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>, T_BUFFER_TYPE_DECODE, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0.timeout&quot;</span>, 5000);</div>
@@ -493,7 +499,7 @@ Decode list data in C</h2>
 <li>16 bit energy (Qshort) from IN_4</li>
 <li>16 bit energy (Qlong) from IN_5</li>
 </ul>
-<div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>__attribute__((__packed__)) struct {</div>
+<div class="fragment"><div class="line">PACK(<span class="keyword">typedef</span> <span class="keyword">struct</span> DATA_STRUCT {</div>
 <div class="line">    uint32_t align_word : 32;</div>
 <div class="line">    uint8_t pk_type : 8;</div>
 <div class="line">    uint8_t pileup : 1;</div>
@@ -505,10 +511,10 @@ Decode list data in C</h2>
 <div class="line">    uint64_t timestamp : 64;</div>
 <div class="line">    uint16_t qshort : 16;</div>
 <div class="line">    uint16_t qlong : 16;</div>
-<div class="line">}DATA_STRUCT;</div>
+<div class="line">});</div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_CP_DECODED_BUFFER</a> *lrb;</div>
-<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), 0, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), T_BUFFER_TYPE_DECODE, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Error allocating buffer\n&quot;</span>);</div>
@@ -593,7 +599,7 @@ Dump raw data in C and than open it in python and decode it</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">//configure CP</span></div>
 <div class="line"><a class="code" href="struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html">SCISDK_CP_RAW_BUFFER</a> *lrb;</div>
-<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), 0, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
+<div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (ret != <a class="code" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Error allocating buffer\n&quot;</span>);</div>
