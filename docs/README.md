@@ -156,15 +156,78 @@ In the end the library readout the data from the oscilloscope using the function
 Because the oscilloscope is in blocking mode the function will wait for a waveform up to the timeout. If the timeout is reached the function will return an error (NI_NO_DATA_AVAILABLE).
 <i>
 
+### File structure
+SciSDK dymanically load the SDK of each specific board. The SDK is a shared library (.so) or a dynamic library (.dll) that is loaded at runtime. 
+It is important to note that the SciSDK needs the specific SDK .so or .dll to be in the same folder of the SciSDK or installed in the system path.
+
+If the library is installed using the installer the SDK and all board specific library are installed in the system folder and in the bin folder of the installation path (See windows and linux installation section)
+When the libraries are in the system path the SciSDK will automatically load without needing to copy libraries in the executable folder, it the SciSDK is not installed in the system path the library must be copied in the executable folder as well as all the board specific libraries.
+
+This is the file structure of the SciSDK
+
+WINODOWS
+```
+SciSDK_DLL.dll
+|---> SCIDK_Lib.dll                 (optional, library required for DT1260/SCIDK)
+|---> CAEN_FELib.dll                (optional, library required for  V/DT274X/FELib)
+|---> CAEN_Dig2Lib.dl               (optional, library required for  V/DT274X/FELib)
+|---> R5560_SDKLib.dll              (optional, library required for  R5560/R5560SE/DT5560)
+|---> NiUSB30.dll                   (optional, library required for  DT5550/DT5550W)
+|---> libzmq-v140-mt-4_3_4.dll      (optional, service library required for R5560/R5560SE/DT5560)
+|---> libsodium.dll                 (optional, service library required for R5560/R5560SE/DT5560)
+```
+
+When installed in windows these files are copied in c:\openhardware\SciSDK\bin, and both x64 and x86 as well as release and debug version are installed.
+More over the installer copy these files in the system path (c:\windows\system32) and in the system path (c:\windows\sysWOW64) for x64 and x86 version respectively.
 
 
-## 4. Installation from binary package
+LINUX
+```
+libscisdk.so 
+|---> libscidk.so                   (optional, library required for DT1260/SCIDK)
+|---> libCAEN_FELib.so              (optional, library required for  V/DT274X/FELib)
+|---> libCAEN_Dig2Lib.so            (optional, library required for  V/DT274X/FELib)
+|---> libr5560.so                   (optional, library required for  R5560/R5560SE/DT5560)
+|---> libniusb30.so                 (optional, library required for  DT5550/DT5550W)
 
-## 5. Compiling from source
+```
+in Linux it in necessary to install zmq and sodium library
 
-### 5.1. Compiling for Windows
+```bash
+sudo apt-get install libzmq3-dev libsodium-dev
+```
 
-### 5.2. Compiling for Linux 
+When installed in linux these files are copied in /usr/local/lib and the installer select the x64 or x86 version depending on the architecture of the system. 
+
+## 4. Windows: Installation from binary package
+
+Check the [release page](https://github.com/NuclearInstruments/SCISDK/releases) for the latest version of the library.
+Execute the installer as administrator and follow the instruction.
+
+At the end of the installation the library will be installed in the system path (c:\windows\system32) and in the system path (c:\windows\sysWOW64) for x64 and x86 version respectively. 
+You will also find:
+- the library in the installation folder (c:\openhardware\SciSDK\bin)
+- the headers (c:\openhardware\SciSDK\src)
+- the documentation (c:\openhardware\SciSDK\docs) 
+- the examples for all the supported ip for several programming languages (c:\openhardware\SciSDK\examples).
+
+## 5. Linux: Installation from binary package
+
+## 6. Compiling from source
+
+### 6.1. Compiling for Windows
+
+In order to compile the library from source you need to install Visual Studio 2022 with C++ support. Clone this repository and open the solution file (SciSDK_VC++/SciSDK.sln) in Visual Studio. From build menu select batch build and select the configuration you want to build (x64/Release or x64/Debug), or just right click on the project and select build. The output will be in the folder bin/<arch>/<configuration> (e.g. bin/x64/Release).
+
+Please note that this repository just compile the SciSDK_DLL.dll. In order to compile the board specific library you need to clone the specific repository and compile the library. The list of the repository is the following:
+- [SCIDK](https://github.com/NuclearInstruments/SciDK-WIN)
+- [R5560/R5560SE/DT5560](https://github.com/NuclearInstruments/r5560_sdk)
+- [DT5550/DT5550W](https://github.com/NuclearInstruments/DT5550Wgcc)
+- [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
+
+Each one contains the detailed instruction to compile the library.
+
+### 6.2. Compiling for Linux 
 
 This library uses autotools. The tool will generate both the static (.a) and the shared library (.so)
 
@@ -191,7 +254,6 @@ In order to install the library in the os default library folder
 make install
 ```
 
-
 **Compile library to a target directory**
 It is also possible to compile the library and install them in a local folder
 
@@ -199,20 +261,37 @@ It is also possible to compile the library and install them in a local folder
 mkdir -p linuxbuild
 cd linuxbuild
 mkdir -p output
-../configure --prefix=output
+../configure --prefix=$(pwd)/output
 make
 make install
 ```
 
 
-### 5.3. Compiling on Raspberry Pi
-### 5.3. Cross-compiling for arm, aaarch64
 
-## 6. Usage
+Please note that this repository just compile the SciSDK_DLL.dll. In order to compile the board specific library you need to clone the specific repository and compile the library. The list of the repository is the following:
+- [SCIDK](https://github.com/NuclearInstruments/SciDK-WIN)
+- [R5560/R5560SE/DT5560](https://github.com/NuclearInstruments/r5560_sdk)
+- [DT5550/DT5550W](https://github.com/NuclearInstruments/DT5550Wgcc)
+- [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
 
-### 6.1. Starting the library
-### 6.2. Connecting to a board
-### 6.3. Set/Get a register value
-### 6.4. Allocate buffers for readout
-### 6.5. Readout data from a board
+Each one contains the detailed instruction to compile the library.
+
+### 6.3. Compiling on Raspberry Pi
+### 6.4. Cross-compiling for arm, aaarch64
+
+## 7. Usage
+
+### 7.1. Create a VS2022 project linking to the library
+
+### 7.2. Create a g++ project linking to the library
+
+### 7.3. Instantiate the library
+
+### 7.4. Connecting to a board
+
+### 7.5. Set/Get a register value
+
+### 7.6. Allocate buffers for readout
+
+### 7.7. Readout data from a board
 
