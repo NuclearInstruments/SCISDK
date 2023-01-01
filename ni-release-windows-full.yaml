@@ -5,7 +5,7 @@ project: SciSDK
 rev: A
 
 # Type of element sub, release
-component: sub
+component: release
 
 # categories of artifact
 #   fw-linux-app
@@ -36,9 +36,9 @@ component: sub
 #   web-lib
 #   python-release
 
-type: sw-docs
+type: sw-windows-lib
 #   name of the artifact file
-name: SciSDKDocs
+name: scisdk-full-win-x86_x64
 
 # compression
 #   tar.gz, zip (not supported now), none
@@ -46,5 +46,5 @@ compression: None
 # Files in release
 #   relative path will be removed
 files:
-  - scisdk_docs.zip
+  - output/scisdk-win-full.zip
 #  - linux_x64.tar.gz
