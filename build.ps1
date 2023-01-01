@@ -10,4 +10,4 @@ Copy-Item ".\src\SciSDK_DLL.h" -Destination ".\output\src\" -Force
 Copy-Item ".\src\scisdk_defines.h" -Destination ".\output\src\" -Force
 Copy-Item ".\examples" -Destination ".\output\examples\" -Force -Recurse
 
-Compress-Archive -Path ".\output\*" -DestinationPath ".\output\output.zip" -Force
+Compress-Archive -Path ".\output\*" -DestinationPath ".\output\scisdk-full.zip" -Force
