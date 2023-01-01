@@ -205,17 +205,63 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="astruct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a></div><div class="ttdoc">Oscilloscope decoded data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:20</div></div>
 </div><!-- fragment --><p> <em> The code above configure the oscilloscope in self trigger mode, set the pregtrigger to 150 samples, disable the decimator on X axe, enable the internal library data decoder and set the acquisition mode to blocking (in means that the library wait for a waveform up to the timeout). All the parameter of the oscilloscope are descibed in the <a class="el" href="md_docs_oscilloscope.html">oscilloscope driver documentation</a> Than the library allocate the correct buffer to readout the data. The buffer is allocated using the function SCISDK_AllocateBuffer. The function takes the path of the element and the type of the buffer to allocate (RAW/Decoded). The function use the information in the firmware JSON file to allocate the correct buffer. In the end the library readout the data from the oscilloscope using the function SCISDK_ReadData. The function takes the path of the element and the pointer to the buffer (pre-allocated with SCISDK_AllocateBuffer ) where to store the data. Because the oscilloscope is in blocking mode the function will wait for a waveform up to the timeout. If the timeout is reached the function will return an error (NI_NO_DATA_AVAILABLE). <em></em></em></p>
 <p><em><em></em></em></p>
-<h1><a class="anchor" id="autotoc_md6"></a>
-4. Installation from binary package</h1>
-<p><em><em> </em></em></p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+File structure</h2>
+<p><em><em>SciSDK dymanically load the SDK of each specific board. The SDK is a shared library (.so) or a dynamic library (.dll) that is loaded at runtime. It is important to note that the SciSDK needs the specific SDK .so or .dll to be in the same folder of the SciSDK or installed in the system path.</em></em></p>
+<p><em><em>If the library is installed using the installer the SDK and all board specific library are installed in the system folder and in the bin folder of the installation path (See windows and linux installation section) When the libraries are in the system path the SciSDK will automatically load without needing to copy libraries in the executable folder, it the SciSDK is not installed in the system path the library must be copied in the executable folder as well as all the board specific libraries.</em></em></p>
+<p><em><em>This is the file structure of the SciSDK</em></em></p>
+<p><em><em>WINODOWS </p><div class="fragment"><div class="line">SciSDK_DLL.dll</div>
+<div class="line">|---&gt; SCIDK_Lib.dll                 (optional, library required for DT1260/SCIDK)</div>
+<div class="line">|---&gt; CAEN_FELib.dll                (optional, library required for  V/DT274X/FELib)</div>
+<div class="line">|---&gt; CAEN_Dig2Lib.dl               (optional, library required for  V/DT274X/FELib)</div>
+<div class="line">|---&gt; R5560_SDKLib.dll              (optional, library required for  R5560/R5560SE/DT5560)</div>
+<div class="line">|---&gt; NiUSB30.dll                   (optional, library required for  DT5550/DT5550W)</div>
+<div class="line">|---&gt; libzmq-v140-mt-4_3_4.dll      (optional, service library required for R5560/R5560SE/DT5560)</div>
+<div class="line">|---&gt; libsodium.dll                 (optional, service library required for R5560/R5560SE/DT5560)</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em>When installed in windows these files are copied in c:\openhardware\SciSDK\bin, and both x64 and x86 as well as release and debug version are installed. More over the installer copy these files in the system path (c:\windows\system32) and in the system path (c:\windows\sysWOW64) for x64 and x86 version respectively.</em></em></p>
+<p><em><em>LINUX </p><div class="fragment"><div class="line">libscisdk.so </div>
+<div class="line">|---&gt; libscidk.so                   (optional, library required for DT1260/SCIDK)</div>
+<div class="line">|---&gt; libCAEN_FELib.so              (optional, library required for  V/DT274X/FELib)</div>
+<div class="line">|---&gt; libCAEN_Dig2Lib.so            (optional, library required for  V/DT274X/FELib)</div>
+<div class="line">|---&gt; libr5560.so                   (optional, library required for  R5560/R5560SE/DT5560)</div>
+<div class="line">|---&gt; libniusb30.so                 (optional, library required for  DT5550/DT5550W)</div>
+</div><!-- fragment --><p> in Linux it in necessary to install zmq and sodium library</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">sudo apt-get install libzmq3-dev libsodium-dev</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em>When installed in linux these files are copied in /usr/local/lib and the installer select the x64 or x86 version depending on the architecture of the system.</em></em></p>
+<p><em><em></em></em></p>
 <h1><a class="anchor" id="autotoc_md7"></a>
-5. Compiling from source</h1>
+4. Windows: Installation from binary package</h1>
+<p><em><em> Check the <a href="https://github.com/NuclearInstruments/SCISDK/releases">release page</a> for the latest version of the library. Execute the installer as administrator and follow the instruction.</em></em></p>
+<p><em><em>At the end of the installation the library will be installed in the system path (c:\windows\system32) and in the system path (c:\windows\sysWOW64) for x64 and x86 version respectively. You will also find:</p><ul>
+<li>the library in the installation folder (c:\openhardware\SciSDK\bin)</li>
+<li>the headers (c:\openhardware\SciSDK\src)</li>
+<li>the documentation (c:\openhardware\SciSDK\docs)</li>
+<li>the examples for all the supported ip for several programming languages (c:\openhardware\SciSDK\examples).</li>
+</ul>
+<p></em></em></p>
+<p><em><em></em></em></p>
+<h1><a class="anchor" id="autotoc_md8"></a>
+5. Linux: Installation from binary package</h1>
 <p><em><em> </em></em></p>
-<h2><a class="anchor" id="autotoc_md8"></a>
-5.1. Compiling for Windows</h2>
+<h1><a class="anchor" id="autotoc_md9"></a>
+6. Compiling from source</h1>
 <p><em><em> </em></em></p>
-<h2><a class="anchor" id="autotoc_md9"></a>
-5.2. Compiling for Linux</h2>
+<h2><a class="anchor" id="autotoc_md10"></a>
+6.1. Compiling for Windows</h2>
+<p><em><em> In order to compile the library from source you need to install Visual Studio 2022 with C++ support. Clone this repository and open the solution file (SciSDK_VC++/SciSDK.sln) in Visual Studio. From build menu select batch build and select the configuration you want to build (x64/Release or x64/Debug), or just right click on the project and select build. The output will be in the folder bin/&lt;arch&gt;/&lt;configuration&gt; (e.g. bin/x64/Release).</em></em></p>
+<p><em><em>Please note that this repository just compile the SciSDK_DLL.dll. In order to compile the board specific library you need to clone the specific repository and compile the library. The list of the repository is the following:</p><ul>
+<li><a href="https://github.com/NuclearInstruments/SciDK-WIN">SCIDK</a></li>
+<li><a href="https://github.com/NuclearInstruments/r5560_sdk">R5560/R5560SE/DT5560</a></li>
+<li><a href="https://github.com/NuclearInstruments/DT5550Wgcc">DT5550/DT5550W</a></li>
+<li><a href="https://www.caen.it/products/caen-felib-library/">V/DT274X/FELib</a></li>
+</ul>
+<p></em></em></p>
+<p><em><em>Each one contains the detailed instruction to compile the library.</em></em></p>
+<p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+6.2. Compiling for Linux</h2>
 <p><em><em> This library uses autotools. The tool will generate both the static (.a) and the shared library (.so)</em></em></p>
 <p><em><em>In order to install autoconf</em></em></p>
 <p><em><em></p><div class="fragment"><div class="line">sudo apt-get update</div>
@@ -235,34 +281,48 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p><em><em></p><div class="fragment"><div class="line">mkdir -p linuxbuild</div>
 <div class="line">cd linuxbuild</div>
 <div class="line">mkdir -p output</div>
-<div class="line">../configure --prefix=output</div>
+<div class="line">../configure --prefix=$(pwd)/output</div>
 <div class="line">make</div>
 <div class="line">make install</div>
 </div><!-- fragment --><p></em></em></p>
+<p><em><em>Please note that this repository just compile the SciSDK_DLL.dll. In order to compile the board specific library you need to clone the specific repository and compile the library. The list of the repository is the following:</p><ul>
+<li><a href="https://github.com/NuclearInstruments/SciDK-WIN">SCIDK</a></li>
+<li><a href="https://github.com/NuclearInstruments/r5560_sdk">R5560/R5560SE/DT5560</a></li>
+<li><a href="https://github.com/NuclearInstruments/DT5550Wgcc">DT5550/DT5550W</a></li>
+<li><a href="https://www.caen.it/products/caen-felib-library/">V/DT274X/FELib</a></li>
+</ul>
+<p></em></em></p>
+<p><em><em>Each one contains the detailed instruction to compile the library.</em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md10"></a>
-5.3. Compiling on Raspberry Pi</h2>
+<h2><a class="anchor" id="autotoc_md12"></a>
+6.3. Compiling on Raspberry Pi</h2>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md11"></a>
-5.3. Cross-compiling for arm, aaarch64</h2>
-<p><em><em> </em></em></p>
-<h1><a class="anchor" id="autotoc_md12"></a>
-6. Usage</h1>
-<p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md13"></a>
-6.1. Starting the library</h2>
-<p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md14"></a>
-6.2. Connecting to a board</h2>
-<p><em><em></em></em></p>
+6.4. Cross-compiling for arm, aaarch64</h2>
+<p><em><em> </em></em></p>
+<h1><a class="anchor" id="autotoc_md14"></a>
+7. Usage</h1>
+<p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md15"></a>
-6.3. Set/Get a register value</h2>
-<p><em><em></em></em></p>
+7.1. Create a VS2022 project linking to the library</h2>
+<p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md16"></a>
-6.4. Allocate buffers for readout</h2>
-<p><em><em></em></em></p>
+7.2. Create a g++ project linking to the library</h2>
+<p><em><em> </em></em></p>
 <h2><a class="anchor" id="autotoc_md17"></a>
-6.5. Readout data from a board</h2>
+7.3. Instantiate the library</h2>
+<p><em><em> </em></em></p>
+<h2><a class="anchor" id="autotoc_md18"></a>
+7.4. Connecting to a board</h2>
+<p><em><em> </em></em></p>
+<h2><a class="anchor" id="autotoc_md19"></a>
+7.5. Set/Get a register value</h2>
+<p><em><em> </em></em></p>
+<h2><a class="anchor" id="autotoc_md20"></a>
+7.6. Allocate buffers for readout</h2>
+<p><em><em> </em></em></p>
+<h2><a class="anchor" id="autotoc_md21"></a>
+7.7. Readout data from a board</h2>
 <p><em><em></em></em></p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
