@@ -222,8 +222,8 @@ int main()
 
 	//Just run one demo at time!
 
-	//DemoSciCompilerRegister();
-	DemoSciCompilerFrame();
+	DemoSciCompilerRegister();
+
 
 	return 0;
 
