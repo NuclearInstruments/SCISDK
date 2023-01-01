@@ -1,5 +1,6 @@
 stages:
   - pages
+  - upload_pages_nirelease
   - push
 
 
@@ -36,7 +37,7 @@ push_github:
 
 
 docs_nirelease:
-  stage: pages
+  stage: upload_pages_nirelease
   image: registry.lanni/apps/release-manager:latest
   dependencies: 
     - pages
