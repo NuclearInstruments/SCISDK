@@ -256,7 +256,7 @@ SCISDK_DLL_API int SCISDK_ReadStatus(char *Path, void *buffer, void*handle) {
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
-	int res = _sdk->ReadData(_Path, buffer);
+	int res = _sdk->ReadStatus(_Path, buffer);
 	return res;
 }
 
