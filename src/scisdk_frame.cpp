@@ -844,10 +844,14 @@ NI_RESULT SciSDK_Frame::CmdStop() {
 
 	//Critical section : set stop
 	producer.canRun = false;
-	producer.t->join();
+	if (producer.isRunning)
+		producer.t->join();
+
 	_hal->WriteReg(0, address.config);
+	
 	if (__buffer)
 		free(__buffer);
+		__buffer = NULL;
 
 	producer.isRunning = false;
 	isRunning = false;

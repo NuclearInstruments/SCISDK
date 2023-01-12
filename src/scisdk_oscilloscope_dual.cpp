@@ -84,8 +84,6 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamU32(string name, uint32_t value) {
 
 	return NI_INVALID_PARAMETER;
 }
-
-
 NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamI32(string name, int32_t value) {
 
 	if (name == "timeout") {
@@ -104,7 +102,6 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamI32(string name, int32_t value) {
 
 	return NI_INVALID_PARAMETER;
 }
-
 NI_RESULT SciSDK_Oscilloscope_Dual::ISetParamString(string name, string value) {
 	if (name == "trigger_mode") {
 		if (value == "disabled") {
@@ -663,7 +660,6 @@ NI_RESULT SciSDK_Oscilloscope_Dual::CheckOscilloscopeStatus(bool *ready, bool *a
 	*running = (status >> 2) & 0x1 ? true : false;
 	return NI_OK;
 }
-
 
 NI_RESULT SciSDK_Oscilloscope_Dual::ReadStatus(void *buffer) {
 	SCISDK_OSCILLOSCOPE_STATUS *p = (SCISDK_OSCILLOSCOPE_STATUS*)buffer;
