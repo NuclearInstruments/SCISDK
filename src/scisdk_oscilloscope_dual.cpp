@@ -311,6 +311,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::AllocateBuffer(T_BUFFER_TYPE bt, void **buff
 		p->info.samples_digital = settings.nsamples;
 		p->info.tracks_analog_per_channel = settings.nanalog;
 		p->info.tracks_digital_per_channel = settings.ndigital;
+		cout << "Buffer decode" << endl;
 		return NI_OK;
 	}
 	else if (bt == T_BUFFER_TYPE_RAW) {
@@ -336,6 +337,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::AllocateBuffer(T_BUFFER_TYPE bt, void **buff
 		p->info.samples_digital = settings.nsamples;
 		p->info.tracks_analog_per_channel = settings.nanalog;
 		p->info.tracks_digital_per_channel = settings.ndigital;
+		cout << "Buffer raw" << endl;
 		return NI_OK;
 	}
 	else {
@@ -460,11 +462,12 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 		if (p->info.tracks_digital_per_channel != settings.ndigital) return NI_INCOMPATIBLE_BUFFER;
 
 		//check service buffer
-		if (__buffer == NULL)
+		if (__buffer == NULL) {
 			return NI_ERROR_GENERIC;
-
+		}
 		//download data
 		uint32_t buffer_size = settings.nchannels * settings.nsamples / 2;
+		cout << "Ready to Read" << endl;
 		if (_hal->ReadData(__buffer, buffer_size, address.base, 5000, &dv)) return NI_ERROR_INTERFACE;
 		/*for (int i = 0; i < 4; i++) {
 			cout << __buffer[i] << endl;
@@ -475,6 +478,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 		}
 		cout << "----" << endl;*/
 		CmdResetReadValidFlag();
+		cout << "Buff size: " << buffer_size << "DV: " << dv << endl;
 		if (dv < buffer_size) {
 			return NI_INCOMPLETE_READ;
 		}
