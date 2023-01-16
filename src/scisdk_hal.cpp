@@ -759,9 +759,6 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			if (read_data_proc) {
 				mtx.lock();
 				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
-				cout << "ReadFifo Length req: " << length << endl;
-				cout << "ReadFifo Valid Data: " << rd << endl;
-				cout << "ReadFifo Return: "		<< r << endl;
 				mtx.unlock();
 				*read_data = rd;
 				return r;
