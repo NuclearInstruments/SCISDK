@@ -128,6 +128,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tR5560_Handle*)_handle);
 					mtx.unlock();
+					cout << "Connection Error Code: " << error_code << endl;
 					if (error_code == 0) {
 						return NI_OK;
 					}
@@ -448,7 +449,6 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read register from X5560 board
 		if (h_lib_instance != NULL) {
-			
 			#ifdef _MSC_VER 
 				typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, tR5560_Handle * handle);
 				READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
@@ -587,7 +587,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	uint32_t rd, vd;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
-		cout << "ReadData  @" << address << " Size: " << length << endl;
+		
 		return NI_OK;
 		break;
 		
@@ -619,6 +619,8 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read data from X5560 board
 		if (h_lib_instance != NULL) {
+			cout << "ReadData  @" << address << " Size: " << length << endl;
+
 			#ifdef _MSC_VER 
 				typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *read_data);
 				READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
@@ -629,8 +631,9 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			#endif
 			if (read_data_proc) {
 				mtx.lock();
-				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);
+				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);				
 				mtx.unlock();
+				*read_data = rd;
 				if (res == 0) {
 					return NI_OK;
 				}
@@ -756,6 +759,9 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			if (read_data_proc) {
 				mtx.lock();
 				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
+				cout << "ReadFifo Length req: " << length << endl;
+				cout << "ReadFifo Valid Data: " << rd << endl;
+				cout << "ReadFifo Return: "		<< r << endl;
 				mtx.unlock();
 				*read_data = rd;
 				return r;
