@@ -577,14 +577,15 @@ void SciSDK_Digitizer::producer_thread() {
 			NI_RESULT ret = _hal->ReadReg(&status, address.status);
 			_size = (status >> 8) & 0xFFFFFF;
 		}
+
 		else {
 			_size = transfer_size;
 		}
+
 		_size = _size > transfer_size ? transfer_size : _size;
 
 		if (_size > 0) {
 			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, 100, &vd);
-			
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();
