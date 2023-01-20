@@ -400,12 +400,12 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 	bool armed = false;
 	bool running = false;
 	
-	
 	if (buffer == NULL) {
 		return NI_INVALID_BUFFER;
 	}
 
 	CheckOscilloscopeStatus(&ready, &armed, &running);
+	//cout << "Status: Armed " << armed << "\t Ready " << ready << "\tRunning " << running << endl;
 	if ((!armed) && (!ready) && (!running)) {
 		if (!auto_arm) {
 			return NI_NOT_ARMED;
@@ -606,7 +606,7 @@ NI_RESULT SciSDK_Oscilloscope::CmdArm() {
 	int ret = 0;
 	ret |= _hal->WriteReg(0,address.cmd_arm);
 	ret |= _hal->WriteReg(1, address.cmd_arm);
-	ret |= _hal->WriteReg(0, address.cmd_arm);
+	//ret |= _hal->WriteReg(0, address.cmd_arm);
 
 	if (ret)
 		return NI_ERROR_INTERFACE;
@@ -642,6 +642,7 @@ NI_RESULT SciSDK_Oscilloscope::CheckOscilloscopeStatus(bool *ready, bool *armed,
 	*armed = (status >> 1) & 0x1 ? true : false;
 	*ready = status & 0x1 ? true : false;
 	*running = (status >> 2) & 0x1 ? true : false;
+
 	return NI_OK;
 }
 

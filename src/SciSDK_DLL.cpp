@@ -140,7 +140,7 @@ SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out
 }
 
 SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle) {
-	printf("OK");
+	
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
 	if (buffer == NULL)return NI_ERROR;

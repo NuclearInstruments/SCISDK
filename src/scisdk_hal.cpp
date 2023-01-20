@@ -619,7 +619,6 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read data from X5560 board
 		if (h_lib_instance != NULL) {
-			cout << "ReadData  @" << address << " Size: " << length << endl;
 
 			#ifdef _MSC_VER 
 				typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *read_data);
