@@ -375,7 +375,7 @@ string SciSDK::s_error(int err_no) {
 	case NI_INVALID_BUFFER:
 		return "invalid buffer";
 	case NI_TIMEOUT:
-		return "timeous";
+		return "timeout";
 	case NI_INVALID_CFG_JSON:
 		return "config json is not valid, error in file";
 	case NI_CFG_JSON_NOT_FOUND:
