@@ -10,6 +10,7 @@
 #include <thread>  
 #include <queue>
 #include <atomic> 
+
 using json = nlohmann::json;
 
 using namespace std;
@@ -22,12 +23,13 @@ class bd_dt5560se : public  SciSDK_Node {
         NI_RESULT ISetParamString(string name, string value);
         NI_RESULT IGetParamString(string name, string* value);
     private:
+        NI_RESULT UpdateHardware();
 
         enum class COUPLING  {
-            DC,
-            US1,
-            US10,
-            US30
+            DC=0,
+            US1=1,
+            US10=2,
+            US30=3
         } ;
 
         enum class SyncType {
@@ -49,7 +51,7 @@ class bd_dt5560se : public  SciSDK_Node {
         struct {
             int32_t offset_mV[32];
 			uint32_t gain[16];
-            bool div2[16];
+            bool div[16];
 			bool r50[16];
 			COUPLING coupling[2];
         }analog_settings;

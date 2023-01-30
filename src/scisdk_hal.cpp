@@ -1275,6 +1275,112 @@ NI_RESULT SciSDK_HAL::FELib_HasData(uint64_t handle, int timeout) {
 }
 
 
+
+NI_RESULT SciSDK_HAL::ConfigurationRegisterSet(uint32_t value,
+	uint32_t address, uint32_t index) {
+
+	switch (_model) {
+	case BOARD_MODEL::DT1260:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::DT5550X:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X5560:
+		// write register of X5560 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, uint32_t index,  tR5560_Handle* handle);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
+#else
+			int (*write_reg)(uint32_t value, uint32_t address, uint32_t index, tR5560_Handle * handle);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "NI_InternalWriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(value, address, index, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+		}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+	}
+		break;
+	case BOARD_MODEL::X2495:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X2740:
+		return NI_ERROR;
+		break;
+	default:
+		return NI_ERROR;
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+
+NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
+	uint32_t address, uint32_t index) {
+
+	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "Read reg  @" << address << endl;
+		*value = 0;
+		return NI_OK;
+		break;
+	case BOARD_MODEL::DT1260:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::DT5550X:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X5560:
+		// read register from X5560 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, uint32_t index, tR5560_Handle* handle);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
+#else
+			int (*read_reg)(uint32_t * value, uint32_t address, uint32_t index, tR5560_Handle * handle);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "NI_InternalReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(value, address, index, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X2495:
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X2740:
+		return NI_ERROR;
+		break;
+	default:
+		return NI_ERROR;
+		break;
+		
+	}
+	return NI_OK;
+}
+
+
 std::vector<std::string> SciSDK_HAL::SplitPath(string path, char separator) {
 	std::stringstream test(path);
 	std::string segment;
@@ -1285,3 +1391,4 @@ std::vector<std::string> SciSDK_HAL::SplitPath(string path, char separator) {
 	}
 	return seglist;
 }
+

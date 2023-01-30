@@ -3,6 +3,25 @@
 #include <chrono>
 #include <thread>
 
+#define DT5560_IR_TERM_SET   0x00000000       //Stringa binaria a 32 bit
+#define DT5560_IR_TERM_GET   0x00000001       
+#define DT5560_IR_DIV_SET    0x00000002       //Stringa binaria a 32 bit
+#define DT5560_IR_DIV_GET    0x00000003
+#define DT5560_IR_GAIN_SET   0x00000004       //valore da 0 a 79 (cmd_address per l'id canale
+#define DT5560_IR_GAIN_GET   0x00000005       
+#define DT5560_IR_OFFSET_SET 0x00000006       
+#define DT5560_IR_OFFSET_GET 0x00000007       
+#define DT5560_IR_SHAPER     0x00000008
+#define DT5560_IR_SHAPER     0x00000009
+#define DT5560_IR_SYNC_REG   0x0000001E
+#define DT5560_IR_SYNC_REG   0x0000001F
+
+#define DT5560_IR_APPLY      0x000000FF
+
+
+
+
+
 /*
 BOARD DEVICE DRIVER FOR DT5560SE
 
@@ -23,9 +42,8 @@ bd_dt5560se::bd_dt5560se(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 		RegisterParameter("analog/CH" + std::to_string(i*2) + "_" + std::to_string(i*2+1) + ".div", "set analog gain", SciSDK_Paramcb::Type::str, listOfBoolean, this);
 	}
 	
-	RegisterParameter("analog.shaper0", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
-	RegisterParameter("analog.shaper1", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
-	RegisterParameter("daqsync.lane0", "set daqsync source (0)", SciSDK_Paramcb::Type::str, listOfSync, this);
+	RegisterParameter("analog.shaper", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
+	/*RegisterParameter("daqsync.lane0", "set daqsync source (0)", SciSDK_Paramcb::Type::str, listOfSync, this);
 	RegisterParameter("daqsync.lane1", "set daqsync source (1)", SciSDK_Paramcb::Type::str, listOfSync, this);
 	RegisterParameter("daqsync.lane2", "set daqsync source (2)", SciSDK_Paramcb::Type::str, listOfSync, this);
 	RegisterParameter("syncout.lane0", "set sync connector source (0)", SciSDK_Paramcb::Type::str, listOfSync, this);
@@ -33,7 +51,7 @@ bd_dt5560se::bd_dt5560se(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	RegisterParameter("syncout.lane2", "set sync connector source (2)", SciSDK_Paramcb::Type::str, listOfSync, this);
 	RegisterParameter("lemo0", "set lemo connector source (0)", SciSDK_Paramcb::Type::str, listOfSync, this);
 	RegisterParameter("lemo1", "set lemo connector source (1)", SciSDK_Paramcb::Type::str, listOfSync, this);
-	RegisterParameter("lemo2", "set lemo connector source (2)", SciSDK_Paramcb::Type::str, listOfSync, this);
+	RegisterParameter("lemo2", "set lemo connector source (2)", SciSDK_Paramcb::Type::str, listOfSync, this);*/
 }
 
 
@@ -97,10 +115,10 @@ NI_RESULT bd_dt5560se::ISetParamString(string name, string value)
 		
 		if (name == "analog/CH" + std::to_string(i*2) + "_" + std::to_string(i*2+1) +  ".div") {
             if (value == "true") {
-                analog_settings.div2[i] = true;
+                analog_settings.div[i] = true;
             }
             else {
-                analog_settings.div2[i] = false;
+                analog_settings.div[i] = false;
             }
             return NI_OK;
         }
@@ -151,7 +169,7 @@ NI_RESULT bd_dt5560se::IGetParamString(string name, string* value)
         }
 		
 		if (name == "analog/CH" + std::to_string(i*2) + "_" + std::to_string(i*2+1) +  ".div") {
-            if (analog_settings.div2[i])
+            if (analog_settings.div[i])
                 *value = "true";
             else
                 *value = "false";
@@ -248,4 +266,56 @@ std::string bd_dt5560se::syncTypeToString(bd_dt5560se::SyncType t) {
         // Return a default value if the enum value is not recognized
         return "lemo0";
     }
+}
+
+
+NI_RESULT bd_dt5560se::UpdateHardware()
+{
+    int ret = 0;
+    for (int i = 0; i < 32; i++) {
+        uint32_t* p = (uint32_t*) & analog_settings.offset_mV[i];
+        ret = _hal->ConfigurationRegisterSet(*p, DT5560_IR_OFFSET_SET, i);
+        if (ret) {
+            return NI_ERROR_INTERFACE;
+        }
+    }
+
+    for (int i = 0; i < 16; i++) {
+        ret = _hal->ConfigurationRegisterSet(analog_settings.gain[i], DT5560_IR_GAIN_SET, i);
+        if (ret) {
+            return NI_ERROR_INTERFACE;
+        }
+    }
+
+    uint32_t r50 = 0;
+    uint32_t div = 0;
+    for (int i = 0; i < 16; i++) {
+        r50 |= (analog_settings.r50 ? 1 : 0 ) << i;
+        div |= (analog_settings.div ? 1 : 0) << i;
+    }
+
+    ret = _hal->ConfigurationRegisterSet(r50, DT5560_IR_TERM_SET, 0);
+    if (ret) {
+        return NI_ERROR_INTERFACE;
+    }
+
+    ret = _hal->ConfigurationRegisterSet(div, DT5560_IR_DIV_SET, 0);
+    if (ret) {
+        return NI_ERROR_INTERFACE;
+    }
+
+    ret = _hal->ConfigurationRegisterSet((uint32_t)analog_settings.coupling, DT5560_IR_DIV_SET, 0);
+    if (ret) {
+        return NI_ERROR_INTERFACE;
+    }
+
+    ret = _hal->ConfigurationRegisterSet(0, DT5560_IR_APPLY, 0);
+    if (ret) {
+        return NI_ERROR_INTERFACE;
+    }
+
+    
+
+        return NI_OK;
+
 }

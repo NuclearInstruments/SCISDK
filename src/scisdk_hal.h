@@ -88,7 +88,8 @@ public:
 	NI_RESULT FELib_HasData(uint64_t handle, int timeout);
 
 
-	
+	NI_RESULT ConfigurationRegisterSet(uint32_t value, uint32_t address, uint32_t index);
+	NI_RESULT ConfigurationRegisterGet(uint32_t *value, uint32_t address, uint32_t index);
 private:
 	std::vector<std::string> SplitPath(string path, char separator);
 	void *_handle;
