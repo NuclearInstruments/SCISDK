@@ -13,7 +13,7 @@ cd $ROOT
 autoreconf -if
 mkdir build_zynq
 cd build_zynq
-../configure --host=arm-xilinx-linux-gnueabi --prefix=$(pwd)/output/
+../configure --host=arm-xilinx-linux-gnueabi --prefix=$(pwd)/output/ CFLAGS="-O3" CXXFLAGS="-O3"
 make -j16
 make install
 cd output
