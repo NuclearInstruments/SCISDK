@@ -497,7 +497,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 					//read_digital2[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 30 & 1;
 					//read_digital3[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 31 & 1;
 					for (int d = 0; d < settings.ndigital; d++) {
-						p->digital[k + (settings.nsamples*(n + d))] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
 					}
 					k++;
 				}
@@ -510,7 +510,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 					//read_digital2[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 30 & 1;
 					//read_digital3[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 31 & 1;
 					for (int d = 0; d < settings.ndigital; d++) {
-						p->digital[k + (settings.nsamples*(n + d))] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
 					}
 					k++;
 				}
@@ -527,7 +527,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 					//read_digital2[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 30 & 1;
 					//read_digital3[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 31 & 1;
 					for (int d = 0; d < settings.ndigital; d++) {
-						p->digital[k + (settings.nsamples*(n + d))] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
 					}
 					k++;
 				}
@@ -540,7 +540,7 @@ NI_RESULT SciSDK_Oscilloscope_Dual::ReadData(void *buffer) {
 					//read_digital2[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 30 & 1;
 					//read_digital3[k + (n_samples*n)] = data_osc[i + (n_samples*n)] >> 31 & 1;
 					for (int d = 0; d < settings.ndigital; d++) {
-						p->digital[k + (settings.nsamples*(n + d))] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (28 + d) & 1;
 					}
 					k++;
 				}
