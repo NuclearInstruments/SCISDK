@@ -40,7 +40,6 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
 	threaded = false;
 	high_performance = false;
-	cout << "Digitizer: " << name << " addr: " << address.base << endl;
 
 	std::list<int> listOfchannels;
 	int q=0, qi = 0;

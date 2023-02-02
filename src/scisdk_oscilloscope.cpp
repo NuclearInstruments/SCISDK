@@ -39,7 +39,6 @@ SciSDK_Oscilloscope::SciSDK_Oscilloscope(SciSDK_HAL *hal, json j, string path) :
 
 	data_processing = DATA_PROCESSING::DECODE;
 
-	cout << "Oscilloscope: " << name << " addr: " << address.base << endl;
 	RegisterParameter("decimator", "set x-axis decimation factor", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("pretrigger", "set pretrigger memory length", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("trigger_level", "set trigger level", SciSDK_Paramcb::Type::U32, this);

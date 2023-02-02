@@ -44,7 +44,6 @@ SciSDK_Frame::SciSDK_Frame(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(h
 	isRunning = false;
 
 	__buffer = NULL;
-	cout << "Frame transfer: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
 	wait_coincidence = 0;

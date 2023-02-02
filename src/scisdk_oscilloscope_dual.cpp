@@ -31,7 +31,6 @@ SciSDK_Oscilloscope_Dual::SciSDK_Oscilloscope_Dual(SciSDK_HAL *hal, json j, stri
 
 	__buffer = (uint32_t *)malloc(settings.nchannels * settings.nsamples * sizeof(uint32_t));
 
-	cout << "Oscilloscope: " << name << " addr: " << address.base << endl;
 	RegisterParameter("decimator", "set x-axis decimation factor", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("pretrigger", "set pretrigger memory length", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("trigger_level", "set trigger level", SciSDK_Paramcb::Type::U32, this);

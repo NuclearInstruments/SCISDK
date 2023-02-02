@@ -33,8 +33,6 @@ SciSDK_TOFSpectrum::SciSDK_TOFSpectrum(SciSDK_HAL *hal, json j, string path) : S
 	settings.bitbin = (uint32_t)j.at("CountsBit");
 	binwidth = 10;
 
-
-	cout << "TOF Spectrum: " << name << " addr: " << address.base << endl;
 	RegisterParameter("binwidth", "set bin width in clock cycles. 3 is minimum", SciSDK_Paramcb::Type::U32, 3,100000000, this);
 	RegisterParameter("start_delay", "set low cut energy value on data input(before rebinning)", SciSDK_Paramcb::Type::U32, 0,2000000000, this);
 
