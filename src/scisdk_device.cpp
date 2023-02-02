@@ -429,12 +429,9 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 	try {
 		for (json::iterator it = rs.begin(); it != rs.end(); ++it) {
 
-			cout << parent << "/" << it.key() << endl;
 			if (StartWith(ToUpper(it.key()), ToUpper("Registers"))) {
 				for (json r : rs.at(it.key()))
 				{
-					cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << endl;
-
 					mmcs.push_back(new SciSDK_Register(_hal, r, parent + "/" + (string)it.key()));
 				}
 			}
@@ -442,7 +439,6 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 				if (StartWith(ToUpper(it.key()), ToUpper("MMCComponents")) == true) {
 					for (json r : rs.at(it.key()))
 					{
-						cout << parent << "/" << it.key() << "/" << (string)r.at("Name") << "<" << (string)r.at("Type") << ">" << endl;
 						if (ToUpper(r.at("Type")) == "OSCILLOSCOPE") {
 							mmcs.push_back(new SciSDK_Oscilloscope(_hal, r, parent + "/" + (string)it.key()));
 						}
