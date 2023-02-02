@@ -54,7 +54,6 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 	isRunning = false;
 
 	__buffer = NULL;
-	cout << "Custom packet: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
 

@@ -34,7 +34,6 @@ SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char
 	if (JSONFwFilePath == NULL)return NI_ERROR;
 	if (Name == NULL)return NI_ERROR;
 
-	cout << DevicePath << endl;
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _DevicePath(DevicePath);
 	string _DeviceModel(DeviceModel);

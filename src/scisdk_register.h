@@ -15,7 +15,6 @@ public:
 	SciSDK_Register(SciSDK_HAL *hal, json j, string path): SciSDK_Node(hal, j, path)
 	{
 		address = (uint32_t)j.at("Address");
-		cout << "Reg: " << name << " addr: " << address << endl;
 	}
 	
 	NI_RESULT SetValueU32(uint32_t value) override;

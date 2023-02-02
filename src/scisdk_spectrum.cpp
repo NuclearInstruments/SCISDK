@@ -39,7 +39,6 @@ SciSDK_Spectrum::SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path) : SciSDK_
 	spectrum_limit = LIMIT_TYPE::FREE_RUNNING;
 	rebin =0;
 
-	cout << "Spectrum: " << name << " addr: " << address.base << endl;
 	RegisterParameter("rebin", "set rebin factor. 0: no rebin", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("min", "set low cut energy value on data input(before rebinning)", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("max", "set low high energy value on data input(before rebinning)", SciSDK_Paramcb::Type::U32, this);

@@ -40,7 +40,6 @@ SciSDK_List::SciSDK_List(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal
 	threaded=false;
 	high_performance=false;
 	__buffer = NULL;
-	cout << "List: " << name << " addr: " << address.base << endl;
 
 	timeout = 100;
 
