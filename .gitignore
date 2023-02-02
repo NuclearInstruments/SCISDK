@@ -308,3 +308,8 @@ docs/html
 *.zip
 
 output/
+build_zynq/
+build_arm64/
+build_armhf/
+build_x64/
+build_i386/
