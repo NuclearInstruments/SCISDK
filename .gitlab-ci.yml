@@ -71,10 +71,10 @@ build_vs2022_windows:
 
 build_zynq:
   stage: build
-  image: registry.lanni/nibuntu/console-20.04:latest
+  image: registry.lanni/nibuntu/build-20.04:latest
   script:
     - echo $CI_COMMIT_TAG>VERSION
-    - ./compile_for_zynq.sh
+    - ./compile_all_architecures.sh
   artifacts:
     untracked: false
     paths:
@@ -82,6 +82,21 @@ build_zynq:
   rules:
     - if: $CI_COMMIT_TAG
 
+build_all_arch:
+  stage: build
+  image: registry.lanni/nibuntu/build-20.04:latest
+  script:
+    - echo $CI_COMMIT_TAG>VERSION
+    - ./compile_for_zynq.sh
+  artifacts:
+    untracked: false
+    paths:
+      - scisdk-x64.tar.gz
+      - scisdk-i386.tar.gz
+      - scisdk-arm64.tar.gz
+      - scisdk-armhf.tar.gz
+  rules:
+    - if: $CI_COMMIT_TAG
 
 nirelease:
   stage: release
