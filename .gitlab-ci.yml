@@ -71,7 +71,7 @@ build_vs2022_windows:
 
 build_zynq:
   stage: build
-  image: registry.lanni/nibuntu/build-20.04:latest
+  image: registry.lanni/nibuntu/console-20.04:latest
   script:
     - echo $CI_COMMIT_TAG>VERSION
     - ./compile_for_zynq.sh
