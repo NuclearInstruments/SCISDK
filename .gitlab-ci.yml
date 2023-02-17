@@ -85,16 +85,33 @@ build_zynq:
 build_all_arch:
   stage: build
   image: registry.lanni/nibuntu/build-20.04:latest
+  variable:
+    - LINUXRELEASE: "focal"
   script:
     - echo $CI_COMMIT_TAG>VERSION
     - ./compile_all_architecures.sh
+    - ./compile_deb.sh
+    - mkdir tars
+    - mkdir debs
+    - mv scisdk-x64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.deb
+    - mv scisdk-i386.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.deb
+    - mv scisdk-arm64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.deb
+    - mv scisdk-armhf.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.deb
+    - mv scisdk-x64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.tar.gz
+    - mv scisdk-i386.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.tar.gz
+    - mv scisdk-arm64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.tar.gz
+    - mv scisdk-armhf.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.tar.gz
+    - cd tars
+    - tar zcvf ../scisdk-lib-$LINUXRELEASE.tar.gz .
+    - cd ../debs
+    - tar zcvf ../scisdk-deb-$LINUXRELEASE.tar.gz .
+
   artifacts:
     untracked: false
     paths:
-      - scisdk-x64.tar.gz
-      - scisdk-i386.tar.gz
-      - scisdk-arm64.tar.gz
-      - scisdk-armhf.tar.gz
+    - scisdk-lib-$LINUXRELEASE.tar.gz
+    - scisdk-deb-$LINUXRELEASE.tar.gz
+
   rules:
     - if: $CI_COMMIT_TAG
 
