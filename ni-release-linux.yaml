@@ -1,0 +1,51 @@
+
+# name of project (space not supported)
+project: SciSDK
+
+# revision (letter)
+rev: A
+
+# Type of element sub, release
+component: release
+
+# categories of artifact
+#   fw-linux-app
+#   fw-fpga
+#   fw-baremetal
+#   fw-linux-kernel
+#   fw-linux-module
+#   fw-linux-uboot
+#   fw-linux-fsbl
+#   fw-linux-lib
+#   fw-linux-rootfs
+#   fw-uc-firmware
+#   fw-iso
+#   sw-linux-app
+#   sw-windows-app
+#   sw-mac-app
+#   sw-allos-app
+#   sw-linux-app-install
+#   sw-windows-app-install
+#   sw-mac-app-install
+#   sw-allos-app-install
+#   sw-linux-lib
+#   sw-windows-lib
+#   sw-mac-lib
+#   sw-alos-lib
+#   web-app
+#   web-content
+#   web-lib
+#   python-release
+
+type: sw-linux-lib
+#   name of the artifact file
+name: scisdk-linux
+
+# compression
+#   tar.gz, zip (not supported now), none
+compression: tar.gz
+# Files in release
+#   relative path will be removed
+files:
+  - scisdk-lib-focal.tar.gz
+  - scisdk-deb-focal.tar.gz
