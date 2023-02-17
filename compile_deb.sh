@@ -21,7 +21,7 @@ fpm \
   --name scisdk \
   --license agpl3 \
   --version $CI_COMMIT_TAG \
-  --architecture all \
+  --architecture i386 \
   --description "Nuclear Instruments SciCompiler SDK" \
   --url "https://github.com/NuclearInstruments/SCISDK" \
   --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
