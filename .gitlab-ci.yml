@@ -74,7 +74,7 @@ build_zynq:
   image: registry.lanni/nibuntu/build-20.04:latest
   script:
     - echo $CI_COMMIT_TAG>VERSION
-    - ./compile_all_architecures.sh
+    - ./compile_for_zynq.sh
   artifacts:
     untracked: false
     paths:
@@ -87,7 +87,7 @@ build_all_arch:
   image: registry.lanni/nibuntu/build-20.04:latest
   script:
     - echo $CI_COMMIT_TAG>VERSION
-    - ./compile_for_zynq.sh
+    - ./compile_all_architecures.sh
   artifacts:
     untracked: false
     paths:
