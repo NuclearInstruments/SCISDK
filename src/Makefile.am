@@ -2,7 +2,7 @@
 
 # additional include paths necessary to compile the C++ library
 AUTOMAKE_OPTIONS = subdir-objects
-AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@
+AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@ -Wno-narrowing -fpermissive
 
 ###############################################################################
 # THE LIBRARIES TO BUILD
