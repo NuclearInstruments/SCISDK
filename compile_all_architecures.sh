@@ -18,6 +18,7 @@ cd output
 tar zcvf ../../scisdk-x64.tar.gz .
 cd ../..
 
+autoreconf -if
 #compile x86 
 rm -rf build_i386
 mkdir -p build_i386
