@@ -18,6 +18,8 @@ cd output
 tar zcvf ../../scisdk-x64.tar.gz .
 cd ../..
 
+unset CC
+unset CXX
 autoreconf -if
 #compile x86 
 rm -rf build_i386
@@ -31,6 +33,9 @@ cd ../..
 
 
 #compile arm64
+unset CC
+unset CXX
+autoreconf -if
 rm -rf build_arm64
 mkdir -p build_arm64
 cd build_arm64
@@ -43,6 +48,9 @@ tar zcvf ../../scisdk-arm64.tar.gz .
 cd ../..
 
 #compile armhf
+unset CC
+unset CXX
+autoreconf -if
 rm -rf build_armhf
 mkdir -p build_armhf
 cd build_armhf
