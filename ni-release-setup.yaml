@@ -1,6 +1,5 @@
-
 # name of project (space not supported)
-project: SciSDK
+project: SCISDK
 
 # revision (letter)
 rev: A
@@ -37,19 +36,17 @@ component: release
 #   web-lib
 #   python-release
 
-type: sw-linux-lib
+type: sw-windows-app-install
 #   name of the artifact file
-name: scisdk-linux
+name: scisdk-setup
 
 # compression
 #   tar.gz, zip (not supported now), none
-compression: tar.gz
+compression: none
 # Files in release
 #   relative path will be removed
 files:
-  - scisdk-lib-ubuntu-18.04.tar.gz
-  - scisdk-deb-ubuntu-18.04.tar.gz
-  - scisdk-lib-ubuntu-20.04.tar.gz
-  - scisdk-deb-ubuntu-20.04.tar.gz
-  - scisdk-lib-ubuntu-22.04.tar.gz
-  - scisdk-deb-ubuntu-22.04.tar.gz
+  - output/SciSDKSetup.exe
+  
+
+
