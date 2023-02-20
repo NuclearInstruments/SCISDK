@@ -92,6 +92,7 @@ build_ubuntu_all_arch:
   parallel:
       matrix:
         - DOCKER_IMAGE: ["18.04", "20.04", "22.04"]
+          ARCHITECTURE: ["x64", "i386", "arm64", "armhf"]
   variables:
       DOCKER_IMAGE_MAP: "18.04=bionic,20.04=focal,22.04=jammy"
   
@@ -104,28 +105,30 @@ build_ubuntu_all_arch:
     - echo "Build on $DOCKER_IMAGE"
     - echo "Build for release  $LINUXRELEASE" 
     - echo $CI_COMMIT_TAG>VERSION
+    - mkdir -p tars
+    - mkdir -p debs    
     - ./compile_all_architecures.sh
-    - ./compile_deb.sh
-    - mkdir tars
-    - mkdir debs
-    - mv scisdk-x64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.deb
-    - mv scisdk-i386.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.deb
-    - mv scisdk-arm64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.deb
-    - mv scisdk-armhf.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.deb
-    - mv scisdk-x64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.tar.gz
-    - mv scisdk-i386.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.tar.gz
-    - mv scisdk-arm64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.tar.gz
-    - mv scisdk-armhf.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.tar.gz
-    - cd tars
-    - tar zcvf ../scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz .
-    - cd ../debs
-    - tar zcvf ../scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz .
+#    - ./compile_deb.sh
+#    - mv scisdk-x64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.deb
+#    - mv scisdk-i386.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.deb
+#    - mv scisdk-arm64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.deb
+#    - mv scisdk-armhf.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.deb
+#    - mv scisdk-x64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.tar.gz
+#    - mv scisdk-i386.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.tar.gz
+#    - mv scisdk-arm64.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-arm64.tar.gz
+#    - mv scisdk-armhf.tar.gz tars/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-armhf.tar.gz
+#    - cd tars
+#    - tar zcvf ../scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz .
+#    - cd ../debs
+#    - tar zcvf ../scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz .
 
   artifacts:
     untracked: false
     paths:
-    - scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz
-    - scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz
+      - tars/**  
+      - debs/**
+#   - scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz
+#    - scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz
 
   rules:
     - if: $CI_COMMIT_TAG
@@ -195,6 +198,11 @@ nirelease:
     - build_ubuntu_all_arch
     - digital_signature
   script:
+    - cd tars
+    - tar zcvf ../scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz .
+    - cd ../debs
+    - tar zcvf ../scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz .
+    - cd ..
     - mv output/scisdk-full.zip  output/scisdk-win-full.zip  
     # - mv linux linux_x64
     # - tar -zcvf linux_x64.tar.gz linux_x64
