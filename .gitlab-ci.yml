@@ -4,6 +4,7 @@ stages:
   - push
   - build
   - release_win
+  - setup
   - sign
   - release
 
@@ -132,7 +133,7 @@ build_ubuntu_all_arch:
 
 
 
-nirelease_windows:
+nireleasewindows:
   stage: release_win
   image: registry.lanni/apps/release-manager:latest
   dependencies: 
@@ -148,9 +149,9 @@ nirelease_windows:
   when: on_success
 
 build_setup:
-  stage: build
+  stage: setup
   dependencies: 
-  - nirelease_windows  
+  - nireleasewindows  
 
   image: registry.lanni/microsoft/innosetup:latest
   script:
