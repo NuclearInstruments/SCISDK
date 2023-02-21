@@ -90,7 +90,9 @@ build_zynq:
 build_ubuntu_all_arch:
   stage: build
   tags:
-    - docker-heavy
+    - docker-linux
+    - heavy
+
   parallel:
       matrix:
         - DOCKER_IMAGE: ["18.04", "20.04", "22.04"]
