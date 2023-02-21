@@ -13,7 +13,7 @@ if [ "$ARCHITECTURE" = "x64" ]; then
     mkdir -p build_x64
     cd build_x64
     ../configure --prefix=$(pwd)/output CFLAGS="-O3" CXXFLAGS="-O3"
-    make && make install
+    make -j4 && make install
     cd output
     fpm \
     -s dir -t deb \
@@ -33,8 +33,8 @@ elif [ "$ARCHITECTURE" = "i386" ]; then
     rm -rf build_i386
     mkdir -p build_i386
     cd build_i386
-    ../configure --host=i686-linux-gnu CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS=-m32 --prefix=$(pwd)/output CFLAGS="-O3" CXXFLAGS="-O3"
-    make && make install
+    ../configure --host=i686-linux-gnu CFLAGS="-m32 -O3" CXXFLAGS="-m32 -O3" LDFLAGS=-m32 --prefix=$(pwd)/output
+    make -j4 && make install
     cd output
     fpm \
     -s dir -t deb \
@@ -57,7 +57,7 @@ elif [ "$ARCHITECTURE" = "arm64" ]; then
     export CC=aarch64-linux-gnu-gcc
     export CXX=aarch64-linux-gnu-g++
     ../configure --host=aarch64-linux-gnu --prefix=$(pwd)/output --build=$BUILD CFLAGS="-O3" CXXFLAGS="-O3"
-    make && make install
+    make -j4 && make install
     cd output
     fpm \
     -s dir -t deb \
@@ -80,7 +80,7 @@ elif [ "$ARCHITECTURE" = "armhf" ]; then
     export CC=arm-linux-gnueabihf-gcc
     export CXX=arm-linux-gnueabihf-g++
     ../configure --host=arm-linux-gnueabihf --prefix=$(pwd)/output --build=$BUILD CFLAGS="-O3" CXXFLAGS="-O3"
-    make && make install
+    make -j4 && make install
     cd output
     fpm \
     -s dir -t deb \
