@@ -47,9 +47,5 @@ compression: tar.gz
 # Files in release
 #   relative path will be removed
 files:
-  - scisdk-lib-ubuntu-18.04.tar.gz
-  - scisdk-deb-ubuntu-18.04.tar.gz
-  - scisdk-lib-ubuntu-20.04.tar.gz
-  - scisdk-deb-ubuntu-20.04.tar.gz
-  - scisdk-lib-ubuntu-22.04.tar.gz
-  - scisdk-deb-ubuntu-22.04.tar.gz
+  - scisdk-lib-ubuntu.tar.gz
+  - scisdk-deb-ubuntu.tar.gz

@@ -203,9 +203,9 @@ nirelease:
     - digital_signature
   script:
     - cd tars
-    - tar zcvf ../scisdk-lib-ubuntu-$DOCKER_IMAGE.tar.gz .
+    - tar zcvf ../scisdk-lib-ubuntu.tar.gz .
     - cd ../debs
-    - tar zcvf ../scisdk-deb-ubuntu-$DOCKER_IMAGE.tar.gz .
+    - tar zcvf ../scisdk-deb-ubuntu.tar.gz .
     - cd ..
     # - mv linux linux_x64
     # - tar -zcvf linux_x64.tar.gz linux_x64
