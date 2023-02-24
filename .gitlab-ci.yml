@@ -237,19 +237,19 @@ deb_push:
     - build_ubuntu_all_arch
 
   script:
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-x64.deb"' \--form 'distribution="jammy"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-i386.deb"' \--form 'distribution="jammy"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-arm64.deb"' \--form 'distribution="jammy"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-armhf.deb"' \--form 'distribution="jammy"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-x64.deb"' \--form 'distribution="jammy"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-i386.deb"' \--form 'distribution="jammy"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-arm64.deb"' \--form 'distribution="jammy"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-22.04-armhf.deb"' \--form 'distribution="jammy"'
 
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-x64.deb"' \--form 'distribution="focal"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-i386.deb"' \--form 'distribution="focal"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-arm64.deb"' \--form 'distribution="focal"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-armhf.deb"' \--form 'distribution="focal"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-x64.deb"' \--form 'distribution="focal"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-i386.deb"' \--form 'distribution="focal"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-arm64.deb"' \--form 'distribution="focal"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-20.04-armhf.deb"' \--form 'distribution="focal"'
 
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-x64.deb"' \--form 'distribution="bionic"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-i386.deb"' \--form 'distribution="bionic"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-arm64.deb"' \--form 'distribution="bionic"'
-    curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-armhf.deb"' \--form 'distribution="bionic"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-x64.deb"' \--form 'distribution="bionic"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-i386.deb"' \--form 'distribution="bionic"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-arm64.deb"' \--form 'distribution="bionic"'
+    - curl --location --request POST 'http://packages-ubuntu.lanni/api/upload' \--form 'file=@"debs/scisdk-18.04-armhf.deb"' \--form 'distribution="bionic"'
 
 
