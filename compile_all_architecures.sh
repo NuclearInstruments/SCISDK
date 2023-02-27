@@ -65,7 +65,7 @@ elif [ "$ARCHITECTURE" = "arm64" ]; then
     --name scisdk \
     --license agpl3 \
     --version $CI_COMMIT_TAG \
-    --architecture aarch64 \
+    --architecture arm64 \
     --description "Nuclear Instruments SciCompiler SDK" \
     --url "https://github.com/NuclearInstruments/SCISDK" \
     --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
