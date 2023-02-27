@@ -37,8 +37,6 @@ push_github:
     - git config remote.github_cicd.url >&- || git remote add github_cicd https://NuclearInstruments:${GITHUB_TOKEN}@github.com/NuclearInstruments/SCISDK.git
     - git push -u github_cicd HEAD:master --force
 
-  rules:
-    - if: $CI_COMMIT_TAG
 
 
 docs_nirelease:
@@ -254,4 +252,5 @@ deb_push:
     - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-arm64.deb" -F "distribution=bionic"
     - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-armhf.deb" -F "distribution=bionic"
 
-
+  rules:
+    - if: $CI_COMMIT_TAG
