@@ -2,8 +2,8 @@ MSBuild SciSDK_VC++\SciSDK_VC++.sln -t:Rebuild -p:Configuration=Release -p:Platf
 MSBuild SciSDK_VC++\SciSDK_VC++.sln -t:Rebuild -p:Configuration=Debug -p:Platform=x64
 MSBuild SciSDK_VC++\SciSDK_VC++.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86
 MSBuild SciSDK_VC++\SciSDK_VC++.sln -t:Rebuild -p:Configuration=Debug -p:Platform=x86
-MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild -p:Configuration=Release -p:Platform=AnyCPU
-MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild  p:Configuration=Debug -p:Platform=AnyCPU
+MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild -p:Configuration=Release -p:Platform="Any CPU"
+MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild  p:Configuration=Debug -p:Platform="Any CPU"
 
 New-Item -Path "." -Name "output" -ItemType "directory" -Force
 Copy-Item ".\bin" -Destination ".\output\" -Recurse -Force -Exclude *.pdb,*.exe,*.exp
