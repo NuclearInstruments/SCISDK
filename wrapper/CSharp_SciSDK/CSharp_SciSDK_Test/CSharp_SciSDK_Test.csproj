@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CSharp_SciSDK_Test</RootNamespace>
     <AssemblyName>CSharp_SciSDK_Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSharp_SciSDK\CSharp_SciSDK.csproj">
-      <Project>{C1ABA0E0-F609-468C-A29C-5D0B41A682CC}</Project>
+      <Project>{c1aba0e0-f609-468c-a29c-5d0b41a682cc}</Project>
       <Name>CSharp_SciSDK</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,0 +1,89 @@
+{"Registers":[
+{
+  "Name": "trgthrs",
+  "Address": 4103,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "pol",
+  "Address": 4104,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "trgcnt",
+  "Address": 4105,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 0,
+  "Version": "1.0.0.0",
+  "nsamples": 4096,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 4096,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Address": 4097,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 4098,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 4099,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 4100,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 4101,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 4102,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 1
+}],"Device":"SCIDK","Project":"dt1260osc"}
