@@ -7,12 +7,10 @@ from matplotlib.widgets import Button
 # initialize scisdk library
 sdk = SciSDK()
 
-# DT1260
+# Add the device DT1260
 script_path = os.path.dirname(os.path.realpath(__file__))
 res = sdk.AddNewDevice("usb:13250", "dt1260", script_path +
                        "/RegisterFile.json", "board0")
-# res = sdk.AddNewDevice("usb:13250", "dt1260", "./RegisterFile.json",
-#                       "board0")
 
 if not res == 0:
     print("Program exit due connection error")
@@ -70,6 +68,7 @@ def update(i):
 
 ani = animation.FuncAnimation(fig, update, interval=10)
 
+
 # Add buttons
 def stop(event):
     ani.event_source.stop()
@@ -83,7 +82,6 @@ def restart(event):
     ani.event_source.stop()
     x.clear()
     y.clear()
-# #     ax.set_xlim(0, 200)
     ani.event_source.start()
 
 
@@ -92,7 +90,7 @@ stop_button = Button(plt.axes([0.7, 0.9, 0.1, 0.075]), 'Stop',
 stop_button.on_clicked(stop)
 
 start_button = Button(plt.axes([0.8, 0.9, 0.1, 0.075]), 'Start',
-                               hovercolor='green')
+                      hovercolor='green')
 start_button.on_clicked(start)
 
 restart_button = Button(plt.axes([0.6, 0.9, 0.1, 0.075]), 'Restart',

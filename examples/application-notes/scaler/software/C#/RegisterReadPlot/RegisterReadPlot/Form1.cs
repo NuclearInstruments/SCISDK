@@ -25,12 +25,14 @@ namespace RegisterReadPlot
             series= new LineSeries();
             model.Series.Add(series);
 
-            sdk= new SciSDK();
+            //Initialize scisdk library and add device
+            sdk = new SciSDK();
             res = sdk.AddNewDevice("usb:13250", "dt1260", "registerfile.json", "board0");
             const int ni_ok = 0;
 
             if (res != ni_ok) { Environment.Exit(-1); }
 
+            // Set registers
             res = sdk.SetRegister("board0:/Registers/trgthrs", 2500);
             res = sdk.SetRegister("board0:/Registers/pol", 1);
 
@@ -44,26 +46,40 @@ namespace RegisterReadPlot
             plotView.Model = model;
             Controls.Add(plotView);
 
+            // Create a table pannel for the button
+            TableLayoutPanel t1 = new TableLayoutPanel();
+            t1.Dock = DockStyle.Bottom;
+            t1.RowCount = 1;
+            t1.ColumnCount = 3;
+            t1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33f));
+            t1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33f));
+            t1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33f));
+
             // Create the start button and set its properties
             var startButton = new Button();
             startButton.Text = "Start";
-            startButton.Dock = DockStyle.Bottom;
             startButton.Click += StartButton_Click;
-            Controls.Add(startButton);
+            startButton.Dock = DockStyle.Fill;
 
             // Create the stop button and set its properties
             var stopButton = new Button();
             stopButton.Text = "Stop";
-            stopButton.Dock = DockStyle.Bottom;
             stopButton.Click += StopButton_Click;
-            Controls.Add(stopButton);
+            stopButton.Dock = DockStyle.Fill;
 
             // Create the restart button and set its properties
             var restartButton = new Button();
             restartButton.Text = "Restart";
-            restartButton.Dock = DockStyle.Bottom;
             restartButton.Click += RestartButton_Click;
-            Controls.Add(restartButton);
+            restartButton.Dock = DockStyle.Fill;
+
+            // Set up the flow layout panel for the buttons
+            t1.Controls.Add(startButton, 0, 0);
+            t1.Controls.Add(stopButton, 1, 0);
+            t1.Controls.Add(restartButton, 2, 0);
+
+            Controls.Add(t1);
+            timer.Start();
         }
 
         private void StartButton_Click(object sender, System.EventArgs e)

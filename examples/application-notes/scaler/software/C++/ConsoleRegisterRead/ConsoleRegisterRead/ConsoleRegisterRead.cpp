@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+    // Initialize a scisdk library
     SciSDK sdk;
 
     // Add new device
@@ -18,7 +19,7 @@ int main()
     }
 
     
-    // Write register
+    // Set registers
     res = sdk.SetRegister("board0:/Registers/trgthrs", 2500);
     res = sdk.SetRegister("board0:/Registers/pol", 1);
 
@@ -29,13 +30,36 @@ int main()
         cout << "Error while trying to write register value" << endl;
     }
 
-    // Read register
-        
-    uint32_t value;
+    // Get register single value
+    /*uint32_t value;
+    res = sdk.GetRegister("board0:/Registers/trgcnt", &value);
+    printf("Register count = %u\n", value);*/
+
+    // Get register array value
+    /*uint32_t value;
     for (int i = 0; i <= 100; i++) {
         res = sdk.GetRegister("board0:/Registers/trgcnt", &value);
-        printf("Register value = %u\n", value);
+        printf("Register count = %u\n", value);
+    }*/
 
+    // Get register array value that stop with q key
+    uint32_t value;
+    int i = 0;
+    while (true) {
+        res = sdk.GetRegister("board0:/Registers/trgcnt", &value);
+        printf("Register count = %u\n", value);
+        if (i >= 100) {
+            char input[256];
+            printf("Press 'q' to quit or any other key to continue: ");
+            fgets(input, 256, stdin);
+            if (input[0] == 'q') {
+                break;
+            }
+            i = 0;
+        }
+        else {
+            i++;
+        }
     }
 
     if (res == 0) {
