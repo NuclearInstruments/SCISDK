@@ -46,13 +46,13 @@ Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Rel
 Source: "scisdk\bin\x64\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\x64\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\Win32\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Release\SciSDK_DLL_Static.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
+Source: "scisdk\bin\Win32\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\x64\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\x64\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Debug\SciSDK_DLL_Static.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
+Source: "scisdk\bin\x64\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Debug\SciSDK_DLL_Static.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
+Source: "scisdk\bin\Win32\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\AnyCPU\Debug\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Debug\"; Flags: ignoreversion recursesubdirs
 Source: "scisdk\bin\AnyCPU\Release\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Release\"; Flags: ignoreversion recursesubdirs
 Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
