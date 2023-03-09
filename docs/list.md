@@ -232,15 +232,15 @@ if (res != NI_OK) {
 
 ### Python
 ```python
-res, lrb = sdk.AllocateBufferSize("board0:/MMCComponents/List_0", 0, 1024)
+res, lrb = sdk.AllocateBuffer("board0:/MMCComponents/List_0", 1024)
 
 if res != 0:
 	print("Error allocating buffer")
 	exit(-1)
 
-sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false")
-sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 5000)
-sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking")
+sdk.SetParameterString("board0:/MMCComponents/List_0.thread", "false")
+sdk.SetParameterInteger("board0:/MMCComponents/List_0.timeout", 5000)
+sdk.SetParameterString("board0:/MMCComponents/List_0.acq_mode", "blocking")
 sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", "")
 
 res, lrb = sdk.ReadData("board0:/MMCComponents/List_0", lrb)
