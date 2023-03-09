@@ -306,15 +306,15 @@ C++</h2>
 <div class="line">}</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md158"></a>
 Python</h2>
-<div class="fragment"><div class="line">res, lrb = sdk.AllocateBufferSize(&quot;board0:/MMCComponents/List_0&quot;, 0, 1024)</div>
+<div class="fragment"><div class="line">res, lrb = sdk.AllocateBuffer(&quot;board0:/MMCComponents/List_0&quot;, 1024)</div>
 <div class="line"> </div>
 <div class="line">if res != 0:</div>
 <div class="line">    print(&quot;Error allocating buffer&quot;)</div>
 <div class="line">    exit(-1)</div>
 <div class="line"> </div>
-<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.thread&quot;, &quot;false&quot;)</div>
-<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.timeout&quot;, 5000)</div>
-<div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.acq_mode&quot;, &quot;blocking&quot;)</div>
+<div class="line">sdk.SetParameterString(&quot;board0:/MMCComponents/List_0.thread&quot;, &quot;false&quot;)</div>
+<div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/List_0.timeout&quot;, 5000)</div>
+<div class="line">sdk.SetParameterString(&quot;board0:/MMCComponents/List_0.acq_mode&quot;, &quot;blocking&quot;)</div>
 <div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/List_0.start&quot;, &quot;&quot;)</div>
 <div class="line"> </div>
 <div class="line">res, lrb = sdk.ReadData(&quot;board0:/MMCComponents/List_0&quot;, lrb)</div>
