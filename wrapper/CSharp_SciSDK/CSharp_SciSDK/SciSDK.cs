@@ -543,7 +543,7 @@ namespace CSharp_SciSDK
 
                 raw_buffer.info = buffer_struct.info;
                 raw_buffer.magic = buffer_struct.magic;
-                raw_buffer.data = new char[raw_buffer.info.buffer_size];
+                raw_buffer.data = new byte[raw_buffer.info.buffer_size];
                 Marshal.Copy(buffer_struct.data, raw_buffer.data, 0, raw_buffer.data.Length);
 
                 buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));

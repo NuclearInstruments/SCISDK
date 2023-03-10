@@ -164,7 +164,7 @@ namespace CSharp_SciSDK
     public struct SciSDKListRawBuffer
     {
         public UInt32 magic;
-        public char[] data;
+        public byte[] data;
         public SciSDKListRawBufferInfo info;
         public IntPtr buffer_ptr;
     }

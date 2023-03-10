@@ -216,7 +216,7 @@ ret = SCISDK_ReadData("board0:/MMCComponents/List_0", (void *)lrb, _sdk);
 ### C++
 ```cpp
 SCISDK_LIST_RAW_BUFFER *lrb;
-sdk->AllocateBufferSize("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&lrb, 1024);
+sdk->AllocateBuffer("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&lrb, 1024);
 sdk->SetParameter("board0:/MMCComponents/List_0.thread", "false");
 sdk->SetParameter("board0:/MMCComponents/List_0.timeout", 5000);
 sdk->SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking");
@@ -250,7 +250,7 @@ res, lrb = sdk.ReadData("board0:/MMCComponents/List_0", lrb)
 
 ```csharp
 SciSDKListRawBuffer lrb = new SciSDKListRawBuffer();
-sdk.AllocateBufferSize("board0:/MMCComponents/List_0", 0, ref lrb, 1024);
+sdk.AllocateBuffer("board0:/MMCComponents/List_0", 0, ref lrb, 1024);
 sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false");
 sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 5000);
 sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking");

@@ -1,4 +1,4 @@
-namespace RegisterReadPlot
+namespace PlotCounterList
 {
     class Program
     {

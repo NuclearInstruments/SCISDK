@@ -5,39 +5,67 @@ using CSharp_SciSDK;
 using Timer = System.Timers.Timer;
 using System.Net.NetworkInformation;
 
-namespace RegisterReadPlot
+namespace PlotCounterList
 {
     public partial class Form1 : Form
     {
         private PlotModel model;
         private Timer timer;
         private LineSeries series;
-        int i =0;
+        int i = 0;
         private SciSDK sdk;
         int res;
         int value = 0;
-
+        SciSDKListRawBuffer lrb;
         public Form1()
         {
             this.InitializeComponent();
             // Initialize the plot model and series
             model = new PlotModel();
-            series= new LineSeries();
+            series = new LineSeries();
             model.Series.Add(series);
 
             // Initialize scisdk library and add device
             sdk = new SciSDK();
             res = sdk.AddNewDevice("usb:13250", "dt1260", "registerfile.json", "board0");
-            const int ni_ok = 0;
-
-            if (res != ni_ok) { Environment.Exit(-1); }
+            if (res != 0)
+            {
+                Console.WriteLine("Error in adding the device");
+                Environment.Exit(-1);
+            }
 
             // Set registers
-            res = sdk.SetRegister("board0:/Registers/trgthrs", 2500);
+            res = sdk.SetRegister("board0:/Registers/trgthrs", 2000);
             res = sdk.SetRegister("board0:/Registers/pol", 1);
+            res = sdk.SetRegister("board0:/Registers/PulsePeriod", 6250000);
+
+            if (res == 0)
+            {
+                Console.WriteLine("Register value has been successully set");
+            }
+            else
+            {
+                Console.WriteLine("Error while trying to write register value");
+            }
+
+            // Allocate buffer raw, size 1024
+            lrb = new SciSDKListRawBuffer();
+            res = sdk.AllocateBuffer("board0:/MMCComponents/List_0", 0, ref lrb, 1024);
+
+            // Set parameters List
+            res = sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false");
+            res = sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 1000);
+            res = sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking");
+
+            if (res != 0)
+            {
+                Console.WriteLine("Error allocting buffer");
+            }
+
+            sdk.ExecuteCommand("board0:/MMCComponents/List_0.stop", "");
 
             // Create a timer update the plot every 10 ms
-            timer = new Timer(10);
+            timer = new Timer(1);
             timer.Elapsed += Timer_Elapsed;
 
             // Set up the plot view
@@ -45,7 +73,6 @@ namespace RegisterReadPlot
             plotView.Dock = DockStyle.Fill;
             plotView.Model = model;
             Controls.Add(plotView);
-
             // Create a table pannel for the button
             TableLayoutPanel t1 = new TableLayoutPanel();
             t1.Dock = DockStyle.Bottom;
@@ -104,8 +131,9 @@ namespace RegisterReadPlot
 
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            res = sdk.GetRegister("board0:/Registers/trgcnt", out value);
-
+            res = sdk.ReadData("board0:/MMCComponents/List_0", ref lrb);
+            uint value = BitConverter.ToUInt32(lrb.data, 0);
+            
             this.Invoke(new Action(() =>
             {
                 series.Points.Add(new DataPoint(i++, value));
