@@ -292,7 +292,7 @@ C</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md157"></a>
 C++</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a> *lrb;</div>
-<div class="line">sdk-&gt;AllocateBufferSize(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
+<div class="line">sdk-&gt;AllocateBuffer(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/List_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/List_0.timeout&quot;</span>, 5000);</div>
 <div class="line">sdk-&gt;SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/List_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>);</div>
@@ -321,7 +321,7 @@ Python</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md159"></a>
 C Sharp</h2>
 <div class="fragment"><div class="line">SciSDKListRawBuffer lrb = new SciSDKListRawBuffer();</div>
-<div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/List_0&quot;, 0, ref lrb, 1024);</div>
+<div class="line">sdk.AllocateBuffer(&quot;board0:/MMCComponents/List_0&quot;, 0, ref lrb, 1024);</div>
 <div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.thread&quot;, &quot;false&quot;);</div>
 <div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.timeout&quot;, 5000);</div>
 <div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/List_0.acq_mode&quot;, &quot;blocking&quot;);</div>
