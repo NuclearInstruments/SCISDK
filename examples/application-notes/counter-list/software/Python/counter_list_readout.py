@@ -46,7 +46,7 @@ res = sdk.ExecuteCommand("board0:/MMCComponents/List_0.stop", "")
 res, buf = sdk.ReadData("board0:/MMCComponents/List_0", buf)
 
 # Print a single value
-data = unpack('<I', buf.data[0:4])[0]
+data = unpack('<I', buf.data[0:4])
 print("Data: " + str(data))
 
 # Print an array of values
@@ -91,7 +91,7 @@ def update(frame, buf):
     return line, vline
 
 
-ani = animation.FuncAnimation(fig, update, fargs=[buf, ], interval=10,)
+ani = animation.FuncAnimation(fig, update, fargs=[buf, ], interval=10)
 
 
 def stop(event):
