@@ -44,6 +44,16 @@ int main()
     // Read data buffered
     res = sdk.ReadData("board0:/MMCComponents/List_0", (void*)lrb);
 
+    for (int j = 0; j < 10; j++)
+    {
+        res = sdk.ReadData("board0:/MMCComponents/List_0", (void*)lrb);
+        for (int i = 0; i < lrb->info.valid_samples; i += 4)
+        {
+             uint32_t value = static_cast<uint32_t>((lrb->data[i + 3] << 24) | (lrb->data[i + 2] << 16) | (lrb->data[i + 1] << 8) | lrb->data[i]);
+             cout << value << endl;
+        }
+    }
+
     if (res != NI_OK) {
         printf("Error reading data\n");
         return -1;
