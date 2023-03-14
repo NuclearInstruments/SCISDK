@@ -36,7 +36,7 @@ int main()
     
     // Set parameters List
     res = sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false");
-    res = sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 1000);
+    res = sdk.SetParameter("board0:/MMCComponents/List_0.timeout", 500);
     res = sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking");
 
     res = sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", "");
@@ -47,10 +47,15 @@ int main()
     for (int j = 0; j < 10; j++)
     {
         res = sdk.ReadData("board0:/MMCComponents/List_0", (void*)lrb);
+        cout <<"valid sample"<< lrb->info.valid_samples << endl;
         for (int i = 0; i < lrb->info.valid_samples; i += 4)
         {
-             uint32_t value = static_cast<uint32_t>((lrb->data[i + 3] << 24) | (lrb->data[i + 2] << 16) | (lrb->data[i + 1] << 8) | lrb->data[i]);
-             cout << value << endl;
+            uint8_t value1 = static_cast<uint8_t>(lrb->data[i]);
+            uint8_t value2 = static_cast<uint8_t>(lrb->data[i+1]);
+            uint8_t value3 = static_cast<uint8_t>(lrb->data[i+2]);
+            uint8_t value4 = static_cast<uint8_t>(lrb->data[i+3]);
+            uint32_t value = static_cast<uint32_t>((value4 << 24) | (value3 << 16) | (value2 << 8) | value1);
+            cout << value << endl;
         }
     }
 
