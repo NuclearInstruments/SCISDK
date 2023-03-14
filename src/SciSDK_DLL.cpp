@@ -188,13 +188,11 @@ SCISDK_DLL_API int SCISDK_AllocateBufferSize(char * Path, T_BUFFER_TYPE buffer_t
 SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (value == NULL)return NI_ERROR;
 	if (value < 0)return NI_ERROR;
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
 	uint32_t _value = (uint32_t)value;
-
 	int res = _sdk->SetRegister(_Path, _value);
 	return res;
 }
