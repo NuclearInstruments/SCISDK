@@ -92,14 +92,14 @@ namespace Registers
             //    j = 0;
             //}
 
-            //if (res == 0)
-            //{
-            //    Console.WriteLine("Register value is read");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Error while trying to read register value");
-            //}
+            if (res == 0)
+            {
+                Console.WriteLine("Register value is read");
+            }
+            else
+            {
+                Console.WriteLine("Error while trying to read register value");
+            }
 
             // Detach device
             sdk.DetachDevice("board0");
