@@ -64,7 +64,7 @@ namespace Registers
             //Console.WriteLine("Data: " + value);
 
             //Get array value
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 50; j++)
             {
                 res = sdk.ReadData("board0:/MMCComponents/List_0", ref lrb);
                 for (int i = 0; i < lrb.info.valid_samples; i += 4)
