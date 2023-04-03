@@ -43,7 +43,7 @@ namespace CSharp_SciSDK
     {
         public UInt32 magic;
         public int[] analog;
-        public int[] digital;
+        public bool[] digital;
         public UInt32 trigger_position;
         public UInt64 timecode;
         public SciSDKOscilloscopeDecodedBufferInfo info;
