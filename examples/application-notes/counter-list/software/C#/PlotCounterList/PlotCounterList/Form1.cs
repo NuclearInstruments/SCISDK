@@ -73,6 +73,7 @@ namespace PlotCounterList
             plotView.Dock = DockStyle.Fill;
             plotView.Model = model;
             Controls.Add(plotView);
+
             // Create a table pannel for the button
             TableLayoutPanel t1 = new TableLayoutPanel();
             t1.Dock = DockStyle.Bottom;

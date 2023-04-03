@@ -447,14 +447,21 @@ namespace CSharp_SciSDK
                 // copy informations from buffer with IntPtr to buffer without IntPtr
                 decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
-                byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
-                Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
-                decoded_buffer.digital = new int[buf_tmp.Length];
-                for (int i = 0; i < buf_tmp.Length; i++)
+                decoded_buffer.digital = new bool[buffer_struct.info.channels * buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                byte [] tmp_bytes = new byte[buffer_struct.info.channels * buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                Marshal.Copy(buffer_struct.digital, tmp_bytes, 0, decoded_buffer.digital.Length);
+                for (int i = 0; i < tmp_bytes.Length; i++)
                 {
-                    decoded_buffer.digital[i] = buf_tmp[i];
+                    decoded_buffer.digital[i] = (tmp_bytes[i] == 1);
                 }
-                decoded_buffer.info = buffer_struct.info;
+                    //byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                    //Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
+                    /*decoded_buffer.digital = new int[buf_tmp.Length];
+                    for (int i = 0; i < buf_tmp.Length; i++)
+                    {
+                        decoded_buffer.digital[i] = buf_tmp[i];
+                    }*/
+                    decoded_buffer.info = buffer_struct.info;
                 decoded_buffer.magic = buffer_struct.magic;
                 decoded_buffer.timecode = buffer_struct.timecode;
                 decoded_buffer.trigger_position = buffer_struct.trigger_position;

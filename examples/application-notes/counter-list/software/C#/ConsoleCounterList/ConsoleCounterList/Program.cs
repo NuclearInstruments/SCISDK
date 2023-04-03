@@ -31,12 +31,8 @@ namespace Registers
             res = sdk.SetRegister("board0:/Registers/pol", 1);
             res = sdk.SetRegister("board0:/Registers/PulsePeriod", 6250000);
 
-            if (res == 0)
-            {
-                Console.WriteLine("Register value has been successully set");
-            }
-            else
-            {
+            if (res != 0)
+            { 
                 Console.WriteLine("Error while trying to write register value");
             }
 
@@ -51,7 +47,7 @@ namespace Registers
 
             if (res != 0)
             {
-                Console.WriteLine("Error allocting buffer");
+                Console.WriteLine("Error allocting list buffer");
             }
 
             sdk.ExecuteCommand("board0:/MMCComponents/List_0.stop", "");
@@ -92,12 +88,8 @@ namespace Registers
             //    j = 0;
             //}
 
-            if (res == 0)
-            {
-                Console.WriteLine("Register value is read");
-            }
-            else
-            {
+            if (res != 0)
+            { 
                 Console.WriteLine("Error while trying to read register value");
             }
 
