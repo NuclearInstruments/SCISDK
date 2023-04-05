@@ -138,6 +138,31 @@ SCISDK_DLL_API int SCISDK_SetParameterString(char* Path, char* value, void* hand
  */
 SCISDK_DLL_API int SCISDK_SetParameterInteger(char* Path, int value, void*handle);
 
+/**
+ * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * route the value to external board library to set board specific parameters.
+ * This function accept a \b integer as value. Please note that the behaviour of this function
+ * is different if the path is a SciSDK managed node or a device specific node managed by the external
+ * library.
+ * The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value
+ * automatically.
+ * If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information
+ * reguarding the data type required by the external library indeed the che correct SetParamter function
+ * must be call in agreement with the external library required value type.
+ *
+ * The SciSDK check that the value is in the correct range for the specific parameter.
+ * If the value is not in the correct range the function will return an error and the value will not be set.
+ *
+ * @param Path              The path to the parameter to set. The path must be in the format
+ *                          <device name>:.../<resource name>.<parameter name>
+ *                          \n
+ *                          for example: /board0/MMCComponents/Oscilloscope_0.trigger_level
+ *
+ * @param Value             The value to set. The value must be a \b uint32_t.
+ * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
+ * @return                  int error code defined in NIErrorCode.h
+ */
+SCISDK_DLL_API int SCISDK_SetParameterUInteger(char* Path, uint32_t value, void* handle);
 
 /**
  * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
@@ -218,6 +243,30 @@ SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char** value, void* han
 SCISDK_DLL_API int SCISDK_GetParameterInteger(char* Path, int *value, void*handle);
 
 
+/**
+ * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * route the value to external board library to set board specific parameters.
+ * This function return a \b integer as value. Please note that the behaviour of this function
+ * is different if the path is a SciSDK managed node or a device specific node managed by the external
+ * library.
+ * The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value
+ * automatically.
+ * If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information
+ * reguarding the data type required by the external library indeed the che correct GetParamter function
+ * must be call in agreement with the external library required value type.
+ *
+ *
+ * @param Path              The path to the parameter to get. The path must be in the format
+ *                          <device name>:.../<resource name>.<parameter name>
+ *                          \n
+ *                          for example: /board0/MMCComponents/Oscilloscope_0.trigger_value
+ *
+ * @param Value             Pointer to the allocated buffer to receive the value. The value will be a \b uint32.
+ *                          The buffer must be large enough to contain the value.
+ * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
+ * @return                  int error code defined in NIErrorCode.h
+ */
+SCISDK_DLL_API int SCISDK_GetParameterUInteger(char* Path, uint32_t* value, void* handle);
 /**
  * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
@@ -315,7 +364,7 @@ SCISDK_DLL_API int SCISDK_AllocateBufferSize(char* Path, T_BUFFER_TYPE buffer_ty
  * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
  * @return                  int error code defined in NIErrorCode.h  
  */
-SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle);
+SCISDK_DLL_API int SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
 
 /**
  * @brief Get the value of a register in the SciCompiler generated firmware.
@@ -330,7 +379,7 @@ SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle);
  * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
  * @return                  int error code defined in NIErrorCode.h  
  */
-SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle);
+SCISDK_DLL_API int SCISDK_GetRegister(char* Path, uint32_t*value, void*handle);
 
 /**
  * @brief Release the memory allocated by SCISDK_AllocateBuffer() or SCISDK_AllocateBufferSize()
