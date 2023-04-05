@@ -20,7 +20,8 @@ var _sci_s_d_k___d_l_l_8h =
     [ "SCISDK_GetParameterMinimumValue", "_sci_s_d_k___d_l_l_8h.html#a681223154747ca40dd7e4b39582a02a0", null ],
     [ "SCISDK_GetParametersProperties", "_sci_s_d_k___d_l_l_8h.html#abb9adaf93d660caca1ecae7459a2e33a", null ],
     [ "SCISDK_GetParameterString", "_sci_s_d_k___d_l_l_8h.html#a567cbbbd335966f9ee7bc8d2ce9e730b", null ],
-    [ "SCISDK_GetRegister", "_sci_s_d_k___d_l_l_8h.html#ad187937818cc7cff2c1a326bb43ef70b", null ],
+    [ "SCISDK_GetParameterUInteger", "_sci_s_d_k___d_l_l_8h.html#aab6436159497af4907031b6c2421304a", null ],
+    [ "SCISDK_GetRegister", "_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e", null ],
     [ "SCISDK_InitLib", "_sci_s_d_k___d_l_l_8h.html#ad5f8fac9fefa5b07c7fb7937e452da80", null ],
     [ "SCISDK_ReadData", "_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1", null ],
     [ "SCISDK_ReadStatus", "_sci_s_d_k___d_l_l_8h.html#af08b6e91ece60f4b3dc311557efd1ff3", null ],
@@ -28,5 +29,6 @@ var _sci_s_d_k___d_l_l_8h =
     [ "SCISDK_SetParameterDouble", "_sci_s_d_k___d_l_l_8h.html#af3a728110cbc29683ce16afd679808b8", null ],
     [ "SCISDK_SetParameterInteger", "_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f", null ],
     [ "SCISDK_SetParameterString", "_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3", null ],
-    [ "SCISDK_SetRegister", "_sci_s_d_k___d_l_l_8h.html#a4208d91578c910b27156a1b83c6abdc5", null ]
+    [ "SCISDK_SetParameterUInteger", "_sci_s_d_k___d_l_l_8h.html#a6a347e1a936c9662583538b28deb8e9f", null ],
+    [ "SCISDK_SetRegister", "_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a", null ]
 ];

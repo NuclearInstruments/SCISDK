@@ -156,6 +156,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0f722da8b5e19540555298e0806bb45f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a> (char *Path, int value, void *handle)</td></tr>
 <tr class="memdesc:a0f722da8b5e19540555298e0806bb45f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function accept a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct SetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">More...</a><br /></td></tr>
 <tr class="separator:a0f722da8b5e19540555298e0806bb45f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a347e1a936c9662583538b28deb8e9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#a6a347e1a936c9662583538b28deb8e9f">SCISDK_SetParameterUInteger</a> (char *Path, uint32_t value, void *handle)</td></tr>
+<tr class="memdesc:a6a347e1a936c9662583538b28deb8e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function accept a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct SetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#a6a347e1a936c9662583538b28deb8e9f">More...</a><br /></td></tr>
+<tr class="separator:a6a347e1a936c9662583538b28deb8e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3a728110cbc29683ce16afd679808b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#af3a728110cbc29683ce16afd679808b8">SCISDK_SetParameterDouble</a> (char *Path, double value, void *handle)</td></tr>
 <tr class="memdesc:af3a728110cbc29683ce16afd679808b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function accept a <b>double</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct SetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#af3a728110cbc29683ce16afd679808b8">More...</a><br /></td></tr>
 <tr class="separator:af3a728110cbc29683ce16afd679808b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +168,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aed920280b3d640e6cfb6862e19d8518c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aed920280b3d640e6cfb6862e19d8518c">SCISDK_GetParameterInteger</a> (char *Path, int *value, void *handle)</td></tr>
 <tr class="memdesc:aed920280b3d640e6cfb6862e19d8518c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function return a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct GetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#aed920280b3d640e6cfb6862e19d8518c">More...</a><br /></td></tr>
 <tr class="separator:aed920280b3d640e6cfb6862e19d8518c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab6436159497af4907031b6c2421304a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aab6436159497af4907031b6c2421304a">SCISDK_GetParameterUInteger</a> (char *Path, uint32_t *value, void *handle)</td></tr>
+<tr class="memdesc:aab6436159497af4907031b6c2421304a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function return a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct GetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#aab6436159497af4907031b6c2421304a">More...</a><br /></td></tr>
+<tr class="separator:aab6436159497af4907031b6c2421304a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71d47f586733bb51c6c19f4d881c7fba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#a71d47f586733bb51c6c19f4d881c7fba">SCISDK_GetParameterDouble</a> (char *Path, double *value, void *handle)</td></tr>
 <tr class="memdesc:a71d47f586733bb51c6c19f4d881c7fba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function return a <b>double</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct GetParamter function must be call in agreement with the external library required value type.  <a href="_sci_s_d_k___d_l_l_8h.html#a71d47f586733bb51c6c19f4d881c7fba">More...</a><br /></td></tr>
 <tr class="separator:a71d47f586733bb51c6c19f4d881c7fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,12 +182,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a612babf059fa19eaac91fae6da160f85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a> (char *Path, <a class="el" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82e">T_BUFFER_TYPE</a> buffer_type, void **buffer, void *handle, int size)</td></tr>
 <tr class="memdesc:a612babf059fa19eaac91fae6da160f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (list) or of the board specific endpoint (scope, dpp). The MMC operating in list mode does not have a maximum number of points to store, indeed an additional parameter (size) is required to allocated a buffer to store the data. The user will than use this buffer as temporany buffer for the readout and will store received data in a processing buffer or a file.  <a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">More...</a><br /></td></tr>
 <tr class="separator:a612babf059fa19eaac91fae6da160f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4208d91578c910b27156a1b83c6abdc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#a4208d91578c910b27156a1b83c6abdc5">SCISDK_SetRegister</a> (char *Path, int value, void *handle)</td></tr>
-<tr class="memdesc:a4208d91578c910b27156a1b83c6abdc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a register in the SciCompiler generated firmware. This function works only on Simple Register, not on Register File and Multichannel Register. The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter.  <a href="_sci_s_d_k___d_l_l_8h.html#a4208d91578c910b27156a1b83c6abdc5">More...</a><br /></td></tr>
-<tr class="separator:a4208d91578c910b27156a1b83c6abdc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad187937818cc7cff2c1a326bb43ef70b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ad187937818cc7cff2c1a326bb43ef70b">SCISDK_GetRegister</a> (char *Path, int *value, void *handle)</td></tr>
-<tr class="memdesc:ad187937818cc7cff2c1a326bb43ef70b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a register in the SciCompiler generated firmware. This function works only on Simple Register, not on Register File and Multichannel Register. The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter.  <a href="_sci_s_d_k___d_l_l_8h.html#ad187937818cc7cff2c1a326bb43ef70b">More...</a><br /></td></tr>
-<tr class="separator:ad187937818cc7cff2c1a326bb43ef70b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa47626f5d7384bbce41ea2e8db0b845a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a> (char *Path, uint32_t value, void *handle)</td></tr>
+<tr class="memdesc:aa47626f5d7384bbce41ea2e8db0b845a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a register in the SciCompiler generated firmware. This function works only on Simple Register, not on Register File and Multichannel Register. The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter.  <a href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">More...</a><br /></td></tr>
+<tr class="separator:aa47626f5d7384bbce41ea2e8db0b845a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf1e776060bfe9c20c5c7865774299e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">SCISDK_GetRegister</a> (char *Path, uint32_t *value, void *handle)</td></tr>
+<tr class="memdesc:aebf1e776060bfe9c20c5c7865774299e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a register in the SciCompiler generated firmware. This function works only on Simple Register, not on Register File and Multichannel Register. The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter.  <a href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">More...</a><br /></td></tr>
+<tr class="separator:aebf1e776060bfe9c20c5c7865774299e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1b5907dd78816dc2f481b44a99c2915"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">SCISDK_FreeBuffer</a> (char *Path, int buffer_type, void **buffer, void *handle)</td></tr>
 <tr class="memdesc:ad1b5907dd78816dc2f481b44a99c2915"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the memory allocated by <a class="el" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b" title="Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...">SCISDK_AllocateBuffer()</a> or <a class="el" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85" title="Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...">SCISDK_AllocateBufferSize()</a>  <a href="_sci_s_d_k___d_l_l_8h.html#ad1b5907dd78816dc2f481b44a99c2915">More...</a><br /></td></tr>
 <tr class="separator:ad1b5907dd78816dc2f481b44a99c2915"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1170,8 +1176,54 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad187937818cc7cff2c1a326bb43ef70b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad187937818cc7cff2c1a326bb43ef70b">&#9670;&nbsp;</a></span>SCISDK_GetRegister()</h2>
+<a id="aab6436159497af4907031b6c2421304a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6436159497af4907031b6c2421304a">&#9670;&nbsp;</a></span>SCISDK_GetParameterUInteger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int SCISDK_GetParameterUInteger </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>Path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>handle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function return a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct GetParamter function must be call in agreement with the external library required value type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Path</td><td>The path to the parameter to get. The path must be in the format &lt;device name&gt;:.../&lt;resource name&gt;.&lt;parameter name&gt; <br  />
+ for example: /board0/MMCComponents/Oscilloscope_0.trigger_value</td></tr>
+    <tr><td class="paramname">Value</td><td>Pointer to the allocated buffer to receive the value. The value will be a <b>uint32</b>. The buffer must be large enough to contain the value. </td></tr>
+    <tr><td class="paramname">handle</td><td>Handle to the SciSDK allocated by <a class="el" href="_sci_s_d_k___d_l_l_8h.html#ad5f8fac9fefa5b07c7fb7937e452da80" title="Initialize the SciSDK handles accolating the resources. This function must be called before any other...">SCISDK_InitLib()</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int error code defined in <a class="el" href="_n_i_error_code_8h.html">NIErrorCode.h</a> </dd></dl>
+
+</div>
+</div>
+<a id="aebf1e776060bfe9c20c5c7865774299e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf1e776060bfe9c20c5c7865774299e">&#9670;&nbsp;</a></span>SCISDK_GetRegister()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1185,7 +1237,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int *&#160;</td>
+          <td class="paramtype">uint32_t *&#160;</td>
           <td class="paramname"><em>value</em>, </td>
         </tr>
         <tr>
@@ -1528,8 +1580,55 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4208d91578c910b27156a1b83c6abdc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4208d91578c910b27156a1b83c6abdc5">&#9670;&nbsp;</a></span>SCISDK_SetRegister()</h2>
+<a id="a6a347e1a936c9662583538b28deb8e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a347e1a936c9662583538b28deb8e9f">&#9670;&nbsp;</a></span>SCISDK_SetParameterUInteger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int SCISDK_SetParameterUInteger </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>Path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>handle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value to external board library to set board specific parameters. This function accept a <b>integer</b> as value. Please note that the behaviour of this function is different if the path is a SciSDK managed node or a device specific node managed by the external library. The SciSDK managed nodes perform a conversion of the string to the correct type and then set the value automatically. If the operation is routed to the external library (ie: ../felib/..) SciSDK has not the information reguarding the data type required by the external library indeed the che correct SetParamter function must be call in agreement with the external library required value type. </p>
+<p>The SciSDK check that the value is in the correct range for the specific parameter. If the value is not in the correct range the function will return an error and the value will not be set.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Path</td><td>The path to the parameter to set. The path must be in the format &lt;device name&gt;:.../&lt;resource name&gt;.&lt;parameter name&gt; <br  />
+ for example: /board0/MMCComponents/Oscilloscope_0.trigger_level</td></tr>
+    <tr><td class="paramname">Value</td><td>The value to set. The value must be a <b>uint32_t</b>. </td></tr>
+    <tr><td class="paramname">handle</td><td>Handle to the SciSDK allocated by <a class="el" href="_sci_s_d_k___d_l_l_8h.html#ad5f8fac9fefa5b07c7fb7937e452da80" title="Initialize the SciSDK handles accolating the resources. This function must be called before any other...">SCISDK_InitLib()</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int error code defined in <a class="el" href="_n_i_error_code_8h.html">NIErrorCode.h</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa47626f5d7384bbce41ea2e8db0b845a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa47626f5d7384bbce41ea2e8db0b845a">&#9670;&nbsp;</a></span>SCISDK_SetRegister()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1543,7 +1642,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>value</em>, </td>
         </tr>
         <tr>

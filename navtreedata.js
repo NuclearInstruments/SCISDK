@@ -344,8 +344,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
-"md_docs_frame.html#autotoc_md195",
-"struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#aeeafb305f59467d9e5bb4a554364b03a"
+"md_docs_frame.html#autotoc_md193",
+"struct_s_c_i_s_d_k___f_r_a_m_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a6a095a28829f40051b03d4401bbd7258"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
