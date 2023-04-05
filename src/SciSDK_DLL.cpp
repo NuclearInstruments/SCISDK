@@ -80,6 +80,19 @@ SCISDK_DLL_API int SCISDK_SetParameterInteger(char* Path, int value, void*handle
 	return ret;
 }
 
+SCISDK_DLL_API int SCISDK_SetParameterUInteger(char* Path, uint32_t value, void* handle) {
+	if (handle == NULL)return NI_ERROR;
+	if (Path == NULL)return NI_ERROR;
+
+	SciSDK* _sdk = (SciSDK*)handle;
+	string _Path(Path);
+
+	int ret = _sdk->SetParameter(_Path, value);
+
+	return ret;
+}
+
+
 SCISDK_DLL_API int SCISDK_SetParameterDouble(char* Path, double value, void*handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
@@ -117,6 +130,19 @@ SCISDK_DLL_API int SCISDK_GetParameterInteger(char* Path, int *value, void*handl
 	int res = _sdk->GetParameter(_Path, value);
 	return res;
 }
+
+SCISDK_DLL_API int SCISDK_GetParameterUInteger(char* Path, uint32_t* value, void* handle) {
+	if (handle == NULL)return NI_ERROR;
+	if (Path == NULL)return NI_ERROR;
+	if (value == NULL)return NI_ERROR;
+
+	SciSDK* _sdk = (SciSDK*)handle;
+	string _Path(Path);
+
+	int res = _sdk->GetParameter(_Path, value);
+	return res;
+}
+
 
 SCISDK_DLL_API int SCISDK_GetParameterDouble(char* Path, double*value, void*handle) {
 	if (handle == NULL)return NI_ERROR;
@@ -185,10 +211,10 @@ SCISDK_DLL_API int SCISDK_AllocateBufferSize(char * Path, T_BUFFER_TYPE buffer_t
 	return res;
 }
 
-SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle) {
+SCISDK_DLL_API int SCISDK_SetRegister(char* Path, uint32_t value, void* handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
-	if (value < 0)return NI_ERROR;
+	
 
 	SciSDK * _sdk = (SciSDK*)handle;
 	string _Path(Path);
@@ -197,7 +223,7 @@ SCISDK_DLL_API int SCISDK_SetRegister(char* Path, int value, void* handle) {
 	return res;
 }
 
-SCISDK_DLL_API int SCISDK_GetRegister(char* Path, int*value, void*handle) {
+SCISDK_DLL_API int SCISDK_GetRegister(char* Path, uint32_t*value, void*handle) {
 	if (Path == NULL)return NI_ERROR;
 	if (value == NULL)return NI_ERROR;
 	if (handle == NULL)return NI_ERROR;

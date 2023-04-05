@@ -17,6 +17,10 @@ int main(int argc, char* argv[])
 {
 	void* _sdk = SCISDK_InitLib();
 	char * res = "";
+
+	SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.220:8888", "DT5560", "C:/GIT/Tutorial/Transistor_reset_demo/RegisterFile.json", "board0", _sdk), &res, _sdk);
+	int ret = SCISDK_SetRegister("board0:/Registers/RUNREG", 0, _sdk);
+
 	SCISDK_s_error(SCISDK_AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0", _sdk), &res, _sdk);
 	
 	cout << res << endl;
