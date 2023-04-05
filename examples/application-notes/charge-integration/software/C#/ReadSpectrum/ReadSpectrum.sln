@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadSpectrum", "ReadSpectrum\ReadSpectrum.csproj", "{0176CE3D-770C-4BD3-B0A7-C458F4474554}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0176CE3D-770C-4BD3-B0A7-C458F4474554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0176CE3D-770C-4BD3-B0A7-C458F4474554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0176CE3D-770C-4BD3-B0A7-C458F4474554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0176CE3D-770C-4BD3-B0A7-C458F4474554}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {533F1C34-C82C-46EB-A528-6D2CA6BB4504}
+	EndGlobalSection
+EndGlobal
