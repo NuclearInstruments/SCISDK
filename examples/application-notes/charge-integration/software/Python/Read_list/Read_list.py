@@ -55,7 +55,7 @@ if res == 0:
         data_to_write += str(i) + "\t" + str(unpack('<I', buf.data[i*4:(i+1)*4])[0]) + "\n"
         # print(data_to_write)
     print("Data read")
-    file = open("./list.txt", "w")
+    file = open("./list_read.txt", "w")
     file.write(data_to_write)
     file.close()
     print("Data saved in list.txt")

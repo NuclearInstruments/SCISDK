@@ -27,6 +27,7 @@ namespace Read_Oscilloscope
             if (res != 0)
             {
                 Console.WriteLine("Unable to connect to the device");
+                Environment.Exit(-1);
             }
 
             // Set registers
@@ -46,6 +47,7 @@ namespace Read_Oscilloscope
             else
             {
                 Console.WriteLine("Error while trying to write register value");
+                Environment.Exit(-1);
             }
 
             // // OSCILLOSCOPE
@@ -58,7 +60,7 @@ namespace Read_Oscilloscope
             sdk.SetParameter(oscilloscope_base_path + ".acq_mode", "blocking");
             sdk.SetParameter(oscilloscope_base_path + ".timeout", 1000);
 
-            string directoryPath = @"C:\GIT\Tutorial\Charge-Integration\software\C#\Read_Oscilloscope\";
+            string directoryPath = @"C:\GIT\SCISDK\examples\application-notes\charge-integration\software\C#\Read_Oscilloscope\";
 
             // allocate buffer
             SciSDKOscilloscopeDecodedBuffer odb = new SciSDKOscilloscopeDecodedBuffer();
@@ -81,12 +83,13 @@ namespace Read_Oscilloscope
             if (res == 0)
             {
                 string str_tmp = "Analog Channels" + "\n";
-                str_tmp += "0    " + "\t" + "1    " + "\t" + "2    " + "\t" + "3    " + "\n";
+                str_tmp += "0    " + "\t    " + "1    " + "\t    " + "2    " + "\t    " + "3    " + "\n";
+                str_tmp += "Signal" + "\t    " + "Baseline" + "\t    " + "Trig data" + "\t    " + "Energy" + "\n";
                 for (int index = 0; index < odb.info.samples_analog; index++)
                 {
-                    str_tmp += odb.analog[index].ToString() + "\t" + 
-                        odb.analog[index + offs_an * 1].ToString() + "\t" + 
-                        odb.analog[index + offs_an * 2].ToString() + "\t" + 
+                    str_tmp += odb.analog[index].ToString() + "\t    " + 
+                        odb.analog[index + offs_an * 1].ToString() + "\t    " + 
+                        odb.analog[index + offs_an * 2].ToString() + "\t    " + 
                         odb.analog[index + offs_an * 3].ToString() + "\n";
                 }
                 File.WriteAllText(directoryPath + "analog.txt", str_tmp);
@@ -95,52 +98,42 @@ namespace Read_Oscilloscope
 
                 str_tmp = "";
                 str_tmp += "Digital 0" + "\n" + "analog channels" + "\n";
-                str_tmp += "0    " + "\t" + "1    " + "\t" + "2    " + "\t" + "3    " + "\n";
+                str_tmp += "0    " + "\t" +"\t" + "1    " + "\t" + "\t" + "2    " + "\t" + "\t" + "3    " + "\n";
+                str_tmp += "No data" + "\t" + "\t" + "Valid BL" + "\t" + "Trigger" + "\t" + "\t" + "Valid charge" + "\n";
                 for (int i = 0; i < odb.info.samples_digital; i++)
                 {
-                    str_tmp +=  (odb.digital[i] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 1] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 2] ? 1 : 0).ToString() + "\t" +
+                    str_tmp +=  (odb.digital[i] ? 1 : 0).ToString() + "\t" + "\t" + 
+                        (odb.digital[i + offs_dig * 1] ? 1 : 0).ToString() + "\t" + "\t" + 
+                        (odb.digital[i + offs_dig * 2] ? 1 : 0).ToString() + "\t" + "\t" +
                         (odb.digital[i + offs_dig * 3] ? 1 : 0).ToString() + "\n";
                 }
                 File.WriteAllText(directoryPath + "digital0.txt", str_tmp);
 
                 str_tmp = "";
                 str_tmp += "Digital 1" + "\n" + "analog channels" + "\n";
-                str_tmp += "0    " + "\t" + "1    " + "\t" + "2    " + "\t" + "3    " + "\n";
+                str_tmp += "0    " + "\t" + "\t" + "1    " + "\t" + "\t" + "2    " + "\t" + "\t" + "3    " + "\n";
+                str_tmp += "No data" + "\t" + "\t" + "Run/hold BL" + "\t" + "No data" + "\t" + "\t" + "Integration Gate" + "\n";
                 for (int i = 0; i < odb.info.samples_digital; i++)
                 {
-                    str_tmp += (odb.digital[i+ offs_an] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 1 + offs_an] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 2 + offs_an] ? 1 : 0).ToString() + "\t" +
+                    str_tmp += (odb.digital[i+ offs_an] ? 1 : 0).ToString() + "\t" + "\t" +
+                        (odb.digital[i + offs_dig * 1 + offs_an] ? 1 : 0).ToString() + "\t" + "\t" +
+                        (odb.digital[i + offs_dig * 2 + offs_an] ? 1 : 0).ToString() + "\t" + "\t" +
                         (odb.digital[i + offs_dig * 3 + offs_an] ? 1 : 0).ToString() + "\n";
                 }
                 File.WriteAllText(directoryPath + "digital1.txt", str_tmp);
 
                 str_tmp = "";
                 str_tmp += "Digital 2" + "\n" + "analog channels" + "\n";
-                str_tmp += "0    " + "\t" + "1    " + "\t" + "2    " + "\t" + "3    " + "\n";
+                str_tmp += "0    " + "\t   " + "1    " + "    " + "2    " + "    " + "3    " + "\n";
+                str_tmp += "No data" + "\t   " + "No data" + "  " + "No data" + "  " + "Pileup event" + "\n";
                 for (int i = 0; i < odb.info.samples_digital; i++)
                 {
-                    str_tmp += (odb.digital[i + offs_an * 2] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 1 + offs_an * 2] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 2 + offs_an * 2] ? 1 : 0).ToString() + "\t" +
+                    str_tmp += (odb.digital[i + offs_an * 2] ? 1 : 0).ToString() + "\t   " + 
+                        (odb.digital[i + offs_dig * 1 + offs_an * 2] ? 1 : 0).ToString() + "\t    " + 
+                        (odb.digital[i + offs_dig * 2 + offs_an * 2] ? 1 : 0).ToString() + "\t     " +
                         (odb.digital[i + offs_dig * 3 + offs_an * 2] ? 1 : 0).ToString() + "\n";
                 }
                 File.WriteAllText(directoryPath + "digital2.txt", str_tmp);
-
-                str_tmp = "";
-                str_tmp += "Digital 3" + "\n" + "analog channels" + "\n";
-                str_tmp += "0    " + "\t" + "1    " + "\t" + "2    " + "\t" + "3    " + "\n";
-                for (int i = 0; i < odb.info.samples_digital; i++)
-                {
-                    str_tmp += (odb.digital[i + offs_an * 3] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 1 + offs_an * 3] ? 1 : 0).ToString() + "\t" + 
-                        (odb.digital[i + offs_dig * 2 + offs_an * 3] ? 1 : 0).ToString() + "\t" +
-                        (odb.digital[i + offs_dig * 3 + offs_an * 3] ? 1 : 0).ToString() + "\n";
-                }
-                File.WriteAllText(directoryPath + "digital3.txt", str_tmp);
-
                 
             }
             else
