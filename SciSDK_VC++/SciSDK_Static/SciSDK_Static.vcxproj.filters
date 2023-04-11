@@ -30,9 +30,6 @@
     <ClInclude Include="..\..\src\NIErrorCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\headers\SCIDK_API_C.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\scisdk_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
