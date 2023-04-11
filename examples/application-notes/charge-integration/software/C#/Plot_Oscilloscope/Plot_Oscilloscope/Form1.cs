@@ -142,13 +142,15 @@ namespace Plot_Oscilloscope
             analog1 = new FunctionSeries { Color = OxyColors.Orange };
             analog2 = new FunctionSeries { Color = OxyColors.Red };
             analog3 = new FunctionSeries { Color = OxyColors.Blue };
+            
+
             model1.Series.Add(analog0);
             model1.Series.Add(analog1);
             model1.Series.Add(analog2);
             model1.Series.Add(analog3);
 
             model1.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom });
-            model1.Axes.Add(new LinearAxis { Position = AxisPosition.Left });
+            model1.Axes.Add(new LinearAxis { Position = AxisPosition.Left , Title = "Analog"});
 
             //====================================================
 
@@ -203,6 +205,7 @@ namespace Plot_Oscilloscope
             timer.Elapsed += UpdateGraph;
 
             // Set up the plotviews
+            //===================================================
             TableLayoutPanel table = new TableLayoutPanel { Dock = DockStyle.Fill };
             table.RowCount= 2;
             table.ColumnCount = 1;
@@ -301,62 +304,59 @@ namespace Plot_Oscilloscope
             pol.Items.AddRange(new object[] { "Positive", "Negative" });
             pol.SelectedIndexChanged += pol_change;
             t3.Controls.Add(pol_name, 0, 5);
+            t3.Controls.Add(pol, 1, 5);
 
             // Create the trigger setter
             Label trigger_name = new Label { Text = "Trigger: ", Dock = DockStyle.Fill };
             trigger = new TextBox { Text = trigger_threshold.ToString()};
             trigger.KeyDown += new KeyEventHandler(return_trigger);
             t3.Controls.Add(trigger_name, 0, 6);
+            t3.Controls.Add(trigger, 1, 6);
 
             // Create the N samples setter
             Label sample_name = new Label { Text = "N samples: ", Dock = DockStyle.Fill };
             N_samples = new TextBox { Text = Nsample.ToString() };
             N_samples.KeyDown += new KeyEventHandler(return_Nsample);
             t3.Controls.Add(sample_name, 0, 7);
+            t3.Controls.Add(N_samples, 1, 7);
 
             // Create the time hold baseline
             Label bs_name = new Label { Text = "Hold baseline: ", Dock = DockStyle.Fill };
             hold_bl = new TextBox { Text = time_hold_bs.ToString() };
             hold_bl.KeyDown += new KeyEventHandler(return_hold_bl);
             t3.Controls.Add(bs_name, 0, 8);
+            t3.Controls.Add(hold_bl, 1, 8);
 
             // Create the interval integration setter
             Label int_name = new Label { Text = "Int integration: ", Dock = DockStyle.Fill };
             int_integr = new TextBox { Text = time_integr.ToString() };
             int_integr.KeyDown += new KeyEventHandler(return_time_integr);
             t3.Controls.Add(int_name, 0, 9);
+            t3.Controls.Add(int_integr, 1, 9);
 
             // Create the pre integration setter
             Label pre_name = new Label { Text = "Pre trigger: ", Dock = DockStyle.Fill };
             pre_tr = new TextBox { Text = pre_integr.ToString() };
             pre_tr.KeyDown += new KeyEventHandler(return_pre_integr);
             t3.Controls.Add(pre_name, 0, 10);
+            t3.Controls.Add(pre_tr, 1, 10);
 
             // Create the gain setter
             Label gain_name = new Label { Text = "Gain: ", Dock = DockStyle.Fill };
             Gain = new TextBox { Text = gain.ToString() };
             Gain.KeyDown += new KeyEventHandler(return_gain);
             t3.Controls.Add(gain_name, 0, 11);
+            t3.Controls.Add(Gain, 1, 11);
 
             // Create the offset setter
             Label off_name = new Label { Text = "Offset integration: ", Dock = DockStyle.Fill };
             offset = new TextBox { Text = Offset_int.ToString() };
             offset.KeyDown += new KeyEventHandler(return_offset);
             t3.Controls.Add(off_name, 0, 12);
-
-            // Set up the flow layout panel for the buttons
-            t3.Controls.Add(pol, 1, 5);
-            t3.Controls.Add(trigger, 1, 6);
-            t3.Controls.Add(N_samples, 1, 7);
-            t3.Controls.Add(hold_bl, 1, 8);
-            t3.Controls.Add(int_integr, 1, 9);
-            t3.Controls.Add(pre_tr, 1, 10);
-            t3.Controls.Add(Gain, 1, 11);
             t3.Controls.Add(offset, 1, 12);
 
-            Controls.Add(t3);
 
-            
+            Controls.Add(t3);
 
             timer.Start();
 
@@ -441,6 +441,7 @@ namespace Plot_Oscilloscope
 
             res = sdk.SetRegister("board0:/Registers/pol", polarity);
         }
+
         private void return_trigger(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -458,17 +459,18 @@ namespace Plot_Oscilloscope
             {
                 string value = N_samples.Text;
                 Nsample = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", Nsample);
+                res = sdk.SetRegister("board0:/Registers/Nsample", Nsample);
                 N_samples.Text = Nsample.ToString();
             }
         }
+
         private void return_hold_bl(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 string value = hold_bl.Text;
                 time_hold_bs = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", time_hold_bs);
+                res = sdk.SetRegister("board0:/Registers/time_hold_bs", time_hold_bs);
                 hold_bl.Text = time_hold_bs.ToString();
             }
         }
@@ -478,7 +480,7 @@ namespace Plot_Oscilloscope
             {
                 string value = int_integr.Text;
                 time_integr = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", time_integr);
+                res = sdk.SetRegister("board0:/Registers/time_integr", time_integr);
                 int_integr.Text = time_integr.ToString();
             }
         }
@@ -488,7 +490,7 @@ namespace Plot_Oscilloscope
             {
                 string value = pre_tr.Text;
                 pre_integr = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", pre_integr);
+                res = sdk.SetRegister("board0:/Registers/pre_integr", pre_integr);
                 pre_tr.Text = pre_integr.ToString();
             }
         }
@@ -498,7 +500,7 @@ namespace Plot_Oscilloscope
             {
                 string value = Gain.Text;
                 gain = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", gain);
+                res = sdk.SetRegister("board0:/Registers/gain", gain);
                 Gain.Text = gain.ToString();
             }
         }
@@ -508,7 +510,7 @@ namespace Plot_Oscilloscope
             {
                 string value = offset.Text;
                 Offset_int = Int32.Parse(value);
-                res = sdk.SetRegister("board0:/Registers/trgthrs", Offset_int);
+                res = sdk.SetRegister("board0:/Registers/Offset_int", Offset_int);
                 offset.Text = Offset_int.ToString();
             }
         }

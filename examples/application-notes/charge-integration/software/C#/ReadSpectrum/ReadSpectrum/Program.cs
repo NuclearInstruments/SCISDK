@@ -19,6 +19,7 @@ namespace ReadSpectrum
             if (res != 0)
             {
                 Console.WriteLine("Unable to connect to the device");
+                Environment.Exit(-1);
             }
 
             // Set registers
@@ -34,6 +35,7 @@ namespace ReadSpectrum
             if (res != 0)
             {
                 Console.WriteLine("Error while trying to write register value");
+                Environment.Exit(-1);
             }
 
             // // SPECTRUM
@@ -44,6 +46,7 @@ namespace ReadSpectrum
             if (res != 0)
             {
                 Console.WriteLine("Error set spectrum parameters");
+                Environment.Exit(-1);
             }
 
             // Execute command reset
@@ -87,6 +90,7 @@ namespace ReadSpectrum
             if (res != 0)
             { 
                 Console.WriteLine("Error while trying to read spectrum value");
+                Environment.Exit(-1);
             }
 
             string directoryPath = @"C:\GIT\Tutorial\Charge-Integration\software\C#\ReadSpectrum";

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <Reference Include="CSharp_SciSDK">
-      <HintPath>..\..\..\..\..\..\SCISDK\bin\AnyCPU\Debug\CSharp_SciSDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\bin\AnyCPU\Debug\CSharp_SciSDK.dll</HintPath>
     </Reference>
   </ItemGroup>
 

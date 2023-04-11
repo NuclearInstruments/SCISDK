@@ -140,7 +140,7 @@ In the Python directory there are the following directories:
 
 - **Read_spectrum**: it contains a code to read the spectrum data. Set the registers and the spectrum parameters. It waits for the acquisition to get some data (50s). Then it reads the data and save the spectrum data in a file *spectrum_read.txt* with two columns: the first one is the channel number and the second one is the number of counts.
   
-- **Read_list**: it contains a code to read the list data. Set the registers and the list parameters. It allocates the list buffer. Then it reads the data  of the list and save them in a file *list.txt* with two columns: the first one is the progressive number, from 0 to *info.valid_samples/4*, and the second one is the number in the list. 
+- **Read_list**: it contains a code to read the list data. Set the registers and the list parameters. It allocates the list buffer. Then it reads the data  of the list and save them in a file *list_read.txt* with two columns: the first one is the progressive number, from 0 to *info.valid_samples/4*, and the second one is the number in the list. 
   
 - **Plot_chargeintegration**: it contains the following files:
   - **Plot_spectrum.py**: it contains the code to set the registers and the spectrum parameters. With *matplotlib*, it is possible to plot the spectrum. In the window it is possible to start, stop and restart the acquisition; and also to set the parameters of the registers.
@@ -151,7 +151,14 @@ In the Python directory there are the following directories:
 ### C#
 In the C# directory there are the following directories:
 
-- **Read_spectrum**: it contains a code to read the spectrum data. Set the registers and the spectrum parameters. It waits for the acquisition to get some data (50s). Then it reads the data and save the spectrum data in a file *spectrum_read.txt* with two columns: the first one is the channel number and the second one is the number of counts.
+- **Read_spectrum**: it contains a code to read the spectrum data. Set the registers and the spectrum parameters. It waits for the acquisition to get some data (50s). Then it reads the data and save the spectrum data in a file *spectrum.txt* with two columns: the first one is the channel number and the second one is the number of counts.
+- **Read_Oscilloscope**: it contains a code to read the oscilloscope data. Set the registers and the oscilloscope parameters. Then it reads the data and save the oscilloscope data in five different files: *analog.txt*, *digital0.txt*, *digital1.txt*, *digital2* and *digital3.txt*. Each file has four columns, each for a different analog channel.
+- **Plot_spectrum**: it contains the code to plot the spectrum. It is possible to set the parameters of the registers and of the spectrum. The spectrum is plotted with *OxyPlot*. It is possible to start, stop and restart the acquisition.
+- **Plot_Oscilloscope**: it contains the code to plot the oscilloscope. It is possible to set the parameters of the registers and of the oscilloscope. The oscilloscope is plotted with *OxyPlot*. It is possible to start and stop the acquisition. With a checkbox it is possible to set which chanel is plotted. Every channel has an analog signal and some digital signals. It also possible to set the parameters of the registers.
+- **Plot_ChargeIntegration**: it contains the code to plot the spectrum and the oscilloscope in the same window. It is possible to set the parameters of the registers and of the spectrum and oscilloscope. The spectrum and the oscilloscope are plotted with *OxyPlot*. It is possible to start, stop and restart the acquisition. With a checkbox it is possible to set which chanel is plotted. Every channel has an analog signal and some digital signals. It also possible to set the parameters of the registers.
 
 ### C++
+In the C++ directory there are the following directories:
+
+- **Read_Spectrum**: it contains a code to read the spectrum data. Set the registers and the spectrum parameters. It waits for the acquisition to get some data (50s). Then it reads the data and save the spectrum data in a file *spectrum_one_time.txt* with two columns: the first one is the channel number and the second one is the number of counts. After that it enters in a while loop to read every second the data and save them in a file *spectrum.txt* with the same two columns. The loop stops when the user press the 'Q' key.
 
