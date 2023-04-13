@@ -1,9 +1,6 @@
 package com.nuclearinstruments.jscisdk;
 
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Platform;
-import com.sun.jna.Pointer;
+import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
 public interface SciSDKLibrary extends Library {
@@ -47,4 +44,10 @@ public interface SciSDKLibrary extends Library {
     
     // method used to call dll method to retrieve double parameter value
     public int SCISDK_GetParameterDouble(String path, DoubleByReference  value, Pointer handle);
+    
+    // method used to call dll method to execute command
+    public int SCISDK_ExecuteCommand(String path, String value, Pointer handle);
+    
+    // method used to call dll method to allocate buffer
+    public int SCISDK_AllocateBuffer(String path, int buffer_type, Structure.ByReference[] buffer, Pointer handle);
 }

@@ -1,6 +1,7 @@
 package com.nuclearinstruments.jscisdk_test;
 
 import com.nuclearinstruments.jscisdk.SciSDK;
+import com.nuclearinstruments.jscisdk.SpectrumDecodedBuffer;
 import java.util.concurrent.atomic.*;
 
 public class JSciSDK_Test {
@@ -17,8 +18,6 @@ public class JSciSDK_Test {
             sdk.s_error(res, error_description);
             System.out.println("Error Adding Device: " + error_description);
             return;
-        } else {
-            System.out.println("Riesco a parlare con lo strumento!");
         }
 
         // Set register values
@@ -44,17 +43,25 @@ public class JSciSDK_Test {
         res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
         res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 3000);
         
-        
-        
-        
         // SPECTRUM
         // Set spectrum parameters
         sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.rebin", "0");
         sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.limitmode", "freerun");
 
         sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "");
-        sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "");
+        res = sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "");
 
+        SpectrumDecodedBuffer buffer = new SpectrumDecodedBuffer();
+        AtomicReference<SpectrumDecodedBuffer> buf_atm = new AtomicReference<>(buffer);
+        res = sdk.AllocateBuffer("board0:/MMCComponents/Spectrum_0", buf_atm);
+        buffer=buf_atm.get();
+        AtomicReference<String> error_description = new AtomicReference<String>("");
+        sdk.s_error(res, error_description);
+        System.out.println("error description: " + error_description);
+        System.out.println("res: " + res);
+        System.out.println("magic: " + (buf_atm.get().magic & 0xFFFFFFFFL));
+        System.out.println("buffer size: " + buf_atm.get().info.GetBufferSize());
+        System.out.println("inttime: " + buf_atm.get().GetIntTime());
         sdk.FreeLib();
     }
 }
