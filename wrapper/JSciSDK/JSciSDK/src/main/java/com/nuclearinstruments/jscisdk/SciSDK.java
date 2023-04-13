@@ -2,6 +2,9 @@ package com.nuclearinstruments.jscisdk;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.atomic.*;
 
 
@@ -92,6 +95,32 @@ public class SciSDK {
     
     // method used to execute command
     public int ExecuteCommand(String path, String value){
-        return 0;
+        return SciSDKLibrary.INSTANCE.SCISDK_ExecuteCommand(path, value, scisdk_handle);
     }
+    
+    
+    static long convertToLong(byte[] bytes)
+    {
+        long value = 0l;
+ 
+        // Iterating through for loop
+        for (byte b : bytes) {
+            // Shifting previous value 8 bits to right and
+            // add it with next value
+            value = (value << 8) + (b & 255);
+        }
+ 
+        return value;
+    }
+    
+    public int AllocateBuffer(String path, AtomicReference<SpectrumDecodedBuffer> buffer){
+        SpectrumDecodedBuffer.ByReference[] s = new SpectrumDecodedBuffer.ByReference[1];
+        s[0] = new SpectrumDecodedBuffer.ByReference();
+        int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBuffer(path, 1, s, scisdk_handle);
+        buffer.set(s[0]);
+        return res;
+    }
+    
+    
+    
 }
