@@ -1,10 +1,28 @@
 package com.nuclearinstruments.jscisdk_test;
 
+import com.nuclearinstruments.jscisdk.OscilloscopeDecodedBuffer;
 import com.nuclearinstruments.jscisdk.SciSDK;
 import com.nuclearinstruments.jscisdk.SpectrumDecodedBuffer;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.atomic.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JSciSDK_Test {
+
+    public static void WriteLongArrayToFile(String filename, long[] data) {
+        try {
+            FileWriter spectrum_writer = new FileWriter(filename);
+            for (int i = 0; i < data.length; i++) {
+                spectrum_writer.append(data[i] + "\n");
+            }
+            spectrum_writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(JSciSDK_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -29,7 +47,6 @@ public class JSciSDK_Test {
         res = sdk.SetRegister("board0:/Registers/pre_integr", 5);
         res = sdk.SetRegister("board0:/Registers/gain", 30000);
         res = sdk.SetRegister("board0:/Registers/Offset_int", 0);
-        
 
         // OSCILLOSCOPE
         // set oscilloscope parameters
@@ -42,7 +59,7 @@ public class JSciSDK_Test {
         res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", decimator);
         res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
         res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 3000);
-        
+
         // SPECTRUM
         // Set spectrum parameters
         sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.rebin", "0");
@@ -51,17 +68,30 @@ public class JSciSDK_Test {
         sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "");
         res = sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "");
 
-        SpectrumDecodedBuffer buffer = new SpectrumDecodedBuffer();
-        AtomicReference<SpectrumDecodedBuffer> buf_atm = new AtomicReference<>(buffer);
-        res = sdk.AllocateBuffer("board0:/MMCComponents/Spectrum_0", buf_atm);
-        buffer=buf_atm.get();
-        AtomicReference<String> error_description = new AtomicReference<String>("");
-        sdk.s_error(res, error_description);
-        System.out.println("error description: " + error_description);
-        System.out.println("res: " + res);
-        System.out.println("magic: " + (buf_atm.get().magic & 0xFFFFFFFFL));
-        System.out.println("buffer size: " + buf_atm.get().info.GetBufferSize());
-        System.out.println("inttime: " + buf_atm.get().GetIntTime());
+        AtomicReference<SpectrumDecodedBuffer> spectrum_buffer = new AtomicReference<>(new SpectrumDecodedBuffer());
+        // allocate buffer
+        res = sdk.AllocateBuffer("board0:/MMCComponents/Spectrum_0", spectrum_buffer);
+        // read data
+        res = sdk.ReadData("board0:/MMCComponents/Spectrum_0", spectrum_buffer);
+
+        if (res == 0) {
+            WriteLongArrayToFile("spectrum.txt", spectrum_buffer.get().GetData());
+        }
+
+        // OSCILLOSCOPE
+        AtomicReference<OscilloscopeDecodedBuffer> oscilloscope_buffer = new AtomicReference<OscilloscopeDecodedBuffer>(new OscilloscopeDecodedBuffer());
+        // allocate buffer
+        res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
+        // read data
+        res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
+        
+        if(res == 0){
+            // write analog values into a text file
+            WriteLongArrayToFile("oscilloscope_decoded_analog.txt", oscilloscope_buffer.get().GetAnalog());
+            // write digital values into a text file
+            WriteLongArrayToFile("oscilloscope_decoded_digital.txt",  oscilloscope_buffer.get().GetDigital());
+        }
+        
         sdk.FreeLib();
     }
 }
