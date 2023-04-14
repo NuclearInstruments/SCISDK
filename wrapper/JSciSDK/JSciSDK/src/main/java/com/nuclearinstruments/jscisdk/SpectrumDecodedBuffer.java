@@ -6,10 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @FieldOrder({"magic", "data", "timecode", "inttime", "info"})
-public class SpectrumDecodedBuffer extends Structure {
-
-    public static class ByReference extends SpectrumDecodedBuffer implements Structure.ByReference {
-    }
+public class SpectrumDecodedBuffer extends Structure implements Structure.ByReference {
 
     public int magic;
     public Pointer data;
@@ -23,14 +20,13 @@ public class SpectrumDecodedBuffer extends Structure {
     public SpectrumDecodedBuffer(Pointer p) {
         super(p);
     }
-    
 
     public long GetMagic() {
         return magic & 0xFFFFFFFFL;
     }
 
     public long[] GetData() {
-        return null;
+        return Utils.Pointer2LongArray(data, GetInfo().GetValidBins());
     }
 
     public long GetIntTime() {
@@ -40,5 +36,5 @@ public class SpectrumDecodedBuffer extends Structure {
     public SpectrumDecodedBufferInfo GetInfo() {
         return info;
     }
-
+ 
 }

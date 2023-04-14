@@ -50,4 +50,7 @@ public interface SciSDKLibrary extends Library {
     
     // method used to call dll method to allocate buffer
     public int SCISDK_AllocateBuffer(String path, int buffer_type, Structure.ByReference[] buffer, Pointer handle);
+    
+    //method used to call dll method to read data
+    public int SCISDK_ReadData(String path, Structure.ByReference buffer, Pointer handle);
 }
