@@ -21,9 +21,14 @@ public class OscilloscopeDecodedBuffer extends Structure implements Structure.By
         return Utils.Pointer2LongArray(analog, analog_count);
     }
 
-    public long[] GetDigital() {
-        long digital_count = GetInfo().GetChannels() * GetInfo().GetSamplesDigital() * GetInfo().GetTracksDigitalPerChannel();
-        return Utils.Pointer2LongArray(digital, digital_count);
+    public int[] GetDigital() {
+        Long digital_count = GetInfo().GetChannels() * GetInfo().GetSamplesDigital() * GetInfo().GetTracksDigitalPerChannel();
+        byte[] digital_b_array = digital.getByteArray(0, digital_count.intValue());
+        int[] res_array = new int[digital_b_array.length];
+        for(int i=0;i<digital_b_array.length;i++){
+            res_array[i] =digital_b_array[i] == 1 ? 1 : 0;
+        }
+        return res_array;
     }
 
     public long GetTriggerPosition() {
