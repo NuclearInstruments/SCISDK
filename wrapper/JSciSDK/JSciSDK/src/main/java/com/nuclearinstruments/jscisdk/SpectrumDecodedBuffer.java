@@ -20,19 +20,19 @@ public class SpectrumDecodedBuffer extends Structure implements Structure.ByRefe
     }
 
     public long GetMagic() {
-        return magic & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(magic);
     }
 
     public long[] GetData() {
-        return Utils.Pointer2LongArray(data, GetInfo().GetValidBins());
+        return Utils.Pointer2UnsignedIntLongArray(data, GetInfo().GetValidBins());
     }
 
     public long GetIntTime() {
-        return inttime & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(inttime);
     }
 
     public SpectrumDecodedBufferInfo GetInfo() {
         return info;
     }
- 
+
 }

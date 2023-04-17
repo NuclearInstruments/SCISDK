@@ -12,27 +12,35 @@ public class OscilloscopeDualRawBuffer extends Structure implements Structure.By
     public long timecode;
     public OscilloscopeDualRawBufferInfo info;
 
+    public OscilloscopeDualRawBuffer() {
+        super();
+    }
+
+    public OscilloscopeDualRawBuffer(Pointer p) {
+        super(p);
+    }
+
     public long GetMagic() {
-        return magic & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(magic);
     }
 
     public long[] GetData() {
-        return Utils.Pointer2LongArray(data, info.GetBufferSize());
+        return Utils.Pointer2UnsignedIntLongArray(data, info.GetBufferSize());
     }
 
     public long GetZeroPosition() {
-        return zero_position & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(zero_position);
     }
-    
-    public long GetTriggerPosition(){
-        return trigger_position & 0xFFFFFFFFL;
+
+    public long GetTriggerPosition() {
+        return Utils.SignedInteger2UnsignedLong(trigger_position);
     }
-    
-    public long GetTimecode(){
+
+    public long GetTimecode() {
         return timecode;
     }
-    
-    public OscilloscopeDualRawBufferInfo GetInfo(){
+
+    public OscilloscopeDualRawBufferInfo GetInfo() {
         return info;
     }
 }

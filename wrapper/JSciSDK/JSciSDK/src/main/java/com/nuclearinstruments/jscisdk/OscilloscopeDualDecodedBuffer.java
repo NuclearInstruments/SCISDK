@@ -11,12 +11,20 @@ public class OscilloscopeDualDecodedBuffer extends Structure implements Structur
     public long timecode;
     public OscilloscopeDecodedBufferInfo info;
 
+    public OscilloscopeDualDecodedBuffer() {
+        super();
+    }
+
+    public OscilloscopeDualDecodedBuffer(Pointer p) {
+        super(p);
+    }
+
     public long GetMagic() {
-        return magic & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(magic);
     }
 
     public long[] GetAnalog() {
-        return Utils.Pointer2LongArray(analog, info.GetSamplesAnalog() * info.GetChannels());
+        return Utils.Pointer2UnsignedIntLongArray(analog, info.GetSamplesAnalog() * info.GetChannels());
     }
 
     public int[] GetDigital() {
