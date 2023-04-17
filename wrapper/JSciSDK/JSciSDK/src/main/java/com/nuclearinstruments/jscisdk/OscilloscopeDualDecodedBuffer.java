@@ -1,14 +1,15 @@
 package com.nuclearinstruments.jscisdk;
 
 import com.sun.jna.*;
+import java.math.BigInteger;
 
 @Structure.FieldOrder({"magic", "analog", "digital", "timecode", "info"})
 public class OscilloscopeDualDecodedBuffer extends Structure implements Structure.ByReference {
 
-    public int magic;
-    public Pointer analog;
-    public Pointer digital;
-    public long timecode;
+    public int magic; // uint32
+    public Pointer analog; //int32[]
+    public Pointer digital; // int[]
+    public long timecode; // uint64
     public OscilloscopeDecodedBufferInfo info;
 
     public OscilloscopeDualDecodedBuffer() {
@@ -23,8 +24,8 @@ public class OscilloscopeDualDecodedBuffer extends Structure implements Structur
         return Utils.SignedInteger2UnsignedLong(magic);
     }
 
-    public long[] GetAnalog() {
-        return Utils.Pointer2UnsignedIntLongArray(analog, info.GetSamplesAnalog() * info.GetChannels());
+    public int[] GetAnalog() {
+        return Utils.Pointer2SignedIntArray(analog, info.GetSamplesAnalog() * info.GetChannels());
     }
 
     public int[] GetDigital() {
@@ -37,8 +38,8 @@ public class OscilloscopeDualDecodedBuffer extends Structure implements Structur
         return res_array;
     }
 
-    public long GetTimecode() {
-        return timecode;
+    public BigInteger GetTimecode() {
+        return Utils.SignedLong2UnsignedBigInteger(timecode);
     }
 
     public OscilloscopeDecodedBufferInfo GetInfo() {

@@ -5,12 +5,12 @@ import com.sun.jna.*;
 @Structure.FieldOrder({"buffer_size", "samples_analog", "samples_digital", "tracks_analog_per_channel", "tracks_digital_per_channel", "channels"})
 public class OscilloscopeDualRawBufferInfo extends Structure {
 
-    public int buffer_size;
-    public int samples_analog;
-    public int samples_digital;
-    public int tracks_analog_per_channel;
-    public int tracks_digital_per_channel;
-    public int channels;
+    public int buffer_size; // uint32
+    public int samples_analog; // uint32
+    public int samples_digital; // uint32
+    public int tracks_analog_per_channel; // uint32
+    public int tracks_digital_per_channel; // uint32
+    public int channels; // uint32
 
     public OscilloscopeDualRawBufferInfo() {
     }

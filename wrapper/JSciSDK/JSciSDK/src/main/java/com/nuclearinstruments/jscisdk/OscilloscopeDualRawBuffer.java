@@ -1,15 +1,16 @@
 package com.nuclearinstruments.jscisdk;
 
 import com.sun.jna.*;
+import java.math.BigInteger;
 
 @Structure.FieldOrder({"magic", "data", "zero_position", "trigger_position", "timecode", "info"})
 public class OscilloscopeDualRawBuffer extends Structure implements Structure.ByReference {
 
-    public int magic;
-    public Pointer data;
-    public int zero_position;
-    public int trigger_position;
-    public long timecode;
+    public int magic; // uint32
+    public Pointer data; // int32
+    public int zero_position; // uint32
+    public int trigger_position; // uint32
+    public long timecode; // uint64
     public OscilloscopeDualRawBufferInfo info;
 
     public OscilloscopeDualRawBuffer() {
@@ -36,8 +37,8 @@ public class OscilloscopeDualRawBuffer extends Structure implements Structure.By
         return Utils.SignedInteger2UnsignedLong(trigger_position);
     }
 
-    public long GetTimecode() {
-        return timecode;
+    public BigInteger GetTimecode() {
+        return Utils.SignedLong2UnsignedBigInteger(timecode);
     }
 
     public OscilloscopeDualRawBufferInfo GetInfo() {

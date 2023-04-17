@@ -5,11 +5,11 @@ import com.sun.jna.*;
 @Structure.FieldOrder({"samples_analog", "samples_digital", "tracks_analog_per_channel", "tracks_digital_per_channel", "channels"})
 public class OscilloscopeDualDecodedBufferInfo extends Structure {
 
-    public int samples_analog;
-    public int samples_digital;
-    public int tracks_analog_per_channel;
-    public int tracks_digital_per_channel;
-    public int channels;
+    public int samples_analog; // uint32
+    public int samples_digital; // uint32
+    public int tracks_analog_per_channel; // uint32
+    public int tracks_digital_per_channel; // uint32
+    public int channels; // uint32
     
     public OscilloscopeDualDecodedBufferInfo(){
         super();

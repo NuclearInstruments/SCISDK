@@ -32,11 +32,19 @@ public class Utils {
     }
 
     /**
-     * Function used to read a bytes arrat from memory
+     * Function used to read a bytes array from memory
      */
     public static byte[] Pointer2BytesArray(Pointer ptr, long size) {
         Long array_size = Long.valueOf(size);
         return ptr.getByteArray(0, array_size.intValue());
+    }
+
+    /**
+     * Function used to read a double array from memory
+     */
+    public static double[] Pointer2DoubleArray(Pointer ptr, long size) {
+        Long array_size = Long.valueOf(size);
+        return ptr.getDoubleArray(0, array_size.intValue());
     }
 
     /**
@@ -49,6 +57,25 @@ public class Utils {
             l >>= 8;
         }
         return result;
+    }
+
+    /**
+     * Function used to convert bytes array into integer number
+     */
+    public static int Bytes2Int(byte[] bytes) {
+        int value = 0;
+        for (byte b : bytes) {
+            value = (value << 8) + (b & 0xFF);
+        }
+        return value;
+    }
+
+    /**
+     * Function used to convert 32 bit unsigned int stored inside 64 bit long
+     * type variable into a signed 32 bit integer variable
+     */
+    public static int UnsignedInt32Long2SignedInt32(long value) {
+        return Bytes2Int(LongToBytes(value));
     }
 
     /**
