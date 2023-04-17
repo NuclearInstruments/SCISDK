@@ -1,19 +1,8 @@
 package com.nuclearinstruments.jscisdk_test;
 
-import com.nuclearinstruments.jscisdk.OscilloscopeDecodedBuffer;
-import com.nuclearinstruments.jscisdk.Ref;
-import com.nuclearinstruments.jscisdk.SciSDK;
-import com.nuclearinstruments.jscisdk.SpectrumDecodedBuffer;
+import com.nuclearinstruments.jscisdk.*;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +32,7 @@ public class JSciSDK_Test {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SciSDKException {
 
         // initialize sdk library
         SciSDK sdk = new SciSDK();
@@ -70,6 +59,7 @@ public class JSciSDK_Test {
         // OSCILLOSCOPE
         // set oscilloscope parameters
         res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decoded");
+        //res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "raw");
         res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", 2000);
         res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self");
         res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 2000);
@@ -97,45 +87,55 @@ public class JSciSDK_Test {
             WriteLongArrayToFile("spectrum.txt", spectrum_buffer.get().GetData());
         }
 
-        // OSCILLOSCOPE
+        // OSCILLOSCOPE DECODED
         Ref<OscilloscopeDecodedBuffer> oscilloscope_buffer = new Ref<OscilloscopeDecodedBuffer>(new OscilloscopeDecodedBuffer());
         // allocate buffer
         res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
         // read data
         res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
-        
-        if(res == 0){
+
+        if (res == 0) {
             // write analog values into a text file
-            WriteLongArrayToFile("oscilloscope_decoded_analog.txt", oscilloscope_buffer.get().GetAnalog());
+            WriteIntArrayToFile("oscilloscope_decoded_analog.txt", oscilloscope_buffer.get().GetAnalog());
             // write digital values into a text file
-            WriteIntArrayToFile("oscilloscope_decoded_digital.txt",  oscilloscope_buffer.get().GetDigital());
+            WriteIntArrayToFile("oscilloscope_decoded_digital.txt", oscilloscope_buffer.get().GetDigital());
         }
         
+        /*// OSCILLOSCOPE RAW
+        Ref<OscilloscopeRawBuffer> oscilloscope_buffer = new Ref<OscilloscopeRawBuffer>(new OscilloscopeRawBuffer());
+        // allocate buffer
+        res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
+        // read data
+        res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
+
+        Ref<OscilloscopeDecodedBuffer> buf_out = new Ref<OscilloscopeDecodedBuffer>(new OscilloscopeDecodedBuffer());
+        res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", buf_out);
+        res = sdk.DecodeData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer, buf_out);
+        
+        if (res == 0) {
+            // write analog values into a text file
+            WriteIntArrayToFile("oscilloscope_decoded_analog.txt", buf_out.get().GetAnalog());
+            // write digital values into a text file
+            WriteIntArrayToFile("oscilloscope_decoded_digital.txt", buf_out.get().GetDigital());
+        }*/
+
         res = sdk.FreeBuffer("board0:/MMCComponents/Spectrum_0", spectrum_buffer);
         res = sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
 
+        Ref<String> ref_str = new Ref<String>("");
+        sdk.GetComponentList("board0", "all", ref_str, true);
+        System.out.println("Component list: " + ref_str.get());
 
- /*
-            AtomicReference<String> atm_str = new AtomicReference<String>("");
-            sdk.GetComponentList("board0", "all",atm_str, true);
-            System.out.println(atm_str.get());
-         */
- /*
-            AtomicReference<String> atm_str = new AtomicReference<String>("");
-            sdk.GetAllParameters("board0:/MMCComponents/Oscilloscope_0", atm_str);
-            System.out.println(atm_str.get());
-         */
- /*
-            AtomicReference<Double> atm_double = new AtomicReference<Double>(0.0d);
-            res = sdk.GetParameterMaximumValue("board0:/MMCComponents/Oscilloscope_0.trigger_channel", atm_double);
-            System.out.println(atm_double.get());
-         */
- /*
-            Ref<String> ref_str = new Ref<String>("");
-            res = sdk.GetParameterProperties("board0:/MMCComponents/Oscilloscope_0", ref_str);
-            System.out.println(ref_str.get());
-         */
+        sdk.GetAllParameters("board0:/MMCComponents/Oscilloscope_0", ref_str);
+        System.out.println("Get all parameters: " + ref_str.get());
+
+        Ref<Double> ref_double = new Ref<Double>(0.0d);
+        res = sdk.GetParameterMaximumValue("board0:/MMCComponents/Oscilloscope_0.trigger_channel", ref_double);
+        System.out.println("Parameter max value: " + ref_double.get());
+
+        res = sdk.GetParameterProperties("board0:/MMCComponents/Oscilloscope_0", ref_str);
+        System.out.println("Parameter properties: " + ref_str.get());
+
         sdk.FreeLib();
     }
-
 }

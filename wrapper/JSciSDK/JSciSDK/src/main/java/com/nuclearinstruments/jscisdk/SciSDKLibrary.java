@@ -24,6 +24,9 @@ public interface SciSDKLibrary extends Library {
 
     // method used to call dll method to set integer parameter value
     public int SCISDK_SetParameterInteger(String path, int value, Pointer handle);
+    
+    // method used to call dll method to set unsigned integer parameter value
+    public int SCISDK_SetParameterUInteger(String path, int value, Pointer handle);
 
     // method used to call dll method to set double parameter value
     public int SCISDK_SetParameterDouble(String path, double value, Pointer handle);
@@ -33,6 +36,9 @@ public interface SciSDKLibrary extends Library {
 
     // method used to call dll method to retrieve integer parameter value
     public int SCISDK_GetParameterInteger(String path, IntByReference value, Pointer handle);
+    
+    // method used to call dll method to retrieve unsigned integer parameter value
+    public int SCISDK_GetParameterUInteger(String path, IntByReference value, Pointer handle);
 
     // method used to call dll method to retrieve double parameter value
     public int SCISDK_GetParameterDouble(String path, DoubleByReference value, Pointer handle);

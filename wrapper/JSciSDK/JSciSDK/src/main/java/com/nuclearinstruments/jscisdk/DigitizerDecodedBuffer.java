@@ -6,12 +6,12 @@ import java.math.BigInteger;
 @Structure.FieldOrder({"magic", "analog", "hits", "timecode", "counter", "user", "info"})
 public class DigitizerDecodedBuffer extends Structure implements Structure.ByReference {
 
-    public int magic;
-    public Pointer analog;
-    public long hits;
-    public long timecode;
-    public int counter;
-    public int user;
+    public int magic; // uint32
+    public Pointer analog; // int32[]
+    public long hits; // uint64
+    public long timecode; // uint64
+    public int counter; // uint32
+    public int user; // uint32
     public DigitizerDecodedBufferInfo info;
     
     public DigitizerDecodedBuffer(){

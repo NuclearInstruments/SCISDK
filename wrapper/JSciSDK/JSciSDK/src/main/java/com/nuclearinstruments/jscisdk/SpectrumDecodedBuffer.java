@@ -6,10 +6,10 @@ import com.sun.jna.Structure.FieldOrder;
 @FieldOrder({"magic", "data", "timecode", "inttime", "info"})
 public class SpectrumDecodedBuffer extends Structure implements Structure.ByReference {
 
-    public int magic;
-    public Pointer data;
-    public long timecode;
-    public int inttime;
+    public int magic; // uint32
+    public Pointer data; // uint32[]
+    public long timecode; // uint64
+    public int inttime; // uint32
     public SpectrumDecodedBufferInfo info;
 
     public SpectrumDecodedBuffer() {

@@ -5,8 +5,8 @@ import com.sun.jna.*;
 @Structure.FieldOrder({"magic", "data", "info"})
 public class DigitizerRawBuffer extends Structure implements Structure.ByReference {
 
-    public int magic;
-    public Pointer data;
+    public int magic; // uint32
+    public Pointer data; // int32
     public DigitizerRawBufferInfo info;
 
     public DigitizerRawBuffer() {

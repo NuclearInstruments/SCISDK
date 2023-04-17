@@ -5,9 +5,9 @@ import com.sun.jna.*;
 @Structure.FieldOrder({"samples", "valid_samples", "channels"})
 public class DigitizerDecodedBufferInfo extends Structure {
 
-    public int samples;
-    public int valid_samples;
-    public int channels;
+    public int samples; // uint32
+    public int valid_samples; // uint32
+    public int channels; // channels
     
     public DigitizerDecodedBufferInfo(){
         super();

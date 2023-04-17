@@ -3,12 +3,12 @@ package com.nuclearinstruments.jscisdk;
 import com.sun.jna.*;
 
 @Structure.FieldOrder({"buffer_size", "samples", "valid_samples", "channels"})
-public class DigitizerRawBufferInfo extends Structure implements Structure.ByReference {
+public class DigitizerRawBufferInfo extends Structure{
 
-    public int buffer_size;
-    public int samples;
-    public int valid_samples;
-    public int channels;
+    public int buffer_size; // uint32
+    public int samples; // uint32
+    public int valid_samples; // valid_samples
+    public int channels; // channels
 
     public DigitizerRawBufferInfo() {
         super();
