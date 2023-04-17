@@ -2,19 +2,24 @@ package com.nuclearinstruments.jscisdk;
 
 import com.sun.jna.*;
 
-@Structure.FieldOrder({"samples", "valid_samples", "channels"})
-public class DigitizerDecodedBufferInfo extends Structure {
+@Structure.FieldOrder({"buffer_size", "samples", "valid_samples", "channels"})
+public class DigitizerRawBufferInfo extends Structure implements Structure.ByReference {
 
+    public int buffer_size;
     public int samples;
     public int valid_samples;
     public int channels;
-    
-    public DigitizerDecodedBufferInfo(){
+
+    public DigitizerRawBufferInfo() {
         super();
     }
-    
-    public DigitizerDecodedBufferInfo(Pointer p){
+
+    public DigitizerRawBufferInfo(Pointer p) {
         super(p);
+    }
+
+    public long GetBufferSize() {
+        return Utils.SignedInteger2UnsignedLong(buffer_size);
     }
 
     public long GetSamples() {

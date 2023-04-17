@@ -1,7 +1,6 @@
 package com.nuclearinstruments.jscisdk;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
+import com.sun.jna.*;
 
 @Structure.FieldOrder({"magic", "data", "zero_position", "trigger_position", "timecode", "info"})
 public class OscilloscopeRawBuffer extends Structure implements Structure.ByReference {
@@ -13,20 +12,27 @@ public class OscilloscopeRawBuffer extends Structure implements Structure.ByRefe
     public long timecode;
     public OscilloscopeRawBufferInfo info;
 
+    public OscilloscopeRawBuffer() {
+    }
+
+    public OscilloscopeRawBuffer(Pointer p) {
+        super(p);
+    }
+
     public long GetMagic() {
-        return magic & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(magic);
     }
 
     public long[] GetData() {
-        return Utils.Pointer2LongArray(data, info.GetBufferSize());
+        return Utils.Pointer2UnsignedIntLongArray(data, info.GetBufferSize());
     }
 
     public long GetZeroPosition() {
-        return zero_position & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(zero_position);
     }
 
     public long GetTriggerPosition() {
-        return trigger_position & 0xFFFFFFFFL;
+        return Utils.SignedInteger2UnsignedLong(trigger_position);
     }
 
     public long GetTimecode() {

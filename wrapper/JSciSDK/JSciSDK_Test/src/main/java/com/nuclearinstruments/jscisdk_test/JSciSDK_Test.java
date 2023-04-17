@@ -6,8 +6,14 @@ import com.nuclearinstruments.jscisdk.SciSDK;
 import com.nuclearinstruments.jscisdk.SpectrumDecodedBuffer;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +30,7 @@ public class JSciSDK_Test {
             Logger.getLogger(JSciSDK_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void WriteIntArrayToFile(String filename, int[] data) {
         try {
             FileWriter spectrum_writer = new FileWriter(filename);
@@ -38,7 +44,7 @@ public class JSciSDK_Test {
     }
 
     public static void main(String[] args) {
-        /*
+
         // initialize sdk library
         SciSDK sdk = new SciSDK();
 
@@ -107,43 +113,29 @@ public class JSciSDK_Test {
         
         res = sdk.FreeBuffer("board0:/MMCComponents/Spectrum_0", spectrum_buffer);
         res = sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
-        */
-        
-        /*
+
+
+ /*
             AtomicReference<String> atm_str = new AtomicReference<String>("");
             sdk.GetComponentList("board0", "all",atm_str, true);
             System.out.println(atm_str.get());
-        */
-        
-        /*
+         */
+ /*
             AtomicReference<String> atm_str = new AtomicReference<String>("");
             sdk.GetAllParameters("board0:/MMCComponents/Oscilloscope_0", atm_str);
             System.out.println(atm_str.get());
-        */
-        
-        /*
+         */
+ /*
             AtomicReference<Double> atm_double = new AtomicReference<Double>(0.0d);
             res = sdk.GetParameterMaximumValue("board0:/MMCComponents/Oscilloscope_0.trigger_channel", atm_double);
             System.out.println(atm_double.get());
-        */
-        /*
+         */
+ /*
             Ref<String> ref_str = new Ref<String>("");
             res = sdk.GetParameterProperties("board0:/MMCComponents/Oscilloscope_0", ref_str);
             System.out.println(ref_str.get());
-        */
-        //sdk.FreeLib();
-        //BigInteger test = new BigInteger(new);
-        //System.out.println(test);
-        /*Long l = Long.MAX_VALUE;
-        System.out.println(Long.MAX_VALUE);*/
-        long test = (long)Math.pow(2, 200);
-        System.out.println(test);
-    }
-    
-    public static byte[] longToBytes(long x) {
-        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);    
-        buffer.putLong(0, x);
-        return buffer.array();
+         */
+        sdk.FreeLib();
     }
 
 }
