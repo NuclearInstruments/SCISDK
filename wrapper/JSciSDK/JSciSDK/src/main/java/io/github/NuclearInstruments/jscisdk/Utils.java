@@ -1,4 +1,4 @@
-package com.nuclearinstruments.jscisdk;
+package io.github.NuclearInstruments.jscisdk;
 
 import com.sun.jna.Pointer;
 import java.math.BigInteger;
