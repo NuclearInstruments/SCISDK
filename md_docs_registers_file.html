@@ -136,13 +136,13 @@ $(document).ready(function(){initNavTree('md_docs_registers_file.html',''); init
 <div class="line">└─── CH1  </div>
 <div class="line">└─── CH2</div>
 <div class="line">└─── ....</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md35"></a>
 Endpoint</h1>
 <p>In order to a register inside a register file the path is:</p>
 <div class="fragment"><div class="line">board0:/MMCComponents/&lt;name of the register file&gt;.&lt;name of the register&gt;</div>
 </div><!-- fragment --><p>Inside a sub-page the path is:</p>
 <div class="fragment"><div class="line">board0:/MMCComponents/page1/&lt;name of the register file&gt;.&lt;name of the register&gt;</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md33"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
 Methods</h1>
 <p>Set a value in the register</p>
 <div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> SetParameterInteger(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span> value, <span class="keywordtype">void</span>* handle);</div>
@@ -165,17 +165,17 @@ Methods</h1>
 <div class="line">sdk.GetParameterInteger(Path, ref value);</div>
 </div><!-- fragment --><p><em>Python:</em> </p><div class="fragment"><div class="line">err = sdk.SetParameterInteger(Path, value)</div>
 <div class="line">err, value = sdk.GetParameterInteger(Path, value)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
 Example</h1>
 <p>The following examples uses three register A, B, C in the register file <em>rf</em>. The firmware will calcualte C=A+B (and store the result in C). We set register A and B to 10 and 20 and we read the value of C.</p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 C</h2>
 <div class="fragment"><div class="line">SetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.A&quot;</span>, 10, handle);</div>
 <div class="line">SetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.B&quot;</span>, 20, handle);</div>
 <div class="line"><span class="keywordtype">int</span> value;</div>
 <div class="line">GetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/rf.C&quot;</span>, &amp;value, handle);</div>
 <div class="line">printf(<span class="stringliteral">&quot;C=%d\n&quot;</span>, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md39"></a>
 C++</h2>
 <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">sdk.SetParameter(&quot;board0:/MMCComponents/rf.A&quot;, 10);</div>
@@ -183,14 +183,14 @@ C++</h2>
 <div class="line">int value;</div>
 <div class="line">sdk.GetParameter(&quot;board0:/MMCComponents/rf.C&quot;, &amp;value);</div>
 <div class="line">printf(&quot;C=%d\n&quot;, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md40"></a>
 C Sharp</h2>
 <div class="fragment"><div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.A&quot;, 10);</div>
 <div class="line">sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.B&quot;, 20);</div>
 <div class="line">int value;</div>
 <div class="line">sdk.GetParameterInteger(&quot;board0:/MMCComponents/rf.C&quot;, ref value);</div>
 <div class="line">Console.WriteLine(&quot;C={0}&quot;, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md38"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md41"></a>
 Python</h2>
 <div class="fragment"><div class="line">err = sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.A&quot;, 10)</div>
 <div class="line">err = sdk.SetParameterInteger(&quot;board0:/MMCComponents/rf.B&quot;, 20)</div>
