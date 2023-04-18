@@ -1,4 +1,4 @@
-package com.nuclearinstruments.jscisdk;
+package io.github.NuclearInstruments.jscisdk;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;

@@ -1,4 +1,4 @@
-package com.nuclearinstruments.jscisdk;
+package io.github.NuclearInstruments.jscisdk;
 
 public class SciSDKException extends Exception {
 

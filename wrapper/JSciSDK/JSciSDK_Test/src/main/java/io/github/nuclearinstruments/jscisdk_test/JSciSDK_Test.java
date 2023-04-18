@@ -1,6 +1,14 @@
-package com.nuclearinstruments.jscisdk_test;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
 
-import com.nuclearinstruments.jscisdk.*;
+package io.github.nuclearinstruments.jscisdk_test;
+
+import io.github.NuclearInstruments.jscisdk.OscilloscopeDecodedBuffer;
+import io.github.NuclearInstruments.jscisdk.Ref;
+import io.github.NuclearInstruments.jscisdk.SciSDK;
+import io.github.NuclearInstruments.jscisdk.SciSDKException;
+import io.github.NuclearInstruments.jscisdk.SpectrumDecodedBuffer;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -42,7 +50,7 @@ public class JSciSDK_Test {
         if (res != 0) {
             Ref<String> error_description = new Ref<String>("");
             sdk.s_error(res, error_description);
-            System.out.println("Error Adding Device: " + error_description);
+            System.out.println("Error Adding Device: " + error_description.get());
             return;
         }
 
@@ -101,24 +109,6 @@ public class JSciSDK_Test {
             WriteIntArrayToFile("oscilloscope_decoded_digital.txt", oscilloscope_buffer.get().GetDigital());
         }
         
-        /*// OSCILLOSCOPE RAW
-        Ref<OscilloscopeRawBuffer> oscilloscope_buffer = new Ref<OscilloscopeRawBuffer>(new OscilloscopeRawBuffer());
-        // allocate buffer
-        res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
-        // read data
-        res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
-
-        Ref<OscilloscopeDecodedBuffer> buf_out = new Ref<OscilloscopeDecodedBuffer>(new OscilloscopeDecodedBuffer());
-        res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", buf_out);
-        res = sdk.DecodeData("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer, buf_out);
-        
-        if (res == 0) {
-            // write analog values into a text file
-            WriteIntArrayToFile("oscilloscope_decoded_analog.txt", buf_out.get().GetAnalog());
-            // write digital values into a text file
-            WriteIntArrayToFile("oscilloscope_decoded_digital.txt", buf_out.get().GetDigital());
-        }*/
-
         res = sdk.FreeBuffer("board0:/MMCComponents/Spectrum_0", spectrum_buffer);
         res = sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", oscilloscope_buffer);
 
