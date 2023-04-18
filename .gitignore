@@ -307,16 +307,16 @@ Makefile
 docs/html
 *.zip
 
-dt1260/
-Drivers/
-redist/
-tmp/
-output/
-build_zynq/
-build_arm64/
-build_armhf/
-build_x64/
-build_i386/
-x5560/
-CAEN Dig2/
-CAEN FELib/
+/dt1260/
+/Drivers/
+/redist/
+/tmp/
+/output/
+/build_zynq/
+/build_arm64/
+/build_armhf/
+/build_x64/
+/build_i386/
+/x5560/
+/CAEN Dig2/
+/CAEN FELib/
