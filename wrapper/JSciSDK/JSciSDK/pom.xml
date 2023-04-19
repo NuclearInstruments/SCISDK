@@ -15,8 +15,34 @@
         <exec.mainClass>com.nuclearinstruments.jscisdk.JSciSDK</exec.mainClass>
     </properties>
     
+    <licenses>
+        <license>
+            <name>GPL-v3.0</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>https://github.com/NuclearInstruments/SCISDK</url>
+    </scm>
+    
+    <developers>
+        <developer></developer>
+    </developers>
+    
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -44,34 +70,21 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.jreleaser</groupId>
-                <artifactId>jreleaser-maven-plugin</artifactId>
-                <version>1.3.1</version>
-                <configuration>
-                    <jreleaser>
-                        <signing>
-                            <active>ALWAYS</active>
-                            <armored>true</armored>
-                        </signing>
-                        <deploy>
-                            <maven>
-                                <nexus2>
-                                    <maven-central>
-                                        <active>ALWAYS</active>
-                                        <url>https://s01.oss.sonatype.org/service/local</url>;
-                                        <closeRepository>false</closeRepository>
-                                        <releaseRepository>false</releaseRepository>
-                                        <stagingRepositories>target/staging-deploy</stagingRepositories>
-                                    </maven-central>
-                                </nexus2>
-                            </maven>
-                        </deploy>
-                    </jreleaser>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-    
     
     <dependencies>
         <dependency>
@@ -80,15 +93,17 @@
             <version>5.6.0</version>
         </dependency>
     </dependencies>
+    
     <distributionManagement>
-        <snapshotRepository>   
-            <id>ossrh</id>        
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
-        </snapshotRepository> 
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>ossrh</id> 
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url> 
-        </repository> 
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
+    
     
 </project>
