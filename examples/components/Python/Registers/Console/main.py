@@ -4,7 +4,7 @@ from scisdk.scisdk_defines import *
 sdk = SciSDK()
 
 #DT1260
-res = sdk.AddNewDevice("usb:10500","dt1260", "./DT1260RegisterFile.json","board0")
+res = sdk.AddNewDevice("usb:28645","dt1260", "./DT1260RegisterFile.json","board0")
 #DT5560
 #res = sdk.AddNewDevice("192.168.50.10:8888","DT5560", "./DT5560RegisterFile.json","board0")
 #DT5550

@@ -1,21 +1,56 @@
 {"Registers":[
 {
-  "Name": "A",
+  "Name": "pol",
   "Address": 0,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 },
 {
-  "Name": "B",
+  "Name": "trgthrs",
   "Address": 1,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 },
 {
-  "Name": "C",
+  "Name": "Nsample",
   "Address": 2,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "time_hold_bs",
+  "Address": 131078,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "time_integr",
+  "Address": 131079,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "pre_integr",
+  "Address": 131080,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "gain",
+  "Address": 131081,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "Offset_int",
+  "Address": 131082,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
@@ -29,158 +64,137 @@
 }],
 "MMCComponents":[
 {
-  "Name": "REGFILE_0",
-  "Type": "RegisterFile",
-  "Address": 4,
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 4096,
   "Version": "1.0.0.0",
-  "nsamples": 0,
+  "nsamples": 1024,
   "Registers": [
     {
-      "Name": "REG_0",
-      "Address": 5,
+      "Name": "READ_STATUS",
+      "Address": 8192,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "REG_1",
-      "Address": 6,
+      "Name": "READ_POSITION",
+      "Address": 8193,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "REG_2",
-      "Address": 7,
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 8194,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "REG_3",
-      "Address": 8,
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 8195,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "REG_4",
-      "Address": 9,
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 8196,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "REG_5",
-      "Address": 10,
+      "Name": "CONFIG_ARM",
+      "Address": 8197,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 8198,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     }
   ],
-  "Channels": 0
+  "Channels": 4
 },
 {
-  "Name": "CREG_0",
-  "Type": "RegisterFile",
-  "Address": 12,
-  "Version": "1.0.0.0",
-  "nsamples": 0,
+  "Name": "List_0",
+  "Type": "ListModule",
+  "Address": 8200,
+  "Version": "1.1.0.0",
+  "WordSize": 0,
+  "Channels": 1,
   "Registers": [
     {
-      "Name": "CH0",
-      "Address": 13,
+      "Name": "STATUS",
+      "Address": 8201,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH1",
-      "Address": 14,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CH2",
-      "Address": 15,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CH3",
-      "Address": 16,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CH4",
-      "Address": 17,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CH5",
-      "Address": 18,
+      "Name": "CONFIG",
+      "Address": 8202,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     }
-  ],
-  "Channels": 0
+  ]
 },
 {
-  "Name": "CREG_1",
-  "Type": "RegisterFile",
-  "Address": 20,
+  "Name": "Spectrum_0",
+  "Type": "Spectrum",
+  "Address": 65536,
   "Version": "1.0.0.0",
-  "nsamples": 0,
+  "bins": 16384,
   "Registers": [
     {
-      "Name": "CH0",
-      "Address": 21,
+      "Name": "STATUS",
+      "Address": 131072,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH1",
-      "Address": 22,
+      "Name": "CONFIG",
+      "Address": 131073,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH2",
-      "Address": 23,
+      "Name": "CONFIG_LIMIT",
+      "Address": 131074,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH3",
-      "Address": 24,
+      "Name": "CONFIG_REBIN",
+      "Address": 131075,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH4",
-      "Address": 25,
+      "Name": "CONFIG_MIN",
+      "Address": 131076,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
-      "Name": "CH5",
-      "Address": 26,
+      "Name": "CONFIG_MAX",
+      "Address": 131077,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     }
   ],
-  "Channels": 0
-}],"Device":"SCIDK","Project":"Registers"}
+  "CountsBit": 16
+}],"Device":"SCIDK","Project":"ChargeIntegration"}
