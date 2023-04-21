@@ -59922,10 +59922,10 @@
     </MACAPage>
   </ProjectPages>
   <StateMachines />
-  <Name>TR</Name>
-  <Name_userside>TR</Name_userside>
+  <Name>TransistorReset</Name>
+  <Name_userside>TransistorReset</Name_userside>
   <CreationDate>31/03/2023 18:28:23</CreationDate>
-  <LastEditDate>05/04/2023 16:36:19</LastEditDate>
+  <LastEditDate>05/04/2023 21:06:45</LastEditDate>
   <AppVersion>2023.2.26.1</AppVersion>
   <PrjFolder>C:\OpenHardware\UserProject</PrjFolder>
   <PrjTarget>DT5560</PrjTarget>
@@ -62441,7 +62441,7 @@
   <PrjGUID>c714624b-f982-4795-8958-f0bc2abd0acf</PrjGUID>
   <PrjMAGIC>72439056</PrjMAGIC>
   <MemoryMappedComponents />
-  <fullpath>C:\OpenHardware\UserProject\TR</fullpath>
+  <fullpath>C:\OpenHardware\UserProject\TransistorReset</fullpath>
   <simulation>
     <mmc_script>InitRegister("MONSEL",0)
 InitRegister("RUNREG",0)

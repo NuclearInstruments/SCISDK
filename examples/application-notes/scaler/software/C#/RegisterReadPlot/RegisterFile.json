@@ -1,21 +1,21 @@
 {"Registers":[
 {
-  "Name": "trgthrs",
-  "Address": 4103,
+  "Name": "pol",
+  "Address": 0,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 },
 {
-  "Name": "pol",
-  "Address": 4104,
+  "Name": "trgthrs",
+  "Address": 1,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 },
 {
   "Name": "trgcnt",
-  "Address": 4105,
+  "Address": 2,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
@@ -31,59 +31,59 @@
 {
   "Name": "Oscilloscope_0",
   "Type": "Oscilloscope",
-  "Address": 0,
+  "Address": 1024,
   "Version": "1.0.0.0",
-  "nsamples": 4096,
+  "nsamples": 1024,
   "Registers": [
     {
       "Name": "READ_STATUS",
-      "Address": 4096,
+      "Address": 2048,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "READ_POSITION",
-      "Address": 4097,
+      "Address": 2049,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_TRIGGER_MODE",
-      "Address": 4098,
+      "Address": 2050,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_PRETRIGGER",
-      "Address": 4099,
+      "Address": 2051,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_TRIGGER_LEVEL",
-      "Address": 4100,
+      "Address": 2052,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_ARM",
-      "Address": 4101,
+      "Address": 2053,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     },
     {
       "Name": "CONFIG_DECIMATOR",
-      "Address": 4102,
+      "Address": 2054,
       "RegionSize": 1,
       "Description": "",
       "Category": "Undefined"
     }
   ],
   "Channels": 1
-}],"Device":"SCIDK","Project":"dt1260osc"}
+}],"Device":"SCIDK","Project":"Scaler"}

@@ -17,7 +17,7 @@ if not res == 0:
     exit()
 
 # Set registers
-err = sdk.SetRegister("board0:/Registers/trgthrs", 2500)
+err = sdk.SetRegister("board0:/Registers/trgthrs", 2000)
 err = sdk.SetRegister("board0:/Registers/pol", 1)
 
 value = 0
