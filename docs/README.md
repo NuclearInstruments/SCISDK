@@ -295,3 +295,8 @@ Each one contains the detailed instruction to compile the library.
 
 ### 7.7. Readout data from a board
 
+## 8 Use with Java
+
+### 8.1 Ant
+
+### 8.2 Maven
