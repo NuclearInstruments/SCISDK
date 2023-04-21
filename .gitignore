@@ -321,9 +321,16 @@ docs/html
 /x5560/
 /CAEN Dig2/
 /CAEN FELib/
+
+# Java
 /wrapper/java_SciSDK/java_SciSDK/nbproject/private/
 /wrapper/java_SciSDK/java_SciSDK_test/nbproject/private/
 /wrapper/JSciSDK/JSciSDK/target/
 /wrapper/JSciSDK/JSciSDK_Test/target/
 /wrapper/JSciSDK/JSciSDK/target_old/
+
+# LabView
+/wrapper/LabView/*.dll
+/SciSDK_VC++/*.dll
+/wrapper/LabView/Report.html
 
