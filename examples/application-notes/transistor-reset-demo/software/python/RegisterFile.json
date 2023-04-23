@@ -1,24 +1,480 @@
 {"Registers":[
 {
-  "Name": "MONSEL",
-  "Address": 0,
+  "Name": "CH0_ICR",
+  "Address": 49201,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 },
 {
-  "Name": "RUNREG",
-  "Address": 1,
+  "Name": "CH1_OCR",
+  "Address": 49202,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "CH0_OCR",
+  "Address": 49203,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "CH1_ICR",
+  "Address": 49204,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "RUN_CFG",
+  "Address": 49205,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "MONSEL",
+  "Address": 49206,
   "RegionSize": 1,
   "Description": "",
   "Category": "Undefined"
 }],
 "MMCComponents":[
 {
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 0,
+  "Version": "1.0.0.0",
+  "nsamples": 8192,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 16384,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Address": 16385,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 16386,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 16387,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 16388,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 16389,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 16390,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 2
+},
+{
+  "Name": "Oscilloscope_1",
+  "Type": "Oscilloscope",
+  "Address": 32768,
+  "Version": "1.0.0.0",
+  "nsamples": 8192,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 49152,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Address": 49153,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 49154,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Address": 49155,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Address": 49156,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 49157,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Address": 49158,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 2
+},
+{
+  "Name": "List_0",
+  "Type": "ListModule",
+  "Address": 16392,
+  "Version": "1.1.0.0",
+  "WordSize": 0,
+  "Channels": 1,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 16393,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 16394,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+},
+{
+  "Name": "RG_0",
+  "Type": "RegisterFile",
+  "Address": 49160,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
+    {
+      "Name": "RESET_THRS",
+      "Address": 49161,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "POL",
+      "Address": 49162,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "RESET_LEN",
+      "Address": 49163,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HIST",
+      "Address": 49164,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "INIB",
+      "Address": 49165,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "THRS",
+      "Address": 49166,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "AN_OFS",
+      "Address": 49167,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRIGGER_K",
+      "Address": 49168,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRIGGER_M",
+      "Address": 49169,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_K",
+      "Address": 49170,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_M",
+      "Address": 49171,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "DECONV_M",
+      "Address": 49172,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_GAIN",
+      "Address": 49173,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLLEN",
+      "Address": 49174,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLINIB",
+      "Address": 49175,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "SAMP_POS",
+      "Address": 49176,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRG_MODE",
+      "Address": 49177,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "PUR_MODE",
+      "Address": 49178,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "PUR_INIB",
+      "Address": 49179,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 0
+},
+{
+  "Name": "RG_1",
+  "Type": "RegisterFile",
+  "Address": 49181,
+  "Version": "1.0.0.0",
+  "nsamples": 0,
+  "Registers": [
+    {
+      "Name": "RESET_THRS",
+      "Address": 49182,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "POL",
+      "Address": 49183,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "RESET_LEN",
+      "Address": 49184,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "HIST",
+      "Address": 49185,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "INIB",
+      "Address": 49186,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "THRS",
+      "Address": 49187,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "AN_OFS",
+      "Address": 49188,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRIGGER_K",
+      "Address": 49189,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRIGGER_M",
+      "Address": 49190,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_K",
+      "Address": 49191,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_M",
+      "Address": 49192,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "DECONV_M",
+      "Address": 49193,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRAP_GAIN",
+      "Address": 49194,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLLEN",
+      "Address": 49195,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "BLINIB",
+      "Address": 49196,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "SAMP_POS",
+      "Address": 49197,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "TRG_MODE",
+      "Address": 49198,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "PUR_MODE",
+      "Address": 49199,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "PUR_INIB",
+      "Address": 49200,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "Channels": 0
+},
+{
   "Name": "Spectrum_0",
   "Type": "Spectrum",
   "Address": 65536,
-  "Version": "1.0.0.0",
+  "Version": "1.0.1.0",
   "bins": 16384,
   "Registers": [
     {
@@ -64,72 +520,13 @@
       "Category": "Undefined"
     }
   ],
-  "CountsBit": 16
-},
-{
-  "Name": "Oscilloscope_0",
-  "Type": "Oscilloscope",
-  "Address": 147456,
-  "Version": "1.0.0.0",
-  "nsamples": 8192,
-  "Registers": [
-    {
-      "Name": "READ_STATUS",
-      "Address": 163840,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "READ_POSITION",
-      "Address": 163841,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_MODE",
-      "Address": 163842,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_PRETRIGGER",
-      "Address": 163843,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_LEVEL",
-      "Address": 163844,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_ARM",
-      "Address": 163845,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_DECIMATOR",
-      "Address": 163846,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ],
-  "Channels": 2
+  "CountsBit": 32
 },
 {
   "Name": "Spectrum_1",
   "Type": "Spectrum",
   "Address": 196608,
-  "Version": "1.0.0.0",
+  "Version": "1.0.1.0",
   "bins": 16384,
   "Registers": [
     {
@@ -175,346 +572,5 @@
       "Category": "Undefined"
     }
   ],
-  "CountsBit": 16
-},
-{
-  "Name": "Oscilloscope_1",
-  "Type": "Oscilloscope",
-  "Address": 278528,
-  "Version": "1.0.0.0",
-  "nsamples": 8192,
-  "Registers": [
-    {
-      "Name": "READ_STATUS",
-      "Address": 294912,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "READ_POSITION",
-      "Address": 294913,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_MODE",
-      "Address": 294914,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_PRETRIGGER",
-      "Address": 294915,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_TRIGGER_LEVEL",
-      "Address": 294916,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_ARM",
-      "Address": 294917,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG_DECIMATOR",
-      "Address": 294918,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ],
-  "Channels": 2
-},
-{
-  "Name": "List_0",
-  "Type": "ListModule",
-  "Address": 294920,
-  "Version": "1.1.0.0",
-  "WordSize": 0,
-  "Channels": 1,
-  "Registers": [
-    {
-      "Name": "STATUS",
-      "Address": 294921,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "CONFIG",
-      "Address": 294922,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ]
-},
-{
-  "Name": "RG_0",
-  "Type": "RegisterFile",
-  "Address": 3,
-  "Version": "1.0.0.0",
-  "nsamples": 0,
-  "Registers": [
-    {
-      "Name": "RESET_THRS",
-      "Address": 4,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "POL",
-      "Address": 5,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "RESET_LEN",
-      "Address": 6,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "HIST",
-      "Address": 7,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "INIB",
-      "Address": 8,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "THRS",
-      "Address": 9,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "AN_OFS",
-      "Address": 10,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRIGGER_K",
-      "Address": 11,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRIGGER_M",
-      "Address": 12,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_K",
-      "Address": 13,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_M",
-      "Address": 14,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "DECONV_M",
-      "Address": 15,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_GAIN",
-      "Address": 16,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "BLLEN",
-      "Address": 17,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "BLINIB",
-      "Address": 18,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "SAMP_POS",
-      "Address": 19,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRG_MODE",
-      "Address": 20,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ],
-  "Channels": 0
-},
-{
-  "Name": "RG_1",
-  "Type": "RegisterFile",
-  "Address": 22,
-  "Version": "1.0.0.0",
-  "nsamples": 0,
-  "Registers": [
-    {
-      "Name": "RESET_THRS",
-      "Address": 23,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "POL",
-      "Address": 24,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "RESET_LEN",
-      "Address": 25,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "HIST",
-      "Address": 26,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "INIB",
-      "Address": 27,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "THRS",
-      "Address": 28,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "AN_OFS",
-      "Address": 29,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRIGGER_K",
-      "Address": 30,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRIGGER_M",
-      "Address": 31,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_K",
-      "Address": 32,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_M",
-      "Address": 33,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "DECONV_M",
-      "Address": 34,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRAP_GAIN",
-      "Address": 35,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "BLLEN",
-      "Address": 36,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "BLINIB",
-      "Address": 37,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "SAMP_POS",
-      "Address": 38,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    },
-    {
-      "Name": "TRG_MODE",
-      "Address": 39,
-      "RegionSize": 1,
-      "Description": "",
-      "Category": "Undefined"
-    }
-  ],
-  "Channels": 0
+  "CountsBit": 32
 }],"Device":"DT5560","Project":"FioriniTR"}
