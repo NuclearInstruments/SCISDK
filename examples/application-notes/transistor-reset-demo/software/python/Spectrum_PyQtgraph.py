@@ -41,7 +41,7 @@ SAMP_POS = 107
 TRG_MODE = 0
 
 # Set register values
-res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
 res = sdk.SetRegister("board0:/Registers/MONSEL", 3)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.RESET_THRS", RESET_THRS)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.POL", POL)
@@ -60,8 +60,10 @@ res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLLEN", BLLEN)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLINIB", BLINIB)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.SAMP_POS", SAMP_POS)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRG_MODE", TRG_MODE)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_MODE", 2)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_INIB", 50)
 
-res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
 # ## SPECTRUM
 
@@ -483,8 +485,8 @@ def stop():
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "")
 
 def start():
-    sdk.SetRegister("board0:/Registers/RUNREG", 0)
-    sdk.SetRegister("board0:/Registers/RUNREG", 1)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
     timer.start()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "")
@@ -493,8 +495,8 @@ def reset():
     timer.stop()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "")
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "")
-    sdk.SetRegister("board0:/Registers/RUNREG", 0)
-    sdk.SetRegister("board0:/Registers/RUNREG", 1)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
     timer.start()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "")

@@ -25,7 +25,7 @@ if res != 0:
     exit()
 
 # Set register values
-res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
 
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.RESET_THRS", 500)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.POL", 1)
@@ -44,8 +44,10 @@ res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLLEN", 7)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLINIB", 150)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.SAMP_POS", 107)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRG_MODE", 0)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_MODE", 2)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_INIB", 50)
 
-res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
 # ## SPECTRUM
 
@@ -325,136 +327,136 @@ class RealTimePlot(QMainWindow):
             self.POL = 1
         elif i == 1:
             self.POL = 0
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.POL", self.POL)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
     def return_RESET_THRS(self):
         value = self.RESET_THRS_widg.text()
         self.RESET_THRS = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.RESET_THRS", self.RESET_THRS)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.RESET_THRS_widg.setPlaceholderText(str(self.RESET_THRS))
     
     def return_RESET_LEN(self):
         value = self.RESET_LEN_widg.text()
         self.RESET_LEN = int(value) 
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.RESET_LEN", self.RESET_LEN)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.RESET_LEN_widg.setPlaceholderText(str(self.RESET_LEN))     
     
     def return_HIST(self):
         value = self.HIST_widg.text()
         self.HIST = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.HIST", self.HIST)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.HIST_widg.setPlaceholderText(str(self.HIST))
     
     def return_INIB(self):
         value = self.INIB_widg.text()
         self.INIB = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.INIB", self.INIB)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.INIB_widg.setPlaceholderText(str(self.INIB))
 
     def return_THRS(self):
         value = self.THRS_widg.text()
         self.THRS = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.THRS", self.THRS)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.THRS_widg.setPlaceholderText(str(self.THRS))
 
     def return_AN_OFS(self):
         value = self.AN_OFS_widg.text()
         self.AN_OFS = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.AN_OFS", self.AN_OFS)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.AN_OFS_widg.setPlaceholderText(str(self.AN_OFS))
 
     def return_TRIGGER_K(self):
         value = self.TRIGGER_K_widg.text()
         self.TRIGGER_K = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRIGGER_K", self.TRIGGER_K)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRIGGER_K_widg.setPlaceholderText(str(self.TRIGGER_K))
 
     def return_TRIGGER_M(self):
         value = self.TRIGGER_M_widg.text()
         self.TRIGGER_M = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRIGGER_M", self.TRIGGER_M)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRIGGER_M_widg.setPlaceholderText(str(self.TRIGGER_M))
 
     def return_TRAP_K(self):
         value = self.TRAP_K_widg.text()
         self.TRAP_K = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_K", self.TRAP_K)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRAP_K_widg.setPlaceholderText(str(self.TRAP_K))
     
     def return_TRAP_M(self):
         value = self.TRAP_M_widg.text()
         self.TRAP_M = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_M", self.TRAP_M)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRAP_M_widg.setPlaceholderText(str(self.TRAP_M))
 
     def return_DECONV_M(self):
         value = self.DECONV_M_widg.text()
         self.TAU = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.DECONV_M", int(256.0/(math.exp(8/self.TAU)-1)))
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.DECONV_M_widg.setPlaceholderText(str(self.TAU))
 
     def return_TRAP_GAIN(self):
         value = self.TRAP_GAIN_widg.text()
         self.TRAP_GAIN = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_GAIN", self.TRAP_GAIN)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRAP_GAIN_widg.setPlaceholderText(str(self.TRAP_GAIN))
 
     def return_BLLEN(self):
         value = self.BLLEN_widg.text()
         self.BLLEN = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLLEN", self.BLLEN)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.BLLEN_widg.setPlaceholderText(str(self.BLLEN))
 
     def return_BLINIB(self):
         value = self.BLINIB_widg.text()
         self.BLINIB = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLINIB", self.BLINIB)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.BLINIB_widg.setPlaceholderText(str(self.BLINIB))
 
     def return_SAMP_POS(self):
         value = self.SAMP_POS_widg.text()
         self.SAMP_POS = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.SAMP_POS", self.SAMP_POS)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.SAMP_POS_widg.setPlaceholderText(str(self.SAMP_POS))
     
     def return_TRG_MODE(self):
         value = self.TRG_MODE_widg.text()
         self.TRG_MODE = int(value)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
         res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRG_MODE", self.TRG_MODE)
-        res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+        res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
         self.TRG_MODE_widg.setPlaceholderText(str(self.TRG_MODE))
 
     def gaussian(x, a, x0, sigma):
