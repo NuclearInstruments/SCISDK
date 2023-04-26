@@ -56,12 +56,19 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterUInteger(char* Path, unsigned in
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDouble(char* Path, double* value, void* handle) {
 	return SCISDK_GetParameterDouble(Path, value, handle);
 }
+
 SCISDKLABVIEW_DLL_API int LV_SCISDK_AllocateBuffer_Oscilloscope(char* Path, int buffer_type, LV_OSCILLOSCOPE_DECODED_BUFFER* buffer, void* handle)
 {
 	void** ptr = (void**)malloc(sizeof(void*));
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, ptr, handle);
 	memcpy(buffer, *ptr, sizeof(LV_OSCILLOSCOPE_DECODED_BUFFER));
 	free(ptr);
+	return res;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadData(char* Path, LV_OSCILLOSCOPE_DECODED_BUFFER* buffer, void* handle)
+{
+	int res = SCISDK_ReadData(Path, buffer, handle);
 	return res;
 }
 //
