@@ -16,6 +16,7 @@
 	<Item Name="LV SCISDK Get Parameter U Integer.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter U Integer.vi"/>
 	<Item Name="LV SCISDK Init Lib.vi" Type="VI" URL="../VIs/LV SCISDK Init Lib.vi"/>
 	<Item Name="LV SCISDK Read Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Data.vi"/>
+	<Item Name="LV SCISDK Read Oscilloscope.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope.vi"/>
 	<Item Name="LV SCISDK Set Parameter Double.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Double.vi"/>
 	<Item Name="LV SCISDK Set Parameter Integer.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Integer.vi"/>
 	<Item Name="LV SCISDK Set Parameter String.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter String.vi"/>
