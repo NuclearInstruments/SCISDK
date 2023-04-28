@@ -4,7 +4,7 @@
 	<Property Name="NI.Lib.SourceVersion" Type="Int">553680896</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
 	<Item Name="subvi" Type="Folder">
-		<Item Name="Error Converter (ErrCode or Status).vi" Type="VI" URL="../subvi/Error Converter (ErrCode or Status).vi"/>
+		<Item Name="Error Converter (ErrCode or Status).vi" Type="VI" URL="/&lt;userlib&gt;/SciSDK_Labview/subvi/Error Converter (ErrCode or Status).vi"/>
 	</Item>
 	<Item Name="LV SCISDK Add New Device.vi" Type="VI" URL="../VIs/LV SCISDK Add New Device.vi"/>
 	<Item Name="LV SCISDK Allocate Buffer Oscilloscope.vi" Type="VI" URL="../VIs/LV SCISDK Allocate Buffer Oscilloscope.vi"/>
@@ -15,8 +15,8 @@
 	<Item Name="LV SCISDK Get Parameter String.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter String.vi"/>
 	<Item Name="LV SCISDK Get Parameter U Integer.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter U Integer.vi"/>
 	<Item Name="LV SCISDK Init Lib.vi" Type="VI" URL="../VIs/LV SCISDK Init Lib.vi"/>
-	<Item Name="LV SCISDK Read Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Data.vi"/>
-	<Item Name="LV SCISDK Read Oscilloscope.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope.vi"/>
+	<Item Name="LV SCISDK Read Oscilloscope Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Data.vi"/>
+	<Item Name="LV SCISDK Read Spectrum Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Spectrum Data.vi"/>
 	<Item Name="LV SCISDK Set Parameter Double.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Double.vi"/>
 	<Item Name="LV SCISDK Set Parameter Integer.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Integer.vi"/>
 	<Item Name="LV SCISDK Set Parameter String.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter String.vi"/>
