@@ -5,6 +5,7 @@
 
 #include "../../src/SciSDK_DLL.h"
 #include "extcode.h"
+
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib() {
 	return SCISDK_InitLib();
 }
@@ -56,32 +57,100 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterUInteger(char* Path, unsigned in
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDouble(char* Path, double* value, void* handle) {
 	return SCISDK_GetParameterDouble(Path, value, handle);
 }
-//
-//SCISDKLABVIEW_DLL_API int LV_SCISDK_AllocateBuffer_Oscilloscope(char* Path, int buffer_type, LV_OSCILLOSCOPE_DECODED_BUFFER* buffer, void* handle)
-//{
-//	void** ptr = (void**)malloc(sizeof(void*));
-//	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, ptr, handle);
-//	memcpy(buffer, *ptr, sizeof(LV_OSCILLOSCOPE_DECODED_BUFFER));
-//	free(ptr);
-//	return res;
-//}
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE* buffer, void* handle)
 {
-	SCISDK_OSCILLOSCOPE_DECODED_BUFFER *ob;
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER* ob;
+	// allocate buffer
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&ob, handle);
 	if (res) return res;
+	// read data
 	res = SCISDK_ReadData(Path, ob, handle);
 	if (res) {
 		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&ob, handle);
 		return res;
 	}
-	NumericArrayResize(iQ, 1, ( UHandle *)&(buffer->analog), ob->info.channels * ob->info.samples_analog * ob->info.tracks_analog_per_channel);
-	for (int i = 0; i < ob->info.channels * ob->info.samples_analog; i++)
-	{
- 		(*(buffer->analog))->Numeric[i] = ob->analog[i];
-	}
-	(*(buffer->analog))->dimSize = ob->info.channels * ob->info.samples_analog;
+	// analog data
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->analog), ob->info.channels * ob->info.samples_analog * ob->info.tracks_analog_per_channel);
 
+	for (int i = 0; i < ob->info.channels * ob->info.samples_analog * ob->info.tracks_analog_per_channel; i++)
+	{
+		(*(buffer->analog))->Numeric[i] = ob->analog[i];
+	}
+
+	(*(buffer->analog))->dimSizes[0] = ob->info.channels * ob->info.tracks_analog_per_channel;// rows
+	(*(buffer->analog))->dimSizes[1] = ob->info.samples_analog;// columns
+
+	// digital data
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->digital_data), ob->info.channels * ob->info.samples_digital * ob->info.tracks_digital_per_channel);
+	for (int i = 0; i < ob->info.channels * ob->info.samples_digital * ob->info.tracks_digital_per_channel; i++)
+	{
+		(*(buffer->digital_data))->Numeric[i] = ob->digital[i];
+	}
+	(*(buffer->digital_data))->dimSizes[0] = ob->info.channels * ob->info.tracks_digital_per_channel;// rows
+	(*(buffer->digital_data))->dimSizes[1] = ob->info.samples_digital;// columns
+
+	// copy other informations
+	buffer->magic = ob->magic;
+	buffer->trigger_position = ob->trigger_position;
+	buffer->timecode = ob->timecode;
+	buffer->samples_analog = ob->info.samples_analog;
+	buffer->samples_digital = ob->info.samples_digital;
+	buffer->tracks_analog_per_channel = ob->info.tracks_analog_per_channel;
+	buffer->tracks_digital_per_channel = ob->info.tracks_digital_per_channel;
+	buffer->channels = ob->info.channels;
 	return res;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer, void* handle)
+{
+	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
+	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
+	/*if (res) return res;
+	// read data
+	res = SCISDK_ReadData(Path, sb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&sb, handle);
+		return res;
+	}
+
+	// copy data
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->data), sb->info.valid_bins);
+	for (int i = 0; i < sb->info.valid_bins; i++)
+	{
+		(*(buffer->data))->Numeric[i] = sb->data[i];
+	}
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&sb, handle);*/
+	return 0;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadBuffer(char* Path, TD_BUFFER* buffer, void* handle)
+{
+	return 0;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buffer, void* handle)
+{
+	return 0;
+}
+
+int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
+{
+	return 0;
+}
+
+int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle)
+{
+	return 0;
+}
+
+int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle)
+{
+	return 0;
+}
+
+int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
+{
+	return 0;
 }
