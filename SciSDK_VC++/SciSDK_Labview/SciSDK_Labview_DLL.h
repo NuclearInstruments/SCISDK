@@ -33,6 +33,12 @@ typedef OneDLongArray** OneDLongArrayHdl;
 
 typedef struct {
 	int32_t dimSize;
+	int Numeric[1];
+} OneDIntArray;
+typedef OneDIntArray** OneDIntArrayHdl;
+
+typedef struct {
+	int32_t dimSize;
 	unsigned long Numeric[1];
 } OneDUnsignedLongArray;
 typedef OneDUnsignedLongArray** OneDUnsignedLongArrayHdl;
@@ -52,8 +58,8 @@ typedef OneDDoubleArray** OneDDoubleArrayHdl;
 /* LabView Buffers typedefs */
 typedef struct {
 	uint32_t magic;
-	uint32_t trigger_position;
-	uint32_t timecode;
+	uint64_t trigger_position;
+	uint64_t timecode;
 	uint32_t samples_analog;
 	uint32_t samples_digital;
 	uint32_t tracks_analog_per_channel;
@@ -75,15 +81,15 @@ typedef struct {
 
 typedef struct {
 	uint32_t magic;
-	uint64_t hits;
-	uint64_t timecode;
+	uint32_t hits;
+	uint32_t timecode;
 	uint32_t counter;
 	uint32_t user;
 	uint32_t samples;
 	uint32_t valid_samples;
 	uint32_t channels;
 	uint32_t enabled_channels;
-	OneDLongArrayHdl analog;
+	OneDIntArrayHdl analog;
 } TD_DIGITIZER;
 
 typedef struct {
@@ -102,14 +108,14 @@ typedef struct {
 typedef struct {
 	uint32_t magic;
 	uint32_t trigger_position;
-	uint64_t timecode;
+	uint32_t timecode;
 	uint32_t samples_analog;
 	uint32_t samples_digital;
 	uint32_t tracks_analog_per_channel;
 	uint32_t tracks_digital_per_channel;
 	uint32_t channels;
 	TwoDLongArrayHdl analog;
-	TwoDLongArrayHdl digital;
+	TwoDLongArrayHdl digital_data;
 } TD_OSCILLOSCOPE_DUAL;
 
 typedef struct {
