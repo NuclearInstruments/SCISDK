@@ -99,6 +99,8 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE
 	buffer->tracks_analog_per_channel = ob->info.tracks_analog_per_channel;
 	buffer->tracks_digital_per_channel = ob->info.tracks_digital_per_channel;
 	buffer->channels = ob->info.channels;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
 	return res;
 }
 
@@ -139,7 +141,42 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buffer, void* handle)
 {
-	return 0;
+	SCISDK_DIGITIZER_DECODED_BUFFER* ddb;
+	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ddb), handle);
+	if (res) return res;
+
+	std::string path_tmp(Path);
+	path_tmp += ".start";
+	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
+
+	// read data
+	res = SCISDK_ReadData(Path, ddb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ddb), handle);
+		return res;
+	}
+
+	/*NumericArrayResize(iQ, 1, (UHandle*)(&(buffer->analog)), ddb->info.valid_samples * ddb->info.channels);
+
+	for (int i = 0; i < ddb->info.valid_samples * ddb->info.channels; i++)
+	{
+		(*(buffer->analog))->Numeric[i] = ddb->analog[i];
+	}
+	(*(buffer->analog))->dimSize = ddb->info.valid_samples * ddb->info.channels;*/
+
+	// copy other data
+	buffer->magic = ddb->magic;
+	buffer->hits = ddb->hits;
+	buffer->timecode = ddb->timecode;
+	buffer->counter = ddb->counter;
+	buffer->user = ddb->user;
+	buffer->samples = ddb->info.samples;
+	buffer->valid_samples = ddb->info.valid_samples;
+	buffer->channels = ddb->info.channels;
+	buffer->enabled_channels = ddb->info.enabled_channels;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ddb), handle);
+	return res;
 }
 
 int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
@@ -154,7 +191,52 @@ int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle)
 
 int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle)
 {
-	return 0;
+	SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER* ob;
+	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
+	if (res) return res;
+
+	// read data
+	res = SCISDK_ReadData(Path, ob, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
+		return res;
+	}
+
+	// analog data
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->analog), ob->info.channels * ob->info.samples_analog * ob->info.tracks_analog_per_channel);
+
+	for (int i = 0; i < ob->info.channels * ob->info.samples_analog * ob->info.tracks_analog_per_channel; i++)
+	{
+		(*(buffer->analog))->Numeric[i] = ob->analog[i];
+	}
+
+	(*(buffer->analog))->dimSizes[0] = ob->info.channels * ob->info.tracks_analog_per_channel;// rows
+	(*(buffer->analog))->dimSizes[1] = ob->info.samples_analog;// columns
+
+	// digital data
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->digital_data), ob->info.channels * ob->info.samples_digital * ob->info.tracks_digital_per_channel);
+	for (int i = 0; i < ob->info.channels * ob->info.samples_digital * ob->info.tracks_digital_per_channel; i++)
+	{
+		(*(buffer->digital_data))->Numeric[i] = ob->digital[i];
+		if (ob->digital[i] == 1) {
+			int a = 0;
+		}
+	}
+	(*(buffer->digital_data))->dimSizes[0] = ob->info.channels * ob->info.tracks_digital_per_channel;// rows
+	(*(buffer->digital_data))->dimSizes[1] = ob->info.samples_digital;// columns
+
+	// copy other informations
+	buffer->magic = ob->magic;
+	buffer->trigger_position = ob->trigger_position;
+	buffer->timecode = ob->timecode;
+	buffer->samples_analog = ob->info.samples_analog;
+	buffer->samples_digital = ob->info.samples_digital;
+	buffer->tracks_analog_per_channel = ob->info.tracks_analog_per_channel;
+	buffer->tracks_digital_per_channel = ob->info.tracks_digital_per_channel;
+	buffer->channels = ob->info.channels;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
+	return res;
 }
 
 int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
