@@ -43,6 +43,11 @@ typedef struct {
 } TwoDLongArray;
 typedef TwoDLongArray** TwoDLongArrayHdl;
 
+typedef struct {
+	int32_t dimSize;
+	double Numeric[1];
+} OneDDoubleArray;
+typedef OneDDoubleArray** OneDDoubleArrayHdl;
 
 /* LabView Buffers typedefs */
 typedef struct {
@@ -60,24 +65,34 @@ typedef struct {
 
 typedef struct {
 	uint32_t magic;
-	OneDUnsignedLongArrayHdl data;
 	uint32_t timecode;
 	uint32_t inttime;
 	uint32_t buffer_size;
 	uint32_t total_bins;
 	uint32_t valid_bins;
+	OneDUnsignedLongArrayHdl data;
 } TD_SPECTRUM;
 
 typedef struct {
-
-} TD_BUFFER;
-
-typedef struct {
-
+	uint32_t magic;
+	uint64_t hits;
+	uint64_t timecode;
+	uint32_t counter;
+	uint32_t user;
+	uint32_t samples;
+	uint32_t valid_samples;
+	uint32_t channels;
+	uint32_t enabled_channels;
+	OneDLongArrayHdl analog;
 } TD_DIGITIZER;
 
 typedef struct {
-
+	uint32_t magic;
+	uint64_t timecode;
+	uint32_t samples;
+	uint32_t channels;
+	OneDDoubleArrayHdl mag;
+	OneDDoubleArrayHdl ph;
 } TD_FFT;
 
 typedef struct {
@@ -85,11 +100,24 @@ typedef struct {
 } TD_LIST;
 
 typedef struct {
-
+	uint32_t magic;
+	uint32_t trigger_position;
+	uint64_t timecode;
+	uint32_t samples_analog;
+	uint32_t samples_digital;
+	uint32_t tracks_analog_per_channel;
+	uint32_t tracks_digital_per_channel;
+	uint32_t channels;
+	TwoDLongArrayHdl analog;
+	TwoDLongArrayHdl digital;
 } TD_OSCILLOSCOPE_DUAL;
 
 typedef struct {
-
+	uint32_t magic;
+	uint32_t buffer_size;
+	uint32_t valid_data;
+	uint32_t nchannels;
+	OneDDoubleArrayHdl data;
 } TD_RATEMETER;
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib();
@@ -99,6 +127,8 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_FreeLib(void* handle);
 SCISDKLABVIEW_DLL_API int LV_SCISDK_AddNewDevice(char* DevicePath, char* DeviceModel, char* JSONFwFilePath, char* Name, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_DetachDevice(char* name, void* handle);
+
+// parameters
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetParameterString(char* Path, char* value, void* handle);
 
@@ -121,8 +151,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer, void* handle);
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadBuffer(char* Path, TD_BUFFER* buffer, void* handle);
-
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buffer, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle);
@@ -132,4 +160,9 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle);
+
+// registers
+SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle);
 #pragma pack(pop)

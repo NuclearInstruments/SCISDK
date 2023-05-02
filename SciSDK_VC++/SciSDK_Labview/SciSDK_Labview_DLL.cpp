@@ -106,27 +106,34 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 {
 	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
-	/*if (res) return res;
+	if (res) return res;
 	// read data
-	res = SCISDK_ReadData(Path, sb, handle);
+	std::string path_tmp(Path);
+	path_tmp += ".start";
+	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
+	res = SCISDK_ReadData(Path, obSpectrum, handle);
 	if (res) {
-		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&sb, handle);
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 		return res;
 	}
 
 	// copy data
-	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->data), sb->info.valid_bins);
-	for (int i = 0; i < sb->info.valid_bins; i++)
+	NumericArrayResize(iQ, 1, (UHandle*)(&(buffer->data)), obSpectrum->info.valid_bins);
+	for (int i = 0; i < obSpectrum->info.valid_bins; i++)
 	{
-		(*(buffer->data))->Numeric[i] = sb->data[i];
+		(*(buffer->data))->Numeric[i] = obSpectrum->data[i];
 	}
+	(*(buffer->data))->dimSize = obSpectrum->info.valid_bins;
 
-	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&sb, handle);*/
-	return 0;
-}
+	// copy other informations
+	buffer->magic = obSpectrum->magic;
+	buffer->timecode = obSpectrum->timecode;
+	buffer->inttime = obSpectrum->inttime;
+	buffer->buffer_size = obSpectrum->info.buffer_size;
+	buffer->total_bins = obSpectrum->info.total_bins;
+	buffer->valid_bins = obSpectrum->info.valid_bins;
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadBuffer(char* Path, TD_BUFFER* buffer, void* handle)
-{
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 	return 0;
 }
 
@@ -153,4 +160,14 @@ int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, voi
 int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
 {
 	return 0;
+}
+
+int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle)
+{
+	return SCISDK_SetRegister(Path, value, handle);
+}
+
+int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle)
+{
+	return SCISDK_GetRegister(Path, value, handle);
 }
