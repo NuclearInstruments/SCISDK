@@ -1,5 +1,5 @@
-#pragma pack(push) 
-#pragma pack(1)
+//#pragma pack(push) 
+//#pragma pack(1)
 
 #ifdef _MSC_VER
 	#ifdef SCISDKLABVIEW_EXPORTS
@@ -15,6 +15,7 @@
 	#endif
 #endif
 
+#include "lv_prolog.h"
 /* LabVIEW created typedefs */
 typedef signed char        int8_t;
 typedef short              int16_t;
@@ -51,9 +52,9 @@ typedef TwoDLongArray** TwoDLongArrayHdl;
 
 typedef struct {
 	int32_t dimSize;
-	float Numeric[1];
-} OneDUnsignedFloatArray;
-typedef OneDUnsignedFloatArray** OneDUnsignedFloatArrayHdl;
+	double Numeric[1];
+} OneDDoubleArray;
+typedef OneDDoubleArray** OneDDoubleArrayHdl;
 
 /* LabView Buffers typedefs */
 typedef struct {
@@ -97,8 +98,8 @@ typedef struct {
 	uint64_t timecode;
 	uint32_t samples;
 	uint32_t channels;
-	OneDUnsignedFloatArrayHdl mag;
-	OneDUnsignedFloatArrayHdl ph;
+	OneDDoubleArrayHdl mag;
+	OneDDoubleArrayHdl ph;
 } TD_FFT;
 
 typedef struct {
@@ -123,8 +124,10 @@ typedef struct {
 	uint32_t buffer_size;
 	uint32_t valid_data;
 	uint32_t nchannels;
-	OneDUnsignedFloatArrayHdl data;
+	OneDDoubleArrayHdl data;
 } TD_RATEMETER;
+
+#include "lv_epilog.h"
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib();
 
@@ -171,4 +174,4 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buff
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle);
-#pragma pack(pop)
+//#pragma pack(pop)
