@@ -33,7 +33,7 @@ typedef OneDLongArray** OneDLongArrayHdl;
 
 typedef struct {
 	int32_t dimSize;
-	int Numeric[1];
+	int32_t Numeric[1];
 } OneDIntArray;
 typedef OneDIntArray** OneDIntArrayHdl;
 
@@ -51,9 +51,9 @@ typedef TwoDLongArray** TwoDLongArrayHdl;
 
 typedef struct {
 	int32_t dimSize;
-	double Numeric[1];
-} OneDDoubleArray;
-typedef OneDDoubleArray** OneDDoubleArrayHdl;
+	float Numeric[1];
+} OneDUnsignedFloatArray;
+typedef OneDUnsignedFloatArray** OneDUnsignedFloatArrayHdl;
 
 /* LabView Buffers typedefs */
 typedef struct {
@@ -80,6 +80,7 @@ typedef struct {
 } TD_SPECTRUM;
 
 typedef struct {
+	TwoDLongArrayHdl analog;
 	uint32_t magic;
 	uint32_t hits;
 	uint32_t timecode;
@@ -89,7 +90,6 @@ typedef struct {
 	uint32_t valid_samples;
 	uint32_t channels;
 	uint32_t enabled_channels;
-	OneDIntArrayHdl analog;
 } TD_DIGITIZER;
 
 typedef struct {
@@ -97,8 +97,8 @@ typedef struct {
 	uint64_t timecode;
 	uint32_t samples;
 	uint32_t channels;
-	OneDDoubleArrayHdl mag;
-	OneDDoubleArrayHdl ph;
+	OneDUnsignedFloatArrayHdl mag;
+	OneDUnsignedFloatArrayHdl ph;
 } TD_FFT;
 
 typedef struct {
@@ -123,7 +123,7 @@ typedef struct {
 	uint32_t buffer_size;
 	uint32_t valid_data;
 	uint32_t nchannels;
-	OneDDoubleArrayHdl data;
+	OneDUnsignedFloatArrayHdl data;
 } TD_RATEMETER;
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib();

@@ -156,13 +156,14 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buff
 		return res;
 	}
 
-	/*NumericArrayResize(iQ, 1, (UHandle*)(&(buffer->analog)), ddb->info.valid_samples * ddb->info.channels);
+	NumericArrayResize(iQ, 1, (UHandle*)(&(buffer->analog)), ddb->info.valid_samples * ddb->info.enabled_channels);
 
-	for (int i = 0; i < ddb->info.valid_samples * ddb->info.channels; i++)
+	for (int i = 0; i < ddb->info.valid_samples * ddb->info.enabled_channels; i++)
 	{
 		(*(buffer->analog))->Numeric[i] = ddb->analog[i];
 	}
-	(*(buffer->analog))->dimSize = ddb->info.valid_samples * ddb->info.channels;*/
+	(*(buffer->analog))->dimSizes[0] = ddb->info.enabled_channels; // rows
+	(*(buffer->analog))->dimSizes[1] = ddb->info.valid_samples; // columns
 
 	// copy other data
 	buffer->magic = ddb->magic;
@@ -218,9 +219,6 @@ int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, voi
 	for (int i = 0; i < ob->info.channels * ob->info.samples_digital * ob->info.tracks_digital_per_channel; i++)
 	{
 		(*(buffer->digital_data))->Numeric[i] = ob->digital[i];
-		if (ob->digital[i] == 1) {
-			int a = 0;
-		}
 	}
 	(*(buffer->digital_data))->dimSizes[0] = ob->info.channels * ob->info.tracks_digital_per_channel;// rows
 	(*(buffer->digital_data))->dimSizes[1] = ob->info.samples_digital;// columns
@@ -241,7 +239,31 @@ int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, voi
 
 int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
 {
-	return 0;
+	SCISDK_RM_RAW_BUFFER* rb;
+	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_RAW, (void**)&rb, handle);
+	if (res) return res;
+
+	// read data
+	res = SCISDK_ReadData(Path, rb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_RAW, (void**)&rb, handle);
+	}
+	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->data), rb->info.nchannels);
+
+	for (int i = 0; i < rb->info.nchannels; i++)
+	{
+		(*(buffer->data))->Numeric[i] = (float)rb->data[i];
+	}
+	(*(buffer->data))->dimSize = rb->info.nchannels;
+
+	// copy other informations
+	buffer->magic = rb->magic;
+	buffer->nchannels = rb->info.nchannels;
+	buffer->buffer_size = rb->info.buffer_size;
+	buffer->valid_data = rb->info.valid_data;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_RAW, (void**)&rb, handle);
+	return res;
 }
 
 int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle)
