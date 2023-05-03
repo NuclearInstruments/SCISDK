@@ -19,6 +19,7 @@
 	<Item Name="LV SCISDK Read Digitizer Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Digitizer Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Dual Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Dual Data.vi"/>
+	<Item Name="LV SCISDK Read Ratemeter Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Ratemeter Data.vi"/>
 	<Item Name="LV SCISDK Read Spectrum Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Spectrum Data.vi"/>
 	<Item Name="LV SCISDK Set Parameter Double.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Double.vi"/>
 	<Item Name="LV SCISDK Set Parameter Integer.vi" Type="VI" URL="../VIs/LV SCISDK Set Parameter Integer.vi"/>
