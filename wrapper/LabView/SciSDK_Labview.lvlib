@@ -17,6 +17,7 @@
 	<Item Name="LV SCISDK Get Register.vi" Type="VI" URL="../VIs/LV SCISDK Get Register.vi"/>
 	<Item Name="LV SCISDK Init Lib.vi" Type="VI" URL="../VIs/LV SCISDK Init Lib.vi"/>
 	<Item Name="LV SCISDK Read Digitizer Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Digitizer Data.vi"/>
+	<Item Name="LV SCISDK Read FFT Data.vi" Type="VI" URL="../VIs/LV SCISDK Read FFT Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Dual Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Dual Data.vi"/>
 	<Item Name="LV SCISDK Read Ratemeter Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Ratemeter Data.vi"/>

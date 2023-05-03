@@ -110,9 +110,9 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 	if (res) return res;
 	// read data
-	/*std::string path_tmp1(Path);
+	std::string path_tmp1(Path);
 	path_tmp1 += ".reset";
-	SCISDK_ExecuteCommand((char*)path_tmp1.c_str(), (char*)"", handle);*/
+	SCISDK_ExecuteCommand((char*)path_tmp1.c_str(), (char*)"", handle);
 	std::string path_tmp(Path);
 	path_tmp += ".start";
 	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
