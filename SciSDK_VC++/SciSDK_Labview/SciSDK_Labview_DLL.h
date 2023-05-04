@@ -51,10 +51,22 @@ typedef struct {
 typedef TwoDLongArray** TwoDLongArrayHdl;
 
 typedef struct {
+	int32_t dimSizes[2];
+	unsigned long Numeric[1];
+} TwoDUnsignedLongArray;
+typedef TwoDUnsignedLongArray** TwoDUnsignedLongArrayHdl;
+
+typedef struct {
 	int32_t dimSize;
 	double Numeric[1];
 } OneDDoubleArray;
 typedef OneDDoubleArray** OneDDoubleArrayHdl;
+
+typedef struct {
+	int32_t dimSize;
+	int8_t Numeric[1];
+} OneDCharArray;
+typedef OneDCharArray** OneDCharArrayHdl;
 
 /* LabView Buffers typedefs */
 typedef struct {
@@ -103,7 +115,12 @@ typedef struct {
 } TD_FFT;
 
 typedef struct {
-
+	uint32_t magic;
+	uint32_t buffer_size;
+	uint32_t samples;
+	uint32_t valid_samples;
+	uint32_t channels;
+	OneDCharArrayHdl data;
 } TD_LIST;
 
 typedef struct {
@@ -127,24 +144,21 @@ typedef struct {
 	OneDDoubleArrayHdl data;
 } TD_RATEMETER;
 
-//typedef struct {
-//	uint32_t n;
-//	OneDUnsignedLongArrayHdl data;
-//} TD_CUSTOMPACKET_PACKET;
-
 typedef struct {
-	int32_t dimSize;
-	OneDUnsignedLongArrayHdl packet[0];
-} TD_CUSTOMPACKET_PACKETARRAY;
-typedef TD_CUSTOMPACKET_PACKETARRAY** TD_CUSTOMPACKET_PACKETARRAY_Hdl;
+	uint32_t magic;
+	uint32_t buffer_size;
+	uint32_t packet_size;
+	uint32_t valid_data;
+	TwoDUnsignedLongArrayHdl data;
+} TD_CUSTOMPACKETMULTIPLE;
 
 typedef struct {
 	uint32_t magic;
 	uint32_t buffer_size;
 	uint32_t packet_size;
 	uint32_t valid_data;
-	TD_CUSTOMPACKET_PACKETARRAY_Hdl data;
-} TD_CUSTOMPACKET;
+	OneDUnsignedLongArrayHdl data;
+}TD_CUSTOMPACKETSINGLE;
 
 #include "lv_epilog.h"
 
@@ -157,7 +171,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_AddNewDevice(char* DevicePath, char* DeviceM
 SCISDKLABVIEW_DLL_API int LV_SCISDK_DetachDevice(char* name, void* handle);
 
 // parameters
-
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetParameterString(char* Path, char* value, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetParameterInteger(char* Path, int value, void* handle);
@@ -174,7 +187,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterUInteger(char* Path, unsigned in
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDouble(char* Path, double* value, void* handle);
 
-// read functions
+// read
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE* buffer, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer, void* handle);
@@ -185,16 +198,20 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buff
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle);
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle);
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle, int buffer_size);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle);
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacket(char* Path, TD_CUSTOMPACKET* buffer, void* handle);
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketMultiple(char* Path, TD_CUSTOMPACKETMULTIPLE* buffer, void* handle, int buffer_size);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, void* handle);
 
 // registers
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle);
-//#pragma pack(pop)
+
+// execute command
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ExecuteCommand(char* Path, char* parameter, void* handle);
