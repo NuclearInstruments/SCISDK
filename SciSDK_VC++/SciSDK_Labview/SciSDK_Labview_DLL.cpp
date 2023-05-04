@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 #include <string>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 #include "../../src/SciSDK_DLL.h"
 #include "extcode.h"
@@ -102,7 +107,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE
 	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
 	return res;
 }
-#include <windows.h>
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer, void* handle)
 {
@@ -110,14 +114,10 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 	if (res) return res;
 	// read data
-	/*std::string path_tmp1(Path);
-	path_tmp1 += ".reset";
-	SCISDK_ExecuteCommand((char*)path_tmp1.c_str(), (char*)"", handle);*/
 	std::string path_tmp(Path);
 	path_tmp += ".start";
 	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
 
-	Sleep(4000);
 	res = SCISDK_ReadData(Path, obSpectrum, handle);
 	if (res) {
 		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
@@ -129,9 +129,49 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 	for (int i = 0; i < obSpectrum->info.valid_bins; i++)
 	{
 		(*(buffer->data))->Numeric[i] = obSpectrum->data[i];
-		if (obSpectrum->data[i] != 0) {
-			int a = 0;
-		}
+	}
+	(*(buffer->data))->dimSize = obSpectrum->info.valid_bins;
+
+	buffer->magic = obSpectrum->magic;
+	buffer->timecode = obSpectrum->timecode;
+	buffer->inttime = obSpectrum->inttime;
+	buffer->buffer_size = obSpectrum->info.buffer_size;
+	buffer->total_bins = obSpectrum->info.total_bins;
+	buffer->valid_bins = obSpectrum->info.valid_bins;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
+	return res;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadTOFSpectrum(char* Path, TD_SPECTRUM* buffer, void* handle) {
+	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
+	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
+	if (res) return res;
+	// read data
+	std::string path_tmp1(Path);
+	path_tmp1 += ".reset";
+	SCISDK_ExecuteCommand((char*)path_tmp1.c_str(), (char*)"", handle);
+	std::string path_tmp(Path);
+	path_tmp += ".start";
+	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
+
+	int sleep_time = 10000;
+#ifdef _WIN32
+	Sleep(sleep_time);
+#else
+	usleep(sleep_time * 1000);
+#endif
+
+	res = SCISDK_ReadData(Path, obSpectrum, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
+		return res;
+	}
+	// copy data
+	NumericArrayResize(iQ, 1, (UHandle*)(&(buffer->data)), obSpectrum->info.valid_bins);
+	for (int i = 0; i < obSpectrum->info.valid_bins; i++)
+	{
+		(*(buffer->data))->Numeric[i] = obSpectrum->data[i];
 	}
 	(*(buffer->data))->dimSize = obSpectrum->info.valid_bins;
 
@@ -186,7 +226,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buff
 	return res;
 }
 
-int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
 {
 	SCISDK_FFT_DECODED_BUFFER* fb;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fb, handle);
@@ -206,7 +246,7 @@ int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
 		(*(buffer->mag))->Numeric[i] = fb->mag[i];
 	}
 	(*(buffer->mag))->dimSize = fb->info.channels * fb->info.samples;
-	
+
 	// phase
 	NumericArrayResize(iQ, 1, (UHandle*)&(buffer->ph), fb->info.channels * fb->info.samples);
 	for (int i = 0; i < fb->info.channels * fb->info.samples; i++)
@@ -223,12 +263,12 @@ int LV_SCISDK_ReadFFT(char* Path, TD_FFT* buffer, void* handle)
 	return res;
 }
 
-int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadList(char* Path, TD_LIST* buffer, void* handle)
 {
 	return 0;
 }
 
-int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, void* handle)
 {
 	SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER* ob;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ob), handle);
@@ -274,7 +314,7 @@ int LV_SCISDK_ReadOscilloscopeDual(char* Path, TD_OSCILLOSCOPE_DUAL* buffer, voi
 	return res;
 }
 
-int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
 {
 	SCISDK_RM_RAW_BUFFER* rb;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_RAW, (void**)&rb, handle);
@@ -303,12 +343,49 @@ int LV_SCISDK_ReadRatemeter(char* Path, TD_RATEMETER* buffer, void* handle)
 	return res;
 }
 
-int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacket(char* Path, TD_CUSTOMPACKET* buffer, void* handle)
+{
+	int buffer_size = 1024;
+	SCISDK_CP_DECODED_BUFFER* lrb;
+	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&lrb, handle, buffer_size);
+	if (res) return res;
+	std::string command = std::string(Path) + ".start";
+	SCISDK_ExecuteCommand((char*)command.c_str(), (char*)"", handle);
+
+	res = SCISDK_ReadData(Path, lrb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&lrb, handle);
+		return res;
+	}
+
+	NumericArrayResize(uQ, 1, (UHandle*)&(buffer->data), lrb->info.valid_data);
+	for (int i = 0; i < lrb->info.valid_data; i++)
+	{
+		//(*(buffer->data[i]->packet)->Numeric[i];
+		
+		//(**(buffer->data[i]->packet))->Numeric;
+		NumericArrayResize(uL, 1, (UHandle*)&(*buffer->data[i]->packet), lrb->data[i].n);
+		for (int j = 0;j < lrb->data[i].n;j++) {
+			(**(buffer->data[i]->packet))->Numeric[j] = lrb->data[i].row[j];
+		}
+		(**(buffer->data[i]->packet))->dimSize = lrb->data[i].n;
+	}
+	(*(buffer->data))->dimSize = lrb->info.valid_data;
+
+	buffer->magic = lrb->magic;
+	buffer->buffer_size = lrb->info.buffer_size;
+	buffer->packet_size = lrb->info.packet_size;
+	buffer->valid_data = lrb->info.valid_data;
+
+	return res;
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle)
 {
 	return SCISDK_SetRegister(Path, value, handle);
 }
 
-int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, void* handle)
 {
 	return SCISDK_GetRegister(Path, value, handle);
 }
