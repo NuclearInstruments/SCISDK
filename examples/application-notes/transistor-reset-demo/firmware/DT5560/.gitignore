@@ -1,6 +1,7 @@
 /*
 !.gitignore
 !*.scf
+!*.NIU
 !*.jpg
 !*.md
-!output/
+!output/*.NIU
