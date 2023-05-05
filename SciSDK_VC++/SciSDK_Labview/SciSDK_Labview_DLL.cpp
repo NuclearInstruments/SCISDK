@@ -63,6 +63,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscope(char* Path, TD_OSCILLOSCOPE
 	// allocate buffer
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&ob, handle);
 	if (res) return res;
+
 	// read data
 	res = SCISDK_ReadData(Path, ob, handle);
 	if (res) {
@@ -107,11 +108,8 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrum(char* Path, TD_SPECTRUM* buffer
 	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 	if (res) return res;
-	// read data
-	std::string path_tmp(Path);
-	path_tmp += ".start";
-	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
 
+	// read data
 	res = SCISDK_ReadData(Path, obSpectrum, handle);
 	if (res) {
 		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
@@ -141,14 +139,8 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadTOFSpectrum(char* Path, TD_SPECTRUM* buf
 	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
 	if (res) return res;
-	// read data
-	std::string path_tmp1(Path);
-	path_tmp1 += ".reset";
-	SCISDK_ExecuteCommand((char*)path_tmp1.c_str(), (char*)"", handle);
-	std::string path_tmp(Path);
-	path_tmp += ".start";
-	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
 
+	// read data
 	res = SCISDK_ReadData(Path, obSpectrum, handle);
 	if (res) {
 		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, handle);
@@ -178,10 +170,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadDigitizer(char* Path, TD_DIGITIZER* buff
 	SCISDK_DIGITIZER_DECODED_BUFFER* ddb;
 	int res = SCISDK_AllocateBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)(&ddb), handle);
 	if (res) return res;
-
-	std::string path_tmp(Path);
-	path_tmp += ".start";
-	SCISDK_ExecuteCommand((char*)path_tmp.c_str(), (char*)"", handle);
 
 	// read data
 	res = SCISDK_ReadData(Path, ddb, handle);
@@ -430,7 +418,29 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, voi
 	return SCISDK_GetRegister(Path, value, handle);
 }
 
-int LV_SCISDK_ExecuteCommand(char* Path, char* parameter, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ExecuteCommand(char* Path, char* parameter, void* handle)
 {
 	return SCISDK_ExecuteCommand(Path, parameter, handle);
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeStatus(char* Path, TD_OSCILLOSCOPE_STATUS* buffer, void* handle)
+{
+	//SCISDK_OSCILLOSCOPE_STATUS* osb = (SCISDK_OSCILLOSCOPE_STATUS*)malloc(sizeof(SCISDK_OSCILLOSCOPE_STATUS));
+	//int res = SCISDK_ReadStatus(Path, osb, handle);
+	//buffer->armed = osb->armed;
+	//buffer->ready = osb->ready;
+	//buffer->running = osb->running;
+	//free(osb);
+	//return res;
+	return SCISDK_ReadStatus(Path, buffer, handle);
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrumStatus(char* Path, TD_SPECTRUM_STATUS* buffer, void* handle)
+{
+	return SCISDK_ReadStatus(Path, buffer, handle);
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buffer, void* handle)
+{
+	return SCISDK_ReadStatus(Path, buffer, handle);
 }
