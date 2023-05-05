@@ -408,6 +408,45 @@ int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, 
 	return res;
 }
 
+int LV_SCISDK_ReadFrame(char* Path, TD_FRAME* buffer, void* handle, int buffer_size)
+{
+	SCISDK_FRAME_DECODED_BUFFER* fdb;
+	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle, buffer_size);
+	if (res) return res;
+
+	// read data
+	res = SCISDK_ReadData(Path, fdb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle);
+		return res;
+	}
+
+	NumericArrayResize(uQ, 1, (UHandle*)&(buffer->data), fdb->info.valid_data * sizeof(FRAME_PACKET) / 8);
+	for (int i = 0; i < 10;i++) {
+		
+		NumericArrayResize(uL, 1, (UHandle*)&((*buffer->data)->packets[i].pixel), fdb->data[i].n);
+		for (int j = 0; j < fdb->data[i].n; j++)
+		{
+			(*(*buffer->data)->packets[i].pixel)->Numeric[j] = fdb->data[i].pixel[j];
+		}
+		(*(*buffer->data)->packets[i].pixel)->dimSize = fdb->data[i].n;
+
+		// other info
+		(*(buffer->data))->packets[i].n = fdb->data[i].n;
+		(*(buffer->data))->packets[i].timestamp = fdb->data[i].info.timestamp;
+		(*(buffer->data))->packets[i].trigger_count = fdb->data[i].info.trigger_count;
+		(*(buffer->data))->packets[i].event_count = fdb->data[i].info.event_count;
+		(*(buffer->data))->packets[i].hits = fdb->data[i].info.hits;
+	}
+	(*buffer->data)->dimSize = fdb->info.valid_data;
+	buffer->magic = fdb->magic;
+	buffer->valid_data = fdb->info.valid_data;
+	buffer->buffer_size = fdb->info.buffer_size;
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle);
+	return res;
+}
+
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle)
 {
 	return SCISDK_SetRegister(Path, value, handle);
@@ -443,4 +482,28 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrumStatus(char* Path, TD_SPECTRUM_S
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buffer, void* handle)
 {
 	return SCISDK_ReadStatus(Path, buffer, handle);
+}
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDescription(char* path, char* ret, void* handle)
+{
+	char* value_ptr = (char*)"";
+	int res = SCISDK_GetParameterString(path, &value_ptr, handle);
+	strcpy_s(ret, strlen(value_ptr) + 1, value_ptr);
+	SCISDK_free_string(value_ptr);
+	return res;
+}
+
+int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle)
+{
+	return 0;
+}
+
+int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle)
+{
+	return SCISDK_GetParameterMinimumValue(path, ret, handle);
+}
+
+int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle)
+{
+	return SCISDK_GetParameterMaximumValue(path, ret, handle);
 }
