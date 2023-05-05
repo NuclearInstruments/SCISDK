@@ -1,18 +1,15 @@
-//#pragma pack(push) 
-//#pragma pack(1)
-
 #ifdef _MSC_VER
-	#ifdef SCISDKLABVIEW_EXPORTS
-		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
-	#else
-		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
-	#endif
+#ifdef SCISDKLABVIEW_EXPORTS
+#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
+#else
+#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
+#endif
 #else	
-	#ifdef SCISDKLABVIEW_EXPORTS
-		#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
-	#else
-		#define SCISDKLABVIEW_DLL_API
-	#endif
+#ifdef SCISDKLABVIEW_EXPORTS
+#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
+#else
+#define SCISDKLABVIEW_DLL_API
+#endif
 #endif
 
 #include "lv_prolog.h"
@@ -160,6 +157,27 @@ typedef struct {
 	OneDUnsignedLongArrayHdl data;
 }TD_CUSTOMPACKETSINGLE;
 
+typedef struct {
+	bool armed;
+	bool ready;
+	bool running;
+} TD_OSCILLOSCOPE_STATUS;
+
+typedef struct {
+	bool running;
+	bool completed;
+	uint32_t progress;
+	uint32_t peak_max;
+	uint32_t total_counter;
+	double integration_time;
+} TD_SPECTRUM_STATUS;
+
+typedef struct {
+	bool armed;
+	bool ready;
+	bool running;
+} TD_FFT_STATUS;
+
 #include "lv_epilog.h"
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib();
@@ -215,3 +233,10 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetRegister(char* Path, uint32_t* value, voi
 
 // execute command
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ExecuteCommand(char* Path, char* parameter, void* handle);
+
+// read status
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeStatus(char* Path, TD_OSCILLOSCOPE_STATUS* buffer, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrumStatus(char* Path, TD_SPECTRUM_STATUS* buffer, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buffer, void* handle);
