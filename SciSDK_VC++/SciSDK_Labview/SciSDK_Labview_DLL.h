@@ -65,6 +65,11 @@ typedef struct {
 } OneDCharArray;
 typedef OneDCharArray** OneDCharArrayHdl;
 
+typedef struct {
+	int32_t dimSize;
+	char* array[1];
+};
+
 /* LabView Buffers typedefs */
 typedef struct {
 	uint32_t magic;
@@ -158,6 +163,28 @@ typedef struct {
 }TD_CUSTOMPACKETSINGLE;
 
 typedef struct {
+	uint64_t n;// should be uint32
+	uint64_t timestamp;
+	uint64_t trigger_count;
+	uint64_t event_count;
+	uint64_t hits;
+	OneDUnsignedLongArrayHdl pixel;
+}FRAME_PACKET;
+
+typedef struct {
+	int32_t dimSize;
+	FRAME_PACKET packets[1];
+}FrameArray;
+typedef FrameArray** FrameArrayHdl;
+
+typedef struct {
+	uint32_t magic;
+	uint32_t buffer_size;
+	uint32_t valid_data;
+	FrameArrayHdl data;
+} TD_FRAME;
+
+typedef struct {
 	bool armed;
 	bool ready;
 	bool running;
@@ -226,6 +253,8 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketMultiple(char* Path, TD_CUST
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, void* handle);
 
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrame(char* Path, TD_FRAME* buffer, void* handle, int buffer_size);
+
 // registers
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
 
@@ -240,3 +269,17 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeStatus(char* Path, TD_OSCILL
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrumStatus(char* Path, TD_SPECTRUM_STATUS* buffer, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buffer, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetComponentList(char* name, char* type, char* ret, bool return_json, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetAllParameters(char* path, char* ret, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDescription(char* path, char* ret, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle);

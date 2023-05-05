@@ -21,6 +21,7 @@
 	<Item Name="LV SCISDK Read Custom Packet Single Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Custom Packet Single Data.vi"/>
 	<Item Name="LV SCISDK Read Digitizer Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Digitizer Data.vi"/>
 	<Item Name="LV SCISDK Read FFT Data.vi" Type="VI" URL="../VIs/LV SCISDK Read FFT Data.vi"/>
+	<Item Name="LV SCISDK Read Frame Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Frame Data.vi"/>
 	<Item Name="LV SCISDK Read List Data.vi" Type="VI" URL="../VIs/LV SCISDK Read List Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Dual Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Dual Data.vi"/>
