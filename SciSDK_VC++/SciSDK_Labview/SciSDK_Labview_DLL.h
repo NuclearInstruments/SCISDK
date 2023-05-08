@@ -1,15 +1,15 @@
 #ifdef _MSC_VER
-#ifdef SCISDKLABVIEW_EXPORTS
-#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
-#else
-#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
-#endif
+	#ifdef SCISDKLABVIEW_EXPORTS
+		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
+	#else
+		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
+	#endif
 #else	
-#ifdef SCISDKLABVIEW_EXPORTS
-#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
-#else
-#define SCISDKLABVIEW_DLL_API
-#endif
+	#ifdef SCISDKLABVIEW_EXPORTS
+		#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
+	#else
+		#define SCISDKLABVIEW_DLL_API
+	#endif
 #endif
 
 #include "lv_prolog.h"
@@ -68,7 +68,8 @@ typedef OneDCharArray** OneDCharArrayHdl;
 typedef struct {
 	int32_t dimSize;
 	char* array[1];
-};
+}OneDStringArray;
+typedef OneDStringArray** OneDStringArrayHdl;
 
 /* LabView Buffers typedefs */
 typedef struct {
@@ -163,7 +164,7 @@ typedef struct {
 }TD_CUSTOMPACKETSINGLE;
 
 typedef struct {
-	uint64_t n;// should be uint32
+	uint64_t n;
 	uint64_t timestamp;
 	uint64_t trigger_count;
 	uint64_t event_count;
@@ -182,7 +183,18 @@ typedef struct {
 	uint32_t buffer_size;
 	uint32_t valid_data;
 	FrameArrayHdl data;
-} TD_FRAME;
+} TD_FRAME_MULTIPLE;
+
+typedef struct {
+	uint32_t magic;
+	uint32_t buffer_size;
+	uint64_t n;
+	uint64_t timestamp;
+	uint64_t trigger_count;
+	uint64_t event_count;
+	uint64_t hits;
+	OneDUnsignedLongArrayHdl pixel;
+}TD_FRAME_SINGLE;
 
 typedef struct {
 	bool armed;
@@ -204,6 +216,18 @@ typedef struct {
 	bool ready;
 	bool running;
 } TD_FFT_STATUS;
+
+typedef struct {
+	char* name;
+	char* path;
+	char* type;
+} TD_COMPONENT;
+typedef TD_COMPONENT;
+
+typedef struct {
+	int32_t dimSize;
+	TD_COMPONENT array[1];
+} TD_COMPONENTARRAY;
 
 #include "lv_epilog.h"
 
@@ -253,7 +277,9 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketMultiple(char* Path, TD_CUST
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, void* handle);
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrame(char* Path, TD_FRAME* buffer, void* handle, int buffer_size);
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrameSingle(char* Path, TD_FRAME_SINGLE* buffer, void* handle);
+
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrameMultiple(char* Path, TD_FRAME_MULTIPLE* buffer, void* handle, int buffer_size);
 
 // registers
 SCISDKLABVIEW_DLL_API int LV_SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
@@ -270,7 +296,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadSpectrumStatus(char* Path, TD_SPECTRUM_S
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buffer, void* handle);
 
-SCISDKLABVIEW_DLL_API int LV_SCISDK_GetComponentList(char* name, char* type, char* ret, bool return_json, void* handle);
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetComponentList(char* name, char* type, TD_COMPONENTARRAY ret, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetAllParameters(char* path, char* ret, void* handle);
 

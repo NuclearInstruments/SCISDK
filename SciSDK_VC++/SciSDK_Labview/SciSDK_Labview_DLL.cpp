@@ -5,6 +5,11 @@
 #include "../../src/SciSDK_DLL.h"
 #include "extcode.h"
 
+#include "../../src/json.hpp"
+//
+//
+using json = nlohmann::json;
+
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib() {
 	return SCISDK_InitLib();
 }
@@ -41,6 +46,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_SetParameterDouble(char* Path, double value,
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterString(char* Path, char* value, void* handle) {
 	char* value_ptr = (char*)"";
 	int res = SCISDK_GetParameterString(Path, &value_ptr, handle);
+	if (res)return res;
 	strcpy_s(value, strlen(value_ptr) + 1, value_ptr);
 	return res;
 }
@@ -408,22 +414,55 @@ int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, 
 	return res;
 }
 
-int LV_SCISDK_ReadFrame(char* Path, TD_FRAME* buffer, void* handle, int buffer_size)
+int LV_SCISDK_ReadFrameSingle(char* Path, TD_FRAME_SINGLE* buffer, void* handle)
+{
+	SCISDK_FRAME_DECODED_BUFFER* fdb;
+	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle, 1);
+	if (res) return res;
+
+	// read data
+	res = SCISDK_ReadData(Path, (void*)fdb, handle);
+	if (res) {
+		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle);
+		return res;
+	}
+
+	if (fdb->info.valid_data) {
+		NumericArrayResize(uL, 1, (UHandle*)&(buffer->pixel), fdb->data[0].n);
+		for (int i = 0; i < fdb->data[0].n; i++)
+		{
+			(*(buffer->pixel))->Numeric[i] = fdb->data[0].pixel[i];
+		}
+		(*(buffer->pixel))->dimSize = fdb->data[0].n;
+		buffer->magic = fdb->magic;
+		buffer->buffer_size = fdb->info.buffer_size;
+		buffer->event_count = fdb->data[0].info.event_count;
+		buffer->hits = fdb->data[0].info.hits;
+		buffer->n = fdb->data[0].n;
+		buffer->timestamp = fdb->data[0].info.timestamp;
+		buffer->trigger_count = fdb->data[0].info.trigger_count;
+	}
+
+	SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle);
+	return res;
+}
+
+int LV_SCISDK_ReadFrameMultiple(char* Path, TD_FRAME_MULTIPLE* buffer, void* handle, int buffer_size)
 {
 	SCISDK_FRAME_DECODED_BUFFER* fdb;
 	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle, buffer_size);
 	if (res) return res;
 
 	// read data
-	res = SCISDK_ReadData(Path, fdb, handle);
+	res = SCISDK_ReadData(Path, (void*)fdb, handle);
 	if (res) {
 		SCISDK_FreeBuffer(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle);
 		return res;
 	}
 
 	NumericArrayResize(uQ, 1, (UHandle*)&(buffer->data), fdb->info.valid_data * sizeof(FRAME_PACKET) / 8);
-	for (int i = 0; i < 10;i++) {
-		
+	for (int i = 0; i < fdb->info.valid_data;i++) {
+
 		NumericArrayResize(uL, 1, (UHandle*)&((*buffer->data)->packets[i].pixel), fdb->data[i].n);
 		for (int j = 0; j < fdb->data[i].n; j++)
 		{
@@ -464,13 +503,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ExecuteCommand(char* Path, char* parameter, 
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadOscilloscopeStatus(char* Path, TD_OSCILLOSCOPE_STATUS* buffer, void* handle)
 {
-	//SCISDK_OSCILLOSCOPE_STATUS* osb = (SCISDK_OSCILLOSCOPE_STATUS*)malloc(sizeof(SCISDK_OSCILLOSCOPE_STATUS));
-	//int res = SCISDK_ReadStatus(Path, osb, handle);
-	//buffer->armed = osb->armed;
-	//buffer->ready = osb->ready;
-	//buffer->running = osb->running;
-	//free(osb);
-	//return res;
 	return SCISDK_ReadStatus(Path, buffer, handle);
 }
 
@@ -484,10 +516,43 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buf
 	return SCISDK_ReadStatus(Path, buffer, handle);
 }
 
+int LV_SCISDK_GetComponentList(char* name, char* type, TD_COMPONENTARRAY ret, void* handle)
+{
+	char* ret_json_string = (char*)"";
+	int res = SCISDK_GetComponentList(name, type, &ret_json_string, true, handle);
+	if (res) return res;
+
+	if (ret_json_string == "")return -1;
+	json ret_json = json::parse(ret_json_string);
+
+	NumericArrayResize(uQ, 1, (UHandle*)&(ret), 3 * ret_json.size());
+	for (int i = 0; i < ret_json.size();i++) {
+		char* path_str = (char*)((std::string)ret_json.at(0)["path"]).c_str();
+		char* name_str = (char*)((std::string)ret_json.at(0)["name"]).c_str();
+		char* type_str = (char*)((std::string)ret_json.at(0)["type"]).c_str();
+		
+		ret.array[i].path = path_str;
+		ret.array[i].name = name_str;
+		ret.array[i].type = type_str;
+	}
+	ret.dimSize = ret_json.size();
+	return res;
+}
+
+int LV_SCISDK_GetAllParameters(char* path, char* ret, void* handle)
+{
+	char* ret_json_string = (char*)"";
+	int res = SCISDK_GetAllParameters(path, &ret_json_string, handle);
+	if (res) return res;
+
+	return res;
+}
+
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDescription(char* path, char* ret, void* handle)
 {
 	char* value_ptr = (char*)"";
 	int res = SCISDK_GetParameterString(path, &value_ptr, handle);
+	if (res)return res;
 	strcpy_s(ret, strlen(value_ptr) + 1, value_ptr);
 	SCISDK_free_string(value_ptr);
 	return res;
@@ -495,7 +560,11 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDescription(char* path, char* re
 
 int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle)
 {
-	return 0;
+	char* ret_json_string = (char*)"";
+	int res = SCISDK_GetParameterListOfValues(path, &ret_json_string, handle);
+	if (res) return res;
+
+	return res;
 }
 
 int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle)
@@ -506,4 +575,13 @@ int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle)
 int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle)
 {
 	return SCISDK_GetParameterMaximumValue(path, ret, handle);
+}
+
+int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle)
+{
+	char* ret_json_string = (char*)"";
+	int res = SCISDK_GetParametersProperties(path, &ret_json_string, handle);
+	if (res) return res;
+
+	return res;
 }
