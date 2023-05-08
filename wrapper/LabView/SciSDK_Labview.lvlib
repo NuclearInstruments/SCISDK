@@ -11,6 +11,7 @@
 	<Item Name="LV SCISDK Detach Device.vi" Type="VI" URL="../VIs/LV SCISDK Detach Device.vi"/>
 	<Item Name="LV SCISDK Execute Command.vi" Type="VI" URL="../VIs/LV SCISDK Execute Command.vi"/>
 	<Item Name="LV SCISDK Free Lib.vi" Type="VI" URL="../VIs/LV SCISDK Free Lib.vi"/>
+	<Item Name="LV SCISDK Get Components List.vi" Type="VI" URL="../VIs/LV SCISDK Get Components List.vi"/>
 	<Item Name="LV SCISDK Get Parameter Double.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter Double.vi"/>
 	<Item Name="LV SCISDK Get Parameter Integer.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter Integer.vi"/>
 	<Item Name="LV SCISDK Get Parameter String.vi" Type="VI" URL="../VIs/LV SCISDK Get Parameter String.vi"/>
@@ -21,7 +22,8 @@
 	<Item Name="LV SCISDK Read Custom Packet Single Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Custom Packet Single Data.vi"/>
 	<Item Name="LV SCISDK Read Digitizer Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Digitizer Data.vi"/>
 	<Item Name="LV SCISDK Read FFT Data.vi" Type="VI" URL="../VIs/LV SCISDK Read FFT Data.vi"/>
-	<Item Name="LV SCISDK Read Frame Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Frame Data.vi"/>
+	<Item Name="LV SCISDK Read Frame Multiple Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Frame Multiple Data.vi"/>
+	<Item Name="LV SCISDK Read Frame Single Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Frame Single Data.vi"/>
 	<Item Name="LV SCISDK Read List Data.vi" Type="VI" URL="../VIs/LV SCISDK Read List Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Data.vi"/>
 	<Item Name="LV SCISDK Read Oscilloscope Dual Data.vi" Type="VI" URL="../VIs/LV SCISDK Read Oscilloscope Dual Data.vi"/>
