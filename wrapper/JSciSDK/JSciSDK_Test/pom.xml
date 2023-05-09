@@ -7,9 +7,9 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>io.github.NuclearInstruments</groupId>
-            <artifactId>mavenproject1</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>JSciSDK</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <properties>
