@@ -328,12 +328,6 @@ docs/html
 /wrapper/JSciSDK/JSciSDK/target/
 /wrapper/JSciSDK/JSciSDK_Test/target/
 /wrapper/JSciSDK/JSciSDK/target_old/
-
-# LabView
-/wrapper/LabView/*.dll
-/SciSDK_VC++/*.dll
-/wrapper/LabView/Report.html
-
 /examples/components/Java/CustomPacket/target/
 /examples/components/Java/Digitizer/target/
 /examples/components/Java/Frame/target/
@@ -345,3 +339,7 @@ docs/html
 /examples/components/Java/Spectrum/target/
 /examples/components/Java/TOFSpectrum/target/
 
+# LabView
+/wrapper/LabView/*.dll
+/SciSDK_VC++/*.dll
+/wrapper/LabView/Report.html
