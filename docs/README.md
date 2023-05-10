@@ -296,7 +296,92 @@ Each one contains the detailed instruction to compile the library.
 ### 7.7. Readout data from a board
 
 ## 8 Use with Java
+SciSDK can be used in Java with a [wrapper](https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK). 
 
-### 8.1 Ant
+To use this wrapper library you must have SciSDK installed on your computer.
 
-### 8.2 Maven
+SciSDK java wrapper can be included in projects that use different build tools, here is explained how to include JSciSDK in Ant and Maven managed projects:
+### 8.1 Include in an Ant managed project
+To use SciSDK in an Ant managed java project you need to:
+- Download latest version on SciSDK java library's .jar file
+- Download JNA (Java Native Access) library's .jar file from the [official github repository](https://github.com/java-native-access/jna). JNA is used to access SciSDK's native DLL. 
+- Include both libraries's jar files in your project
+
+### 8.2 Include in a Maven managed project
+To use SciSDK in a Maven managed java project you need to:
+- Copy dependency xml formatted string of the latest version of SciSDK java wrapper from [Maven Central Repository](https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK), for example for library version 1.1 will be:
+```xml
+<!-- https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK -->
+<dependency>
+    <groupId>io.github.NuclearInstruments</groupId>
+    <artifactId>JSciSDK</artifactId>
+    <version>1.1</version>
+</dependency>
+```
+- Paste it into dependencies section of pom.xml file of your project
+
+In a Maven managed project you don't need to include JNA dependency like in a Java with Ant project because it will be automatically included as dependency of SciSDK java wrapper.
+
+### 8.3. Instantiate the library
+To initialize the library use the default SciSDK constructor:
+```java
+SciSDK sdk = new SciSDK();
+```
+This constructor creates a pointer to the SciSDK native code object instance so when you no longer need to use the SciSDK in your program (for example before the end of the program) free up memory with:
+
+```java
+sdk.FreeLib();
+```
+
+### 8.4 Connecting to a board
+The following example explains how to connect to a dt1260 board.
+
+```java
+SciSDK sdk = new SciSDK();
+int res = sdk.AddNewDevice("usb:28645", "dt1260", "./DT1260RegisterFile.json", "board0");
+
+if(res != 0) {
+    System.out.println("Program exit due to connection error");
+
+    // print error description
+    Ref<String> error_description = new Ref<>("");
+    sdk.s_error(res, error_description);
+    System.out.println("ERROR DESCRIPTION: " + error_description.get());
+    return;
+}
+
+// detach board
+sdk.DetachDevice("board0");
+sdk.FreeLib();
+```
+
+### 8.5 Set/Get a register value
+The following example explains how to set the value of a register:
+```java
+// set value of register A
+res = sdk.SetRegister("board0:/Registers/A", 100);
+```
+The following example explains how to read the value of a register: 
+```java
+// set value of register B
+Ref<Integer> value = new Ref<>(0);
+sdk.GetRegister("board0:/Registers/B", value);
+System.out.println("Register B value is: " + value.get());
+```
+### 8.6 Allocate buffers for readout
+The following example explains how to allocate buffer for readout:
+```java
+// allocate oscilloscope buffer
+Ref<OscilloscopeDecodedBuffer> buffer = new Ref<>(new OscilloscopeDecodedBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", buffer);
+```
+
+### 8.7 Readout data from a board
+The following example explains how to read data from the board:
+```java
+// read oscilloscope oscilloscope data
+res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buffer);
+```
+Buffer parameter is the buffer that has been allocated in the previous example
+
+You can find more examples in each component description page and in the [examples folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples)

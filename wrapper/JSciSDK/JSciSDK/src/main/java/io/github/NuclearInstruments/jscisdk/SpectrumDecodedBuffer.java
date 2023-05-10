@@ -24,7 +24,7 @@ public class SpectrumDecodedBuffer extends Structure implements Structure.ByRefe
     }
 
     public long[] GetData() {
-        return Utils.Pointer2UnsignedIntLongArray(data, GetInfo().GetValidBins());
+        return Utils.Pointer2UnsignedIntLongArray(data, GetInfo().GetTotalBins());
     }
 
     public long GetIntTime() {

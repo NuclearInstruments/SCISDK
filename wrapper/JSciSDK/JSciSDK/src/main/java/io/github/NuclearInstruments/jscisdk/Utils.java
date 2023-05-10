@@ -98,14 +98,28 @@ public class Utils {
     /**
      * Function used to read from memory an array of cppackets
      */
-    public static CPPacket[] Pointer2CPPacketArray(Pointer ptr, long size) {
+    public static CPPacket[] Pointer2CPPacketArray(long ptr, long size) {
         int array_size = Long.valueOf(size).intValue();
         int structure_size = new CPPacket().size();
         CPPacket[] packets = new CPPacket[array_size];
+        for (int i = 0; i < packets.length; i++) {
+            Pointer temp_ptr = new Pointer(ptr + structure_size * i);
+            packets[i] = new CPPacket(temp_ptr);
+        }
+        return packets;
+    }
+
+    /**
+     * Function used to read from memory an array of frame packet
+     */
+    public static FramePacket[] Pointer2FramePacketArray(long ptr, long size) {
+        int array_size = Long.valueOf(size).intValue();
+        int structure_size = new FramePacket().size();
+        FramePacket[] packets = new FramePacket[array_size];
 
         for (int i = 0; i < packets.length; i++) {
-            Pointer obj_ptr = ptr.getPointer(i * structure_size);
-            packets[i] = new CPPacket(obj_ptr);
+            Pointer temp_ptr = new Pointer(ptr + structure_size * i);
+            packets[i] = new FramePacket(temp_ptr);
         }
 
         return packets;

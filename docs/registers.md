@@ -95,6 +95,13 @@ err, value = sdk.GetRegister("board0:/Registers/C", 0)
 print("C={0}\n".format(value))
 ```
 
-
+## JAVA
+```java
+sdk.SetRegister("board0:/Registers/A", 10);
+sdk.SetRegister("board0:/Registers/B", 20);
+Ref<Integer> value = new Ref<>(0);
+sdk.GetRegister("board0:/Registers/C", value);
+System.out.println("Register C = (A+B) value is: " + value.get());
+```
 
 
