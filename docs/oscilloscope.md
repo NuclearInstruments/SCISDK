@@ -293,6 +293,25 @@ if (sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buffer) == 0)
 }
 ```
 
+### JAVA
+```java
+// set parameters
+res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode");
+res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level", 1500);
+res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "self");
+res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_channel", 0);
+res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150);
+res = sdk.SetParameterInteger("board0:/MMCComponents/Oscilloscope_0.decimator", 0);
+res = sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking");
+
+// allocate buffer
+Ref<OscilloscopeDecodedBuffer> buf = new Ref<>(new OscilloscopeDecodedBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", buf);
+
+if(res == 0) {
+	res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buf);
+}
+```
 
 ## Additional Examples
 ### Trigger on external signal

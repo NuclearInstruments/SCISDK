@@ -286,6 +286,23 @@ End If
 
 ```
 
+### JAVA
+```java
+// set parameters
+res = sdk.SetParameterString("board0:/MMCComponents/List_0.thread", "false");
+res = sdk.SetParameterInteger("board0:/MMCComponents/List_0.timeout", 500);
+res = sdk.SetParameterString("board0:/MMCComponents/List_0.acq_mode", "blocking");
+
+// allocate buffer raw, size 1024
+Ref<ListRawBuffer> buf = new Ref<>(new ListRawBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/List_0", buf, 1024);
+
+if(res == 0) {
+	res = sdk.ExecuteCommand("board0:/MMCComponents/List_0.stop", "");
+	res = sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", "");
+	res = sdk.ReadData("board0:/MMCComponents/List_0", buf);
+}
+```
 
 ## Additional Examples
 

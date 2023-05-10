@@ -3,12 +3,13 @@ package io.github.NuclearInstruments.jscisdk;
 import com.sun.jna.*;
 import java.math.BigInteger;
 
-@Structure.FieldOrder({"magic", "analog", "digital", "timecode", "info"})
+@Structure.FieldOrder({"magic", "analog", "digital", "trigger_position", "timecode", "info"})
 public class OscilloscopeDualDecodedBuffer extends Structure implements Structure.ByReference {
 
     public int magic; // uint32
     public Pointer analog; //int32[]
     public Pointer digital; // int[]
+    public int trigger_position; // uint32
     public long timecode; // uint64
     public OscilloscopeDecodedBufferInfo info;
 
@@ -36,6 +37,10 @@ public class OscilloscopeDualDecodedBuffer extends Structure implements Structur
             res_array[i] = digital_b_array[i] == 1 ? 1 : 0;
         }
         return res_array;
+    }
+
+    public long GetTriggerPosition() {
+        return Utils.SignedInteger2UnsignedLong(trigger_position);
     }
 
     public BigInteger GetTimecode() {
