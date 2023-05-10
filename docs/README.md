@@ -305,7 +305,7 @@ SciSDK java wrapper can be included in projects that use different build tools, 
 To use SciSDK in an Ant managed java project you need to:
 - Download latest version on SciSDK java library's .jar file
 - Download JNA (Java Native Access) library's .jar file from the [official github repository](https://github.com/java-native-access/jna). JNA is used to access SciSDK's native DLL. 
-- Include both libraries's jar files in your project
+- Include both libraries' jar files in your project
 
 ### 8.2 Include in a Maven managed project
 To use SciSDK in a Maven managed java project you need to:
