@@ -6,11 +6,20 @@ from scisdk.scisdk import SciSDK
 import math
 import scipy.optimize as opt
 import ctypes
+import csv
+import threading
+lock_spectrum = threading.Lock()
 
+Ts = 8
 tau = 100.0
 centroid = 0.0
 sigma_fit = 0.0
 decimator = 1
+
+stat_icr=0
+stat_icr_ext=0
+stat_ocr=0
+
 # Initialize sdk library
 sdk = SciSDK()
 
@@ -21,27 +30,27 @@ if res != 0:
     print("Error adding device")
     exit()
 
-
+last_spectrum = []
 RESET_THRS=500
 POL=1
-RESET_LEN = 5000
+RESET_LEN = 100
 HIST = 25
 INIB = 50
-THRS = 800
+THRS = 300
 AN_OFS = 0
-TRIGGER_K = 5
-TRIGGER_M = 7
-TRAP_K = 100
-TRAP_M = 110
-DECONV_M = 300
-TRAP_GAIN = 5000
-BLLEN = 7
-BLINIB = 250
-SAMP_POS = 107
+TRIGGER_K = 3
+TRIGGER_M = 4
+TRAP_K = 10
+TRAP_M = 20
+DECONV_M = 80
+TRAP_GAIN = 30000
+BLLEN = 5
+BLINIB = 50
+SAMP_POS = TRAP_M-5
 TRG_MODE = 0
 
 # Set register values
-res = sdk.SetRegister("board0:/Registers/RUNREG", 0)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
 res = sdk.SetRegister("board0:/Registers/MONSEL", 3)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.RESET_THRS", RESET_THRS)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.POL", POL)
@@ -54,14 +63,16 @@ res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRIGGER_K", TRIGGER_K)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRIGGER_M", TRIGGER_M)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_K", TRAP_K)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_M", TRAP_M)
-res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.DECONV_M", int(256.0/(math.exp(8/DECONV_M)-1)))
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.DECONV_M", int(256.0/(math.exp(Ts/DECONV_M)-1)))
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRAP_GAIN", TRAP_GAIN)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLLEN", BLLEN)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.BLINIB", BLINIB)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.SAMP_POS", SAMP_POS)
 res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRG_MODE", TRG_MODE)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_MODE", 0)
+res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_INIB", 0)
 
-res = sdk.SetRegister("board0:/Registers/RUNREG", 1)
+res = sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
 # ## SPECTRUM
 
@@ -122,12 +133,19 @@ children = [
     dict(name='Baseline len', type='int', value=BLLEN),
     dict(name='Baseline inib', type='int', value=BLINIB),
     dict(name='Sample pos', type='int', value=SAMP_POS),
-    dict(name='Trigger mode', type='int', value=TRG_MODE),
+    dict(name='Trigger mode', type='list', limits=['Fast Shaper', 'Leading Edge'], value='Fast Shaper'),
+    dict(name='PUR mode', type='list', limits=['Disabled', 'After-Only', 'Both-Programmable'], value='Disbled'),
+    dict(name='PUR extra', type='int', value=0),
+    dict(name='ICR', type='str', value=stat_icr, readonly=True),
+    dict(name='ICR-EXT', type='str', value=stat_icr_ext, readonly=True),
+    dict(name='OCR', type='str', value=stat_ocr, readonly=True),    
 ]
 
 
 # Create parameter tree
 params = pg.parametertree.Parameter.create(name='Parameters', type='group', children=children)
+
+
 pt = pg.parametertree.ParameterTree(showHeader=True )
 pt.setParameters(params)
 pt.setFixedWidth(400)
@@ -136,6 +154,7 @@ pt.setFixedWidth(400)
 start_btn = QPushButton('Start')
 stop_btn = QPushButton('Stop')
 reset_btn = QPushButton('Reset')
+save_btn = QPushButton('Save')
 
 # Create plot widget
 pw2 = pg.PlotWidget()
@@ -148,6 +167,7 @@ button_layout = QHBoxLayout()
 button_layout.addWidget(start_btn)
 button_layout.addWidget(stop_btn)
 button_layout.addWidget(reset_btn)
+button_layout.addWidget(save_btn)
 plot_layout.addLayout(button_layout)
 plot_layout_osc = QVBoxLayout()
 plot_layout.addLayout(button_layout)
@@ -166,6 +186,7 @@ o1d = pw3.plot()
 o2d = pw3.plot()
 o3d = pw3.plot()
 o4d = pw3.plot()
+o5d = pw3.plot()
 # Create horizontal layout to add parameter tree and vertical layout
 h_layout = QHBoxLayout()
 h_layout.addWidget(pt)
@@ -184,14 +205,25 @@ widget.show()
 
 def update_plot():
     global obSpectrum
+    res, ICR = sdk.GetRegister("board0:/Registers/CH0_ICR")
+    res, OCR= sdk.GetRegister("board0:/Registers/CH0_OCR")
+    DeadTimeTrigger = (TRIGGER_M+TRIGGER_K) * Ts * 1e-9
+    ICREXT = ICR / (1 - (ICR * DeadTimeTrigger))
+    params.param('ICR').setOpts(value='{:,.3f}'.format(round(1.25*ICR/1000.0,5)))
+    params.param('ICR-EXT').setOpts(value='{:,.3f}'.format(round(1.25*ICREXT/1000.0,5)))
+    params.param('OCR').setOpts(value='{:,.3f}'.format(round(1.25*OCR/1000.0,5)))
     # Read data from the spectrum analyzer
     res, obSpectrum = sdk.ReadData("board0:/MMCComponents/Spectrum_0",obSpectrum)
     if res == 0:
         xar = []
         yar = []
+        lock_spectrum.acquire()
+        last_spectrum.clear()
         for index in range(obSpectrum.info.valid_bins):
             xar.append(index)
-            yar.append(obSpectrum.data[index])
+            yar.append(float(obSpectrum.data[index]))
+            last_spectrum.append(float(obSpectrum.data[index]))
+        lock_spectrum.release()
         #pw2.clear() 
         #pw2.addItem(pg.PlotDataItem(xar, yar))
         p1.setData(x=xar, y=yar)
@@ -254,6 +286,7 @@ def update_oscilloscope():
         y_trigger = bufOscilloscope.digital[bufOscilloscope.info.samples_digital*3:bufOscilloscope.info.samples_digital*4]
         y_bl = bufOscilloscope.digital[offset_channel_dig*1 + bufOscilloscope.info.samples_digital*0: offset_channel_dig*1 + bufOscilloscope.info.samples_digital*1]
         y_es = bufOscilloscope.digital[offset_channel_dig*1 + bufOscilloscope.info.samples_digital*1: offset_channel_dig*1 + bufOscilloscope.info.samples_digital*2]
+        y_pur = bufOscilloscope.digital[offset_channel_dig*1 + bufOscilloscope.info.samples_digital*2: offset_channel_dig*1 + bufOscilloscope.info.samples_digital*3]
         y1 = np.array(y1).astype(np.int16)
         yy_trigger = [] 
         xx_trigger = []
@@ -282,6 +315,12 @@ def update_oscilloscope():
             if y_bl[u] == 1:
                 xx_bl_inib.append(u)
                 yy_bl_inib.append(100)
+
+        yy_pur_inib = [] 
+        xx_pur_inib = []
+        for u in range(len(y_pur)):
+                xx_pur_inib.append(u)
+                yy_pur_inib.append(y_pur[u]*200)                
         # convert y1 from uint16 to int16
         
         o1.setData(x=x, y=y0)
@@ -289,7 +328,8 @@ def update_oscilloscope():
         o1d.setData(x=xx_trigger, y=yy_trigger,  pen=None, symbol='o', symbolPen=None, symbolSize=4, symbolBrush=('m'  ) )
         o2d.setData(x=xx_es, y=yy_es,  pen=None, symbol='o', symbolPen=None, symbolSize=4, symbolBrush=('g'  ) )
         o3d.setData(x=xx_trinib, y=yy_trinib,  pen=None, symbol='x', symbolPen=None, symbolSize=8, symbolBrush=('r'  ) )
-        o4d.setData(x=xx_bl_inib, y=yy_bl_inib,  pen=None, symbol='x', symbolPen=None, symbolSize=2, symbolBrush=('y'  ) )
+        o4d.setData(x=xx_bl_inib, y=yy_bl_inib,  pen=None, symbol='x', symbolPen=None, symbolSize=5, symbolBrush=('y'  ) )
+        o5d.setData(x=xx_pur_inib, y=yy_pur_inib,  pen=pg.mkPen(color=(0, 255, 0)))
 #            y11.append((bufOscilloscope.digital[index + offset_channel_dig*1]) )
 #            y12.append((bufOscilloscope.digital[index + offset_channel_dig*1 + bufOscilloscope.info.samples_digital]) )       
 #            y21.append((bufOscilloscope.digital[index + offset_channel_dig*2]) )             
@@ -426,7 +466,7 @@ trap_m_param.sigValueChanged.connect(lambda param: update_trap_m(param, sdk))
 
 def update_tau(param, sdk):
     tau = param.value()
-    res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.DECONV_M", int(256.0/(math.exp(8/tau)-1)))
+    res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.DECONV_M", int(256.0/(math.exp(Ts/tau)-1)))
     if res != 0:
         print("Error setting deconv m")
 
@@ -470,21 +510,54 @@ samp_pos_param = params.child('Sample pos')
 samp_pos_param.sigValueChanged.connect(lambda param: update_samp_pos(param, sdk))
 
 def update_trg_mode(param, sdk):
-    trg_mode = param.value()
+    trg_mode_str = param.value()
+    trg_mode = 0
+    if trg_mode_str == 'Fast Shaper':
+        trg_mode = 0
+    if trg_mode_str == 'Leading Edge':
+        trg_mode = 1
     res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.TRG_MODE", trg_mode)
     if res != 0:
-        print("Error setting trg mode")
-
+        print("Error setting Monitor")
+    
 trg_mode_param = params.child('Trigger mode')
 trg_mode_param.sigValueChanged.connect(lambda param: update_trg_mode(param, sdk))
+
+def update_pur_mode(param, sdk):
+    pur_mode_str = param.value()
+    pur_mode = 0
+    if pur_mode_str == 'Disabled':
+        pur_mode = 0
+    if pur_mode_str == 'After-Only':
+        pur_mode = 1
+    if pur_mode_str == 'Both-Programmable':
+        pur_mode = 2
+
+    res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_MODE", pur_mode)
+    if res != 0:
+        print("Error setting Monitor")
+    
+pur_mode_param = params.child('PUR mode')
+pur_mode_param.sigValueChanged.connect(lambda param: update_pur_mode(param, sdk))
+
+
+def update_pur_extra(param, sdk):
+    pur_extra = param.value()
+    res = sdk.SetParameterInteger("board0:/MMCComponents/RG_0.PUR_INIB", pur_extra)
+    if res != 0:
+        print("Error setting samp pos")
+
+pur_extra_param = params.child('PUR extra')
+pur_extra_param.sigValueChanged.connect(lambda param: update_pur_extra(param, sdk))
+
 
 def stop():
     timer.stop()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "")
 
 def start():
-    sdk.SetRegister("board0:/Registers/RUNREG", 0)
-    sdk.SetRegister("board0:/Registers/RUNREG", 1)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
     timer.start()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "")
@@ -493,16 +566,29 @@ def reset():
     timer.stop()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.stop", "")
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "")
-    sdk.SetRegister("board0:/Registers/RUNREG", 0)
-    sdk.SetRegister("board0:/Registers/RUNREG", 1)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 0)
+    sdk.SetRegister("board0:/Registers/RUN_CFG", 1)
 
     timer.start()
     sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "")
+
+def export_spectrum():
+    #export last_spectrum to file in csv
+    filename = QtGui.QFileDialog.getSaveFileName(None, 'Save File', '', 'CSV(*.csv)')
+    if filename[0]:
+        with open(filename[0], 'w') as f:
+            # lock mutex
+            lock_spectrum.acquire()
+            for row in last_spectrum:
+                f.write(str(row) + '\n')
+            # unlock mutex
+            lock_spectrum.release()
 
 # Connect buttons to actions
 stop_btn.clicked.connect(stop)
 start_btn.clicked.connect(start)
 reset_btn.clicked.connect(reset)
+save_btn.clicked.connect(export_spectrum)
 
 
 if __name__ == '__main__':

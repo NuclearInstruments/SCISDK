@@ -265,6 +265,27 @@ The following example shows how to use the spectrum component.
 
 ```
 
+### JAVA
+```java
+    res = sdk.SetParameterInteger("board0:/MMCComponents/TOF_0.binwidth", 3);
+    sdk.SetParameterString("board0:/MMCComponents/TOF_0.start_delay", "0");
+    sdk.SetParameterString("board0:/MMCComponents/TOF_0.limitmode", "freerun");
+    sdk.SetParameterString("board0:/MMCComponents/TOF_0.limit", "100");
+
+    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "");
+    sdk.ExecuteCommand("board0:/MMCComponents/TOF_0.start", "");
+
+    Ref<SpectrumDecodedBuffer> buf = new Ref<>(new SpectrumDecodedBuffer());
+    int res = sdk.AllocateBuffer("board0:/MMCComponents/TOF_0", buf);
+
+    if(res == 0) {
+        res = sdk.ReadData("board0:/MMCComponents/TOF_0", buf);
+
+        ....
+
+        sdk.FreeBuffer("board0:/MMCComponents/TOF_0", buf);
+    }
+```
 
 ## Additional Examples
 

@@ -6,7 +6,7 @@ import com.sun.jna.ptr.*;
 public interface SciSDKLibrary extends Library {
 
     SciSDKLibrary INSTANCE = (SciSDKLibrary) Native.load((Platform.isWindows() ? "SciSDK_DLL.dll" : "libscisdk.so"), SciSDKLibrary.class);
-
+    
     // method used to retrieve scisdk instance handler
     public Pointer SCISDK_InitLib();
 

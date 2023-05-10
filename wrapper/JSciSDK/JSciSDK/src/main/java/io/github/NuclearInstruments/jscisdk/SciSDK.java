@@ -206,6 +206,20 @@ public class SciSDK {
             buffer.set(s[0]);
             return res;
         }
+        else if (buffer.get().getClass().equals(FrameRawBuffer.class)) {
+            FrameRawBuffer[] s = new FrameRawBuffer[1];
+            s[0] = new FrameRawBuffer();
+            int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBuffer(path, 0, s, scisdk_handle);
+            buffer.set(s[0]);
+            return res;
+        }
+        else if (buffer.get().getClass().equals(FrameDecodedBuffer.class)) {
+            FrameDecodedBuffer[] s = new FrameDecodedBuffer[1];
+            s[0] = new FrameDecodedBuffer();
+            int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBuffer(path, 1, s, scisdk_handle);
+            buffer.set(s[0]);
+            return res;
+        }
         return -1;
     }
 
@@ -301,6 +315,20 @@ public class SciSDK {
             FFTRawBuffer[] s = new FFTRawBuffer[1];
             s[0] = new FFTRawBuffer();
             int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBufferSize(path, 0, s, scisdk_handle, size);
+            buffer.set(s[0]);
+            return res;
+        }
+        else if (buffer.get().getClass().equals(FrameRawBuffer.class)) {
+            FrameRawBuffer[] s = new FrameRawBuffer[1];
+            s[0] = new FrameRawBuffer();
+            int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBufferSize(path, 0, s, scisdk_handle, size);
+            buffer.set(s[0]);
+            return res;
+        }
+        else if (buffer.get().getClass().equals(FrameDecodedBuffer.class)) {
+            FrameDecodedBuffer[] s = new FrameDecodedBuffer[1];
+            s[0] = new FrameDecodedBuffer();
+            int res = SciSDKLibrary.INSTANCE.SCISDK_AllocateBufferSize(path, 1, s, scisdk_handle, size);
             buffer.set(s[0]);
             return res;
         }

@@ -6,7 +6,7 @@ import com.sun.jna.*;
 public class CPDecodedBuffer extends Structure implements Structure.ByReference {
 
     public int magic; // uint32
-    public Pointer data; // CPPacket[]
+    public long data; // CPPacket[]
     public CPDecodedBufferInfo info;
 
     public CPDecodedBuffer() {
@@ -15,6 +15,9 @@ public class CPDecodedBuffer extends Structure implements Structure.ByReference 
 
     public CPDecodedBuffer(Pointer p) {
         super(p);
+        readField("magic");
+        readField("data");
+        readField("info");
     }
 
     public long GetMagic() {
@@ -22,7 +25,7 @@ public class CPDecodedBuffer extends Structure implements Structure.ByReference 
     }
     
     public CPPacket[] GetData(){
-        return Utils.Pointer2CPPacketArray(data, info.GetBufferSize());
+        return Utils.Pointer2CPPacketArray(data, info.GetValidData());
     }
 
     public CPDecodedBufferInfo GetInfo(){
