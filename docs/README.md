@@ -296,7 +296,9 @@ Each one contains the detailed instruction to compile the library.
 ### 7.7. Readout data from a board
 
 ## 8 Use with Java
-SciSDK can be used in Java with a [wrapper](https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK).
+SciSDK can be used in Java with a [wrapper](https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK). 
+
+To use this wrapper library you must have SciSDK installed on your computer.
 
 SciSDK java wrapper can be included in projects that use different build tools, here is explained how to include JSciSDK in Ant and Maven managed projects:
 ### 8.1 Include in an Ant managed project
@@ -306,7 +308,7 @@ To use SciSDK in an Ant managed java project you need to:
 - Include both libraries's jar files in your project
 
 ### 8.2 Include in a Maven managed project
-To use SciSDK in a Maven mamaged java project you need to:
+To use SciSDK in a Maven managed java project you need to:
 - Copy dependency xml formatted string of the latest version of SciSDK java wrapper from [Maven Central Repository](https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK), for example for library version 1.1 will be:
 ```xml
 <!-- https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK -->
