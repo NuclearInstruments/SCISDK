@@ -265,55 +265,56 @@ var NAVTREE =
         [ "C++", "md_docs_fft.html#autotoc_md192", null ],
         [ "Python", "md_docs_fft.html#autotoc_md193", null ],
         [ "C Sharp", "md_docs_fft.html#autotoc_md194", null ],
-        [ "VB.NET", "md_docs_fft.html#autotoc_md195", null ]
+        [ "VB.NET", "md_docs_fft.html#autotoc_md195", null ],
+        [ "JAVA", "md_docs_fft.html#autotoc_md196", null ]
       ] ],
-      [ "Additional Examples", "md_docs_fft.html#autotoc_md196", [
-        [ "Non blocking mode", "md_docs_fft.html#autotoc_md197", null ],
-        [ "Processing decoded data and store in a file", "md_docs_fft.html#autotoc_md198", null ],
-        [ "Processing raw data and store in a file", "md_docs_fft.html#autotoc_md199", null ]
+      [ "Additional Examples", "md_docs_fft.html#autotoc_md197", [
+        [ "Non blocking mode", "md_docs_fft.html#autotoc_md198", null ],
+        [ "Processing decoded data and store in a file", "md_docs_fft.html#autotoc_md199", null ],
+        [ "Processing raw data and store in a file", "md_docs_fft.html#autotoc_md200", null ]
       ] ]
     ] ],
     [ "Frame (imaging) driver", "md_docs_frame.html", [
-      [ "Parameters", "md_docs_frame.html#autotoc_md201", [
-        [ "Blocking/Non blocking mode", "md_docs_frame.html#autotoc_md202", null ],
-        [ "Threaded mode", "md_docs_frame.html#autotoc_md203", null ],
-        [ "High performance mode", "md_docs_frame.html#autotoc_md204", null ]
+      [ "Parameters", "md_docs_frame.html#autotoc_md202", [
+        [ "Blocking/Non blocking mode", "md_docs_frame.html#autotoc_md203", null ],
+        [ "Threaded mode", "md_docs_frame.html#autotoc_md204", null ],
+        [ "High performance mode", "md_docs_frame.html#autotoc_md205", null ]
       ] ],
-      [ "Commands", "md_docs_frame.html#autotoc_md205", null ],
-      [ "Buffer Allocation", "md_docs_frame.html#autotoc_md206", null ],
-      [ "Output data Format", "md_docs_frame.html#autotoc_md207", [
-        [ "Raw Data", "md_docs_frame.html#autotoc_md208", null ],
-        [ "Decoded Data", "md_docs_frame.html#autotoc_md209", null ]
+      [ "Commands", "md_docs_frame.html#autotoc_md206", null ],
+      [ "Buffer Allocation", "md_docs_frame.html#autotoc_md207", null ],
+      [ "Output data Format", "md_docs_frame.html#autotoc_md208", [
+        [ "Raw Data", "md_docs_frame.html#autotoc_md209", null ],
+        [ "Decoded Data", "md_docs_frame.html#autotoc_md210", null ]
       ] ],
-      [ "Basic Examples", "md_docs_frame.html#autotoc_md210", [
-        [ "C RAW", "md_docs_frame.html#autotoc_md211", null ],
-        [ "C DECODED", "md_docs_frame.html#autotoc_md212", null ],
-        [ "C++ RAW", "md_docs_frame.html#autotoc_md213", null ],
-        [ "Python RAW", "md_docs_frame.html#autotoc_md214", null ],
-        [ "Python Decoded", "md_docs_frame.html#autotoc_md215", null ],
-        [ "C Sharp RAW", "md_docs_frame.html#autotoc_md216", null ],
-        [ "VB.NET RAW", "md_docs_frame.html#autotoc_md217", null ],
-        [ "JAVA DECODED", "md_docs_frame.html#autotoc_md218", null ]
+      [ "Basic Examples", "md_docs_frame.html#autotoc_md211", [
+        [ "C RAW", "md_docs_frame.html#autotoc_md212", null ],
+        [ "C DECODED", "md_docs_frame.html#autotoc_md213", null ],
+        [ "C++ RAW", "md_docs_frame.html#autotoc_md214", null ],
+        [ "Python RAW", "md_docs_frame.html#autotoc_md215", null ],
+        [ "Python Decoded", "md_docs_frame.html#autotoc_md216", null ],
+        [ "C Sharp RAW", "md_docs_frame.html#autotoc_md217", null ],
+        [ "VB.NET RAW", "md_docs_frame.html#autotoc_md218", null ],
+        [ "JAVA DECODED", "md_docs_frame.html#autotoc_md219", null ]
       ] ],
-      [ "Additional Examples", "md_docs_frame.html#autotoc_md219", [
-        [ "C read and print decoded data", "md_docs_frame.html#autotoc_md220", null ],
-        [ "Example of decoding RAW data in C++", "md_docs_frame.html#autotoc_md221", null ],
-        [ "Example of decoding RAW data in Python", "md_docs_frame.html#autotoc_md222", null ]
+      [ "Additional Examples", "md_docs_frame.html#autotoc_md220", [
+        [ "C read and print decoded data", "md_docs_frame.html#autotoc_md221", null ],
+        [ "Example of decoding RAW data in C++", "md_docs_frame.html#autotoc_md222", null ],
+        [ "Example of decoding RAW data in Python", "md_docs_frame.html#autotoc_md223", null ]
       ] ]
     ] ],
     [ "Rate Meter", "md_docs_rate_meter.html", [
-      [ "Parameters", "md_docs_rate_meter.html#autotoc_md224", [
-        [ "Commands", "md_docs_rate_meter.html#autotoc_md225", null ],
-        [ "Output data Format", "md_docs_rate_meter.html#autotoc_md226", [
-          [ "Decoded Data", "md_docs_rate_meter.html#autotoc_md227", null ]
+      [ "Parameters", "md_docs_rate_meter.html#autotoc_md225", [
+        [ "Commands", "md_docs_rate_meter.html#autotoc_md226", null ],
+        [ "Output data Format", "md_docs_rate_meter.html#autotoc_md227", [
+          [ "Decoded Data", "md_docs_rate_meter.html#autotoc_md228", null ]
         ] ],
-        [ "Basic Examples", "md_docs_rate_meter.html#autotoc_md228", [
-          [ "C", "md_docs_rate_meter.html#autotoc_md229", null ],
-          [ "C++", "md_docs_rate_meter.html#autotoc_md230", null ],
-          [ "Python", "md_docs_rate_meter.html#autotoc_md231", null ],
-          [ "C Sharp", "md_docs_rate_meter.html#autotoc_md232", null ],
-          [ "VB.NET", "md_docs_rate_meter.html#autotoc_md233", null ],
-          [ "JAVA", "md_docs_rate_meter.html#autotoc_md234", null ]
+        [ "Basic Examples", "md_docs_rate_meter.html#autotoc_md229", [
+          [ "C", "md_docs_rate_meter.html#autotoc_md230", null ],
+          [ "C++", "md_docs_rate_meter.html#autotoc_md231", null ],
+          [ "Python", "md_docs_rate_meter.html#autotoc_md232", null ],
+          [ "C Sharp", "md_docs_rate_meter.html#autotoc_md233", null ],
+          [ "VB.NET", "md_docs_rate_meter.html#autotoc_md234", null ],
+          [ "JAVA", "md_docs_rate_meter.html#autotoc_md235", null ]
         ] ]
       ] ]
     ] ],
@@ -322,18 +323,18 @@ var NAVTREE =
     [ "Petiroc Configuration driver", "md_docs_petiroc_config.html", null ],
     [ "Petiroc Frame Transfer driver", "md_docs_petiroc_frame.html", null ],
     [ "Board Endpoint driver", "md_docs_boardendpoint.html", [
-      [ "Supported functions:", "md_docs_boardendpoint.html#autotoc_md240", null ],
-      [ "Board specific endpoint", "md_docs_boardendpoint.html#autotoc_md241", null ]
+      [ "Supported functions:", "md_docs_boardendpoint.html#autotoc_md241", null ],
+      [ "Board specific endpoint", "md_docs_boardendpoint.html#autotoc_md242", null ]
     ] ],
     [ "OpenDPP Board Driver", "md_docs_boards_opendpp.html", [
-      [ "Access to board endpoints", "md_docs_boards_opendpp.html#autotoc_md243", null ],
-      [ "OpenDPP data structure", "md_docs_boards_opendpp.html#autotoc_md244", null ],
-      [ "Code Examples", "md_docs_boards_opendpp.html#autotoc_md245", null ]
+      [ "Access to board endpoints", "md_docs_boards_opendpp.html#autotoc_md244", null ],
+      [ "OpenDPP data structure", "md_docs_boards_opendpp.html#autotoc_md245", null ],
+      [ "Code Examples", "md_docs_boards_opendpp.html#autotoc_md246", null ]
     ] ],
     [ "OpenScope Board Driver", "md_docs_boards_openscope.html", [
-      [ "Access to board endpoints", "md_docs_boards_openscope.html#autotoc_md247", null ],
-      [ "OpenScope data structure", "md_docs_boards_openscope.html#autotoc_md248", null ],
-      [ "Code Examples", "md_docs_boards_openscope.html#autotoc_md249", null ]
+      [ "Access to board endpoints", "md_docs_boards_openscope.html#autotoc_md248", null ],
+      [ "OpenScope data structure", "md_docs_boards_openscope.html#autotoc_md249", null ],
+      [ "Code Examples", "md_docs_boards_openscope.html#autotoc_md250", null ]
     ] ],
     [ "DT1260 Board Driver", "md_docs_boards_dt1260.html", null ],
     [ "DT5550W with Citiroc Board Driver", "md_docs_boards_dt5550w_citiroc.html", null ],
@@ -365,7 +366,7 @@ var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
 "md_docs_fft.html#autotoc_md199",
-"struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a64da50d21ce3ac32b8adc332424e6d53"
+"struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a62df6608c021ae51269241a155200e09"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

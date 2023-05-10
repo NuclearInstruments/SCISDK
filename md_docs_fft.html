@@ -298,9 +298,20 @@ VB.NET</h2>
 <div class="line">{</div>
 <div class="line">    &#39;do something with the buffer</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md196"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md196"></a>
+JAVA</h2>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> res = sdk.SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.data_processing&quot;</span>,<span class="stringliteral">&quot;decode&quot;</span>);</div>
+<div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// allocate buffer</span></div>
+<div class="line">Ref&lt;FFTDecodedBuffer&gt; buf = <span class="keyword">new</span> Ref&lt;&gt;(<span class="keyword">new</span> FFTDecodedBuffer());</div>
+<div class="line">res = sdk.AllocateBuffer(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0&quot;</span>, buf);</div>
+<div class="line"><span class="keywordflow">if</span>(res == 0) {</div>
+<div class="line"> </div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md197"></a>
 Additional Examples</h1>
-<h2><a class="anchor" id="autotoc_md197"></a>
+<h2><a class="anchor" id="autotoc_md198"></a>
 Non blocking mode</h2>
 <div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;non-blocking&quot;</span>, _sdk);</div>
@@ -327,7 +338,7 @@ Non blocking mode</h2>
 <div class="line">    }</div>
 <div class="line">} </div>
 <div class="ttc" id="a_n_i_error_code_8h_html_ab44d3b4fb5f18b8063b2e8e7299096f9"><div class="ttname"><a href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a></div><div class="ttdeci">#define NI_TIMEOUT</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:40</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md198"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md199"></a>
 Processing decoded data and store in a file</h2>
 <p>The following example shows how to process the decoded data and store it in a file. The data is stored in a CSV file with the following format: Phase, Magnitude </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>, _sdk);</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
@@ -344,7 +355,7 @@ Processing decoded data and store in a file</h2>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line">fclose(fp);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md199"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md200"></a>
 Processing raw data and store in a file</h2>
 <p>The following example shows how to process the raw data and store it in a file. The data is stored in a CSV file with the following format: real, imaginary </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.data_processing&quot;</span>, <span class="stringliteral">&quot;raw&quot;</span>, _sdk);</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/MMCComponents/FFT_0.acq_mode&quot;</span>, <span class="stringliteral">&quot;blocking&quot;</span>, _sdk);</div>
