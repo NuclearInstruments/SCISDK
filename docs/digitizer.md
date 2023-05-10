@@ -317,6 +317,26 @@ The `info` field contains the information about the buffer:
     End While
 ```
 
+### JAVA
+```java
+	int enabled_channels = 1;
+	int res = sdk.SetParameterString("board0:/MMCComponents/Digitizer_0.data_processing", "decode");
+	res = sdk.SetParameterInteger("board0:/MMCComponents/Digitizer_0.enabledch", enabled_channels);
+	res = sdk.SetParameterInteger("board0:/MMCComponents/Digitizer_0.acq_len", 8000);
+	res = sdk.SetParameterString("board0:/MMCComponents/Digitizer_0.acq_mode", "blocking");
+	res = sdk.SetParameterInteger("board0:/MMCComponents/Digitizer_0.timeout", 2000);
+	res = sdk.ExecuteCommand("board0:/MMCComponents/Digitizer_0.start", "");
+
+	// allocate buffer
+	Ref<DigitizerDecodedBuffer> buf = new Ref<>(new DigitizerDecodedBuffer());
+	res = sdk.AllocateBuffer("board0:/MMCComponents/Digitizer_0", buf);
+
+	if(res == 0){
+		// read data
+		res = sdk.ReadData("board0:/MMCComponents/Digitizer_0", buf);
+	}
+```
+
 ## Additional Examples
 
 ### Read decoded data and write on file, on channel per column

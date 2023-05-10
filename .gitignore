@@ -334,3 +334,14 @@ docs/html
 /SciSDK_VC++/*.dll
 /wrapper/LabView/Report.html
 
+/examples/components/Java/CustomPacket/target/
+/examples/components/Java/Digitizer/target/
+/examples/components/Java/Frame/target/
+/examples/components/Java/List/target/
+/examples/components/Java/Oscilloscope/target/
+/examples/components/Java/OscilloscopeDual/target/
+/examples/components/Java/Ratemeter/target/
+/examples/components/Java/Registers/target/
+/examples/components/Java/Spectrum/target/
+/examples/components/Java/TOFSpectrum/target/
+

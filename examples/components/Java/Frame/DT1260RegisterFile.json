@@ -1,0 +1,61 @@
+{"Registers":[
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "ImageReadout_0",
+  "Type": "FrameTransfer",
+  "Address": 0,
+  "Version": "1.1.0.0",
+  "Channels": 9,
+  "BufferLength": 1024,
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Address": 1,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Address": 2,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_T0_MASK",
+      "Address": 3,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_WAIT",
+      "Address": 4,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Address": 5,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_SYNC",
+      "Address": 6,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+}],"Device":"SCIDK","Project":"Frame"}

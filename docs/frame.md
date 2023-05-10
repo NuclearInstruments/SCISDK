@@ -350,7 +350,23 @@ End If
 
 ```
 
+### JAVA DECODED
+```java
+res = sdk.SetParameterString("board0:/MMCComponents/ImageReadout_0.thread", "false");
+res = sdk.SetParameterInteger("board0:/MMCComponents/ImageReadout_0.timeout", 500);
+res = sdk.SetParameterString("board0:/MMCComponents/ImageReadout_0.acq_mode", "non-blocking");
+res = sdk.SetParameterString("board0:/MMCComponents/ImageReadout_0.trigger_mode", "trig");
+res = sdk.SetParameterString("board0:/MMCComponents/ImageReadout_0.data_processing", "decode");
 
+// allocate buffer
+Ref<FrameDecodedBuffer> fdb = new Ref(new FrameDecodedBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/ImageReadout_0", fdb, 100);
+
+res = sdk.ExecuteCommand("board0:/MMCComponents/ImageReadout_0.start", "");
+if(res == 0) {
+	res = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", fdb);
+}
+```
 
 
 ## Additional Examples

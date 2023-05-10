@@ -452,6 +452,22 @@ End If
 
 ```
 
+### JAVA
+```java
+int res = sdk.SetParameterString("board0:/MMCComponents/CP_0.thread", "false");
+res = sdk.SetParameterInteger("board0:/MMCComponents/CP_0.timeout", 500);
+res = sdk.SetParameterString("board0:/MMCComponents/CP_0.acq_mode", "non-blocking");
+res = sdk.SetParameterString("board0:/MMCComponents/CP_0.check_align_word", "check_align_word");
+res = sdk.SetParameterString("board0:/MMCComponents/CP_0.data_processing", "decode");
+
+res = sdk.ExecuteCommand("board0:/MMCComponents/CP_0.start", "");
+// Allocate buffer decoded, size 100
+Ref<CPDecodedBuffer> buf = new Ref<>(new CPDecodedBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/CP_0", buf, 100);
+if(res == 0) {
+	res = sdk.ReadData("board0:/MMCComponents/CP_0", buf);
+}
+```
 
 ## Additional Examples
 

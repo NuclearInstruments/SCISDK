@@ -260,6 +260,23 @@ The following example shows how to use the spectrum component.
 
 ```
 
+### JAVA
+```java
+    sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.rebin", "0");
+    sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.limitmode", "freerun");
+    sdk.SetParameterString("board0:/MMCComponents/Spectrum_0.limit", "100");
+    // allocate buffer
+    Ref<SpectrumDecodedBuffer> buf = new Ref<>(new SpectrumDecodedBuffer());
+    int res = sdk.AllocateBuffer("board0:/MMCComponents/Spectrum_0", buf);
+    if(res == 0) {
+        sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "");
+        sdk.ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "");
+        res = sdk.ReadData("board0:/MMCComponents/Spectrum_0", buf);
+        ....
+
+
+    }
+```
 
 ## Additional Examples
 
