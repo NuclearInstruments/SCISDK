@@ -125,3 +125,11 @@ err, value = sdk.GetParameterInteger("board0:/MMCComponents/rf.C")
 print("C={0}".format(value))
 ```
 
+### JAVA
+```java
+sdk.SetParameterInteger("board0:/MMCComponents/rf.A", 10);
+sdk.SetParameterInteger("board0:/MMCComponents/rf.B", 20);
+Ref<Integer> value = new Ref<>(0);
+res = sdk.GetParameterInteger("board0:/MMCComponents/rf.C", value);
+System.out.println("C=" + value.get());
+```
