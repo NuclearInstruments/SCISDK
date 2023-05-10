@@ -191,6 +191,19 @@ if (sdk.ReadData("board0:/MMCComponents/FFT_0", buffer) == 0)
 }
 ```
 
+### JAVA
+```java
+int res = sdk.SetParameter("board0:/MMCComponents/FFT_0.data_processing","decode");
+sdk.SetParameter("board0:/MMCComponents/FFT_0.acq_mode", "blocking");
+
+// allocate buffer
+Ref<FFTDecodedBuffer> buf = new Ref<>(new FFTDecodedBuffer());
+res = sdk.AllocateBuffer("board0:/MMCComponents/FFT_0", buf);
+if(res == 0) {
+
+}
+```
+
 
 ## Additional Examples
 
