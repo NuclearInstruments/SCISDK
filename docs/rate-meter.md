@@ -162,3 +162,23 @@ The following example shows how to use the Rate Meter component.
 
 ```
 
+### JAVA
+```java
+    // allocate buffer
+    Ref<RMRawBuffer> buf = new Ref<>(new RMRawBuffer());
+    int res = sdk.AllocateBuffer("board0:/MMCComponents/RateMeter_0", buf);
+    if(res == 0) {
+        res = sdk.ReadData("board0:/MMCComponents/RateMeter_0", buf);
+        if (res == 0) {
+            System.out.println("-------------------");
+            for (int i = 0; i < buf.get().GetData().length; i++) {
+                System.out.println(buf.get().GetData()[i]);
+            }
+        } else {
+            Ref<String> error_description = new Ref<>("");
+            sdk.s_error(res, error_description);
+            System.out.println("ERROR DESCRIPTION: " + error_description.get());
+        }
+        res = sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", buf);
+    }
+```
