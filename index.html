@@ -326,13 +326,82 @@ File structure</h2>
 <p><em><em> </em></em></p>
 <h1><a class="anchor" id="autotoc_md22"></a>
 8 Use with Java</h1>
-<p><em><em> </em></em></p>
+<p><em><em>SciSDK can be used in Java with a <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK">wrapper</a>.</em></em></p>
+<p><em><em>SciSDK java wrapper can be included in projects that use different build tools, here is explained how to include JSciSDK in Ant and Maven managed projects: </em></em></p>
 <h2><a class="anchor" id="autotoc_md23"></a>
-8.1 Ant</h2>
-<p><em><em> </em></em></p>
-<h2><a class="anchor" id="autotoc_md24"></a>
-8.2 Maven</h2>
+8.1 Include in an Ant managed project</h2>
+<p><em><em>To use SciSDK in an Ant managed java project you need to:</p><ul>
+<li>Download latest version on SciSDK java library's .jar file</li>
+<li>Download JNA (Java Native Access) library's .jar file from the <a href="https://github.com/java-native-access/jna">official github repository</a>. JNA is used to access SciSDK's native DLL.</li>
+<li>Include both libraries's jar files in your project</li>
+</ul>
+<p></em></em></p>
 <p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md24"></a>
+8.2 Include in a Maven managed project</h2>
+<p><em><em>To use SciSDK in a Maven mamaged java project you need to:</p><ul>
+<li>Copy dependency xml formatted string of the latest version of SciSDK java wrapper from <a href="https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK">Maven Central Repository</a>, for example for library version 1.1 will be: <div class="fragment"><div class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK --&gt;</span></div>
+<div class="line">&lt;<span class="keywordtype">dependency</span>&gt;</div>
+<div class="line">    &lt;<span class="keywordtype">groupId</span>&gt;<span class="keyword">io.github.NuclearInstruments</span>&lt;/<span class="keywordtype">groupId</span>&gt;</div>
+<div class="line">    &lt;<span class="keywordtype">artifactId</span>&gt;<span class="keyword">JSciSDK</span>&lt;/<span class="keywordtype">artifactId</span>&gt;</div>
+<div class="line">    &lt;<span class="keywordtype">version</span>&gt;1.1&lt;/<span class="keywordtype">version</span>&gt;</div>
+<div class="line">&lt;/<span class="keywordtype">dependency</span>&gt;</div>
+</div><!-- fragment --></li>
+<li>Paste it into dependencies section of pom.xml file of your project</li>
+</ul>
+<p></em></em></p>
+<p><em><em>In a Maven managed project you don't need to include JNA dependency like in a Java with Ant project because it will be automatically included as dependency of SciSDK java wrapper.</em></em></p>
+<p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md25"></a>
+8.3. Instantiate the library</h2>
+<p><em><em>To initialize the library use the default SciSDK constructor: </p><div class="fragment"><div class="line">SciSDK sdk = <span class="keyword">new</span> SciSDK();</div>
+</div><!-- fragment --><p> This constructor creates a pointer to the SciSDK native code object instance so when you no longer need to use the SciSDK in your program (for example before the end of the program) free up memory with:</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">sdk.FreeLib();</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md26"></a>
+8.4 Connecting to a board</h2>
+<p><em><em>The following example explains how to connect to a dt1260 board.</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">SciSDK sdk = <span class="keyword">new</span> SciSDK();</div>
+<div class="line"><span class="keywordtype">int</span> res = sdk.AddNewDevice(<span class="stringliteral">&quot;usb:28645&quot;</span>, <span class="stringliteral">&quot;dt1260&quot;</span>, <span class="stringliteral">&quot;./DT1260RegisterFile.json&quot;</span>, <span class="stringliteral">&quot;board0&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span>(res != 0) {</div>
+<div class="line">    System.out.println(<span class="stringliteral">&quot;Program exit due to connection error&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// print error description</span></div>
+<div class="line">    Ref&lt;String&gt; error_description = <span class="keyword">new</span> Ref&lt;&gt;(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    sdk.s_error(res, error_description);</div>
+<div class="line">    System.out.println(<span class="stringliteral">&quot;ERROR DESCRIPTION: &quot;</span> + error_description.get());</div>
+<div class="line">    <span class="keywordflow">return</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// detach board</span></div>
+<div class="line">sdk.DetachDevice(<span class="stringliteral">&quot;board0&quot;</span>);</div>
+<div class="line">sdk.FreeLib();</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md27"></a>
+8.5 Set/Get a register value</h2>
+<p><em><em>The following example explains how to set the value of a register: </p><div class="fragment"><div class="line"><span class="comment">// set value of register A</span></div>
+<div class="line">res = sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/A&quot;</span>, 100);</div>
+</div><!-- fragment --><p> The following example explains how to read the value of a register: </p><div class="fragment"><div class="line"><span class="comment">// set value of register B</span></div>
+<div class="line">Ref&lt;Integer&gt; value = <span class="keyword">new</span> Ref&lt;&gt;(0);</div>
+<div class="line">sdk.GetRegister(<span class="stringliteral">&quot;board0:/Registers/B&quot;</span>, value);</div>
+<div class="line">System.out.println(<span class="stringliteral">&quot;Register B value is: &quot;</span> + value.get());</div>
+</div><!-- fragment --><p> </em></em></p>
+<h2><a class="anchor" id="autotoc_md28"></a>
+8.6 Allocate buffers for readout</h2>
+<p><em><em>The following example explains how to allocate buffer for readout: </p><div class="fragment"><div class="line"><span class="comment">// allocate oscilloscope buffer</span></div>
+<div class="line">Ref&lt;OscilloscopeDecodedBuffer&gt; buffer = <span class="keyword">new</span> Ref&lt;&gt;(<span class="keyword">new</span> OscilloscopeDecodedBuffer());</div>
+<div class="line">res = sdk.AllocateBuffer(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, buffer);</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em></em></em></p>
+<h2><a class="anchor" id="autotoc_md29"></a>
+8.7 Readout data from a board</h2>
+<p><em><em>The following example explains how to read data from the board: </p><div class="fragment"><div class="line"><span class="comment">// read oscilloscope oscilloscope data</span></div>
+<div class="line">res = sdk.ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, buffer);</div>
+</div><!-- fragment --><p> Buffer parameter is the buffer that has been allocated in the previous example</em></em></p>
+<p><em><em>You can find more examples in each component description page and in the <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples">examples folder</a> </em></em></p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

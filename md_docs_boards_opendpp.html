@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('md_docs_boards_opendpp.html',''); init
 <li>DT2745</li>
 </ul>
 <p>The SciCompiler project must be created as DPP project. Scope firmware uses the OpenScope driver.</p>
-<h1><a class="anchor" id="autotoc_md228"></a>
+<h1><a class="anchor" id="autotoc_md243"></a>
 Access to board endpoints</h1>
 <p>Refere to the Board endpoint driver documentation to understand how to configure and read board specific parameters.</p>
 <p>Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project. This board parameters are accessible through the following path:</p>
@@ -138,7 +138,7 @@ Access to board endpoints</h1>
 <p>ask to the FELib SDK to set/read the <code>ChEnable</code> parameter of the channel 0.</p>
 <p>The documentation of the board specific API is available in the <a href="https://www.caen.it/products/caen-felib-library/">board SDK documentation</a></p>
 <p><b>Data type in SetParameter must be STRING, indeed just the SCISDK_SetParameterString function is supported because the felib requires all parameters to be a string.</b></p>
-<h1><a class="anchor" id="autotoc_md229"></a>
+<h1><a class="anchor" id="autotoc_md244"></a>
 OpenDPP data structure</h1>
 <p>The OpenDPP driver uses a custom data structure to store the data readout from the board. Aldo the documentation of felib explain that the user may customize which field are stored in the data structure, the OpenDPP driver uses the following fixed structure:</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -164,7 +164,7 @@ OpenDPP data structure</h1>
 <div class="ttc" id="astruct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html">SCISDK_FE_OPENDPP_EVENT</a></div><div class="ttdoc">OpenDPP structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:455</div></div>
 </div><!-- fragment --><p><code>CHANNEL</code>: Channel (7 bits) <code>TIMESTAMP</code>: Timestamp (48 bits) <code>TIMESTAMP_NS</code>: Timestamp in nanoseconds (51 bits) <code>FINE_TIMESTAMP</code>: Fine timestamp (10 bits) <code>ENERGY</code>: Energy (16 bits) <code>FLAGS_B</code>: Event low priority flags (12 bits). See Low Priority. <code>FLAGS_A</code>: Event high priority flags (8 bits). See High Priority. <code>PSD</code>: Pulse Shape Discrimination (16 bits) <code>USER_INFO</code>: User Info word <code>USER_INFO_SIZE</code>: Number of User Info word <code>TRUNCATED</code>: Set if the event is truncated <code>WAVEFORM</code>: Waveform samples <code>WAVEFORM_SIZE</code>: Number of waveform samples. <code>BOARD_FAIL</code>: Set if the logical AND between of the ErrorFlag and ErrorFlagDataMask is not 0. Present in all the events <code>SPECIAL_EVENT</code>: Set if Special event <code>EVENT_SIZE</code>: Total event raw size, useful for statistics and to discriminate between compressed events (if == 8, see EnDataReduction) and standard events (if &gt; 8). <code>FLUSH BOOL</code>: Flush of the aggregate word. Shared by all the events in the aggregate. Useful for debug purposes. <code>AGGREGATE_COUNTER</code>: Aggregate counter section in the Event Aggregate structure. Shared by all the events</p>
 <p>Refer to the <a href="https://www.caen.it/products/caen-felib-library/">FELib documentation</a> for more information.</p>
-<h1><a class="anchor" id="autotoc_md230"></a>
+<h1><a class="anchor" id="autotoc_md245"></a>
 Code Examples</h1>
 <p>Configure the board to readout channel 0,1,2 and store the data in a csv file, trigger comes from SciCompiler trigger to each channel FIFO.</p>
 <div class="fragment"><div class="line">{c++}</div>
