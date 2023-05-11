@@ -585,3 +585,12 @@ int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle)
 
 	return res;
 }
+
+int LV_SCISDK_GetErrorDescription(int error, char* ret, void* handle)
+{
+	char* ret_json_string = (char*)"";
+	int res = SCISDK_s_error(error, &ret_json_string, handle);
+	if (res) return res;
+
+	return res;
+}

@@ -1,15 +1,15 @@
 #ifdef _MSC_VER
-	#ifdef SCISDKLABVIEW_EXPORTS
-		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
-	#else
-		#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
-	#endif
+#ifdef SCISDKLABVIEW_EXPORTS
+#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllexport)
+#else
+#define SCISDKLABVIEW_DLL_API extern "C" __declspec(dllimport)
+#endif
 #else	
-	#ifdef SCISDKLABVIEW_EXPORTS
-		#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
-	#else
-		#define SCISDKLABVIEW_DLL_API
-	#endif
+#ifdef SCISDKLABVIEW_EXPORTS
+#define SCISDKLABVIEW_DLL_API __attribute__((visibility("default")))
+#else
+#define SCISDKLABVIEW_DLL_API
+#endif
 #endif
 
 #include "lv_prolog.h"
@@ -309,3 +309,6 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMinimumValue(char* path, double*
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle);
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle);
+
+// s_error
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetErrorDescription(int error, char* ret, void* handle);
