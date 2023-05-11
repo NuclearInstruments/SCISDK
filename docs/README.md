@@ -385,3 +385,14 @@ res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buffer);
 Buffer parameter is the buffer that has been allocated in the previous example
 
 You can find more examples in each component description page and in the [examples folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples)
+
+## 9 Use in LabView
+### 9.1 Installation
+
+### 9.2 Instantiate the library
+
+### 9.3 Connecting to board
+
+### 9.4 Get/set a register value
+
+### 9.5 Readout data from a board
