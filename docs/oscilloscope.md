@@ -312,6 +312,11 @@ if(res == 0) {
 	res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buf);
 }
 ```
+### Labview
+
+![](img/labview/examples/oscilloscope.PNG)
+
+<i>You can find the labview file for this example [here](../examples/components/LabView/Oscilloscope/Oscilloscope.vi)</i>
 
 ## Additional Examples
 ### Trigger on external signal

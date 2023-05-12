@@ -397,7 +397,7 @@ When you no longer need to use the SciSDK in your program (for example before th
 
 ![](img/labview/docs/init-free.PNG) 
 
-<i>You can find the labview file for this example [here]()</i>
+<i>You can find the labview file for this example [here](../examples/components/LabView/Initialize%20Library.vi)</i>
 
 ### 9.3 Connecting to board
 To attach a board to SciSDK use `LV SCISDK ADD BOARD` VI. This VI requires five arguments:
@@ -414,10 +414,10 @@ The VI returns an handle that you'll have to pass to all SciSDK VIs; this handle
 
 ![](img/labview/docs/connect.PNG) 
 
-<i>You can find the labview file for this example [here]()</i>
+<i>You can find the labview file for this example [here](../examples/components/LabView/Connect%20To%20Board.vi)</i>
 
 When you no longer need to use the board detach it with the VI `LV SCISDK Detach Board`.
-### 9.4 Get/set a register value
+### 9.4 Get a register value
 To set the value of a register you need to use `LV SET REGISTER` VI. This VI requires three arguments:
 - Register Name: the name of the register
 - Register Value: the value that you want to assign to the register.
@@ -425,13 +425,27 @@ To set the value of a register you need to use `LV SET REGISTER` VI. This VI req
 
 ![](img/labview/docs/set-register-value.PNG) 
 
-<i>You can find the labview file for this example [here]()</i>
+<i>You can find the labview file for this example [here](../examples/components/LabView/Registers.vi)</i>
 
-### 9.5 Readout data from a board
+
+### 9.5 Set a register value
+To get the value of a register you need to use `LV GET REGISTER` VI. This VI requires two arguments:
+- Register Name: the name of the register
+- Board Handle: the handle returned by the `LV SCISDK ADD BOARD` VI.
+
+The VI returns the value of the register and the board handle.
+
+![](img/labview/docs/get-register-value.PNG) 
+
+<i>You can find the labview file for this example [here](../examples/components/LabView/Registers.vi)</i>
+
+### 9.6 Readout data from a board
 To read data from a board you need to use two VIs: one to initialize the component and one to read data, for example:
 - For the oscilloscope component you need to use the `LV SciSDK INIT OSCILLOSCOPE` VI to initizalize the oscilloscope and the `LV SciSDK OSCILLOSCOPE` to read data
-- For the digitizer component you need to use the `LV SciSDK DIGITIZER START` to initialize and start to listen and the `LV SciSDK DIGITIZER` to read data
+- For the digitizer component you need to use the `LV SciSDK DIGITIZER START` to initialize and start to listen and the `LV SciSDK DIGITIZER` to readout data
 
-![]() 
+![](img/labview/docs/readout.PNG) 
 
-Also, there are other VIs used to execute other components' commands like `LV SciSDK DIGITIZER STOP` or `LV SciSDK Spectrum Reset`
+Also, there are other VIs used to execute other components' commands like `LV SciSDK DIGITIZER STOP` or `LV SciSDK Spectrum Reset` VIs.
+
+<i>You can find the labview file for this example [here](../examples/components/LabView/Oscilloscope/Oscilloscope.vi)</i>

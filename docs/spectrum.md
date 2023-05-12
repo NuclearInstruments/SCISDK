@@ -278,6 +278,12 @@ The following example shows how to use the spectrum component.
     }
 ```
 
+### Labview
+
+![](img/labview/examples/spectrum.PNG)
+
+<i>You can find the labview file for this example [here](../examples/components/LabView/Spectrum/Spectrum.vi)</i>
+
 ## Additional Examples
 
 ### Print spectrum

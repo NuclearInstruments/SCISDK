@@ -182,3 +182,9 @@ The following example shows how to use the Rate Meter component.
         res = sdk.FreeBuffer("board0:/MMCComponents/RateMeter_0", buf);
     }
 ```
+
+### Labview
+
+![](img/labview/examples/ratemeter.PNG)
+
+<i>You can find the labview file for this example [here](../examples/components/LabView/Ratemeter/Ratemeter.vi)</i>
