@@ -61,286 +61,284 @@ var NAVTREE =
         [ "8.7 Readout data from a board", "index.html#autotoc_md29", null ]
       ] ],
       [ "9 Use in LabView", "index.html#autotoc_md30", [
-        [ "9.1 Installation", "index.html#autotoc_md31", [
-          [ "9.1.1 Install automatically with SciSDK setup", "index.html#autotoc_md32", null ],
-          [ "9.1.2 Manually add VIs to palette", "index.html#autotoc_md33", null ],
-          [ "9.1.3 Use SciSDK VIs without add them to LabView Palette", "index.html#autotoc_md34", null ]
-        ] ],
-        [ "9.2 Instantiate the library", "index.html#autotoc_md35", null ],
-        [ "9.3 Connecting to board", "index.html#autotoc_md36", null ],
-        [ "9.4 Get a register value", "index.html#autotoc_md37", null ],
-        [ "9.5 Set a register value", "index.html#autotoc_md38", null ],
-        [ "9.6 Readout data from a board", "index.html#autotoc_md39", null ]
+        [ "9.1 Install automatically with SciSDK setup", "index.html#autotoc_md31", null ],
+        [ "9.2 Manually add VIs to palette", "index.html#autotoc_md32", null ],
+        [ "9.3 Use SciSDK VIs without add them to LabView Palette", "index.html#autotoc_md33", null ],
+        [ "9.4 Instantiate the library", "index.html#autotoc_md34", null ],
+        [ "9.5 Connecting to board", "index.html#autotoc_md35", null ],
+        [ "9.6 Get a register value", "index.html#autotoc_md36", null ],
+        [ "9.7 Set a register value", "index.html#autotoc_md37", null ],
+        [ "9.8 Readout data from a board", "index.html#autotoc_md38", null ]
       ] ]
     ] ],
     [ "SciCompiler internal bus", "md_docs_mmc.html", null ],
     [ "Simple Register", "md_docs_registers.html", [
-      [ "Endpoint", "md_docs_registers.html#autotoc_md42", null ],
-      [ "Methods", "md_docs_registers.html#autotoc_md43", null ],
-      [ "Example", "md_docs_registers.html#autotoc_md44", [
-        [ "C", "md_docs_registers.html#autotoc_md45", null ],
-        [ "C++", "md_docs_registers.html#autotoc_md46", null ],
-        [ "C Sharp", "md_docs_registers.html#autotoc_md47", null ],
-        [ "Python", "md_docs_registers.html#autotoc_md48", null ],
-        [ "JAVA", "md_docs_registers.html#autotoc_md49", [
-          [ "Labview", "md_docs_registers.html#autotoc_md50", null ]
+      [ "Endpoint", "md_docs_registers.html#autotoc_md41", null ],
+      [ "Methods", "md_docs_registers.html#autotoc_md42", null ],
+      [ "Example", "md_docs_registers.html#autotoc_md43", [
+        [ "C", "md_docs_registers.html#autotoc_md44", null ],
+        [ "C++", "md_docs_registers.html#autotoc_md45", null ],
+        [ "C Sharp", "md_docs_registers.html#autotoc_md46", null ],
+        [ "Python", "md_docs_registers.html#autotoc_md47", null ],
+        [ "JAVA", "md_docs_registers.html#autotoc_md48", [
+          [ "Labview", "md_docs_registers.html#autotoc_md49", null ]
         ] ]
       ] ]
     ] ],
     [ "Register File", "md_docs_registers_file.html", [
-      [ "Endpoint", "md_docs_registers_file.html#autotoc_md52", null ],
-      [ "Methods", "md_docs_registers_file.html#autotoc_md53", null ],
-      [ "Example", "md_docs_registers_file.html#autotoc_md54", [
-        [ "C", "md_docs_registers_file.html#autotoc_md55", null ],
-        [ "C++", "md_docs_registers_file.html#autotoc_md56", null ],
-        [ "C Sharp", "md_docs_registers_file.html#autotoc_md57", null ],
-        [ "Python", "md_docs_registers_file.html#autotoc_md58", [
-          [ "JAVA", "md_docs_registers_file.html#autotoc_md59", null ],
-          [ "Labview", "md_docs_registers_file.html#autotoc_md60", null ]
+      [ "Endpoint", "md_docs_registers_file.html#autotoc_md51", null ],
+      [ "Methods", "md_docs_registers_file.html#autotoc_md52", null ],
+      [ "Example", "md_docs_registers_file.html#autotoc_md53", [
+        [ "C", "md_docs_registers_file.html#autotoc_md54", null ],
+        [ "C++", "md_docs_registers_file.html#autotoc_md55", null ],
+        [ "C Sharp", "md_docs_registers_file.html#autotoc_md56", null ],
+        [ "Python", "md_docs_registers_file.html#autotoc_md57", [
+          [ "JAVA", "md_docs_registers_file.html#autotoc_md58", null ],
+          [ "Labview", "md_docs_registers_file.html#autotoc_md59", null ]
         ] ]
       ] ]
     ] ],
     [ "Oscilloscope driver", "md_docs_oscilloscope.html", [
-      [ "Parameters", "md_docs_oscilloscope.html#autotoc_md62", [
-        [ "Decimation", "md_docs_oscilloscope.html#autotoc_md63", null ],
-        [ "Trigger", "md_docs_oscilloscope.html#autotoc_md64", null ],
-        [ "Acquisition Modes", "md_docs_oscilloscope.html#autotoc_md65", null ],
-        [ "Polarity", "md_docs_oscilloscope.html#autotoc_md66", null ],
-        [ "Auto Arm", "md_docs_oscilloscope.html#autotoc_md67", null ],
-        [ "Data Processing", "md_docs_oscilloscope.html#autotoc_md68", null ]
+      [ "Parameters", "md_docs_oscilloscope.html#autotoc_md61", [
+        [ "Decimation", "md_docs_oscilloscope.html#autotoc_md62", null ],
+        [ "Trigger", "md_docs_oscilloscope.html#autotoc_md63", null ],
+        [ "Acquisition Modes", "md_docs_oscilloscope.html#autotoc_md64", null ],
+        [ "Polarity", "md_docs_oscilloscope.html#autotoc_md65", null ],
+        [ "Auto Arm", "md_docs_oscilloscope.html#autotoc_md66", null ],
+        [ "Data Processing", "md_docs_oscilloscope.html#autotoc_md67", null ]
       ] ],
-      [ "Commands", "md_docs_oscilloscope.html#autotoc_md69", null ],
-      [ "Output data Format", "md_docs_oscilloscope.html#autotoc_md70", [
-        [ "Raw Data", "md_docs_oscilloscope.html#autotoc_md71", null ],
-        [ "Decoded", "md_docs_oscilloscope.html#autotoc_md72", null ]
+      [ "Commands", "md_docs_oscilloscope.html#autotoc_md68", null ],
+      [ "Output data Format", "md_docs_oscilloscope.html#autotoc_md69", [
+        [ "Raw Data", "md_docs_oscilloscope.html#autotoc_md70", null ],
+        [ "Decoded", "md_docs_oscilloscope.html#autotoc_md71", null ]
       ] ],
-      [ "Basic Examples", "md_docs_oscilloscope.html#autotoc_md73", [
-        [ "C", "md_docs_oscilloscope.html#autotoc_md74", null ],
-        [ "C++", "md_docs_oscilloscope.html#autotoc_md75", null ],
-        [ "Python", "md_docs_oscilloscope.html#autotoc_md76", null ],
-        [ "C Sharp", "md_docs_oscilloscope.html#autotoc_md77", null ],
-        [ "VB.NET", "md_docs_oscilloscope.html#autotoc_md78", null ],
-        [ "JAVA", "md_docs_oscilloscope.html#autotoc_md79", null ],
-        [ "Labview", "md_docs_oscilloscope.html#autotoc_md80", null ]
+      [ "Basic Examples", "md_docs_oscilloscope.html#autotoc_md72", [
+        [ "C", "md_docs_oscilloscope.html#autotoc_md73", null ],
+        [ "C++", "md_docs_oscilloscope.html#autotoc_md74", null ],
+        [ "Python", "md_docs_oscilloscope.html#autotoc_md75", null ],
+        [ "C Sharp", "md_docs_oscilloscope.html#autotoc_md76", null ],
+        [ "VB.NET", "md_docs_oscilloscope.html#autotoc_md77", null ],
+        [ "JAVA", "md_docs_oscilloscope.html#autotoc_md78", null ],
+        [ "Labview", "md_docs_oscilloscope.html#autotoc_md79", null ]
       ] ],
-      [ "Additional Examples", "md_docs_oscilloscope.html#autotoc_md81", [
-        [ "Trigger on external signal", "md_docs_oscilloscope.html#autotoc_md82", null ],
-        [ "Trigger on analog signal", "md_docs_oscilloscope.html#autotoc_md83", null ],
-        [ "Non blocking mode", "md_docs_oscilloscope.html#autotoc_md84", null ],
-        [ "Processing decoded data and store in a file, one channel per column", "md_docs_oscilloscope.html#autotoc_md85", null ],
-        [ "Processing decoded data and store in a file, one channel per column", "md_docs_oscilloscope.html#autotoc_md86", null ]
+      [ "Additional Examples", "md_docs_oscilloscope.html#autotoc_md80", [
+        [ "Trigger on external signal", "md_docs_oscilloscope.html#autotoc_md81", null ],
+        [ "Trigger on analog signal", "md_docs_oscilloscope.html#autotoc_md82", null ],
+        [ "Non blocking mode", "md_docs_oscilloscope.html#autotoc_md83", null ],
+        [ "Processing decoded data and store in a file, one channel per column", "md_docs_oscilloscope.html#autotoc_md84", null ],
+        [ "Processing decoded data and store in a file, one channel per column", "md_docs_oscilloscope.html#autotoc_md85", null ]
       ] ]
     ] ],
     [ "Oscilloscope Dual driver", "md_docs_oscilloscope_dual.html", [
-      [ "Data structure", "md_docs_oscilloscope_dual.html#autotoc_md88", null ],
-      [ "Raw data formware", "md_docs_oscilloscope_dual.html#autotoc_md89", null ]
+      [ "Data structure", "md_docs_oscilloscope_dual.html#autotoc_md87", null ],
+      [ "Raw data formware", "md_docs_oscilloscope_dual.html#autotoc_md88", null ]
     ] ],
     [ "Wave Digitizer driver", "md_docs_digitizer.html", [
-      [ "Parameters", "md_docs_digitizer.html#autotoc_md91", [
-        [ "Acquisition length", "md_docs_digitizer.html#autotoc_md92", null ],
-        [ "Blocking/Non blocking mode", "md_docs_digitizer.html#autotoc_md93", null ],
-        [ "Enable channels", "md_docs_digitizer.html#autotoc_md94", null ]
+      [ "Parameters", "md_docs_digitizer.html#autotoc_md90", [
+        [ "Acquisition length", "md_docs_digitizer.html#autotoc_md91", null ],
+        [ "Blocking/Non blocking mode", "md_docs_digitizer.html#autotoc_md92", null ],
+        [ "Enable channels", "md_docs_digitizer.html#autotoc_md93", null ]
       ] ],
-      [ "Data processing mode", "md_docs_digitizer.html#autotoc_md95", null ],
-      [ "Commands", "md_docs_digitizer.html#autotoc_md96", null ],
-      [ "Buffer Allocation", "md_docs_digitizer.html#autotoc_md97", null ],
-      [ "Output data Format", "md_docs_digitizer.html#autotoc_md98", null ],
-      [ "Basic Example", "md_docs_digitizer.html#autotoc_md99", [
-        [ "C", "md_docs_digitizer.html#autotoc_md100", null ],
-        [ "C++", "md_docs_digitizer.html#autotoc_md101", null ],
-        [ "Python", "md_docs_digitizer.html#autotoc_md102", null ],
-        [ "CSharp", "md_docs_digitizer.html#autotoc_md103", null ],
-        [ "VB.NET", "md_docs_digitizer.html#autotoc_md104", null ],
-        [ "JAVA", "md_docs_digitizer.html#autotoc_md105", null ],
-        [ "Labview", "md_docs_digitizer.html#autotoc_md106", null ]
+      [ "Data processing mode", "md_docs_digitizer.html#autotoc_md94", null ],
+      [ "Commands", "md_docs_digitizer.html#autotoc_md95", null ],
+      [ "Buffer Allocation", "md_docs_digitizer.html#autotoc_md96", null ],
+      [ "Output data Format", "md_docs_digitizer.html#autotoc_md97", null ],
+      [ "Basic Example", "md_docs_digitizer.html#autotoc_md98", [
+        [ "C", "md_docs_digitizer.html#autotoc_md99", null ],
+        [ "C++", "md_docs_digitizer.html#autotoc_md100", null ],
+        [ "Python", "md_docs_digitizer.html#autotoc_md101", null ],
+        [ "CSharp", "md_docs_digitizer.html#autotoc_md102", null ],
+        [ "VB.NET", "md_docs_digitizer.html#autotoc_md103", null ],
+        [ "JAVA", "md_docs_digitizer.html#autotoc_md104", null ],
+        [ "Labview", "md_docs_digitizer.html#autotoc_md105", null ]
       ] ],
-      [ "Additional Examples", "md_docs_digitizer.html#autotoc_md107", [
-        [ "Read decoded data and write on file, on channel per column", "md_docs_digitizer.html#autotoc_md108", null ],
-        [ "Read raw data and write on file", "md_docs_digitizer.html#autotoc_md109", null ]
+      [ "Additional Examples", "md_docs_digitizer.html#autotoc_md106", [
+        [ "Read decoded data and write on file, on channel per column", "md_docs_digitizer.html#autotoc_md107", null ],
+        [ "Read raw data and write on file", "md_docs_digitizer.html#autotoc_md108", null ]
       ] ]
     ] ],
     [ "Custom Packet driver", "md_docs_custompacket.html", [
-      [ "Parameters", "md_docs_custompacket.html#autotoc_md111", [
-        [ "Acquisition length", "md_docs_custompacket.html#autotoc_md112", null ],
-        [ "Blocking/Non blocking mode", "md_docs_custompacket.html#autotoc_md113", null ],
-        [ "Threaded mode", "md_docs_custompacket.html#autotoc_md114", null ],
-        [ "High performance mode", "md_docs_custompacket.html#autotoc_md115", null ]
+      [ "Parameters", "md_docs_custompacket.html#autotoc_md110", [
+        [ "Acquisition length", "md_docs_custompacket.html#autotoc_md111", null ],
+        [ "Blocking/Non blocking mode", "md_docs_custompacket.html#autotoc_md112", null ],
+        [ "Threaded mode", "md_docs_custompacket.html#autotoc_md113", null ],
+        [ "High performance mode", "md_docs_custompacket.html#autotoc_md114", null ]
       ] ],
-      [ "Allignment check", "md_docs_custompacket.html#autotoc_md116", null ],
-      [ "Data processing mode", "md_docs_custompacket.html#autotoc_md117", null ],
-      [ "Commands", "md_docs_custompacket.html#autotoc_md118", null ],
-      [ "Buffer Allocation", "md_docs_custompacket.html#autotoc_md119", null ],
-      [ "Output data Format", "md_docs_custompacket.html#autotoc_md120", [
-        [ "Raw Data", "md_docs_custompacket.html#autotoc_md121", null ],
-        [ "Decoded Data", "md_docs_custompacket.html#autotoc_md122", null ]
+      [ "Allignment check", "md_docs_custompacket.html#autotoc_md115", null ],
+      [ "Data processing mode", "md_docs_custompacket.html#autotoc_md116", null ],
+      [ "Commands", "md_docs_custompacket.html#autotoc_md117", null ],
+      [ "Buffer Allocation", "md_docs_custompacket.html#autotoc_md118", null ],
+      [ "Output data Format", "md_docs_custompacket.html#autotoc_md119", [
+        [ "Raw Data", "md_docs_custompacket.html#autotoc_md120", null ],
+        [ "Decoded Data", "md_docs_custompacket.html#autotoc_md121", null ]
       ] ],
-      [ "Basic Examples", "md_docs_custompacket.html#autotoc_md123", [
-        [ "C", "md_docs_custompacket.html#autotoc_md124", null ],
-        [ "C++", "md_docs_custompacket.html#autotoc_md125", null ],
-        [ "Python", "md_docs_custompacket.html#autotoc_md126", null ],
-        [ "C Sharp", "md_docs_custompacket.html#autotoc_md127", null ],
-        [ "VB.NET", "md_docs_custompacket.html#autotoc_md128", null ],
-        [ "JAVA", "md_docs_custompacket.html#autotoc_md129", null ],
-        [ "Labview Single", "md_docs_custompacket.html#autotoc_md130", null ],
-        [ "Labview Multiple", "md_docs_custompacket.html#autotoc_md131", null ]
+      [ "Basic Examples", "md_docs_custompacket.html#autotoc_md122", [
+        [ "C", "md_docs_custompacket.html#autotoc_md123", null ],
+        [ "C++", "md_docs_custompacket.html#autotoc_md124", null ],
+        [ "Python", "md_docs_custompacket.html#autotoc_md125", null ],
+        [ "C Sharp", "md_docs_custompacket.html#autotoc_md126", null ],
+        [ "VB.NET", "md_docs_custompacket.html#autotoc_md127", null ],
+        [ "JAVA", "md_docs_custompacket.html#autotoc_md128", null ],
+        [ "Labview Single", "md_docs_custompacket.html#autotoc_md129", null ],
+        [ "Labview Multiple", "md_docs_custompacket.html#autotoc_md130", null ]
       ] ],
-      [ "Additional Examples", "md_docs_custompacket.html#autotoc_md132", [
-        [ "Decode list data in C", "md_docs_custompacket.html#autotoc_md133", null ],
-        [ "Use non-blocking mode in C", "md_docs_custompacket.html#autotoc_md134", null ],
-        [ "Dump raw data in C and than open it in python and decode it", "md_docs_custompacket.html#autotoc_md135", null ]
+      [ "Additional Examples", "md_docs_custompacket.html#autotoc_md131", [
+        [ "Decode list data in C", "md_docs_custompacket.html#autotoc_md132", null ],
+        [ "Use non-blocking mode in C", "md_docs_custompacket.html#autotoc_md133", null ],
+        [ "Dump raw data in C and than open it in python and decode it", "md_docs_custompacket.html#autotoc_md134", null ]
       ] ]
     ] ],
     [ "Energy Spectrum", "md_docs_spectrum.html", [
-      [ "Parameters", "md_docs_spectrum.html#autotoc_md137", [
-        [ "Commands", "md_docs_spectrum.html#autotoc_md141", [
-          [ "Rebinning", "md_docs_spectrum.html#autotoc_md138", null ],
-          [ "Min and Max", "md_docs_spectrum.html#autotoc_md139", null ],
-          [ "Limit mode", "md_docs_spectrum.html#autotoc_md140", null ],
-          [ "Resets the spectrum", "md_docs_spectrum.html#autotoc_md142", null ],
-          [ "Reset counters", "md_docs_spectrum.html#autotoc_md143", null ]
+      [ "Parameters", "md_docs_spectrum.html#autotoc_md136", [
+        [ "Commands", "md_docs_spectrum.html#autotoc_md140", [
+          [ "Rebinning", "md_docs_spectrum.html#autotoc_md137", null ],
+          [ "Min and Max", "md_docs_spectrum.html#autotoc_md138", null ],
+          [ "Limit mode", "md_docs_spectrum.html#autotoc_md139", null ],
+          [ "Resets the spectrum", "md_docs_spectrum.html#autotoc_md141", null ],
+          [ "Reset counters", "md_docs_spectrum.html#autotoc_md142", null ]
         ] ],
-        [ "Output data Format", "md_docs_spectrum.html#autotoc_md144", [
-          [ "Decoded Data", "md_docs_spectrum.html#autotoc_md145", null ]
+        [ "Output data Format", "md_docs_spectrum.html#autotoc_md143", [
+          [ "Decoded Data", "md_docs_spectrum.html#autotoc_md144", null ]
         ] ],
-        [ "Status", "md_docs_spectrum.html#autotoc_md146", null ],
-        [ "Basic Examples", "md_docs_spectrum.html#autotoc_md147", [
-          [ "C", "md_docs_spectrum.html#autotoc_md148", null ],
-          [ "C++", "md_docs_spectrum.html#autotoc_md149", null ],
-          [ "Python", "md_docs_spectrum.html#autotoc_md150", null ],
-          [ "C Sharp", "md_docs_spectrum.html#autotoc_md151", null ],
-          [ "VB.NET", "md_docs_spectrum.html#autotoc_md152", null ],
-          [ "JAVA", "md_docs_spectrum.html#autotoc_md153", null ],
-          [ "Labview", "md_docs_spectrum.html#autotoc_md154", null ]
+        [ "Status", "md_docs_spectrum.html#autotoc_md145", null ],
+        [ "Basic Examples", "md_docs_spectrum.html#autotoc_md146", [
+          [ "C", "md_docs_spectrum.html#autotoc_md147", null ],
+          [ "C++", "md_docs_spectrum.html#autotoc_md148", null ],
+          [ "Python", "md_docs_spectrum.html#autotoc_md149", null ],
+          [ "C Sharp", "md_docs_spectrum.html#autotoc_md150", null ],
+          [ "VB.NET", "md_docs_spectrum.html#autotoc_md151", null ],
+          [ "JAVA", "md_docs_spectrum.html#autotoc_md152", null ],
+          [ "Labview", "md_docs_spectrum.html#autotoc_md153", null ]
         ] ],
-        [ "Additional Examples", "md_docs_spectrum.html#autotoc_md155", [
-          [ "Print spectrum", "md_docs_spectrum.html#autotoc_md156", null ],
-          [ "Limit and progress", "md_docs_spectrum.html#autotoc_md157", null ],
-          [ "Rebin example", "md_docs_spectrum.html#autotoc_md158", null ]
+        [ "Additional Examples", "md_docs_spectrum.html#autotoc_md154", [
+          [ "Print spectrum", "md_docs_spectrum.html#autotoc_md155", null ],
+          [ "Limit and progress", "md_docs_spectrum.html#autotoc_md156", null ],
+          [ "Rebin example", "md_docs_spectrum.html#autotoc_md157", null ]
         ] ]
       ] ]
     ] ],
     [ "Time of Flight Spectrum", "md_docs_tof_spectrum.html", [
-      [ "Parameters", "md_docs_tof_spectrum.html#autotoc_md160", [
-        [ "Commands", "md_docs_tof_spectrum.html#autotoc_md163", [
-          [ "Bin width", "md_docs_tof_spectrum.html#autotoc_md161", null ],
-          [ "Start delay", "md_docs_tof_spectrum.html#autotoc_md162", null ],
-          [ "Resets the histogram", "md_docs_tof_spectrum.html#autotoc_md164", null ]
+      [ "Parameters", "md_docs_tof_spectrum.html#autotoc_md159", [
+        [ "Commands", "md_docs_tof_spectrum.html#autotoc_md162", [
+          [ "Bin width", "md_docs_tof_spectrum.html#autotoc_md160", null ],
+          [ "Start delay", "md_docs_tof_spectrum.html#autotoc_md161", null ],
+          [ "Resets the histogram", "md_docs_tof_spectrum.html#autotoc_md163", null ]
         ] ],
-        [ "Output data Format", "md_docs_tof_spectrum.html#autotoc_md165", [
-          [ "Decoded Data", "md_docs_tof_spectrum.html#autotoc_md166", null ]
+        [ "Output data Format", "md_docs_tof_spectrum.html#autotoc_md164", [
+          [ "Decoded Data", "md_docs_tof_spectrum.html#autotoc_md165", null ]
         ] ],
-        [ "Status", "md_docs_tof_spectrum.html#autotoc_md167", null ],
-        [ "Basic Examples", "md_docs_tof_spectrum.html#autotoc_md168", [
-          [ "C", "md_docs_tof_spectrum.html#autotoc_md169", null ],
-          [ "C++", "md_docs_tof_spectrum.html#autotoc_md170", null ],
-          [ "Python", "md_docs_tof_spectrum.html#autotoc_md171", null ],
-          [ "C Sharp", "md_docs_tof_spectrum.html#autotoc_md172", null ],
-          [ "VB.NET", "md_docs_tof_spectrum.html#autotoc_md173", null ],
-          [ "JAVA", "md_docs_tof_spectrum.html#autotoc_md174", null ],
-          [ "Labview", "md_docs_tof_spectrum.html#autotoc_md175", null ]
+        [ "Status", "md_docs_tof_spectrum.html#autotoc_md166", null ],
+        [ "Basic Examples", "md_docs_tof_spectrum.html#autotoc_md167", [
+          [ "C", "md_docs_tof_spectrum.html#autotoc_md168", null ],
+          [ "C++", "md_docs_tof_spectrum.html#autotoc_md169", null ],
+          [ "Python", "md_docs_tof_spectrum.html#autotoc_md170", null ],
+          [ "C Sharp", "md_docs_tof_spectrum.html#autotoc_md171", null ],
+          [ "VB.NET", "md_docs_tof_spectrum.html#autotoc_md172", null ],
+          [ "JAVA", "md_docs_tof_spectrum.html#autotoc_md173", null ],
+          [ "Labview", "md_docs_tof_spectrum.html#autotoc_md174", null ]
         ] ],
-        [ "Additional Examples", "md_docs_tof_spectrum.html#autotoc_md176", [
-          [ "Print spectrum", "md_docs_tof_spectrum.html#autotoc_md177", null ]
+        [ "Additional Examples", "md_docs_tof_spectrum.html#autotoc_md175", [
+          [ "Print spectrum", "md_docs_tof_spectrum.html#autotoc_md176", null ]
         ] ]
       ] ]
     ] ],
     [ "List driver", "md_docs_list.html", [
-      [ "Parameters", "md_docs_list.html#autotoc_md179", [
-        [ "Acquisition length", "md_docs_list.html#autotoc_md180", null ],
-        [ "Blocking/Non blocking mode", "md_docs_list.html#autotoc_md181", null ],
-        [ "Threaded mode", "md_docs_list.html#autotoc_md182", null ],
-        [ "High performance mode", "md_docs_list.html#autotoc_md183", null ]
+      [ "Parameters", "md_docs_list.html#autotoc_md178", [
+        [ "Acquisition length", "md_docs_list.html#autotoc_md179", null ],
+        [ "Blocking/Non blocking mode", "md_docs_list.html#autotoc_md180", null ],
+        [ "Threaded mode", "md_docs_list.html#autotoc_md181", null ],
+        [ "High performance mode", "md_docs_list.html#autotoc_md182", null ]
       ] ],
-      [ "Commands", "md_docs_list.html#autotoc_md184", null ],
-      [ "Buffer Allocation", "md_docs_list.html#autotoc_md185", null ],
-      [ "Output data Format", "md_docs_list.html#autotoc_md186", [
-        [ "Raw Data", "md_docs_list.html#autotoc_md187", null ]
+      [ "Commands", "md_docs_list.html#autotoc_md183", null ],
+      [ "Buffer Allocation", "md_docs_list.html#autotoc_md184", null ],
+      [ "Output data Format", "md_docs_list.html#autotoc_md185", [
+        [ "Raw Data", "md_docs_list.html#autotoc_md186", null ]
       ] ],
-      [ "Basic Examples", "md_docs_list.html#autotoc_md188", [
-        [ "C", "md_docs_list.html#autotoc_md189", null ],
-        [ "C++", "md_docs_list.html#autotoc_md190", null ],
-        [ "Python", "md_docs_list.html#autotoc_md191", null ],
-        [ "C Sharp", "md_docs_list.html#autotoc_md192", null ],
-        [ "VB.NET", "md_docs_list.html#autotoc_md193", null ],
-        [ "JAVA", "md_docs_list.html#autotoc_md194", null ],
-        [ "Labview", "md_docs_list.html#autotoc_md195", null ]
+      [ "Basic Examples", "md_docs_list.html#autotoc_md187", [
+        [ "C", "md_docs_list.html#autotoc_md188", null ],
+        [ "C++", "md_docs_list.html#autotoc_md189", null ],
+        [ "Python", "md_docs_list.html#autotoc_md190", null ],
+        [ "C Sharp", "md_docs_list.html#autotoc_md191", null ],
+        [ "VB.NET", "md_docs_list.html#autotoc_md192", null ],
+        [ "JAVA", "md_docs_list.html#autotoc_md193", null ],
+        [ "Labview", "md_docs_list.html#autotoc_md194", null ]
       ] ],
-      [ "Additional Examples", "md_docs_list.html#autotoc_md196", [
-        [ "Decode list data in C", "md_docs_list.html#autotoc_md197", null ],
-        [ "Use non-blocking mode in C", "md_docs_list.html#autotoc_md198", null ]
+      [ "Additional Examples", "md_docs_list.html#autotoc_md195", [
+        [ "Decode list data in C", "md_docs_list.html#autotoc_md196", null ],
+        [ "Use non-blocking mode in C", "md_docs_list.html#autotoc_md197", null ]
       ] ]
     ] ],
     [ "FFT (Power Spectrum) driver", "md_docs_fft.html", [
-      [ "Parameters", "md_docs_fft.html#autotoc_md200", [
-        [ "Decimation", "md_docs_fft.html#autotoc_md201", null ],
-        [ "Acquisition Modes", "md_docs_fft.html#autotoc_md202", null ],
-        [ "Auto Arm", "md_docs_fft.html#autotoc_md203", null ],
-        [ "Data Processing", "md_docs_fft.html#autotoc_md204", null ]
+      [ "Parameters", "md_docs_fft.html#autotoc_md199", [
+        [ "Decimation", "md_docs_fft.html#autotoc_md200", null ],
+        [ "Acquisition Modes", "md_docs_fft.html#autotoc_md201", null ],
+        [ "Auto Arm", "md_docs_fft.html#autotoc_md202", null ],
+        [ "Data Processing", "md_docs_fft.html#autotoc_md203", null ]
       ] ],
-      [ "Commands", "md_docs_fft.html#autotoc_md205", null ],
-      [ "Output data Format", "md_docs_fft.html#autotoc_md206", [
-        [ "Raw Data", "md_docs_fft.html#autotoc_md207", null ],
-        [ "Decoded", "md_docs_fft.html#autotoc_md208", null ]
+      [ "Commands", "md_docs_fft.html#autotoc_md204", null ],
+      [ "Output data Format", "md_docs_fft.html#autotoc_md205", [
+        [ "Raw Data", "md_docs_fft.html#autotoc_md206", null ],
+        [ "Decoded", "md_docs_fft.html#autotoc_md207", null ]
       ] ],
-      [ "Basic Examples", "md_docs_fft.html#autotoc_md209", [
-        [ "C", "md_docs_fft.html#autotoc_md210", null ],
-        [ "C++", "md_docs_fft.html#autotoc_md211", null ],
-        [ "Python", "md_docs_fft.html#autotoc_md212", null ],
-        [ "C Sharp", "md_docs_fft.html#autotoc_md213", null ],
-        [ "VB.NET", "md_docs_fft.html#autotoc_md214", null ],
-        [ "JAVA", "md_docs_fft.html#autotoc_md215", null ],
-        [ "Labview", "md_docs_fft.html#autotoc_md216", null ]
+      [ "Basic Examples", "md_docs_fft.html#autotoc_md208", [
+        [ "C", "md_docs_fft.html#autotoc_md209", null ],
+        [ "C++", "md_docs_fft.html#autotoc_md210", null ],
+        [ "Python", "md_docs_fft.html#autotoc_md211", null ],
+        [ "C Sharp", "md_docs_fft.html#autotoc_md212", null ],
+        [ "VB.NET", "md_docs_fft.html#autotoc_md213", null ],
+        [ "JAVA", "md_docs_fft.html#autotoc_md214", null ],
+        [ "Labview", "md_docs_fft.html#autotoc_md215", null ]
       ] ],
-      [ "Additional Examples", "md_docs_fft.html#autotoc_md217", [
-        [ "Non blocking mode", "md_docs_fft.html#autotoc_md218", null ],
-        [ "Processing decoded data and store in a file", "md_docs_fft.html#autotoc_md219", null ],
-        [ "Processing raw data and store in a file", "md_docs_fft.html#autotoc_md220", null ]
+      [ "Additional Examples", "md_docs_fft.html#autotoc_md216", [
+        [ "Non blocking mode", "md_docs_fft.html#autotoc_md217", null ],
+        [ "Processing decoded data and store in a file", "md_docs_fft.html#autotoc_md218", null ],
+        [ "Processing raw data and store in a file", "md_docs_fft.html#autotoc_md219", null ]
       ] ]
     ] ],
     [ "Frame (imaging) driver", "md_docs_frame.html", [
-      [ "Parameters", "md_docs_frame.html#autotoc_md222", [
-        [ "Blocking/Non blocking mode", "md_docs_frame.html#autotoc_md223", null ],
-        [ "Threaded mode", "md_docs_frame.html#autotoc_md224", null ],
-        [ "High performance mode", "md_docs_frame.html#autotoc_md225", null ]
+      [ "Parameters", "md_docs_frame.html#autotoc_md221", [
+        [ "Blocking/Non blocking mode", "md_docs_frame.html#autotoc_md222", null ],
+        [ "Threaded mode", "md_docs_frame.html#autotoc_md223", null ],
+        [ "High performance mode", "md_docs_frame.html#autotoc_md224", null ]
       ] ],
-      [ "Commands", "md_docs_frame.html#autotoc_md226", null ],
-      [ "Buffer Allocation", "md_docs_frame.html#autotoc_md227", null ],
-      [ "Output data Format", "md_docs_frame.html#autotoc_md228", [
-        [ "Raw Data", "md_docs_frame.html#autotoc_md229", null ],
-        [ "Decoded Data", "md_docs_frame.html#autotoc_md230", null ]
+      [ "Commands", "md_docs_frame.html#autotoc_md225", null ],
+      [ "Buffer Allocation", "md_docs_frame.html#autotoc_md226", null ],
+      [ "Output data Format", "md_docs_frame.html#autotoc_md227", [
+        [ "Raw Data", "md_docs_frame.html#autotoc_md228", null ],
+        [ "Decoded Data", "md_docs_frame.html#autotoc_md229", null ]
       ] ],
-      [ "Basic Examples", "md_docs_frame.html#autotoc_md231", [
-        [ "C RAW", "md_docs_frame.html#autotoc_md232", null ],
-        [ "C DECODED", "md_docs_frame.html#autotoc_md233", null ],
-        [ "C++ RAW", "md_docs_frame.html#autotoc_md234", null ],
-        [ "Python RAW", "md_docs_frame.html#autotoc_md235", null ],
-        [ "Python Decoded", "md_docs_frame.html#autotoc_md236", null ],
-        [ "C Sharp RAW", "md_docs_frame.html#autotoc_md237", null ],
-        [ "VB.NET RAW", "md_docs_frame.html#autotoc_md238", null ],
-        [ "JAVA DECODED", "md_docs_frame.html#autotoc_md239", null ],
-        [ "Labview Single", "md_docs_frame.html#autotoc_md240", null ],
-        [ "Labview Multiple", "md_docs_frame.html#autotoc_md241", null ]
+      [ "Basic Examples", "md_docs_frame.html#autotoc_md230", [
+        [ "C RAW", "md_docs_frame.html#autotoc_md231", null ],
+        [ "C DECODED", "md_docs_frame.html#autotoc_md232", null ],
+        [ "C++ RAW", "md_docs_frame.html#autotoc_md233", null ],
+        [ "Python RAW", "md_docs_frame.html#autotoc_md234", null ],
+        [ "Python Decoded", "md_docs_frame.html#autotoc_md235", null ],
+        [ "C Sharp RAW", "md_docs_frame.html#autotoc_md236", null ],
+        [ "VB.NET RAW", "md_docs_frame.html#autotoc_md237", null ],
+        [ "JAVA DECODED", "md_docs_frame.html#autotoc_md238", null ],
+        [ "Labview Single", "md_docs_frame.html#autotoc_md239", null ],
+        [ "Labview Multiple", "md_docs_frame.html#autotoc_md240", null ]
       ] ],
-      [ "Additional Examples", "md_docs_frame.html#autotoc_md242", [
-        [ "C read and print decoded data", "md_docs_frame.html#autotoc_md243", null ],
-        [ "Example of decoding RAW data in C++", "md_docs_frame.html#autotoc_md244", null ],
-        [ "Example of decoding RAW data in Python", "md_docs_frame.html#autotoc_md245", null ]
+      [ "Additional Examples", "md_docs_frame.html#autotoc_md241", [
+        [ "C read and print decoded data", "md_docs_frame.html#autotoc_md242", null ],
+        [ "Example of decoding RAW data in C++", "md_docs_frame.html#autotoc_md243", null ],
+        [ "Example of decoding RAW data in Python", "md_docs_frame.html#autotoc_md244", null ]
       ] ]
     ] ],
     [ "Rate Meter", "md_docs_rate_meter.html", [
-      [ "Parameters", "md_docs_rate_meter.html#autotoc_md247", [
-        [ "Commands", "md_docs_rate_meter.html#autotoc_md248", null ],
-        [ "Output data Format", "md_docs_rate_meter.html#autotoc_md249", [
-          [ "Decoded Data", "md_docs_rate_meter.html#autotoc_md250", null ]
+      [ "Parameters", "md_docs_rate_meter.html#autotoc_md246", [
+        [ "Commands", "md_docs_rate_meter.html#autotoc_md247", null ],
+        [ "Output data Format", "md_docs_rate_meter.html#autotoc_md248", [
+          [ "Decoded Data", "md_docs_rate_meter.html#autotoc_md249", null ]
         ] ],
-        [ "Basic Examples", "md_docs_rate_meter.html#autotoc_md251", [
-          [ "C", "md_docs_rate_meter.html#autotoc_md252", null ],
-          [ "C++", "md_docs_rate_meter.html#autotoc_md253", null ],
-          [ "Python", "md_docs_rate_meter.html#autotoc_md254", null ],
-          [ "C Sharp", "md_docs_rate_meter.html#autotoc_md255", null ],
-          [ "VB.NET", "md_docs_rate_meter.html#autotoc_md256", null ],
-          [ "JAVA", "md_docs_rate_meter.html#autotoc_md257", null ],
-          [ "Labview", "md_docs_rate_meter.html#autotoc_md258", null ]
+        [ "Basic Examples", "md_docs_rate_meter.html#autotoc_md250", [
+          [ "C", "md_docs_rate_meter.html#autotoc_md251", null ],
+          [ "C++", "md_docs_rate_meter.html#autotoc_md252", null ],
+          [ "Python", "md_docs_rate_meter.html#autotoc_md253", null ],
+          [ "C Sharp", "md_docs_rate_meter.html#autotoc_md254", null ],
+          [ "VB.NET", "md_docs_rate_meter.html#autotoc_md255", null ],
+          [ "JAVA", "md_docs_rate_meter.html#autotoc_md256", null ],
+          [ "Labview", "md_docs_rate_meter.html#autotoc_md257", null ]
         ] ]
       ] ]
     ] ],
@@ -349,18 +347,18 @@ var NAVTREE =
     [ "Petiroc Configuration driver", "md_docs_petiroc_config.html", null ],
     [ "Petiroc Frame Transfer driver", "md_docs_petiroc_frame.html", null ],
     [ "Board Endpoint driver", "md_docs_boardendpoint.html", [
-      [ "Supported functions:", "md_docs_boardendpoint.html#autotoc_md264", null ],
-      [ "Board specific endpoint", "md_docs_boardendpoint.html#autotoc_md265", null ]
+      [ "Supported functions:", "md_docs_boardendpoint.html#autotoc_md263", null ],
+      [ "Board specific endpoint", "md_docs_boardendpoint.html#autotoc_md264", null ]
     ] ],
     [ "OpenDPP Board Driver", "md_docs_boards_opendpp.html", [
-      [ "Access to board endpoints", "md_docs_boards_opendpp.html#autotoc_md267", null ],
-      [ "OpenDPP data structure", "md_docs_boards_opendpp.html#autotoc_md268", null ],
-      [ "Code Examples", "md_docs_boards_opendpp.html#autotoc_md269", null ]
+      [ "Access to board endpoints", "md_docs_boards_opendpp.html#autotoc_md266", null ],
+      [ "OpenDPP data structure", "md_docs_boards_opendpp.html#autotoc_md267", null ],
+      [ "Code Examples", "md_docs_boards_opendpp.html#autotoc_md268", null ]
     ] ],
     [ "OpenScope Board Driver", "md_docs_boards_openscope.html", [
-      [ "Access to board endpoints", "md_docs_boards_openscope.html#autotoc_md271", null ],
-      [ "OpenScope data structure", "md_docs_boards_openscope.html#autotoc_md272", null ],
-      [ "Code Examples", "md_docs_boards_openscope.html#autotoc_md273", null ]
+      [ "Access to board endpoints", "md_docs_boards_openscope.html#autotoc_md270", null ],
+      [ "OpenScope data structure", "md_docs_boards_openscope.html#autotoc_md271", null ],
+      [ "Code Examples", "md_docs_boards_openscope.html#autotoc_md272", null ]
     ] ],
     [ "DT1260 Board Driver", "md_docs_boards_dt1260.html", null ],
     [ "DT5550W with Citiroc Board Driver", "md_docs_boards_dt5550w_citiroc.html", null ],
@@ -392,7 +390,7 @@ var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
 "md_docs_fft.html#autotoc_md205",
-"struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a559478a4b9a6865053a746866c5aa291"
+"struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a5cd57e294188b5e7fc819450022427cd"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
