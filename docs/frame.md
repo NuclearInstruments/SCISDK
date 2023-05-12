@@ -371,13 +371,13 @@ if(res == 0) {
 
 ![](img/labview/examples/frame-single.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Frame/Frame%20Single.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ### Labview Multiple
 
 ![](img/labview/examples/frame-multiple.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Frame/Frame%20Multiple.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ## Additional Examples
 

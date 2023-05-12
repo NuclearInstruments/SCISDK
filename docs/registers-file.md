@@ -133,3 +133,9 @@ Ref<Integer> value = new Ref<>(0);
 res = sdk.GetParameterInteger("board0:/MMCComponents/rf.C", value);
 System.out.println("C=" + value.get());
 ```
+
+### Labview
+
+![](img/labview/examples/register-file.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>

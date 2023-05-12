@@ -307,7 +307,7 @@ if(res == 0) {
 
 ![](img/labview/examples/list.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/List/List.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ## Additional Examples
 

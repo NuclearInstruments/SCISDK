@@ -20,10 +20,9 @@
 	</Item>
 	<Item Name="DLL Calling VIs" Type="Folder">
 		<Property Name="NI.LibItem.Scope" Type="Int">1</Property>
-		<Item Name="LV SCISDK Add New Device.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Add New Device.vi"/>
-		<Item Name="LV SCISDK Detach Device.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Detach Device.vi"/>
+		<Item Name="LV SCISDK Add New Device.vi" Type="VI" URL="/&lt;userlib&gt;/SciSDK/VIs/DLL Calling VIs/LV SCISDK Add New Device.vi"/>
+		<Item Name="LV SCISDK Detach Device.vi" Type="VI" URL="/&lt;userlib&gt;/SciSDK/VIs/DLL Calling VIs/LV SCISDK Detach Device.vi"/>
 		<Item Name="LV SCISDK Execute Command.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Execute Command.vi"/>
-		<Item Name="LV SCISDK Free Lib.vi" Type="VI" URL="../VIs/LV SCISDK Free Lib.vi"/>
 		<Item Name="LV SCISDK Get Components List.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Components List.vi"/>
 		<Item Name="LV SCISDK Get Error Description.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Error Description.vi"/>
 		<Item Name="LV SCISDK Get Parameter Double.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Parameter Double.vi"/>
@@ -31,7 +30,6 @@
 		<Item Name="LV SCISDK Get Parameter String.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Parameter String.vi"/>
 		<Item Name="LV SCISDK Get Parameter U Integer.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Parameter U Integer.vi"/>
 		<Item Name="LV SCISDK Get Register.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Register.vi"/>
-		<Item Name="LV SCISDK Init Lib.vi" Type="VI" URL="../VIs/LV SCISDK Init Lib.vi"/>
 		<Item Name="LV SCISDK Read Custom Packet Multiple Data.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Read Custom Packet Multiple Data.vi"/>
 		<Item Name="LV SCISDK Read Custom Packet Single Data.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Read Custom Packet Single Data.vi"/>
 		<Item Name="LV SCISDK Read Digitizer Data.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Read Digitizer Data.vi"/>
@@ -120,5 +118,9 @@
 		<Item Name="LV SciSDK TOF SPECTRUM STOP.vi" Type="VI" URL="../VIs/TOF Spectrum/LV SciSDK TOF SPECTRUM STOP.vi"/>
 		<Item Name="LV SciSDK TOF SPECTRUM.vi" Type="VI" URL="../VIs/TOF Spectrum/LV SciSDK TOF SPECTRUM.vi"/>
 	</Item>
+	<Item Name="LV SciSDK ADD BOARD.vi" Type="VI" URL="../VIs/LV SciSDK ADD BOARD.vi"/>
+	<Item Name="LV SciSDK DETACH BOARD.vi" Type="VI" URL="../VIs/LV SciSDK DETACH BOARD.vi"/>
+	<Item Name="LV SCISDK Free Lib.vi" Type="VI" URL="../VIs/LV SCISDK Free Lib.vi"/>
+	<Item Name="LV SCISDK Init Lib.vi" Type="VI" URL="../VIs/LV SCISDK Init Lib.vi"/>
 	<Item Name="SciSDK.mnu" Type="Document" URL="../SciSDK.mnu"/>
 </Library>
