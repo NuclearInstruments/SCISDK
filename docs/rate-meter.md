@@ -187,4 +187,4 @@ The following example shows how to use the Rate Meter component.
 
 ![](img/labview/examples/ratemeter.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Ratemeter/Ratemeter.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>

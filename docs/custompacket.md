@@ -473,13 +473,13 @@ if(res == 0) {
 
 ![](img/labview/examples/cp-single.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Custom%20Packet/Custom%20Packet%20Single.vi.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ### Labview Multiple
 
 ![](img/labview/examples/cp-multiple.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Custom%20Packet/Custom%20Packet%20Multiple.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ## Additional Examples
 

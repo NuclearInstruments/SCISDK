@@ -341,7 +341,7 @@ The `info` field contains the information about the buffer:
 
 ![](img/labview/examples/digitizer.PNG)
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Digitizer/Digitizer.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ## Additional Examples
 

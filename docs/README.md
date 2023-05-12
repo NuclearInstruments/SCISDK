@@ -388,6 +388,20 @@ You can find more examples in each component description page and in the [exampl
 
 ## 9 Use in LabView
 ### 9.1 Installation
+You can install LabView SciSDK wrapper in different ways:
+#### 9.1.1 Install automatically with SciSDK setup
+When you're installing SciSDK with the installer you can check the option `Add to Labview` (you need to have LabView installed), this will copy the SciSDK labview library inside the `user.lib` directory in LabView installation folder. When you restart Labview VIs will appear in functions palette under User Libraries section.
+
+#### 9.1.2 Manually add VIs to palette
+To install SciSDK manually you need to follow this steps: 
+- Copy [SciSDK LabView wrapper folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView) (you can clone the Github repository or download it)
+- Paste it inside `user.lib` folder that (you can find it inside the installation folder of LabView on your computer)
+- Rename the folder into `SciSDK` (will be the name used to display the VIs group inside the LabView palette)
+- Restart LabView and VIs will appear in the functions palette inside User Libraries section
+
+#### 9.1.3 Use SciSDK VIs without add them to LabView Palette
+To use SciSDK LabView wrapper VIs without adding them to palette you can download the [SciSDK LabView wrapper folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView) and open the library file (SciSDK_Labview.lvlib), now you can drag and drop VIs from the library's window.
+
 ### 9.2 Instantiate the library
 To initizialize the library use `LV SCISDK Init Lib` VI, this VI allocate memory for a native library's object instance.
 
@@ -397,7 +411,7 @@ When you no longer need to use the SciSDK in your program (for example before th
 
 ![](img/labview/docs/init-free.PNG) 
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Initialize%20Library.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ### 9.3 Connecting to board
 To attach a board to SciSDK use `LV SCISDK ADD BOARD` VI. This VI requires five arguments:
@@ -414,7 +428,7 @@ The VI returns an handle that you'll have to pass to all SciSDK VIs; this handle
 
 ![](img/labview/docs/connect.PNG) 
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Connect%20To%20Board.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 When you no longer need to use the board detach it with the VI `LV SCISDK Detach Board`.
 ### 9.4 Get a register value
@@ -425,7 +439,7 @@ To set the value of a register you need to use `LV SET REGISTER` VI. This VI req
 
 ![](img/labview/docs/set-register-value.PNG) 
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Registers.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 
 ### 9.5 Set a register value
@@ -437,7 +451,7 @@ The VI returns the value of the register and the board handle.
 
 ![](img/labview/docs/get-register-value.PNG) 
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Registers.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ### 9.6 Readout data from a board
 To read data from a board you need to use two VIs: one to initialize the component and one to read data, for example:
@@ -448,4 +462,4 @@ To read data from a board you need to use two VIs: one to initialize the compone
 
 Also, there are other VIs used to execute other components' commands like `LV SciSDK DIGITIZER STOP` or `LV SciSDK Spectrum Reset` VIs.
 
-<i>You can find the labview file for this example [here](../examples/components/LabView/Oscilloscope/Oscilloscope.vi)</i>
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
