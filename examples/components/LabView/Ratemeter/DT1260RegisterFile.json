@@ -1,0 +1,17 @@
+{"Registers":[
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "RateMeter_0",
+  "Type": "MCRateMeter",
+  "Address": 0,
+  "Version": "1.0.0.0",
+  "Channels": 4,
+  "Registers": []
+}],"Device":"SCIDK","Project":"Ratemeter"}
