@@ -122,12 +122,12 @@ $(document).ready(function(){initNavTree('md_docs_registers.html',''); initResiz
 <p>The register support only two simple operation: <b>read</b> and <b>write</b></p>
 <p>A read or write to register is a blocking operation and the execution do not contine till operation is completed.</p>
 <p><em>Pay attention that the register in SciCompiler can be created as Read Only, Write Only and Read Write. A register, in order to be configured ad read write, must be placed two times in the diagram, one in write and one in read mode, in order to readout the written value</em></p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Endpoint</h1>
 <p>The register has a dedicated endpoint</p>
 <div class="fragment"><div class="line">board0:/Registers/&lt;name of the register&gt;</div>
 </div><!-- fragment --><p>if the register is in a design sub-page the address will be </p><div class="fragment"><div class="line">board0:/Registers/page1/&lt;name of the register&gt;</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md40"></a>
 Methods</h1>
 <p>Set a value in the register</p>
 <div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> <a class="code" href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a>(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span> value, <span class="keywordtype">void</span>* handle);</div>
@@ -148,37 +148,37 @@ Methods</h1>
 <div class="line">sdk.GetRegister(Path, ref value);</div>
 </div><!-- fragment --><p><em>Python:</em> </p><div class="fragment"><div class="line">err = sdk.SetRegister(Path, value)</div>
 <div class="line">err, value = sdk.GetRegister(Path, value)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md40"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md41"></a>
 Example</h1>
 <p>The following examples uses three register A, B, C. The firmware will calcualte C=A+B (and store the result in C). We set register A and B to 10 and 20 and we read the value of C.</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 C</h2>
 <div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a>(<span class="stringliteral">&quot;board0:/Registers/A&quot;</span>, 10, handle);</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a>(<span class="stringliteral">&quot;board0:/Registers/B&quot;</span>, 20, handle);</div>
 <div class="line"><span class="keywordtype">int</span> value;</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">SCISDK_GetRegister</a>(<span class="stringliteral">&quot;board0:/Registers/C&quot;</span>, &amp;value, handle);</div>
 <div class="line">printf(<span class="stringliteral">&quot;C=%d\n&quot;</span>, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md43"></a>
 C++</h2>
 <div class="fragment"><div class="line">sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/A&quot;</span>, 10);</div>
 <div class="line">sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/B&quot;</span>, 20);</div>
 <div class="line"><span class="keywordtype">int</span> value;</div>
 <div class="line">sdk.GetRegister(<span class="stringliteral">&quot;board0:/Registers/C&quot;</span>, &amp;value);</div>
 <div class="line">printf(<span class="stringliteral">&quot;C=%d\n&quot;</span>, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md43"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md44"></a>
 C Sharp</h2>
 <div class="fragment"><div class="line">sdk.SetRegister(&quot;board0:/Registers/A&quot;, 10);</div>
 <div class="line">sdk.SetRegister(&quot;board0:/Registers/B&quot;, 20);</div>
 <div class="line">int value;</div>
 <div class="line">sdk.GetRegister(&quot;board0:/Registers/C&quot;, ref value);</div>
 <div class="line">Console.WriteLine(&quot;C={0}&quot;, value);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md44"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md45"></a>
 Python</h2>
 <div class="fragment"><div class="line">err = sdk.SetRegister(&quot;board0:/Registers/A&quot;, 10)</div>
 <div class="line">err = sdk.SetRegister(&quot;board0:/Registers/B&quot;, 20)</div>
 <div class="line">err, value = sdk.GetRegister(&quot;board0:/Registers/C&quot;, 0)</div>
 <div class="line">print(&quot;C={0}\n&quot;.format(value))</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md45"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md46"></a>
 JAVA</h2>
 <div class="fragment"><div class="line">sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/A&quot;</span>, 10);</div>
 <div class="line">sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/B&quot;</span>, 20);</div>
