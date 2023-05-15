@@ -20,8 +20,8 @@
 	</Item>
 	<Item Name="DLL Calling VIs" Type="Folder">
 		<Property Name="NI.LibItem.Scope" Type="Int">1</Property>
-		<Item Name="LV SCISDK Add New Device.vi" Type="VI" URL="/&lt;userlib&gt;/SciSDK/VIs/DLL Calling VIs/LV SCISDK Add New Device.vi"/>
-		<Item Name="LV SCISDK Detach Device.vi" Type="VI" URL="/&lt;userlib&gt;/SciSDK/VIs/DLL Calling VIs/LV SCISDK Detach Device.vi"/>
+		<Item Name="LV SCISDK Add New Device.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Add New Device.vi"/>
+		<Item Name="LV SCISDK Detach Device.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Detach Device.vi"/>
 		<Item Name="LV SCISDK Execute Command.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Execute Command.vi"/>
 		<Item Name="LV SCISDK Get Components List.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Components List.vi"/>
 		<Item Name="LV SCISDK Get Error Description.vi" Type="VI" URL="../VIs/DLL Calling VIs/LV SCISDK Get Error Description.vi"/>
