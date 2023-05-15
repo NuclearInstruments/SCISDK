@@ -399,8 +399,8 @@ When you're installing SciSDK with the installer you can check the option `Add t
 ### 9.2 Manually add VIs to palette
 To install SciSDK manually you need to follow this steps: 
 - Copy [SciSDK LabView wrapper folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView) (you can clone the Github repository or download it)
-- Paste it inside `user.lib` folder that (you can find it inside the installation folder of LabView on your computer)
-- Rename the folder into `SciSDK` (will be the name used to display the VIs group inside the LabView palette)
+- Paste it inside `user.lib` folder (you can find it inside the installation folder of LabView on your computer)
+- Rename the folder into `SciSDK` (this will be the name used to display the VIs group inside the LabView palette)
 - Restart LabView and VIs will appear in the functions palette inside User Libraries section
 
 ### 9.3 Use SciSDK VIs without add them to LabView Palette
