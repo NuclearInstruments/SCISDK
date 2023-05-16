@@ -118,7 +118,7 @@ Source: ".\Drivers\d2xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall; C
 Source: ".\Drivers\d3xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
 
 ; Labview wrapper library
-Source: scisdk\wrapper\LabView\*; DestDir: {code:GetLabviewLastVersionUserLibFolder}; Flags: 64bit recursesubdirs; Components: labview
+Source: scisdk\wrapper\LabView\*; DestDir: {code:GetDir|0}; Flags: 64bit recursesubdirs; Components: labview
 
 [Icons]
 Name: "{group}\SciSDK User Guide"; Filename: "{app}\docs\index.html"; WorkingDir: "{app}\docs\"
@@ -194,4 +194,30 @@ begin
         Result :=  'C:\Program Files\National Instruments\LabVIEW 2021\user.lib\SciSDK';
       end;
   end;
+end;
+
+
+var
+  DirPage: TInputDirWizardPage;
+function GetDir(Param: String): String;
+begin
+  Result := DirPage.Values[StrToInt(Param)];
+end;
+
+procedure InitializeWizard;
+begin
+  { create a directory input page }
+  DirPage := CreateInputDirPage(
+    wpSelectComponents, 'Labview SciSDK wrapper library', 'Select the destination folder for labview SciSDK wrapper', '', False, '');
+  { add directory input page items }
+  DirPage.Add('SciSDK labview wrapper');
+  { Set default values }
+  DirPage.Values[0] := GetLabviewLastVersionUserLibFolder('');
+end;
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := False;
+  if PageID = DirPage.ID then
+    Result := not IsComponentSelected('labview');
 end;
