@@ -384,7 +384,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketMultiple(char* Path, TD_CUST
 	return res;
 }
 
-int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, void* handle)
 {
 	SCISDK_CP_DECODED_BUFFER* lrb;
 	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&lrb, handle, 1);
@@ -414,7 +414,7 @@ int LV_SCISDK_ReadCustomPacketSingle(char* Path, TD_CUSTOMPACKETSINGLE* buffer, 
 	return res;
 }
 
-int LV_SCISDK_ReadFrameSingle(char* Path, TD_FRAME_SINGLE* buffer, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrameSingle(char* Path, TD_FRAME_SINGLE* buffer, void* handle)
 {
 	SCISDK_FRAME_DECODED_BUFFER* fdb;
 	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle, 1);
@@ -447,7 +447,7 @@ int LV_SCISDK_ReadFrameSingle(char* Path, TD_FRAME_SINGLE* buffer, void* handle)
 	return res;
 }
 
-int LV_SCISDK_ReadFrameMultiple(char* Path, TD_FRAME_MULTIPLE* buffer, void* handle, int buffer_size)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFrameMultiple(char* Path, TD_FRAME_MULTIPLE* buffer, void* handle, int buffer_size)
 {
 	SCISDK_FRAME_DECODED_BUFFER* fdb;
 	int res = SCISDK_AllocateBufferSize(Path, T_BUFFER_TYPE_DECODED, (void**)&fdb, handle, buffer_size);
@@ -516,7 +516,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_ReadFFTStatus(char* Path, TD_FFT_STATUS* buf
 	return SCISDK_ReadStatus(Path, buffer, handle);
 }
 
-int LV_SCISDK_GetComponentList(char* name, char* type, TD_COMPONENTARRAY ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetComponentList(char* name, char* type, TD_COMPONENTARRAY ret, void* handle)
 {
 	char* ret_json_string = (char*)"";
 	int res = SCISDK_GetComponentList(name, type, &ret_json_string, true, handle);
@@ -539,7 +539,7 @@ int LV_SCISDK_GetComponentList(char* name, char* type, TD_COMPONENTARRAY ret, vo
 	return res;
 }
 
-int LV_SCISDK_GetAllParameters(char* path, char* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetAllParameters(char* path, char* ret, void* handle)
 {
 	char* ret_json_string = (char*)"";
 	int res = SCISDK_GetAllParameters(path, &ret_json_string, handle);
@@ -558,7 +558,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterDescription(char* path, char* re
 	return res;
 }
 
-int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle)
 {
 	char* ret_json_string = (char*)"";
 	int res = SCISDK_GetParameterListOfValues(path, &ret_json_string, handle);
@@ -567,17 +567,17 @@ int LV_SCISDK_GetParameterListOfValues(char* path, char* ret, void* handle)
 	return res;
 }
 
-int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMinimumValue(char* path, double* ret, void* handle)
 {
 	return SCISDK_GetParameterMinimumValue(path, ret, handle);
 }
 
-int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParameterMaximumValue(char* path, double* ret, void* handle)
 {
 	return SCISDK_GetParameterMaximumValue(path, ret, handle);
 }
 
-int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle)
 {
 	char* ret_json_string = (char*)"";
 	int res = SCISDK_GetParametersProperties(path, &ret_json_string, handle);
@@ -586,7 +586,7 @@ int LV_SCISDK_GetParametersProperties(char* path, char* ret, void* handle)
 	return res;
 }
 
-int LV_SCISDK_GetErrorDescription(int error, char* ret, void* handle)
+SCISDKLABVIEW_DLL_API int LV_SCISDK_GetErrorDescription(int error, char* ret, void* handle)
 {
 	char* value_ptr = (char*)"";
 	int res = SCISDK_s_error(error, &value_ptr, handle);
