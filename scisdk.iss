@@ -183,7 +183,6 @@ begin
       until not FindNext(FindRec);
     finally
       FindClose(FindRec);
-      // Log('Error')
     end;
 
     if LatestVersion > 0 then

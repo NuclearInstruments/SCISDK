@@ -384,17 +384,16 @@ res = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buffer);
 ```
 Buffer parameter is the buffer that has been allocated in the previous example
 
+
 You can find more examples in each component description page and in the [examples folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples)
 
 ## 9 Use in LabView
 You can use SciSDK in LabView with a [wrapper library](https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/LabView)
 
-To use this wrapper library you must have SciSDK installed on your computer
-
 SciSDK can be included in Labview in different ways:
 
 ### 9.1 Install automatically with SciSDK setup
-When you're installing SciSDK with the installer you can check the option `Add to Labview` (you need to have LabView installed), this will copy the SciSDK labview library inside the `user.lib` directory in LabView installation folder. When you restart Labview VIs will appear in functions palette under User Libraries section.
+When you're installing SciSDK with the installer you can check the component `Labview wrapper library` to install the Labview wrapper library, this will copy the SciSDK labview library inside the `user.lib` directory in LabView installation folder. When you restart Labview VIs will appear in functions palette under User Libraries section.
 
 ### 9.2 Manually add VIs to palette
 To install SciSDK manually you need to follow this steps: 
@@ -407,7 +406,7 @@ To install SciSDK manually you need to follow this steps:
 To use SciSDK LabView wrapper VIs without adding them to palette you can download the [SciSDK LabView wrapper folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView) and open the library file (SciSDK_Labview.lvlib), now you can drag and drop VIs from the library's window.
 
 ### 9.4 Instantiate the library
-To initizialize the library use `LV SCISDK Init Lib` VI, this VI allocate memory for a native library's object instance.
+To initizialize the library use `LV SCISDK Init Lib` VI, this VI will allocate memory for a native library's object instance.
 
 ![](img/labview/docs/initialize.PNG) 
 
@@ -432,9 +431,11 @@ The VI returns an handle that you'll have to pass to all SciSDK VIs; this handle
 
 ![](img/labview/docs/connect.PNG) 
 
-<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
-
 When you no longer need to use the board detach it with the VI `LV SCISDK Detach Board`.
+
+![](img/labview/docs/detach-board.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ### 9.6 Get a register value
 To set the value of a register you need to use `LV SET REGISTER` VI. This VI requires three arguments:
@@ -467,3 +468,6 @@ To read data from a board you need to use two VIs: one to initialize the compone
 Also, there are other VIs used to execute other components' commands like `LV SciSDK DIGITIZER STOP` or `LV SciSDK Spectrum Reset` VIs.
 
 <i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
+
+You can find more examples in each component description page and in the [examples folder](https://github.com/NuclearInstruments/SCISDK/tree/master/examples)
