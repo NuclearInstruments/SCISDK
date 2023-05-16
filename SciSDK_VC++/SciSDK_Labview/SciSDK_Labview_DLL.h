@@ -12,7 +12,7 @@
 #endif
 #endif
 
-#include "lv_prolog.h"
+#include "./Labview_cintools/lv_prolog.h"
 /* LabVIEW created typedefs */
 typedef signed char        int8_t;
 typedef short              int16_t;
@@ -229,7 +229,7 @@ typedef struct {
 	TD_COMPONENT array[1];
 } TD_COMPONENTARRAY;
 
-#include "lv_epilog.h"
+#include "./Labview_cintools/lv_epilog.h"
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib();
 
