@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include "../../src/SciSDK_DLL.h"
-#include "extcode.h"
+#include "./Labview_cintools/extcode.h"
 
 #include "../../src/json.hpp"
 //

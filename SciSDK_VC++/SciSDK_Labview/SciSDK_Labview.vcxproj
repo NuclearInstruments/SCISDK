@@ -90,13 +90,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\National Instruments\LabVIEW 2021\cintools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SciSDK_Labview\Labview_cintools\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labview.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labview.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,7 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\National Instruments\LabVIEW 2021\cintools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SciSDK_Labview\Labview_cintools\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,7 +117,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labview.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labview.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,13 +128,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\National Instruments\LabVIEW 2021\cintools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SciSDK_Labview\Labview_cintools\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labview.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labview.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +147,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\National Instruments\LabVIEW 2021\cintools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SciSDK_Labview\Labview_cintools\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,7 +155,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labview.lib;C:\Program Files\National Instruments\LabVIEW 2021\cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\..\bin\$(Platform)\$(Configuration)\SciSDK_DLL.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labview.lib;$(SolutionDir)SciSDK_Labview\Labview_cintools\labviewv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
