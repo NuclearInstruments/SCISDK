@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['energy_20spectrum_480',['Energy Spectrum',['../md_docs_spectrum.html',1,'']]]
+  ['energy_20spectrum_482',['Energy Spectrum',['../md_docs_spectrum.html',1,'']]]
 ];
