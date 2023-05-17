@@ -13,6 +13,9 @@
 #endif
 
 #include "./Labview_cintools/lv_prolog.h"
+
+SCISDKLABVIEW_DLL_API void* last_handle = 0;
+
 /* LabVIEW created typedefs */
 typedef signed char        int8_t;
 typedef short              int16_t;

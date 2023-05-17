@@ -607,3 +607,5 @@ SCISDK_DLL_API int SCISDK_GetParametersProperties(char *Path, char **ret, void *
  * @return                  int error code defined in NIErrorCode.h  
  */
 SCISDK_DLL_API int SCISDK_free_string(char * _str);
+
+SCISDK_DLL_API int  SCISDK_GetAttachedDevicesList(char** ret, void* handle);

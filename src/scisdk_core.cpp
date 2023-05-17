@@ -3,6 +3,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+
 SciSDK::SciSDK() {
 
 }
@@ -25,9 +26,17 @@ NI_RESULT SciSDK::AddNewDevice(string DevicePath, string DeviceModel, string JSO
 		return NI_OK;
 	}
 }
-NI_RESULT SciSDK::DetachDevice(string Name) {
 
-	return NI_OK;
+NI_RESULT SciSDK::DetachDevice(string Name) {
+	int res = NI_ERROR;
+	SciSDK_Device* device = FindDeviceByName(Name);
+	if (device != NULL) {
+		res = device->CloseConnection();
+	}
+	
+	devs.remove(device);
+
+	return res;
 }
 
 NI_RESULT SciSDK::SetRegister(string Path, uint32_t value) {
@@ -292,6 +301,18 @@ NI_RESULT SciSDK::GetParametersProperties(string path, string* ret)
 		return device->GetParametersProperties(path, ret);
 	}
 	return NI_ERROR;
+}
+
+NI_RESULT SciSDK::GetAttachedDevicesList(string* devices)
+{
+	int attached_devices_count = devs.size();
+	*devices = "";
+
+	for (auto elem : devs) {
+		*devices += elem->GetName() + ";";
+	}
+
+	return NI_OK;
 }
 
 
