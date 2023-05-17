@@ -10,17 +10,56 @@
 //
 using json = nlohmann::json;
 
+void DetachDevices(void *handle) {
+	char* attached_devices = (char*)"";
+	SCISDK_GetAttachedDevicesList(&attached_devices, handle);
+	std::string attached_devices_str(attached_devices);
+	int pos = attached_devices_str.find(";");
+
+	while (pos != std::string::npos) {
+		std::string device_name = attached_devices_str.substr(0, pos);
+
+		if (device_name != "") {
+			SCISDK_DetachDevice((char*)device_name.c_str(), handle);
+		}
+
+		attached_devices_str.erase(0, pos + 1);
+		pos = attached_devices_str.find(";");
+	}
+}
+
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib() {
-	return SCISDK_InitLib();
+	if (last_handle != 0) {
+		//DetachDevices(last_handle);
+		//SciSDK
+		//LV_SCISDK_FreeLib(last_handle);
+		//last_handle = SCISDK_InitLib();
+	}
+	else {
+		last_handle = SCISDK_InitLib();
+	}
+	
+ 	return last_handle;
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_FreeLib(void* handle) {
+	// detach all devices
+	DetachDevices(handle);
+	
 	void* handle_ptr = handle;
-	return SCISDK_FreeLib(handle_ptr);
+	int res = SCISDK_FreeLib(handle_ptr);
+	last_handle = 0;
+	return res;
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_AddNewDevice(char* DevicePath, char* DeviceModel, char* JSONFwFilePath, char* Name, void* handle) {
-	return SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
+	uint32_t r = SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
+	if (r == 0x10000002) {
+		//return 0;
+		LV_SCISDK_DetachDevice(Name,  handle);
+		r = SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
+	}
+	return r;
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_DetachDevice(char* name, void* handle) {
@@ -530,7 +569,7 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_GetComponentList(char* name, char* type, TD_
 		char* path_str = (char*)((std::string)ret_json.at(0)["path"]).c_str();
 		char* name_str = (char*)((std::string)ret_json.at(0)["name"]).c_str();
 		char* type_str = (char*)((std::string)ret_json.at(0)["type"]).c_str();
-		
+
 		ret.array[i].path = path_str;
 		ret.array[i].name = name_str;
 		ret.array[i].type = type_str;

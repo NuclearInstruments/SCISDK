@@ -510,6 +510,14 @@ NI_RESULT SciSDK_Digitizer::ReadStatus(void *buffer) {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_Digitizer::Detach()
+{
+	if (threaded) {
+		producer.canRun = false;
+	}
+	return NI_OK;
+}
+
 NI_RESULT SciSDK_Digitizer::ConfigureDigitizer() {
 
 	
