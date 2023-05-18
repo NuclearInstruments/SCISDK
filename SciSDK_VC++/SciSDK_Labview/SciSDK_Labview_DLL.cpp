@@ -1,13 +1,9 @@
 #include "SciSDK_Labview_DLL.h"
-
 #include <stdio.h>
 #include <string>
 #include "../../src/SciSDK_DLL.h"
 #include "./Labview_cintools/extcode.h"
-
 #include "../../src/json.hpp"
-//
-//
 using json = nlohmann::json;
 
 void DetachDevices(void *handle) {
@@ -30,22 +26,18 @@ void DetachDevices(void *handle) {
 
 SCISDKLABVIEW_DLL_API void* LV_SCISDK_InitLib() {
 	if (last_handle != 0) {
-		//DetachDevices(last_handle);
-		//SciSDK
-		//LV_SCISDK_FreeLib(last_handle);
-		//last_handle = SCISDK_InitLib();
+		// detach all connected devices
+		DetachDevices(last_handle);
 	}
 	else {
 		last_handle = SCISDK_InitLib();
 	}
-	
  	return last_handle;
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_FreeLib(void* handle) {
-	// detach all devices
+	// detach all connected devices
 	DetachDevices(handle);
-	
 	void* handle_ptr = handle;
 	int res = SCISDK_FreeLib(handle_ptr);
 	last_handle = 0;
@@ -53,13 +45,13 @@ SCISDKLABVIEW_DLL_API int LV_SCISDK_FreeLib(void* handle) {
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_AddNewDevice(char* DevicePath, char* DeviceModel, char* JSONFwFilePath, char* Name, void* handle) {
-	uint32_t r = SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
-	if (r == 0x10000002) {
-		//return 0;
-		LV_SCISDK_DetachDevice(Name,  handle);
-		r = SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
-	}
-	return r;
+	return SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
+	//if (r == 0x10000002) {
+	//	//return 0;
+	//	LV_SCISDK_DetachDevice(Name,  handle);
+	//	r = SCISDK_AddNewDevice(DevicePath, DeviceModel, JSONFwFilePath, Name, handle);
+	//}
+	//return r;
 }
 
 SCISDKLABVIEW_DLL_API int LV_SCISDK_DetachDevice(char* name, void* handle) {

@@ -626,6 +626,11 @@ NI_RESULT SciSDK_CustomPacket::ReadStatus(void *buffer) {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_CustomPacket::Detach()
+{
+	return CmdStop();
+}
+
 NI_RESULT SciSDK_CustomPacket::ConfigureList() {
 
 	return NI_OK;
