@@ -19,7 +19,6 @@ public class FFT {
     }
     
     public static void main(String[] args) {
-        // TODO: CHANGE JSCISDK local project dependency with maven central dependency 
         SciSDK sdk = new SciSDK();
 
         // DT1260
