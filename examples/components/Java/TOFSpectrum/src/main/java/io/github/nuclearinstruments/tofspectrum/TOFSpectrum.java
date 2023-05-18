@@ -19,7 +19,6 @@ public class TOFSpectrum {
     }
     
     public static void main(String[] args) throws SciSDKException, InterruptedException {
-        // TODO: CHANGE JSCISDK local project dependency with maven central dependency 
         SciSDK sdk = new SciSDK();
 
         // DT1260

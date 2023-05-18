@@ -5,8 +5,6 @@ import io.github.NuclearInstruments.jscisdk.*;
 public class CustomPacket {
 
     public static void main(String[] args) {
-
-        // TODO: CHANGE JSCISDK local project dependency with maven central dependency 
         SciSDK sdk = new SciSDK();
 
         // DT1260
@@ -39,12 +37,12 @@ public class CustomPacket {
             if (res == 0) {
                 CPDecodedBuffer buf_obj = buf.get();
                 for(int i=0;i<buf_obj.GetInfo().GetValidData();i++){
-                    System.out.println("header:   :" + Integer.toHexString(buf_obj.GetData()[i].GetRow()[0]));
-                    System.out.println("timestamp :" + (long)(buf_obj.GetData()[i].GetRow()[1] + (buf_obj.GetData()[i].GetRow()[2] << 32)));
-                    System.out.println("counter 0 :" + buf_obj.GetData()[i].GetRow()[3]);
-                    System.out.println("counter 1 :" + buf_obj.GetData()[i].GetRow()[4]);
-                    System.out.println("counter 2 :" + buf_obj.GetData()[i].GetRow()[5]);
-                    System.out.println("counter 3 :" + buf_obj.GetData()[i].GetRow()[6]);
+                    System.out.println("header   : " + Long.toHexString(buf_obj.GetData()[i].GetRow()[0]));
+                    System.out.println("timestamp: " + (long)(buf_obj.GetData()[i].GetRow()[1] + (buf_obj.GetData()[i].GetRow()[2] << 32)));
+                    System.out.println("counter 0: " + buf_obj.GetData()[i].GetRow()[3]);
+                    System.out.println("counter 1: " + buf_obj.GetData()[i].GetRow()[4]);
+                    System.out.println("counter 2: " + buf_obj.GetData()[i].GetRow()[5]);
+                    System.out.println("counter 3: " + buf_obj.GetData()[i].GetRow()[6]);
                     System.out.println("-----------------");
                 }
             }
