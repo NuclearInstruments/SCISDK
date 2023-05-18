@@ -363,6 +363,11 @@ NI_RESULT SciSDK_List::ReadStatus(void *buffer) {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_List::Detach()
+{
+	return CmdStop();
+}
+
 NI_RESULT SciSDK_List::ConfigureList() {
 
 

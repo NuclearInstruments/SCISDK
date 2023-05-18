@@ -367,7 +367,17 @@ if(res == 0) {
 	res = sdk.ReadData("board0:/MMCComponents/ImageReadout_0", fdb);
 }
 ```
+### Labview Single
 
+![](img/labview/examples/frame-single.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
+### Labview Multiple
+
+![](img/labview/examples/frame-multiple.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 
 ## Additional Examples
 

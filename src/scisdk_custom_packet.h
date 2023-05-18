@@ -34,6 +34,8 @@ public:
 
 	NI_RESULT ExecuteCommand(string cmd, string param);
 	NI_RESULT ReadStatus(void *buffer);
+
+	NI_RESULT Detach();
 private:
 
 	int32_t timeout;

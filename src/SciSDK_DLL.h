@@ -607,3 +607,14 @@ SCISDK_DLL_API int SCISDK_GetParametersProperties(char *Path, char **ret, void *
  * @return                  int error code defined in NIErrorCode.h  
  */
 SCISDK_DLL_API int SCISDK_free_string(char * _str);
+
+/**
+* @brief Return a csv string with the list of attached devices
+* 
+* @param ret                Pointer to the buffer to be filled with the csv string. It'a allocated by the 
+*                           SCISDK_GetAttachedDevicesList function and must be freed by the caller using the
+*                           SCISDK_free_string() function
+* @param handle 
+* @return                  int error code defined in NIErrorCode.h
+*/
+SCISDK_DLL_API int  SCISDK_GetAttachedDevicesList(char** ret, void* handle);

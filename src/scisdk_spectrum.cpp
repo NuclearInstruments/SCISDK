@@ -381,3 +381,8 @@ NI_RESULT SciSDK_Spectrum::ReadStatus(void *buffer) {
 	return CheckSpectrum(&p->running, &p->completed, &p->progress,
 		&p->peak_max, &p->total_counter, &p->integration_time);
 }
+
+NI_RESULT SciSDK_Spectrum::Detach()
+{
+	return CmdStop();
+}
