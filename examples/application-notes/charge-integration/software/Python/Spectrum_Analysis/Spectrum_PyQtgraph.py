@@ -41,8 +41,7 @@ line2_region = None
 sdk = SciSDK()
 
 # Add the DT1260 device to the sdk
-res = sdk.AddNewDevice("usb:13250", "DT1260", "RegisterFile.json", "board0")
-#res = sdk.AddNewDevice("usb:28645", "DT1260", "RegisterFile.json", "board0")
+res = sdk.AddNewDevice("usb:28686", "DT1260", "RegisterFile.json", "board0")
 
 if res != 0:
     print("Error adding device")
@@ -107,7 +106,7 @@ if res != 0:
     print("Allocate oscilloscope buffer error:", err)
     exit(-1)
 
-
+# Definition of the gaussian function for the fit
 def gaussian(x, a, x0, sigma):
     return a * np.exp(-(x-x0)**2/(2*sigma**2))
 
@@ -158,7 +157,6 @@ fin_an2 = [
 line = [
     dict(name='Line 1', type='bool', value=line1),
     dict(name='Line 2', type='bool', value=line2),
-    dict(name='Add a Line', type='action')
 ]
 
 params_line = Parameter.create(name='Lines', type='group', children=line)
@@ -170,12 +168,13 @@ line2_param = params_line.child('Line 2')
 line2_an_param = Parameter.create(name='Parameters', type='group', children=fin_an2, expanded=False)
 line2_param.addChild(line2_an_param)
 
+#Create calibration tree
 peaks = [
     dict(name='Peak 1', type='str', value=energy_peak, suffix= 'keV', siPrefix=True),
     dict(name='Peak 2', type='str', value=energy_peak2, suffix='keV', siPrefix=True),
     dict(name='Calibrate', type= 'action'),
 ]
-param_peak = Parameter.create(name='Peaks', type='group', children=peaks)
+param_peak = Parameter.create(name='Peaks (keV)', type='group', children=peaks)
 
 children = [
     params,
@@ -235,7 +234,6 @@ plot_layout.addWidget(pw3)
 
 # Create horizontal layout to add parameter tree and vertical layout
 h_layout = QHBoxLayout()
-#h_layout.addWidget(tree)
 h_layout.addWidget(pt)
 h_layout.addLayout(plot_layout)
 
@@ -269,70 +267,15 @@ def update_line(param, line_an_par, line_num):
             line2_region = pg.LinearRegionItem([2500, 3500], bounds=[0,16384], movable=True) # (initial values, limits, is movable)
             pw2.addItem(line2_region)
             label2 = pg.InfLineLabel(line2_region.lines[1], "Line 2", position=0.95, rotateAxis=(1,0), anchor=(1, 1))
-            #line2_region.sigRegionChangeFinished.connect(lambda: region_changed(2))
         else:
             pw2.removeItem(line2_region)
-            line2_region = None
-    if line_num == 3:
-        line3 = value
-        line_an_par.setOpts(expanded=True)
-        if value:
-            line3_region = pg.LinearRegionItem([0, 1000], bounds=[0,16384], movable=True) # (initial values, limits, is movable)
-            pw2.addItem(line3_region)
-            label3 = pg.InfLineLabel(line3_region.lines[1], "Line 3", position=0.95, rotateAxis=(1,0), anchor=(1, 1))
-        else:
-            pw2.removeItem(line3_region)
-            line3_region = None
-    if line_num == 4:
-        line4 = value
-        line_an_par.setOpts(expanded=True)
-        if value:
-            line4_region = pg.LinearRegionItem([0, 1000], bounds=[0,16384], movable=True) # (initial values, limits, is movable)
-            pw2.addItem(line4_region)
-            label4 = pg.InfLineLabel(line4_region.lines[1], "Line 4", position=0.95, rotateAxis=(1,0), anchor=(1, 1))
-        else:
-            pw2.removeItem(line4_region)
-            line4_region = None
-    
+            line2_region = None    
 
 
 # Connect parameter change signal to update_channel function
 
 line1_param.sigValueChanged.connect(lambda param: update_line(param, line1_an_param,1))
 line2_param.sigValueChanged.connect(lambda param: update_line(param, line2_an_param,2))
-
-
-# def region_changed(num):
-#     if num == 1:
-#         print("Line 1 extremes: " + str(line1_region.getRegion()))
-#     if num == 2:
-#         print("Line 2 extremes: " + str(line2_region.getRegion()))
-
-centr = 0.0
-sigma = 0.0
-resol = 0.0
-def add_a_line():
-    global i
-    new_line =  dict(name=f'Line {i}', type='bool', value=False)
-    params_line.addChild(new_line)
-    new_line_param = params_line.child(f'Line {i}')
-    fin_an = [
-        dict(name='Centroid', type='str', value=centr, readonly=True),
-        dict(name='Sigma', type='str', value=sigma, readonly=True),
-        dict(name='Resolution', type='str', value=resol, readonly=True),   
-    ]
-    line_an_param = Parameter.create(name='Parameters', type='group', children=fin_an, expanded=False)
-    new_line_param.addChild(line_an_param)
-    if i == 3:
-        new_line_param.sigValueChanged.connect(lambda param: update_line(param, line_an_param, 3))
-    if i == 4:
-        new_line_param.sigValueChanged.connect(lambda param: update_line(param, line_an_param, 4))
-    i += 1
-
-i = 3
-params_line.param("Add a Line").sigActivated.connect(add_a_line)
-
-
 
 
 ####################################################################################################################
@@ -451,7 +394,6 @@ def update_energy_peak(param, energy_num):
     elif energy_num == 1:
         energy_peak2 = value
     else:
-        # handle error
         pass
 
 
