@@ -10,7 +10,7 @@ IP Compatible version: 1.0
 
 */
 
-SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
+SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL* hal, json j, string path) : SciSDK_Node(hal, j, path) {
 
 	address.base = (uint32_t)j.at("Address");
 	for (auto& r : j.at("Registers")) {
@@ -35,29 +35,29 @@ SciSDK_Digitizer::SciSDK_Digitizer(SciSDK_HAL *hal, json j, string path) : SciSD
 		break;
 	}
 	acq_mode = ACQ_MODE::BLOCKING;
-	transfer_size = settings.nchannels * settings.nsamples ;
+	transfer_size = settings.nchannels * settings.nsamples;
 	threaded_buffer_size = 100000;
-	__buffer = (uint32_t *)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
+	__buffer = (uint32_t*)malloc(transfer_size * settings.wordsize * sizeof(uint8_t) * 2);
 	threaded = false;
 	high_performance = false;
 
 	std::list<int> listOfchannels;
-	int q=0, qi = 0;
+	int q = 0, qi = 0;
 	while (qi <= settings.nchannels) {
 		qi = 1 << q; q++;
 		listOfchannels.push_back(qi);
 	}
-	
+
 	RegisterParameter("enabledch", "enabled channels selector", SciSDK_Paramcb::Type::U32, listOfchannels, this);
-	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double) settings.nsamples* settings.nchannels,   this);
+	RegisterParameter("acq_len", "acquisition length in samples", SciSDK_Paramcb::Type::U32, 2, (double)settings.nsamples * settings.nchannels, this);
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
-	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking"};
+	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking" };
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
 	//RegisterParameter("thread", "enable internal data download thread", SciSDK_Paramcb::Type::str, listOfBool, this);
 	RegisterParameter("high_performance", "if true, the internal thread will lock the bus to wait for data", SciSDK_Paramcb::Type::str, listOfBool, this);
-	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32,  this);
+	RegisterParameter("threaded_buffer_size", "size of the fifo buffer in number of waves", SciSDK_Paramcb::Type::U32, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 
 	producer.isRunning = false;
@@ -78,7 +78,7 @@ NI_RESULT SciSDK_Digitizer::ISetParamU32(string name, uint32_t value) {
 		threaded_buffer_size = value;
 		return NI_OK;
 	}
-	
+
 	return NI_INVALID_PARAMETER;
 }
 NI_RESULT SciSDK_Digitizer::ISetParamI32(string name, int32_t value) {
@@ -100,7 +100,7 @@ NI_RESULT SciSDK_Digitizer::ISetParamString(string name, string value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	} 
+	}
 	else if (name == "acq_mode") {
 		if (value == "blocking") {
 			acq_mode = ACQ_MODE::BLOCKING;
@@ -111,7 +111,8 @@ NI_RESULT SciSDK_Digitizer::ISetParamString(string name, string value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	} else if (name == "thread") {
+	}
+	else if (name == "thread") {
 		if (value == "true") {
 			threaded = true;
 			return NI_OK;
@@ -137,7 +138,7 @@ NI_RESULT SciSDK_Digitizer::ISetParamString(string name, string value) {
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_Digitizer::IGetParamU32(string name, uint32_t *value) {
+NI_RESULT SciSDK_Digitizer::IGetParamU32(string name, uint32_t* value) {
 	if (name == "enabledch") {
 		*value = enabledch;
 		return NI_OK;
@@ -149,23 +150,26 @@ NI_RESULT SciSDK_Digitizer::IGetParamU32(string name, uint32_t *value) {
 	else if (name == "threaded_buffer_size") {
 		*value = threaded_buffer_size;
 		return NI_OK;
-	} else if (name == "channel_count") {
+	}
+	else if (name == "channel_count") {
 		*value = (int32_t)settings.nchannels;
 		return NI_OK;
-	}  else if (name == "fifo_size") {
-		int mult = settings.nchannels >1 ? 1:2;
+	}
+	else if (name == "fifo_size") {
+		int mult = settings.nchannels > 1 ? 1 : 2;
 		*value = (int32_t)settings.nsamples * mult;
 		return NI_OK;
-	} else if (name == "max_ch_samples") {
-		int mult = enabledch >1 ? 1:2;
-		int scale = settings.nchannels/enabledch;
+	}
+	else if (name == "max_ch_samples") {
+		int mult = enabledch > 1 ? 1 : 2;
+		int scale = settings.nchannels / enabledch;
 		*value = (int32_t)settings.nsamples * mult * scale;
 		return NI_OK;
 	}
 
 	return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_Digitizer::IGetParamI32(string name, int32_t *value) {
+NI_RESULT SciSDK_Digitizer::IGetParamI32(string name, int32_t* value) {
 	if (name == "timeout") {
 		*value = timeout;
 		return NI_OK;
@@ -173,7 +177,7 @@ NI_RESULT SciSDK_Digitizer::IGetParamI32(string name, int32_t *value) {
 
 	return NI_INVALID_PARAMETER;
 }
-NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
+NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string* value) {
 	if (name == "data_processing") {
 		if (data_processing == DATA_PROCESSING::RAW) {
 			*value = "raw";
@@ -195,7 +199,8 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
-	} else if (name == "thread") {
+	}
+	else if (name == "thread") {
 		if (threaded == true) {
 			*value = "true";
 			return NI_OK;
@@ -204,7 +209,8 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 			*value = "false";
 			return NI_OK;
 		}
-	} else if (name == "high_performance") {
+	}
+	else if (name == "high_performance") {
 		if (high_performance == true) {
 			*value = "true";
 			return NI_OK;
@@ -229,14 +235,14 @@ NI_RESULT SciSDK_Digitizer::IGetParamString(string name, string *value) {
 	return NI_INVALID_PARAMETER;
 }
 
-NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
+NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer) {
 
 	if (bt == T_BUFFER_TYPE_DECODED) {
-		*buffer = (SCISDK_DIGITIZER_DECODED_BUFFER *)malloc(sizeof(SCISDK_DIGITIZER_DECODED_BUFFER));
+		*buffer = (SCISDK_DIGITIZER_DECODED_BUFFER*)malloc(sizeof(SCISDK_DIGITIZER_DECODED_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
-		SCISDK_DIGITIZER_DECODED_BUFFER *p;
+		SCISDK_DIGITIZER_DECODED_BUFFER* p;
 		p = (SCISDK_DIGITIZER_DECODED_BUFFER*)*buffer;
 		p->analog = (int32_t*)malloc(sizeof(int32_t) * (settings.nchannels * settings.nsamples + 8));
 		if (p->analog == NULL) {
@@ -253,7 +259,7 @@ NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 		return NI_OK;
 	}
 	else if (bt == T_BUFFER_TYPE_RAW) {
-	
+
 		return NI_INVALID_PARAMETER;
 	}
 	else {
@@ -261,23 +267,23 @@ NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	}
 }
 
-NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
+NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size) {
 
 	if (bt == T_BUFFER_TYPE_DECODED) {
 		int ret = 0;
 		for (int i = 0; i < size; i++) {
-			ret |= AllocateBuffer(T_BUFFER_TYPE_DECODED, buffer + sizeof(SCISDK_DIGITIZER_DECODED_BUFFER*)*i);
+			ret |= AllocateBuffer(T_BUFFER_TYPE_DECODED, buffer + sizeof(SCISDK_DIGITIZER_DECODED_BUFFER*) * i);
 		}
 		return ret;
 	}
 	else if (bt == T_BUFFER_TYPE_RAW) {
-		*buffer = (SCISDK_DIGITIZER_RAW_BUFFER *)malloc(sizeof(SCISDK_DIGITIZER_RAW_BUFFER));
+		*buffer = (SCISDK_DIGITIZER_RAW_BUFFER*)malloc(sizeof(SCISDK_DIGITIZER_RAW_BUFFER));
 		if (*buffer == NULL) {
 			return NI_ALLOC_FAILED;
 		}
-		SCISDK_DIGITIZER_RAW_BUFFER *p;
+		SCISDK_DIGITIZER_RAW_BUFFER* p;
 		p = (SCISDK_DIGITIZER_RAW_BUFFER*)*buffer;
-		p->data= (int32_t*)malloc(sizeof(int32_t) * size);
+		p->data = (int32_t*)malloc(sizeof(int32_t) * size);
 		if (p->data == NULL) {
 			return NI_ALLOC_FAILED;
 		}
@@ -293,12 +299,12 @@ NI_RESULT SciSDK_Digitizer::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int 
 	}
 }
 
-NI_RESULT SciSDK_Digitizer::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
+NI_RESULT SciSDK_Digitizer::FreeBuffer(T_BUFFER_TYPE bt, void** buffer) {
 	if (bt == T_BUFFER_TYPE_DECODED) {
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
-		SCISDK_DIGITIZER_DECODED_BUFFER *p;
+		SCISDK_DIGITIZER_DECODED_BUFFER* p;
 		p = (SCISDK_DIGITIZER_DECODED_BUFFER*)*buffer;
 		if (p->analog != NULL) {
 			free(p->analog);
@@ -319,7 +325,7 @@ NI_RESULT SciSDK_Digitizer::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 		if (*buffer == NULL) {
 			return NI_MEMORY_NOT_ALLOCATED;
 		}
-		SCISDK_DIGITIZER_RAW_BUFFER *p;
+		SCISDK_DIGITIZER_RAW_BUFFER* p;
 		p = (SCISDK_DIGITIZER_RAW_BUFFER*)*buffer;
 		if (p->data != NULL) {
 			free(p->data);
@@ -338,7 +344,7 @@ NI_RESULT SciSDK_Digitizer::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 	}
 }
 
-NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
+NI_RESULT SciSDK_Digitizer::ReadData(void* buffer) {
 	uint64_t timestamp = 0;
 	uint32_t counter = 0;
 	uint64_t hits = 0;
@@ -349,33 +355,33 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		return NI_INVALID_BUFFER;
 	}
 	if (data_processing == DATA_PROCESSING::DECODE) {
-		SCISDK_DIGITIZER_DECODED_BUFFER *p;
-		p = (SCISDK_DIGITIZER_DECODED_BUFFER *)buffer;
+		SCISDK_DIGITIZER_DECODED_BUFFER* p;
+		p = (SCISDK_DIGITIZER_DECODED_BUFFER*)buffer;
 
 		if (p->magic != BUFFER_TYPE_DIGITIZER_DECODED) return NI_INVALID_BUFFER_TYPE;
 		if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
 		if (p->info.samples != settings.nsamples) return NI_INCOMPATIBLE_BUFFER;
 
 		switch (settings.nchannels) {
-			case 1: header_size = 7; break;
-			case 2: header_size = 7; break;
-			case 4: header_size = 8; break;
-			case 8: header_size = 8; break;
-			case 16: header_size = 8; break;
-			case 32: header_size = 16; break;
-			case 64: header_size = 32; break;
+		case 1: header_size = 7; break;
+		case 2: header_size = 7; break;
+		case 4: header_size = 8; break;
+		case 8: header_size = 8; break;
+		case 16: header_size = 8; break;
+		case 32: header_size = 16; break;
+		case 64: header_size = 32; break;
 		}
-		int pQ_minsize = header_size + acq_len * enabledch *  1 / settings.wordsize;
+		int pQ_minsize = header_size + acq_len * enabledch * 1 / settings.wordsize;
 
 		h_mutex.lock();
-		while ( (pQ.size()>0) && (pQ.front() != 0xFFFFFFFF)) pQ.pop();
+		while ((pQ.size() > 0) && (pQ.front() != 0xFFFFFFFF)) pQ.pop();
 		h_mutex.unlock();
 
 		auto t_start = std::chrono::high_resolution_clock::now();
 		double elapsed_time_ms = 0;
 		if (acq_mode == ACQ_MODE::BLOCKING) {
 			int s = pQ.size();
-			while (!(s >= pQ_minsize) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+			while (!(s >= pQ_minsize) && ((timeout < 0) || (elapsed_time_ms < timeout))) {
 				auto t_end = std::chrono::high_resolution_clock::now();
 				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -387,8 +393,8 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			h_mutex.lock();
 			int pQi = 0;
 			int pQs = 0;
-			int pQt = enabledch/2;
-			int filler = header_size-7;
+			int pQt = enabledch / 2;
+			int filler = header_size - 7;
 			while (pQi < pQ_minsize) {
 				switch (pQi) {
 				case 0:
@@ -399,7 +405,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 					timestamp = pQ.front();
 					break;
 				case 2:
-					timestamp += ((uint64_t)(pQ.front()))<< 32UL;
+					timestamp += ((uint64_t)(pQ.front())) << 32UL;
 					break;
 				case 3:
 					counter = pQ.front();
@@ -418,12 +424,13 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 						if (enabledch == 1) {
 							p->analog[ii++] = pQ.front() & 0xFFFF;
 							p->analog[ii++] = (pQ.front() >> 16) & 0xFFFF;
-						} else {
-							p->analog[ii + (2 * pQs * acq_len) ] = pQ.front() & 0xFFFF;
-							p->analog[ii + ((2 * pQs + 1) * acq_len) ] = (pQ.front()>>16) & 0xFFFF;
+						}
+						else {
+							p->analog[ii + (2 * pQs * acq_len)] = pQ.front() & 0xFFFF;
+							p->analog[ii + ((2 * pQs + 1) * acq_len)] = (pQ.front() >> 16) & 0xFFFF;
 							pQs++;
-							if (pQs == pQt) { 
-								pQs = 0;  
+							if (pQs == pQt) {
+								pQs = 0;
 								ii++;
 							}
 						}
@@ -444,16 +451,17 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 			p->info.enabled_channels = enabledch;
 			h_mutex.unlock();
 			return NI_OK;
-		} else {
+		}
+		else {
 			p->info.valid_samples = 0;
 			return NI_NO_DATA_AVAILABLE;
 		}
-		
+
 
 	}
 	else if (data_processing == DATA_PROCESSING::RAW) {
-		SCISDK_DIGITIZER_RAW_BUFFER *p;
-		p = (SCISDK_DIGITIZER_RAW_BUFFER *)buffer;
+		SCISDK_DIGITIZER_RAW_BUFFER* p;
+		p = (SCISDK_DIGITIZER_RAW_BUFFER*)buffer;
 
 		if (p->magic != BUFFER_TYPE_DIGITIZER_RAW) return NI_INVALID_BUFFER_TYPE;
 		if (p->info.channels != settings.nchannels) return NI_INCOMPATIBLE_BUFFER;
@@ -463,7 +471,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		double elapsed_time_ms = 0;
 		if (acq_mode == ACQ_MODE::BLOCKING) {
 			int s = pQ.size();
-			while ((s < p->info.buffer_size) && ((timeout <0) || (elapsed_time_ms < timeout))) {
+			while ((s < p->info.buffer_size) && ((timeout < 0) || (elapsed_time_ms < timeout))) {
 				auto t_end = std::chrono::high_resolution_clock::now();
 				elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -487,7 +495,7 @@ NI_RESULT SciSDK_Digitizer::ReadData(void *buffer) {
 		else {
 			return NI_NO_DATA_AVAILABLE;
 		}
-		
+
 	}
 	else {
 		return NI_PARAMETER_OUT_OF_RANGE;
@@ -505,22 +513,17 @@ NI_RESULT SciSDK_Digitizer::ExecuteCommand(string cmd, string param) {
 	return NI_INVALID_COMMAND;
 }
 
-NI_RESULT SciSDK_Digitizer::ReadStatus(void *buffer) {
+NI_RESULT SciSDK_Digitizer::ReadStatus(void* buffer) {
 
 	return NI_OK;
 }
 
 NI_RESULT SciSDK_Digitizer::Detach()
 {
-	if (threaded) {
-		producer.canRun = false;
-	}
-	return NI_OK;
+	return CmdStop();
 }
 
 NI_RESULT SciSDK_Digitizer::ConfigureDigitizer() {
-
-	
 	return NI_OK;
 }
 
@@ -552,7 +555,7 @@ NI_RESULT SciSDK_Digitizer::CmdStop() {
 	if (!producer.isRunning) {
 		return NI_NOT_RUNNING;
 	}
-	
+
 	//Critical section : set stop
 	producer.canRun = false;
 
@@ -565,8 +568,8 @@ NI_RESULT SciSDK_Digitizer::CmdStop() {
 
 void SciSDK_Digitizer::producer_thread() {
 
-	while ( producer.canRun) {
-		uint32_t vd=0;
+	while (producer.canRun) {
+		uint32_t vd = 0;
 		uint32_t _size = 0;
 		bool go = false;
 		do {
@@ -607,5 +610,5 @@ void SciSDK_Digitizer::producer_thread() {
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
 		}
 	}
-	
+
 }

@@ -33,6 +33,8 @@ public:
 							uint32_t *peak_max, uint32_t *total_counter, double *integration_time);
 	NI_RESULT ExecuteCommand(string cmd, string param);
 	NI_RESULT ReadStatus(void *buffer);
+
+	NI_RESULT Detach();
 private:
 
 	enum class LIMIT_TYPE {
