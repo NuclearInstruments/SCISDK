@@ -144,6 +144,7 @@ public:
 	virtual NI_RESULT ExecuteCommand(string cmd, string param) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT ReadStatus(void *buffer) { return NI_NOT_IMPLEMENTED; }
 
+	virtual NI_RESULT Detach() { return NI_NOT_IMPLEMENTED; }
 protected:
 	string type;
 	string name;
@@ -178,6 +179,7 @@ protected:
 	virtual NI_RESULT ISetParamString(string name, string value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamDouble(string name, double *value) { return NI_NOT_IMPLEMENTED; }
 	virtual NI_RESULT IGetParamString(string name, string *value) { return NI_NOT_IMPLEMENTED; }
+	
 
 	const std::list<std::string> listOfBool = { "true","false" };
 

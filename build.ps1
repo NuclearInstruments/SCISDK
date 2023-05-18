@@ -12,5 +12,6 @@ Copy-Item ".\src\NIErrorCode.h" -Destination ".\output\src\" -Force
 Copy-Item ".\src\SciSDK_DLL.h" -Destination ".\output\src\" -Force
 Copy-Item ".\src\scisdk_defines.h" -Destination ".\output\src\" -Force
 Copy-Item ".\examples" -Destination ".\output\examples\" -Force -Recurse
+Copy-Item ".\wrapper" -Destination ".\output\wrapper" -Force -Recurse
 
 Compress-Archive -Path ".\output\*" -DestinationPath ".\output\scisdk-full.zip" -Force

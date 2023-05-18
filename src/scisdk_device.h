@@ -24,6 +24,7 @@ public:
 	~SciSDK_Device();
 
 	NI_RESULT Connect();
+	NI_RESULT CloseConnection();
 
 	NI_RESULT SetParameter(string Path, string value);
 	NI_RESULT GetParameter(string Path, string *value);

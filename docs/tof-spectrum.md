@@ -287,6 +287,12 @@ The following example shows how to use the spectrum component.
     }
 ```
 
+### Labview
+
+![](img/labview/examples/TOF-spectrum.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
 ## Additional Examples
 
 ### Print spectrum
