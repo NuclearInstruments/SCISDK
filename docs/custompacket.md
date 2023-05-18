@@ -469,6 +469,18 @@ if(res == 0) {
 }
 ```
 
+### Labview Single
+
+![](img/labview/examples/cp-single.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
+### Labview Multiple
+
+![](img/labview/examples/cp-multiple.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
 ## Additional Examples
 
 ### Decode list data in C

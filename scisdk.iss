@@ -38,74 +38,87 @@ UsePreviousAppDir=no
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
+[Types]
+Name: "full"; Description: "Full installation"
+Name: "compact"; Description: "Compact installation"
+Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
+[Components]
+Name: "program"; Description: "Program Files"; Types: full compact custom; Flags: fixed
+Name: "labview"; Description: "Labview wrapper library"; Types: full
 
 [Files]
-Source: "scisdk\bin\x64\Release\SciSDK_DLL.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\x64\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\Win32\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\AnyCPU\Debug\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\bin\AnyCPU\Release\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Release\"; Flags: ignoreversion recursesubdirs
-Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "dt1260\x64\Debug\SCIDK_Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "dt1260\Win32\Debug\SCIDK_Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64\libsodium.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86\libsodium.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64d\R5560_SDKLib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64d\libsodium.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x64d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86d\R5560_SDKLib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86d\libsodium.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "x5560\x86d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags:  recursesubdirs
-Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\src\NIErrorCode.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\src\scisdk_defines.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\src\SciSDK_DLL.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\scisdk_docs\*"; DestDir: "{app}\docs\"; Flags: ignoreversion recursesubdirs
-Source: "scisdk\examples\*"; DestDir: "{app}\examples\"; Flags: ignoreversion recursesubdirs
+Source: "scisdk\bin\x64\Release\SciSDK_DLL.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Release\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Release\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Debug\SciSDK_DLL.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Debug\SciSDK_Static.lib"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\AnyCPU\Debug\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\AnyCPU\Release\CSharp_SciSDK.dll"; DestDir: "{app}\bin\AnyCPU\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt1260\x64\Debug\SCIDK_Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt1260\Win32\Debug\SCIDK_Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64\libsodium.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86\libsodium.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64d\R5560_SDKLib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64d\libsodium.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x64d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86d\R5560_SDKLib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86d\libsodium.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "x5560\x86d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags:  recursesubdirs; Components: program
+Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Release\SciSDK_Labview.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: 64bit ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Debug\SciSDK_Labview.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: 64bit ignoreversion recursesubdirs; Components: program
+Source: "scisdk\src\NIErrorCode.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\src\scisdk_defines.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\src\SciSDK_DLL.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\scisdk_docs\*"; DestDir: "{app}\docs\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\examples\*"; DestDir: "{app}\examples\"; Flags: ignoreversion recursesubdirs; Components: program
 
-Source: "scisdk\bin\x64\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "x5560\x64\libsodium.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 64bit 
-Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 64bit 
+Source: "scisdk\bin\x64\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "scisdk\bin\x64\Release\SciSDK_Labview.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "x5560\x64\libsodium.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 
-Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "x5560\x86\libsodium.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 32bit 
-Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 32bit 
+Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "x5560\x86\libsodium.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
-Source: ".\Redist\VC_redist.x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall
-Source: ".\Redist\VC_redist.x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
-Source: ".\Drivers\d2xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall
-Source: ".\Drivers\d3xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall
+Source: ".\Redist\VC_redist.x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
+Source: ".\Redist\VC_redist.x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
+Source: ".\Drivers\d2xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
+Source: ".\Drivers\d3xx_setup.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
+
+; Labview wrapper library
+Source: scisdk\wrapper\LabView\*; DestDir: {code:GetDir|0}; Flags: 64bit recursesubdirs; Components: labview
 
 [Icons]
 Name: "{group}\SciSDK User Guide"; Filename: "{app}\docs\index.html"; WorkingDir: "{app}\docs\"
@@ -139,4 +152,72 @@ begin
     Log('VC Redist Version check : found ' + Version);
     Result := (CompareStr(Version, 'v14.34.31931.00')<0);
   end;
+end;
+
+function GetLabviewLastVersionUserLibFolder(Param: String) : String;
+var
+  FindRec: TFindRec;
+  LatestVersion: Integer;
+  BasePath: String;
+  PathTmp : String;
+begin
+  BasePath := 'C:\Program Files\National Instruments\*';
+  LatestVersion := 0;
+
+  if FindFirst(BasePath, FindRec) then begin
+    try
+      repeat
+        if FindRec.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0 then
+        begin
+          // it's a directory
+          if Pos('LabVIEW', FindRec.Name) > 0 then
+          begin   
+            // get version number
+            PathTmp := Copy(FindRec.Name, Length('LabVIEW '), Length(FindRec.Name)-Length('LabVIEW ') + 1);
+            if LatestVersion < StrToInt(PathTmp) then
+            begin
+              LatestVersion := StrToInt(PathTmp);
+            end;
+          end;
+        end;
+      until not FindNext(FindRec);
+    finally
+      FindClose(FindRec);
+    end;
+
+    if LatestVersion > 0 then
+      begin
+        Result := 'C:\Program Files\National Instruments\LabVIEW ' + IntToStr(LatestVersion) + '\user.lib\SciSDK';
+      end
+    else
+      begin
+        Result :=  'C:\Program Files\National Instruments\LabVIEW 2021\user.lib\SciSDK';
+      end;
+  end;
+end;
+
+
+var
+  DirPage: TInputDirWizardPage;
+function GetDir(Param: String): String;
+begin
+  Result := DirPage.Values[StrToInt(Param)];
+end;
+
+procedure InitializeWizard;
+begin
+  { create a directory input page }
+  DirPage := CreateInputDirPage(
+    wpSelectComponents, 'Labview SciSDK wrapper library', 'Select the destination folder for labview SciSDK wrapper', '', False, '');
+  { add directory input page items }
+  DirPage.Add('SciSDK labview wrapper');
+  { Set default values }
+  DirPage.Values[0] := GetLabviewLastVersionUserLibFolder('');
+end;
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := False;
+  if PageID = DirPage.ID then
+    Result := not IsComponentSelected('labview');
 end;

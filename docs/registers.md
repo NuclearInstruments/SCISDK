@@ -104,4 +104,9 @@ sdk.GetRegister("board0:/Registers/C", value);
 System.out.println("Register C = (A+B) value is: " + value.get());
 ```
 
+### Labview
+
+![](img/labview/examples/simple-register.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
 

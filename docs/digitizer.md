@@ -337,6 +337,12 @@ The `info` field contains the information about the buffer:
 	}
 ```
 
+### Labview
+
+![](img/labview/examples/digitizer.PNG)
+
+<i>You can find the labview file for this example [here](https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView)</i>
+
 ## Additional Examples
 
 ### Read decoded data and write on file, on channel per column

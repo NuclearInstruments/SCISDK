@@ -83,6 +83,18 @@ NI_RESULT SciSDK_Device::Connect() {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_Device::CloseConnection()
+{
+	if (!connected) return NI_ERROR;
+
+	// stop components threads
+	for (auto component : mmcs) {
+		component->Detach();
+	}
+
+	return _hal->CloseConnection();
+}
+
 
 string ToUpper(string str) {
 	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
