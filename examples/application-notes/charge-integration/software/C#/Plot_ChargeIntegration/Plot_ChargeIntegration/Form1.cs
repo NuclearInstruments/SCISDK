@@ -86,7 +86,7 @@ namespace Plot_ChargeIntegration
             sdk = new SciSDK();
 
             // Add new device DT1260
-            res = sdk.AddNewDevice("usb:13250", "dt1260", "RegisterFile.json", "board0");
+            res = sdk.AddNewDevice("usb:28686", "dt1260", "RegisterFile.json", "board0");
 
             // Print error message
             if (res != 0)
