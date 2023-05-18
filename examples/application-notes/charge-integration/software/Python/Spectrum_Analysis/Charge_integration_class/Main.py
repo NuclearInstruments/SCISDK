@@ -14,7 +14,7 @@ import Oscilloscope_parameter_class as opc
 sdk = SciSDK()
 
 # Add the DT1260 device to the sdk
-res = sdk.AddNewDevice("usb:13250", "DT1260", "RegisterFile.json", "board0")
+res = sdk.AddNewDevice("usb:28686", "DT1260", "RegisterFile.json", "board0")
 
 if res != 0:
     print("Error adding device")

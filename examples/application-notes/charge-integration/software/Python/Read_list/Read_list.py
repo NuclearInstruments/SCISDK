@@ -49,7 +49,7 @@ res, buf = sdk.ReadData("board0:/MMCComponents/List_0", buf)
 
 # Print an array of values
 if res == 0:
-    print(buf.info.valid_samples)
+    print(f"Valid sample: {buf.info.valid_samples}")
     data_to_write = ""
     for i in range(0, int(buf.info.valid_samples/4)):
         data_to_write += str(i) + "\t" + str(unpack('<I', buf.data[i*4:(i+1)*4])[0]) + "\n"

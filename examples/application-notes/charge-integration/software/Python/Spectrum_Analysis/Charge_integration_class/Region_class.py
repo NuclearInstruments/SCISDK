@@ -8,7 +8,7 @@ class Analysis(pTypes.GroupParameter):
     """Class for the analysis of the spectrum.
     It has get/set methods for every parameter.
     This class generate a Group parameter.
-    It is associated to a LinearRegionItem in che Line class.
+    It is associated to a LinearRegionItem in the Line class.
     """
     def __init__(self):
         """Constructor of the class: it generate a Group parameter.
