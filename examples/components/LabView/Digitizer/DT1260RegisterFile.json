@@ -1,0 +1,70 @@
+{"Registers":[
+{
+  "Name": "thrs",
+  "Address": 5,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "sw_trig",
+  "Address": 6,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "trg_mode",
+  "Address": 7,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "ANALOG_OFFSET",
+  "Address": 4294967289,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "AnalogAFE"
+}],
+"MMCComponents":[
+{
+  "Name": "Digitizer_0",
+  "Type": "WaveDump",
+  "Address": 0,
+  "Version": "1.1.0.0",
+  "WordSize": 0,
+  "Channels": 2,
+  "nsamples": 8192,
+  "UseDMA": false,
+  "Registers": [
+    {
+      "Name": "STATUS",
+      "Address": 1,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "INFO",
+      "Address": 2,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG",
+      "Address": 3,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "ACQ_LEN",
+      "Address": 4,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ]
+}],"Device":"SCIDK","Project":"Digitizer"}
