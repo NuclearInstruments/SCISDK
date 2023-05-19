@@ -22,6 +22,8 @@ int main(int argc, char* argv[])
 	int ret = SCISDK_SetRegister("board0:/Registers/RUNREG", 0, _sdk);*/
 
 	int op_res = SCISDK_AddNewDevice("usb:28645", "dt1260", "C:/git/scisdk/examples/components/LabView/Registers/DT1260RegisterFile.json", "board0", _sdk);
+	SCISDK_GetLibraryVersion(&res, _sdk);
+	cout << "Current version of scisdk is: " << res << endl;
 	SCISDK_s_error(op_res, &res, _sdk);
 	
 	SCISDK_GetAttachedDevicesList(&res, _sdk);

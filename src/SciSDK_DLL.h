@@ -611,10 +611,22 @@ SCISDK_DLL_API int SCISDK_free_string(char * _str);
 /**
 * @brief Return a csv string with the list of attached devices
 * 
-* @param ret                Pointer to the buffer to be filled with the csv string. It'a allocated by the 
+* @param ret                Pointer to the buffer to be filled with the csv string. It's allocated by the 
 *                           SCISDK_GetAttachedDevicesList function and must be freed by the caller using the
 *                           SCISDK_free_string() function
 * @param handle 
-* @return                  int error code defined in NIErrorCode.h
+* @return                   int error code defined in NIErrorCode.h
 */
-SCISDK_DLL_API int  SCISDK_GetAttachedDevicesList(char** ret, void* handle);
+SCISDK_DLL_API int SCISDK_GetAttachedDevicesList(char** ret, void* handle);
+
+/**
+* @brief Return a string with the current version of SciSDK library
+* 
+* @param ret                Pointer to the buffer to be filled with the version number string. It's allocated by the 
+*                           SCISDK_GetLibraryVersion function and must be freed by the caller using the
+*                           SCISDK_free_string() function
+* 
+* @param handle
+* @return                   int error code defined in NIErrorCode.h
+*/
+SCISDK_DLL_API int SCISDK_GetLibraryVersion(char** ret, void* handle);

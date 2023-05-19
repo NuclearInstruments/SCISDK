@@ -96,4 +96,10 @@ public interface SciSDKLibrary extends Library {
 
     // method used to call dll method to make free a scisdk allocated string
     public int SCISDK_free_string(String _str);
+    
+    // method used to call dll method to get a csv string with the list of attached devices
+    public int SCISDK_GetAttachedDevicesList(String[] ret, Pointer handle);
+    
+    // method used to call dll method to get the string with the library version number
+    public int SCISDK_GetLibraryVersion(String[] ret, Pointer handle);
 }

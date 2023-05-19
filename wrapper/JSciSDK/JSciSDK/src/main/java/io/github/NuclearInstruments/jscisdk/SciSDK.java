@@ -546,5 +546,18 @@ public class SciSDK {
     public int FreeString(String _str) {
         return SciSDKLibrary.INSTANCE.SCISDK_free_string(_str);
     }
-
+    
+    public int GetAttachedDevicesList(Ref<String> ret){
+        String ret_string[] = new String[1];
+        int res = SciSDKLibrary.INSTANCE.SCISDK_GetAttachedDevicesList(ret_string, scisdk_handle);
+        ret.set(ret_string[0]);
+        return res;
+    }
+    
+    public int GetLibraryVersion(Ref<String> ret){
+        String ret_string[] = new String[1];
+        int res = SciSDKLibrary.INSTANCE.SCISDK_GetLibraryVersion(ret_string, scisdk_handle);
+        ret.set(ret_string[0]);
+        return res;
+    }
 }

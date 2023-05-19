@@ -244,7 +244,27 @@ namespace CSharp_SciSDK
                 raw_buffer.info = buffer_struct.info;
                 buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
             }
-
+            else if (buffer.GetType() == typeof(SciSDKFrameDecodedBuffer)) // frame decoded
+            {
+                SciSDKFrameDecodedBuffer decoded_buffer = (SciSDKFrameDecodedBuffer)(object)buffer;
+                decoded_buffer.buffer_ptr = Marshal.StringToHGlobalAnsi("g");
+                // read informations saved inside buffer
+                SciSDKFrameDecodedBuffer buffer_struct = (SciSDKFrameDecodedBuffer)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(SciSDKFrameDecodedBuffer));
+                decoded_buffer.magic = buffer_struct.magic;
+                decoded_buffer.info = buffer_struct.info;
+                buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
+            }
+            else if (buffer.GetType() == typeof(SciSDKFrameRawBuffer)) // frame raw
+            {
+                SciSDKFrameRawBuffer decoded_buffer = (SciSDKFrameRawBuffer)(object)buffer;
+                decoded_buffer.buffer_ptr = Marshal.StringToHGlobalAnsi("g");
+                // read informations saved inside buffer
+                SciSDKFrameRawBuffer buffer_struct = (SciSDKFrameRawBuffer)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(SciSDKFrameRawBuffer));
+                decoded_buffer.magic = buffer_struct.magic;
+                decoded_buffer.info = buffer_struct.info;
+                buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
+            }
+            
             return res;
         }
 
@@ -344,6 +364,20 @@ namespace CSharp_SciSDK
                 res = SciSDK_DLLImport.SCISDK_AllocateBufferSize(path_ptr, (int)bt, ref raw_buffer.buffer_ptr, scisdk_handle, size);
                 buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
             }
+            else if (buffer.GetType() == typeof(SciSDKFrameDecodedBuffer)) // fft raw
+            {
+                SciSDKFrameDecodedBuffer decoded_buffer = (SciSDKFrameDecodedBuffer)(object)buffer;
+                decoded_buffer.buffer_ptr = Marshal.StringToHGlobalAnsi("g");
+                res = SciSDK_DLLImport.SCISDK_AllocateBufferSize(path_ptr, (int)bt, ref decoded_buffer.buffer_ptr, scisdk_handle, size);
+                buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
+            }
+            else if (buffer.GetType() == typeof(SciSDKFrameRawBuffer)) // frame raw
+            {
+                SciSDKFrameRawBuffer raw_buffer = (SciSDKFrameRawBuffer)(object)buffer;
+                raw_buffer.buffer_ptr = Marshal.StringToHGlobalAnsi("g");
+                res = SciSDK_DLLImport.SCISDK_AllocateBufferSize(path_ptr, (int)bt, ref raw_buffer.buffer_ptr, scisdk_handle, size);
+                buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
+            }
 
             return res;
         }
@@ -431,6 +465,18 @@ namespace CSharp_SciSDK
                 res = SciSDK_DLLImport.SCISDK_FreeBuffer(path_ptr, (int)bt, ref raw_buffer.buffer_ptr, scisdk_handle);
                 buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
             }
+            else if (buffer.GetType() == typeof(SciSDKFFTRawBuffer)) // frame decoded
+            {
+                SciSDKFrameDecodedBuffer decoded_buffer = (SciSDKFrameDecodedBuffer)(object)buffer;
+                res = SciSDK_DLLImport.SCISDK_FreeBuffer(path_ptr, (int)bt, ref decoded_buffer.buffer_ptr, scisdk_handle);
+                buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
+            }
+            else if (buffer.GetType() == typeof(SciSDKFrameRawBuffer)) // frame raw
+            {
+                SciSDKFrameRawBuffer raw_buffer = (SciSDKFrameRawBuffer)(object)buffer;
+                res = SciSDK_DLLImport.SCISDK_FreeBuffer(path_ptr, (int)bt, ref raw_buffer.buffer_ptr, scisdk_handle);
+                buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
+            }
 
             return res;
         }
@@ -448,20 +494,20 @@ namespace CSharp_SciSDK
                 decoded_buffer.analog = new int[buffer_struct.info.samples_analog * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
                 decoded_buffer.digital = new bool[buffer_struct.info.channels * buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
-                byte [] tmp_bytes = new byte[buffer_struct.info.channels * buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                byte[] tmp_bytes = new byte[buffer_struct.info.channels * buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
                 Marshal.Copy(buffer_struct.digital, tmp_bytes, 0, decoded_buffer.digital.Length);
                 for (int i = 0; i < tmp_bytes.Length; i++)
                 {
                     decoded_buffer.digital[i] = (tmp_bytes[i] == 1);
                 }
-                    //byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
-                    //Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
-                    /*decoded_buffer.digital = new int[buf_tmp.Length];
-                    for (int i = 0; i < buf_tmp.Length; i++)
-                    {
-                        decoded_buffer.digital[i] = buf_tmp[i];
-                    }*/
-                    decoded_buffer.info = buffer_struct.info;
+                //byte[] buf_tmp = new byte[buffer_struct.info.samples_digital * buffer_struct.info.tracks_digital_per_channel];
+                //Marshal.Copy(buffer_struct.digital, buf_tmp, 0, buf_tmp.Length);
+                /*decoded_buffer.digital = new int[buf_tmp.Length];
+                for (int i = 0; i < buf_tmp.Length; i++)
+                {
+                    decoded_buffer.digital[i] = buf_tmp[i];
+                }*/
+                decoded_buffer.info = buffer_struct.info;
                 decoded_buffer.magic = buffer_struct.magic;
                 decoded_buffer.timecode = buffer_struct.timecode;
                 decoded_buffer.trigger_position = buffer_struct.trigger_position;
@@ -531,7 +577,7 @@ namespace CSharp_SciSDK
                 decoded_buffer.counter = buffer_struct.counter;
                 decoded_buffer.user = buffer_struct.user;
 
-                decoded_buffer.analog = new int[buffer_struct.info.valid_samples  * buffer_struct.info.channels];
+                decoded_buffer.analog = new int[buffer_struct.info.valid_samples * buffer_struct.info.channels];
                 Marshal.Copy(buffer_struct.analog, decoded_buffer.analog, 0, decoded_buffer.analog.Length);
 
                 buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
@@ -640,6 +686,41 @@ namespace CSharp_SciSDK
 
                 buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
             }
+            else if (buffer.GetType() == typeof(SciSDKFrameDecodedBuffer)) // frame decoded
+            {
+                SciSDKFrameDecodedBuffer decoded_buffer = (SciSDKFrameDecodedBuffer)(object)buffer;
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, decoded_buffer.buffer_ptr, scisdk_handle);
+                FrameDecodedBufferPtr buffer_struct = (FrameDecodedBufferPtr)Marshal.PtrToStructure(decoded_buffer.buffer_ptr, typeof(FrameDecodedBufferPtr));
+                // copy informations from buffer with IntPtr to buffer without IntPtr
+                decoded_buffer.info = buffer_struct.info;
+                decoded_buffer.magic = buffer_struct.magic;
+                FramePacketPtr[] packet_array = new FramePacketPtr[decoded_buffer.info.buffer_size];
+                MarshalUnmananagedArray2Struct(buffer_struct.data, (int)decoded_buffer.info.buffer_size, out packet_array);
+                decoded_buffer.data = new SciSDKFramePacket[decoded_buffer.info.buffer_size];
+
+                for (int i = 0; i < packet_array.Length; i++)
+                {
+                    int[] pixel_buffer = new int[packet_array[i].n];
+                    Marshal.Copy(packet_array[i].pixel, pixel_buffer, 0, pixel_buffer.Length);
+                    decoded_buffer.data[i].pixel = pixel_buffer;
+                    decoded_buffer.data[i].n = packet_array[i].n;
+                    decoded_buffer.data[i].info = packet_array[i].info;
+                }
+
+                buffer = (T)Convert.ChangeType(decoded_buffer, typeof(T));
+            }
+            else if(buffer.GetType() == typeof(SciSDKFrameRawBuffer)) // frame raw
+            {
+                SciSDKFrameRawBuffer raw_buffer = (SciSDKFrameRawBuffer)(object)buffer;
+                res = SciSDK_DLLImport.SCISDK_ReadData(path_ptr, raw_buffer.buffer_ptr, scisdk_handle);
+                FrameRawBufferPtr buffer_struct = (FrameRawBufferPtr)Marshal.PtrToStructure(raw_buffer.buffer_ptr, typeof(FrameRawBufferPtr));
+                // copy informations from buffer with IntPtr to buffer without IntPtr
+                raw_buffer.magic = buffer_struct.magic;
+                raw_buffer.info = buffer_struct.info;
+                raw_buffer.data = new int[(int)raw_buffer.info.buffer_size];
+                Marshal.Copy(buffer_struct.data, raw_buffer.data, 0, (int)raw_buffer.info.buffer_size);
+                buffer = (T)Convert.ChangeType(raw_buffer, typeof(T));
+            }
 
             return res;
         }
@@ -718,6 +799,14 @@ namespace CSharp_SciSDK
             else if (buffer_out.GetType() == typeof(SciSDKFFTRawBuffer)) // fft raw
             {
                 buffer_out = (T)Convert.ChangeType((SciSDKFFTRawBuffer)Marshal.PtrToStructure(buf_out_ptr, typeof(SciSDKFFTRawBuffer)), typeof(T));
+            }
+            else if(buffer_out.GetType() == typeof(SciSDKFrameDecodedBuffer)) // frame decoded
+            {
+                buffer_out = (T)Convert.ChangeType((SciSDKFrameDecodedBuffer)Marshal.PtrToStructure(buf_out_ptr, typeof(SciSDKFrameDecodedBuffer)), typeof(T));
+            }
+            else if(buffer_out.GetType() == typeof(SciSDKFrameRawBuffer)) // frame decoded
+            {
+                buffer_out = (T)Convert.ChangeType((SciSDKFrameRawBuffer)Marshal.PtrToStructure(buf_out_ptr, typeof(SciSDKFrameRawBuffer)), typeof(T));
             }
 
             Marshal.FreeHGlobal(buf_in_ptr);
@@ -802,6 +891,24 @@ namespace CSharp_SciSDK
             IntPtr path_ptr = Marshal.StringToHGlobalAnsi(path);
             IntPtr ret_ptr = Marshal.StringToHGlobalAnsi("g");
             int res = SciSDK_DLLImport.SCISDK_GetParameterListOfValues(path_ptr, ret_ptr, scisdk_handle);
+            int addr_tmp = Marshal.ReadInt32(ret_ptr);
+            ret = Marshal.PtrToStringAnsi(new IntPtr(addr_tmp));
+            return res;
+        }
+
+        public int GetAttachedDevicesList(out string ret)
+        {
+            IntPtr ret_ptr = Marshal.StringToHGlobalAnsi("g");
+            int res = SciSDK_DLLImport.SCISDK_GetAttachedDevicesList(ret_ptr, scisdk_handle);
+            int addr_tmp = Marshal.ReadInt32(ret_ptr);
+            ret = Marshal.PtrToStringAnsi(new IntPtr(addr_tmp));
+            return res;
+        }
+
+        public int GetLibraryVersion(out string ret)
+        {
+            IntPtr ret_ptr = Marshal.StringToHGlobalAnsi("g");
+            int res = SciSDK_DLLImport.SCISDK_GetLibraryVersion(ret_ptr, scisdk_handle);
             int addr_tmp = Marshal.ReadInt32(ret_ptr);
             ret = Marshal.PtrToStringAnsi(new IntPtr(addr_tmp));
             return res;
@@ -948,6 +1055,29 @@ namespace CSharp_SciSDK
             public IntPtr data;
             public UInt64 timecode;
             public SciSDKFFTRawBufferInfo info;
+        }
+
+        // frame decoded buffer
+        private struct FramePacketPtr
+        {
+            public IntPtr pixel;
+            public UInt32 n;
+            public SciSDKFramePacketInfo info;
+        }
+
+        private struct FrameDecodedBufferPtr
+        {
+            public UInt32 magic;
+            public IntPtr data;
+            public SciSDKFrameDecodedBufferInfo info;
+        }
+
+        // frame raw buffer
+        public struct FrameRawBufferPtr
+        {
+            public UInt32 magic;
+            public IntPtr data;
+            public SciSDKFrameRawBufferInfo info;
         }
     }
 }

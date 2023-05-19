@@ -87,5 +87,14 @@ namespace CSharp_SciSDK
          
         [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SCISDK_GetParametersProperties(IntPtr Path, IntPtr Ret, IntPtr handle);
+
+        [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SCISDK_free_string(IntPtr str);
+
+        [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SCISDK_GetAttachedDevicesList(IntPtr Ret, IntPtr handle);
+
+        [DllImport("SciSDK_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SCISDK_GetLibraryVersion(IntPtr Ret, IntPtr handle);
     }
 }
