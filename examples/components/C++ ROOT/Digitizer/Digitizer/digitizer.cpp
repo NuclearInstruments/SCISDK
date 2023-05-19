@@ -56,6 +56,7 @@ int main(int argc, char** argv) {
 			}
 			// create graphs
 			TGraph* gr3 = new TGraph(ddb->info.valid_samples, x, y);
+			gr3->SetTitle("Digitizer");
 			TCanvas* c1 = new TCanvas("c1", "Graph Draw Options", 200, 10, 600, 400);
 
 			c1->cd(4);

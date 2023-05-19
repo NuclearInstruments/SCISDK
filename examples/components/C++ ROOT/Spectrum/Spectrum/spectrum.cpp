@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
 
 			// create graphs
 			TGraph* gr3 = new TGraph(sdb->info.valid_bins, x, y);
+			gr3->SetTitle("Spectrum");
 			TCanvas* c1 = new TCanvas("c1", "Graph Draw Options", 200, 10, 600, 400);
 
 			c1->cd(4);
@@ -82,7 +83,7 @@ int main(int argc, char** argv) {
 	else {
 		char* error_description = (char*)"";
 		SCISDK_s_error(ret, &error_description, sdk);
-		cout << "ERROR, cannot allocate digitizer buffer: " << error_description << endl;
+		cout << "ERROR, cannot allocate spectrum buffer: " << error_description << endl;
 	}
 
 	// detach device
