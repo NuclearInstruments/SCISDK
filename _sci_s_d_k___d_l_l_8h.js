@@ -13,6 +13,7 @@ var _sci_s_d_k___d_l_l_8h =
     [ "SCISDK_GetAllParameters", "_sci_s_d_k___d_l_l_8h.html#aea75c6a7c34c3617cebf9585493c6697", null ],
     [ "SCISDK_GetAttachedDevicesList", "_sci_s_d_k___d_l_l_8h.html#a3665175d6744dc09f7744915f3897c8f", null ],
     [ "SCISDK_GetComponentList", "_sci_s_d_k___d_l_l_8h.html#a62a25facf58e95a0fb73d51fb877b10a", null ],
+    [ "SCISDK_GetLibraryVersion", "_sci_s_d_k___d_l_l_8h.html#a111007283ffc7310e2e9fa5023da6b5d", null ],
     [ "SCISDK_GetParameterDescription", "_sci_s_d_k___d_l_l_8h.html#a85f6670ef3c2ef5951ba65af933a7c14", null ],
     [ "SCISDK_GetParameterDouble", "_sci_s_d_k___d_l_l_8h.html#a71d47f586733bb51c6c19f4d881c7fba", null ],
     [ "SCISDK_GetParameterInteger", "_sci_s_d_k___d_l_l_8h.html#aed920280b3d640e6cfb6862e19d8518c", null ],
