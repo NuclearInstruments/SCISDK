@@ -466,3 +466,21 @@ class SciSDK:
         # call C lib function
         err = free_lib_api(self.lib_ptr)
         return err
+    
+    def GetAttachedDevicesList(self):
+        get_attached_devices_list_api = self.scisdk_dll.SCISDK_GetAttachedDevicesList
+        get_attached_devices_list_api.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_attached_devices_list_api.restype = ctypes.c_int
+        # call C lib function
+        ret_char_p = ctypes.c_char_p()
+        err = get_attached_devices_list_api(ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')
+    
+    def GetLibraryVersion(self):
+        get_library_version_api = self.scisdk_dll.SCISDK_GetLibraryVersion
+        get_library_version_api.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_void_p]
+        get_library_version_api.restype = ctypes.c_int
+        # call C lib function
+        ret_char_p = ctypes.c_char_p()
+        err = get_library_version_api(ctypes.byref(ret_char_p), self.lib_ptr)
+        return err, ret_char_p.value.decode('utf-8')

@@ -50,7 +50,8 @@ public:
 	NI_RESULT GetParameterMaximumValue(string path, double* ret);
 	NI_RESULT GetParametersProperties(string path, string* ret);
 	NI_RESULT GetAttachedDevicesList(string* devices);
-	
+	NI_RESULT GetLibraryVersion(string* ret);
+
 	string s_error(int err_no);
 	void p_error(int err_no);
 	void p_error(string fnc, int err_no);

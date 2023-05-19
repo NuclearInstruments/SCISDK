@@ -274,5 +274,50 @@ namespace CSharp_SciSDK
         public IntPtr buffer_ptr;
     }
 
+    // Frame decoded buffer
+    public struct SciSDKFramePacketInfo
+    {
+        UInt64 timestamp;
+        UInt64 trigger_count;
+        UInt64 event_count;
+        UInt64 hits;
+    }
+
+    public struct SciSDKFramePacket
+    {
+        public int[] pixel;
+        public UInt32 n;
+        public SciSDKFramePacketInfo info;
+    }
+
+    public struct SciSDKFrameDecodedBuffer
+    {
+        public UInt32 magic;
+        public SciSDKFramePacket[] data;
+        public SciSDKFrameDecodedBufferInfo info;
+        public IntPtr buffer_ptr;
+    }
+
+    public struct SciSDKFrameDecodedBufferInfo
+    {
+        public UInt32 buffer_size;
+        public UInt32 valid_data;
+    }
+
+    // Frame raw buffer
+    public struct SciSDKFrameRawBufferInfo
+    {
+        public UInt32 buffer_size;
+        public UInt32 packet_size;
+        public UInt32 valid_data;
+    }
+
+    public struct SciSDKFrameRawBuffer
+    {
+        public UInt32 magic;
+        public int[] data;
+        public SciSDKFrameRawBufferInfo info;
+        public IntPtr buffer_ptr;
+    }
 
 }

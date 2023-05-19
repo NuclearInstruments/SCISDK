@@ -441,3 +441,14 @@ SCISDK_DLL_API int SCISDK_GetAttachedDevicesList(char** ret, void* handle)
 	strcpy(*ret, v);
 	return res;
 }
+
+SCISDK_DLL_API int SCISDK_GetLibraryVersion(char** ret, void* handle) {
+	SciSDK* _handle = (SciSDK*)handle;
+	string version_str = "";
+	int res =_handle->GetLibraryVersion(&version_str);
+
+	char* v = (char*)version_str.c_str();
+	*ret = (char*)malloc((strlen(v) + 3) * sizeof(char));
+	strcpy(*ret, v);
+	return res;
+}

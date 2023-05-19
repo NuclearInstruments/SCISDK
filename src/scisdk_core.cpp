@@ -315,6 +315,12 @@ NI_RESULT SciSDK::GetAttachedDevicesList(string* devices)
 	return NI_OK;
 }
 
+NI_RESULT SciSDK::GetLibraryVersion(string* ret)
+{
+	*ret = SCISDK_VERSION;
+	return NI_OK;
+}
+
 
 SciSDK_Device * SciSDK::FindDeviceByName(string Name) {
 	std::list<SciSDK_Device *>::iterator it;
@@ -324,7 +330,7 @@ SciSDK_Device * SciSDK::FindDeviceByName(string Name) {
 		}
 	}
 	return NULL;
-}
+} 
 
 std::vector<std::string> SciSDK::SplitPath(string path, char separator) {
 
