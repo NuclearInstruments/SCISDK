@@ -23,13 +23,13 @@
 		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
 		uint32_t trigger_position;						/**< Trigger position in samples*/
 		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
-		struct  {
+		//struct  {
 			uint32_t samples_analog;					/**< Number of samples in analog buffer*/
 			uint32_t samples_digital;					/**< Number of samples in digital buffer*/
 			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
 			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
 			uint32_t channels;							/**< Number of channels*/
-		} info;
+		//} info;
 	}SCISDK_OSCILLOSCOPE_DECODED_BUFFER;
 
 	/**
