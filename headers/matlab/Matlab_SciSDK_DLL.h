@@ -5,23 +5,26 @@
 // SCISDK_DLL_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 
-
-#ifdef _MSC_VER
-    #ifdef SCISDK_DLL_EXPORTS
-        #define SCISDK_DLL_API extern "C" __declspec(dllexport)// __declspec(dllexport)
+#ifdef __cplusplus
+    #ifdef _MSC_VER
+        #ifdef SCISDK_DLL_EXPORTS
+            #define SCISDK_DLL_API extern "C" //__declspec(dllexport)// __declspec(dllexport)
+        #else
+            #define SCISDK_DLL_API extern "C" //__declspec(dllimport)
+        #endif
     #else
-        #define SCISDK_DLL_API extern "C" __declspec(dllimport)
+        #ifdef SCISDK_DLL_EXPORTS
+            #define SCISDK_DLL_API __attribute__((visibility("default")))
+        #else
+            #define SCISDK_DLL_API
+        #endif
+    
     #endif
 #else
-    #ifdef SCISDK_DLL_EXPORTS
-        #define SCISDK_DLL_API __attribute__((visibility("default")))
-    #else
-        #define SCISDK_DLL_API
-    #endif
-    
+    #define SCISDK_DLL_API
 #endif
 
-#include "scisdk_defines.h"
+#include "Matlab_scisdk_defines_flat.h"
 
 /**
  * @brief Initialize the SciSDK handles accolating the resources. 
@@ -629,4 +632,4 @@ SCISDK_DLL_API int SCISDK_GetAttachedDevicesList(char** ret, void* handle);
 * @param handle
 * @return                   int error code defined in NIErrorCode.h
 */
-SCISDK_DLL_API int SCISDK_GetLibraryVersion(char** ret, void* handle);
+ SCISDK_DLL_API int SCISDK_GetLibraryVersion(char** ret, void* handle);
