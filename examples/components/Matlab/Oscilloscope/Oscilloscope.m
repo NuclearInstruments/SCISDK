@@ -1,12 +1,11 @@
 % load library
-%if ~libisloaded('SciSDK_DLL')
-    loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\src\SciSDK_DLL.h', 'addheader', 'C:\git\scisdk\src\scisdk_defines.h');
-%end
+loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\src\SciSDK_DLL.h', 'addheader', 'C:\git\scisdk\src\scisdk_defines.h');
+%loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\src\SciSDK_DLL.h', 'addheader', 'C:\Users\utente\Desktop\scisdk_defines.h');
 
 % initialize library
-sdk_handle = calllib("SciSDK_DLL", "SCISDK_InitLib");
 calllib("SciSDK_DLL", "SCISDK_InitLib");
 
+sdk_handle = calllib("SciSDK_DLL", "SCISDK_InitLib");
 % print version of SciSDK
 ret_string = libpointer('stringPtrPtr', {''});
 calllib("SciSDK_DLL", "SCISDK_GetLibraryVersion", ret_string, sdk_handle);
@@ -27,18 +26,26 @@ if res == 0
 
     % allocate buffer
     oscilloscope_buffer = struct('magic', 'uint32');
-    buffer_ptr = libpointer('voidPtr', 0);
-    
+
+    % buffer_ptr = libpointer('SCISDK_OSCILLOSCOPE_STATUSPtrPtr');
+    buffer_ptr = libpointer('SCISDK_OSCILLOSCOPE_DECODED_BUFFERPtrPtr');
+
     % libstruct('SCISDK_SPECTRUM_STATUS')
-    % libstruct('SCISDK_OSCILLOSCOPE_DECODED_BUFFER')
-    
     res = calllib('SciSDK_DLL', 'SCISDK_AllocateBuffer',  'board0:/MMCComponents/Oscilloscope_0', 1, buffer_ptr, sdk_handle);
-    buffer_ptr.Value
+
     if res == 0
+        %buffer_ptr.Value.magic
         res = calllib('SciSDK_DLL', 'SCISDK_ReadData',  'board0:/MMCComponents/Oscilloscope_0', buffer_ptr, sdk_handle);
         if res == 0
-            buffer_ptr.Value;
-            fprintf('OK');
+            % set analog data type
+            setdatatype(buffer_ptr.Value.analog, 'int32Ptr', uint32(buffer_ptr.Value.samples_analog) * uint32(buffer_ptr.Value.channels))
+            % write analog data to file
+            writetable(array2table(buffer_ptr.Value.analog),'analog.xlsx');
+            
+            % set digital data type
+            setdatatype(buffer_ptr.Value.digital, 'uint8Ptr', uint32(buffer_ptr.Value.samples_digital) * uint32(buffer_ptr.Value.channels))
+            % write digital data to file
+            writetable(array2table(buffer_ptr.Value.digital),'digital.xlsx');
         else
             fprintf('Cannot read oscilloscope data ' + string(res));
         end
@@ -52,9 +59,11 @@ if res == 0
         fprintf('Board successfully detached\n');
     end
 else
-    fprintf('Program exit due connection error');
+    fprintf('Program exit due connection error\n');
 end
 
 % free library
 calllib("SciSDK_DLL", "SCISDK_FreeLib", sdk_handle);
+
+clear("buffer_ptr")
 unloadlibrary("SciSDK_DLL");
