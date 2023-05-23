@@ -3,7 +3,7 @@ var struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r
     [ "buffer_size", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#a5008492a959f6e32464fd981460d1a05", null ],
     [ "channels", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#ae4aca2f0ba29e7b2f045401cbc05e7f6", null ],
     [ "data", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#aa907cba1612d6756793fd645b7ee856d", null ],
-    [ "info", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#acb64bfa3797c8fd681c42e687d11228f", null ],
+    [ "info", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#a84442f61cb03f81aadc4d4e62a2a84e0", null ],
     [ "magic", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#aa116ef6871a44a9a1f723686460c0f3d", null ],
     [ "samples_analog", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#a0301fed7af127f43ac43aee904cbb75c", null ],
     [ "samples_digital", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html#a0e837c7591bf7e2e8f617e75bb9ce92b", null ],
