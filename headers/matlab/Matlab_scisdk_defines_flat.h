@@ -23,13 +23,13 @@
 		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
 		uint32_t trigger_position;						/**< Trigger position in samples*/
 		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
-		struct  {
-			uint32_t samples_analog;					/**< Number of samples in analog buffer*/
-			uint32_t samples_digital;					/**< Number of samples in digital buffer*/
-			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
-			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
-			uint32_t channels;							/**< Number of channels*/
-		} info;
+		// info
+		uint32_t samples_analog;					/**< Number of samples in analog buffer*/
+		uint32_t samples_digital;					/**< Number of samples in digital buffer*/
+		uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+		uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+		uint32_t channels;							/**< Number of channels*/
+		
 	}SCISDK_OSCILLOSCOPE_DECODED_BUFFER;
 
 	/**
@@ -43,14 +43,14 @@
 		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
 		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
 		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
-		struct  {
-			uint32_t buffer_size;						/**< Size of the buffer in samples*/
-			uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
-			uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
-			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
-			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
-			uint32_t channels;							/**< Number of channels*/
-		} info;
+		// info
+		uint32_t buffer_size;						/**< Size of the buffer in samples*/
+		uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
+		uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
+		uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+		uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+		uint32_t channels;							/**< Number of channels*/
+		
 	}SCISDK_OSCILLOSCOPE_RAW_BUFFER;
 
 	/**
@@ -73,13 +73,12 @@
 		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
 		uint32_t trigger_position;						/**< Trigger position in samples*/
 		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
-		struct  {
-			uint32_t samples_analog;					/**< Number of samples in analog buffer*/
-			uint32_t samples_digital;					/**< Number of samples in digital buffer*/
-			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
-			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
-			uint32_t channels;							/**< Number of channels*/
-		} info;
+		// info 
+		uint32_t samples_analog;					/**< Number of samples in analog buffer*/
+		uint32_t samples_digital;					/**< Number of samples in digital buffer*/
+		uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+		uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+		uint32_t channels;							/**< Number of channels*/
 	}SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER;
 
 	/**
@@ -93,14 +92,13 @@
 		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
 		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
 		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
-		struct  {
-			uint32_t buffer_size;						/**< Size of the buffer in samples*/
-			uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
-			uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
-			uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
-			uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
-			uint32_t channels;							/**< Number of channels*/
-		} info;
+		// info
+		uint32_t buffer_size;						/**< Size of the buffer in samples*/
+		uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
+		uint32_t samples_digital;					/**< Number of digital samples (4 bit per sample) per channel in the buffer*/
+		uint32_t tracks_analog_per_channel;			/**< Number of analog tracks per channel*/
+		uint32_t tracks_digital_per_channel;		/**< Number of digital tracks per channel*/
+		uint32_t channels;							/**< Number of channels*/
 	}SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER;
 
 
@@ -122,12 +120,11 @@
 		uint64_t timecode;						/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
 		uint32_t counter;						/**< Counter progressive value*/
 		uint32_t user;							/**< User value field from SciCompiler IP block*/	
-		struct {
-			uint32_t samples;					/**< Number of samples allocated in analog buffer*/
-			uint32_t valid_samples;				/**< Number of valid samples in analog buffer*/
-			uint32_t channels;					/**< Number of channels of the digitizer*/
-			uint32_t enabled_channels;			/**< Number of enabled channels*/
-		} info;
+		// info
+		uint32_t samples;					/**< Number of samples allocated in analog buffer*/
+		uint32_t valid_samples;				/**< Number of valid samples in analog buffer*/
+		uint32_t channels;					/**< Number of channels of the digitizer*/
+		uint32_t enabled_channels;			/**< Number of enabled channels*/
 	}SCISDK_DIGITIZER_DECODED_BUFFER;
 	
 	/**
@@ -138,12 +135,11 @@
 	typedef struct {
 		uint32_t magic;							/**< Magic number to identify the data type*/
 		int32_t *data;							/**< Pointer to data allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;				/**< Size in DWORD of the data buffer*/
-			uint32_t samples;					/**< Number of samples allocated in the data buffer*/
-			uint32_t valid_samples;				/**< Number of valid samples allocated in the data buffer*/
-			uint32_t channels;					/**< Number of channels of the digitizer*/
-		} info;
+		// info
+		uint32_t buffer_size;				/**< Size in DWORD of the data buffer*/
+		uint32_t samples;					/**< Number of samples allocated in the data buffer*/
+		uint32_t valid_samples;				/**< Number of valid samples allocated in the data buffer*/
+		uint32_t channels;					/**< Number of channels of the digitizer*/
 	}SCISDK_DIGITIZER_RAW_BUFFER;
 
 
@@ -155,12 +151,10 @@
 	typedef struct {
 		uint32_t magic;					/**< Magic number to identify the data type*/
 		char *data;						/**< Pointer to data allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;		/**< Size of the buffer in bytes*/
-			uint32_t samples;			/**< Number of samples in the buffer expressed in FPGA Word*/	
-			uint32_t valid_samples;		/**< Number of valid samples in the buffer expressed in FPGA Word*/
-			uint32_t channels;			/**< Number of channels, always 1*/
-		} info;
+		uint32_t buffer_size;		/**< Size of the buffer in bytes*/
+		uint32_t samples;			/**< Number of samples in the buffer expressed in FPGA Word*/	
+		uint32_t valid_samples;		/**< Number of valid samples in the buffer expressed in FPGA Word*/
+		uint32_t channels;			/**< Number of channels, always 1*/
 	}SCISDK_LIST_RAW_BUFFER;
 
 	/**
@@ -187,11 +181,10 @@
 	typedef struct {
 		uint32_t magic;					/**< Magic number to identify the data type*/
 		SCISDK_CP_PACKET *data;			/**< Pointer to data allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;		/**< Size of the buffer in number of SCISDK_CP_PACKET allocated*/
-			uint32_t packet_size;		/**<  Number of 32-bit rows in the data packet*/
-			uint32_t valid_data;		/**< Number of valid data in the buffer expressed in number of SCISDK_CP_PACKET*/
-		} info;
+		// info
+		uint32_t buffer_size;		/**< Size of the buffer in number of SCISDK_CP_PACKET allocated*/
+		uint32_t packet_size;		/**<  Number of 32-bit rows in the data packet*/
+		uint32_t valid_data;		/**< Number of valid data in the buffer expressed in number of SCISDK_CP_PACKET*/
 	}SCISDK_CP_DECODED_BUFFER;
 
 
@@ -204,10 +197,9 @@
 	typedef struct {
 		uint32_t magic;				/**< Magic number to identify the data type*/
 		uint32_t *data;				/**< Pointer to data allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;	/**< Size of the buffer in in DWORD*/
-			uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
-		} info;
+		// info
+		uint32_t buffer_size;	/**< Size of the buffer in in DWORD*/
+		uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
 	}SCISDK_CP_RAW_BUFFER;
 
 	/**
@@ -218,11 +210,10 @@
 	typedef struct {
 		uint32_t magic;					/**< Magic number to identify the data type*/
 		double *data;					/**< Pointer to data containings the counts in the integration time allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;		/**< Size of the buffer in samples*/
-			uint32_t valid_data;		/**< Number of valid samples in the buffer*/
-			uint32_t nchannels;			/**< Number of channels*/
-		}info;
+		// info
+		uint32_t buffer_size;		/**< Size of the buffer in samples*/
+		uint32_t valid_data;		/**< Number of valid samples in the buffer*/
+		uint32_t nchannels;			/**< Number of channels*/
 	}SCISDK_RM_RAW_BUFFER;
 
 	typedef enum {
@@ -240,11 +231,10 @@
 		uint32_t *data;					/**< Pointer to data allocated by the AllocateBuffer function*/
 		uint64_t timecode;				/**< Epoch of the PC related to when the spectrum has been readout*/
 		uint32_t inttime;				/**< Integration time in clock cycles (calculated by the FPGA)*/
-		struct {
-			uint32_t buffer_size;		/**< Size of the data in samples (on sample per bin)*/
-			uint32_t total_bins;		/**< Total number of bins*/
-			uint32_t valid_bins;		/**< Number of valid bins, depends on rebin factor*/
-		} info;
+		// info
+		uint32_t buffer_size;		/**< Size of the data in samples (on sample per bin)*/
+		uint32_t total_bins;		/**< Total number of bins*/
+		uint32_t valid_bins;		/**< Number of valid bins, depends on rebin factor*/
 	}SCISDK_SPECTRUM_DECODED_BUFFER;
 
 	/**
@@ -271,10 +261,9 @@
 		double *mag;					/**< Magnitude array llocated by the AllocateBuffer function*/
 		double *ph;						/**< Phase array llocated by the AllocateBuffer function*/
 		uint64_t timecode;				/**< Timestamp of the acquisition*/
-		struct {
-			uint32_t samples;			/**< the number of samples per channel*/
-			uint32_t channels;			/**< the number of channel*/
-		} info;
+		// info
+		uint32_t samples;			/**< the number of samples per channel*/
+		uint32_t channels;			/**< the number of channel*/
 	}SCISDK_FFT_DECODED_BUFFER;
 
 	/**
@@ -288,11 +277,10 @@
 											The first DWORD is the Real, the second is the Immaginary part
 										*/					
 		uint64_t timecode;				/**< Timestamp of the acquisition*/
-		struct {
+		// info
 			uint32_t buffer_size;		/**< Size of the data buffer in DWORD*/
 			uint32_t samples;			/**< Number of samples (Re+Im) in data per channel*/
 			uint32_t channels;			/**< Number of channel*/
-		} info;
 	}SCISDK_FFT_RAW_BUFFER;
 
 	typedef struct {
@@ -311,12 +299,11 @@
 	typedef struct {
 		uint32_t *pixel;					/**< Pointer to the pixel array*/
 		uint32_t n;							/**< Number of pixel in the array*/
-		struct {
-			uint64_t timestamp;				/**< Timestamp of the event*/
-			uint64_t trigger_count;			/**< Progressive trigger counter calculated in FPGA*/
-			uint64_t event_count;			/**< Progressive event counter calculated in FPGA*/
-			uint64_t hits;					/**< hits vector, each 1 indicate that the respective Pixel generate a trigger for the event*/
-		} info;
+		// info
+		uint64_t timestamp;				/**< Timestamp of the event*/
+		uint64_t trigger_count;			/**< Progressive trigger counter calculated in FPGA*/
+		uint64_t event_count;			/**< Progressive event counter calculated in FPGA*/
+		uint64_t hits;					/**< hits vector, each 1 indicate that the respective Pixel generate a trigger for the event*/
 	}SCISDK_FRAME_PACKET;
 
 	/**
@@ -327,10 +314,9 @@
 	typedef struct {
 		uint32_t magic;						/**< Magic number to identify the data type*/
 		SCISDK_FRAME_PACKET *data;			/**< Pointer to the array of SCISDK_FRAME_PACKET*/
-		struct {
-			uint32_t buffer_size;			/**< Size of the data buffer in events*/
-			uint32_t valid_data;			/**< Number of valid events in the buffer*/
-		} info;
+		// info
+		uint32_t buffer_size;			/**< Size of the data buffer in events*/
+		uint32_t valid_data;			/**< Number of valid events in the buffer*/
 	}SCISDK_FRAME_DECODED_BUFFER;
 
 	/**
@@ -341,11 +327,10 @@
 	typedef struct {
 		uint32_t magic;				/**< Magic number to identify the data type*/
 		uint32_t *data;				/**< Pointer to data allocated by the AllocateBuffer function*/
-		struct {
-			uint32_t buffer_size;	/**< Size of the data buffer in DWORD*/
-			uint32_t packet_size;	/**< Size of the packet in DWORD, calculated from JSON file*/
-			uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
-		} info;
+		// info
+		uint32_t buffer_size;	/**< Size of the data buffer in DWORD*/
+		uint32_t packet_size;	/**< Size of the packet in DWORD, calculated from JSON file*/
+		uint32_t valid_data;	/**< Number of valid data in the buffer in DWORD*/
 	}SCISDK_FRAME_RAW_BUFFER;
 
 	typedef struct {
@@ -353,37 +338,35 @@
 		uint16_t lg;
 		uint8_t  hit;
 	} SCISDK_CITIROC_PIXEL;
+	
 	typedef struct {
 		SCISDK_CITIROC_PIXEL *pixel;
 		uint32_t n;
-		struct {
-			uint8_t asic;
-			uint64_t timestamp_from_t0;
-			uint64_t timestamp_from_run;
-			uint32_t event_id;
-			uint32_t trigger_count;
-			uint32_t validation_counter;
-			uint32_t flags;
-		}info;
+		// info
+		uint8_t asic;
+		uint64_t timestamp_from_t0;
+		uint64_t timestamp_from_run;
+		uint32_t event_id;
+		uint32_t trigger_count;
+		uint32_t validation_counter;
+		uint32_t flags;
 	}SCISDK_CITIROC_PACKET;
 
 	typedef struct {
 		uint32_t magic;
 		SCISDK_CITIROC_PACKET *data;
-		struct {
-			uint32_t buffer_size;
-			uint32_t valid_data;
-		} info;
+		// info
+		uint32_t buffer_size;
+		uint32_t valid_data;
 	}SCISDK_CITIROC_DECODED_BUFFER;
 
 	typedef struct {
 		uint32_t magic;
 		uint32_t *data;
-		struct {
-			uint32_t buffer_size;
-			uint32_t packet_size;
-			uint32_t valid_data;
-		} info;
+		// info
+		uint32_t buffer_size;
+		uint32_t packet_size;
+		uint32_t valid_data;
 	}SCISDK_CITIROC_RAW_BUFFER;
 
 
@@ -393,37 +376,35 @@
 		uint16_t coarse;
 		uint8_t  hit;
 	} SCISDK_PETIROC_PIXEL;
+	
 	typedef struct {
 		SCISDK_PETIROC_PIXEL *pixel;
 		uint32_t n;
-		struct {
-			uint8_t asic;
-			uint64_t timestamp_from_t0;
-			uint64_t timestamp_from_run;
-			uint32_t event_id;
-			uint32_t trigger_count;
-			uint32_t validation_counter;
-			uint32_t flags;
-		}info;
+		// info
+		uint8_t asic;
+		uint64_t timestamp_from_t0;
+		uint64_t timestamp_from_run;
+		uint32_t event_id;
+		uint32_t trigger_count;
+		uint32_t validation_counter;
+		uint32_t flags;
 	}SCISDK_PETIROC_PACKET;
 
 	typedef struct {
 		uint32_t magic;
 		SCISDK_PETIROC_PACKET *data;
-		struct {
-			uint32_t buffer_size;
-			uint32_t valid_data;
-		} info;
+		// info
+		uint32_t buffer_size;
+		uint32_t valid_data;
 	}SCISDK_PETIROC_DECODED_BUFFER;
 
 	typedef struct {
 		uint32_t magic;
 		uint32_t *data;
-		struct {
-			uint32_t buffer_size;
-			uint32_t packet_size;
-			uint32_t valid_data;
-		} info;
+		// info
+		uint32_t buffer_size;
+		uint32_t packet_size;
+		uint32_t valid_data;
 	}SCISDK_PETIROC_RAW_BUFFER;	
 
 

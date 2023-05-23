@@ -1,11 +1,24 @@
-% load library
-if ~libisloaded('SciSDK_DLL')
-    loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\src\SciSDK_DLL.h');
+% Load library if it isn't load
+if ~libisloaded("SciSDK_DLL")
+    [notfound, warnings] = loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\headers\matlab\Matlab_SciSDK_DLL.h', 'addheader', 'C:\git\scisdk\headers\matlab\Matlab_scisdk_defines_flat.h');
 end
 
-% initialize library
+% Detach the boards that are alredy attached from the previous execution of 
+% the program. Change the following lines of code to detach the boards
+% that have been attached previously. Also, remember to change the name
+% of the scisdk handle inside `evalin` function with the name of the
+% handle that you use in your program.
+if exist("sdk_handle", "var")
+    old_handle = evalin("base", "sdk_handle");
+    calllib('SciSDK_DLL', 'SCISDK_DetachDevice', 'board0', old_handle);
+    calllib('SciSDK_DLL', 'SCISDK_FreeLib', old_handle);
+    clear("buffer_ptr");
+    clear("old_handle");
+    clear("sdk_handle");
+end
+    
+% Initialize library
 sdk_handle = calllib("SciSDK_DLL", "SCISDK_InitLib");
-calllib("SciSDK_DLL", "SCISDK_InitLib");
 
 % print version of SciSDK
 ret_string = libpointer('stringPtrPtr', {''});
