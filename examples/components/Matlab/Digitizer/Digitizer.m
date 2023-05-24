@@ -1,10 +1,7 @@
 % Load library if it isn't load
 if ~libisloaded("SciSDK_DLL")
-    [notfound, warnings] = loadlibrary('SciSDK_DLL.dll', 'C:\git\scisdk\headers\matlab\Matlab_SciSDK_DLL.h', 'addheader', 'C:\git\scisdk\headers\matlab\Matlab_scisdk_defines_flat.h');
+    [notfound, warnings] = loadlibrary('SciSDK_DLL.dll', "../../../../headers/matlab/Matlab_SciSDK_DLL.h", 'addheader', "Matlab_scisdk_defines_flat.h");
 end
-%fprintf("PATH: " +  mfilename('fullpath'))
-%addpath('..\..\..\headers\matlab\')
-%fprintf("\n")
 
 % Detach the boards that are alredy attached from the previous execution of 
 % the program. Change the following lines of code to detach the boards
@@ -14,10 +11,6 @@ end
 if exist("sdk_handle", "var")
     old_handle = evalin("base", "sdk_handle");
     calllib('SciSDK_DLL', 'SCISDK_DetachDevice', 'board0', old_handle);
-    calllib('SciSDK_DLL', 'SCISDK_FreeLib', old_handle);
-    clear("buffer_ptr");
-    clear("old_handle");
-    clear("sdk_handle");
 end
     
 % Initialize library
@@ -74,11 +67,8 @@ else
     fprintf('Program exit due connection error\n');
 end
 
-% Free library
-calllib("SciSDK_DLL", "SCISDK_FreeLib", sdk_handle);
-
-% Free buffer memory
-clear("buffer_ptr");
+% Free up vars' memory
+clearvars
 
 % Unload dll
 unloadlibrary("SciSDK_DLL");

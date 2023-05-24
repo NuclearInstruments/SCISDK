@@ -150,7 +150,7 @@
 	 */
 	typedef struct {
 		uint32_t magic;					/**< Magic number to identify the data type*/
-		char *data;						/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint8_t *data;						/**< Pointer to data allocated by the AllocateBuffer function*/
 		uint32_t buffer_size;		/**< Size of the buffer in bytes*/
 		uint32_t samples;			/**< Number of samples in the buffer expressed in FPGA Word*/	
 		uint32_t valid_samples;		/**< Number of valid samples in the buffer expressed in FPGA Word*/
@@ -368,7 +368,6 @@
 		uint32_t packet_size;
 		uint32_t valid_data;
 	}SCISDK_CITIROC_RAW_BUFFER;
-
 
 	typedef struct {
 		uint16_t charge;
