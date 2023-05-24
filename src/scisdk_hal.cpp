@@ -108,6 +108,9 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 
 			return NI_ERROR;
 		}
+		else {
+			return NI_ERROR;
+		}
 		break;
 	case BOARD_MODEL::DT5550X:
 		break;
