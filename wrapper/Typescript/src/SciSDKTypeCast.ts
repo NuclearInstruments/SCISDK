@@ -1,3 +1,6 @@
+import { types } from 'ref-napi';
+const ref = require("ref-napi");
+
 /* Method for number conversion */
 export function PtrToInt32Array(ptr: any, size: number): Array<number> {
     let raw_data_arr = ptr.reinterpret(size * 4);
@@ -39,4 +42,13 @@ export function PtrToUInt8Array(ptr: any, size: number): Array<number> {
         decoded_data_arr.push(raw_data_arr[i] >>> 0);
     }
     return decoded_data_arr;
+}
+
+export function PtrToDoubleArray(ptr: any, size: number): Array<number> {
+    let result = ptr.reinterpret(size * types.double.size);
+    let data:Array<number> = [];
+    for (let i = 0; i < size; i++) {
+        data.push(ref.get(result, i * types.double.size, types.double));
+    }
+    return data;
 }

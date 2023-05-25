@@ -1,5 +1,5 @@
 import { refType, types } from 'ref-napi';
-import { PtrToInt32Array, PtrToInt8Array, PtrToUInt32Array, PtrToUInt8Array } from './SciSDKTypeCast';
+import { PtrToDoubleArray, PtrToInt32Array, PtrToInt8Array, PtrToUInt32Array, PtrToUInt8Array } from './SciSDKTypeCast';
 const ref = require("ref-napi");
 const Struct = require("ref-struct-di")(ref);
 
@@ -277,7 +277,7 @@ export class SciSDKListRawBuffer {
 
     static cpointer_class = Struct({
         magic: types.uint32,
-        data: refType('int8 *'),
+        data: refType('char *'),
         // info
         buffer_size: types.uint32,
         samples: types.uint32,
@@ -295,21 +295,60 @@ export class SciSDKListRawBuffer {
     }
 }
 
+export class SciSDKCustomPacket {
+    row: Array<number> = [];
+    n: number = 0;
+
+    static cpointer_class = Struct({
+        row: refType("uint32 *"),
+        n: types.uint32
+    });
+    static LoadFromCPointer(cpointer: any): SciSDKCustomPacket {
+        let packet = new SciSDKCustomPacket();
+        packet.row = PtrToUInt32Array(cpointer.row, cpointer.n);
+        packet.n = cpointer.n;
+        return packet;
+    }
+}
+
 export class SciSDKCustomPacketDecodedBuffer {
+    magic: number = 0;
+    data: Array<SciSDKCustomPacket> = [];
+    info = {
+        buffer_size: 0,
+        packet_size: 0,
+        valid_data: 0
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
-        data: refType('void *'), // TODO: decode to scisdk cp packet
+        data: refType(SciSDKCustomPacket.cpointer_class), // TODO: decode to scisdk cp packet
         buffer_size: types.uint32,
         packet_size: types.uint32,
         valid_data: types.uint32,
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        let result = this.cpointer.data.reinterpret(this.cpointer.buffer_size * SciSDKCustomPacket.cpointer_class.size);
+        for (let i = 0; i < this.cpointer.buffer_size; i++) {
+            this.data[i] = SciSDKCustomPacket.LoadFromCPointer(ref.get(result, i * SciSDKCustomPacket.cpointer_class.size, SciSDKCustomPacket.cpointer_class));
+        }
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.packet_size = this.cpointer.packet_size;
+        this.info.valid_data = this.cpointer.valid_data;
     }
 }
 
 export class SciSDKCustomPacketRawBuffer {
+
+    magic: number = 0;
+    data: Array<number> = [];
+    info = {
+        buffer_size: 0,
+        valid_data: 0
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
         data: refType("uint32 *"),
@@ -319,11 +358,23 @@ export class SciSDKCustomPacketRawBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.data = PtrToUInt32Array(this.cpointer.data, this.cpointer.buffer_size);
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.valid_data = this.cpointer.valid_data;
     }
 }
 
 export class SciSDKRateMeterRawBuffer {
+
+    magic: number = 0;
+    data: Array<number> = [];
+    info = {
+        buffer_size: 0,
+        valid_data: 0,
+        nchannels: 0
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
         data: refType("double *"),
@@ -334,11 +385,26 @@ export class SciSDKRateMeterRawBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.data = PtrToDoubleArray(this.cpointer.data, this.cpointer.buffer_size);
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.valid_data = this.cpointer.valid_data;
+        this.info.nchannels = this.cpointer.nchannels;
     }
 }
 
 export class SciSDKSpectrumDecodedBuffer {
+
+    magic: number = 0;
+    data: Array<number> = [];
+    timecode: number = 0;
+    inttime: number = 0;
+    info = {
+        buffer_size: 0,
+        total_bins: 0,
+        valid_bins: 0,
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
         data: refType("uint32 *"),
@@ -351,11 +417,27 @@ export class SciSDKSpectrumDecodedBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.data = PtrToUInt32Array(this.cpointer.data, this.cpointer.buffer_size);
+        this.timecode = this.cpointer.timecode;
+        this.inttime = this.cpointer.inttime;
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.total_bins = this.cpointer.total_bins;
+        this.info.valid_bins = this.cpointer.valid_bins;
     }
 }
 
 export class SciSDKFFTDecodedBuffer {
+
+    magic: number = 0;
+    mag: Array<number> = [];
+    ph: Array<number> = [];
+    timecode: number = 0;
+    info = {
+        samples: 0,
+        channels: 0
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
         mag: refType('double *'),
@@ -367,11 +449,25 @@ export class SciSDKFFTDecodedBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.mag = PtrToDoubleArray(this.cpointer.mag, this.cpointer.samples * this.cpointer.channels);
+        this.ph = PtrToDoubleArray(this.cpointer.mag, this.cpointer.samples * this.cpointer.channels);
+        this.timecode = this.cpointer.timecode;
+        this.info.channels = this.cpointer.channels;
+        this.info.samples = this.cpointer.samples;
     }
 }
 
 export class SciSDKFFTRawBuffer {
+    magic: number = 0;
+    data: Array<number> = [];
+    timecode: number = 0;
+    info = {
+        buffer_size: 0,
+        samples: 0,
+        channels: 0,
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
         data: refType('uint32 *'),
@@ -383,7 +479,12 @@ export class SciSDKFFTRawBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.data = PtrToUInt32Array(this.cpointer.data, this.cpointer.buffer_size);
+        this.timecode = this.cpointer.timecode;
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.samples = this.cpointer.samples;
+        this.info.channels = this.cpointer.channels;
     }
 }
 
