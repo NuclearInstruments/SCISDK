@@ -1,6 +1,6 @@
 import { Pointer, alloc, types, ref, refType } from 'ref-napi';
 import { SciSDKInterface } from './SciSDKInterface';
-import { SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer } from './SciSDKDefines';
+import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKRateMeterRawBuffer } from './SciSDKDefines';
 
 
 export default class SciSDK {
@@ -89,7 +89,7 @@ export default class SciSDK {
         if (buffer instanceof SciSDKOscilloscopeDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKOscilloscopeDecodedBuffer.cpointer_class, new SciSDKOscilloscopeDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKOscilloscopeRawBuffer.cpointer_class, new SciSDKOscilloscopeRawBuffer.cpointer_class).ref();
@@ -97,7 +97,7 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKOscilloscopeDualDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKOscilloscopeDualDecodedBuffer.cpointer_class, new SciSDKOscilloscopeDualDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeDualRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKOscilloscopeDualRawBuffer.cpointer_class, new SciSDKOscilloscopeDualRawBuffer.cpointer_class).ref();
@@ -105,14 +105,22 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKDigitizerDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKDigitizerDecodedBuffer.cpointer_class, new SciSDKDigitizerDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKDigitizerRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKDigitizerRawBuffer.cpointer_class, new SciSDKDigitizerRawBuffer.cpointer_class).ref();
         }
+        else if (buffer instanceof SciSDKCustomPacketDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKCustomPacketDecodedBuffer.cpointer_class, new SciSDKCustomPacketDecodedBuffer.cpointer_class).ref();
+        }
         else if (buffer instanceof SciSDKListRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKListRawBuffer.cpointer_class, new SciSDKListRawBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKRateMeterRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKRateMeterRawBuffer.cpointer_class, new SciSDKRateMeterRawBuffer.cpointer_class).ref();
         }
         else {
             throw new Error("The type of the buffer is invalid");
@@ -124,12 +132,12 @@ export default class SciSDK {
         return res;
     }
 
-    AllocateBufferSize(path: string, buffer: any, size:number) : number {
+    AllocateBufferSize(path: string, buffer: any, size: number): number {
         let decoded = 0;
         if (buffer instanceof SciSDKOscilloscopeDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKOscilloscopeDecodedBuffer.cpointer_class, new SciSDKOscilloscopeDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKOscilloscopeRawBuffer.cpointer_class, new SciSDKOscilloscopeRawBuffer.cpointer_class).ref();
@@ -137,7 +145,7 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKOscilloscopeDualDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKOscilloscopeDualDecodedBuffer.cpointer_class, new SciSDKOscilloscopeDualDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeDualRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKOscilloscopeDualRawBuffer.cpointer_class, new SciSDKOscilloscopeDualRawBuffer.cpointer_class).ref();
@@ -145,7 +153,7 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKDigitizerDecodedBuffer) {
             decoded = 1;
             buffer.cpointer = alloc(SciSDKDigitizerDecodedBuffer.cpointer_class, new SciSDKDigitizerDecodedBuffer.cpointer_class).ref();
-        } 
+        }
         else if (buffer instanceof SciSDKDigitizerRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKDigitizerRawBuffer.cpointer_class, new SciSDKDigitizerRawBuffer.cpointer_class).ref();
@@ -153,6 +161,14 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKListRawBuffer) {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKListRawBuffer.cpointer_class, new SciSDKListRawBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKCustomPacketDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKCustomPacketDecodedBuffer.cpointer_class, new SciSDKCustomPacketDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKRateMeterRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKRateMeterRawBuffer.cpointer_class, new SciSDKRateMeterRawBuffer.cpointer_class).ref();
         }
         else {
             throw new Error("The type of the buffer is invalid");
@@ -168,24 +184,30 @@ export default class SciSDK {
         let res = -1;
         if (buffer instanceof SciSDKOscilloscopeDecodedBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKOscilloscopeDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeRawBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKOscilloscopeRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeDualDecodedBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKOscilloscopeDualDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
-        } 
+        }
         else if (buffer instanceof SciSDKOscilloscopeDualRawBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKOscilloscopeDualRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
         }
         else if (buffer instanceof SciSDKDigitizerDecodedBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKDigitizerDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
-        } 
+        }
         else if (buffer instanceof SciSDKDigitizerRawBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKDigitizerRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
         }
         else if (buffer instanceof SciSDKListRawBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKListRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKCustomPacketDecodedBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKCustomPacketDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKRateMeterRawBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKRateMeterRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
         }
         else {
             throw new Error("The type of the buffer is invalid");
@@ -195,7 +217,7 @@ export default class SciSDK {
         return res;
     }
 
-    ExecuteCommand(path:string, value:string):number{
+    ExecuteCommand(path: string, value: string): number {
         return SciSDKInterface.SCISDK_ExecuteCommand(path, value, this.handle);
     }
 
