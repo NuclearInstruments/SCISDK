@@ -1,9 +1,9 @@
 import { Pointer, alloc, types, ref, refType } from 'ref-napi';
 import { SciSDKInterface } from './SciSDKInterface';
-import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKRateMeterRawBuffer } from './SciSDKDefines';
+import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKFFTDecodedBuffer, SciSDKFFTRawBuffer, SciSDKFFTStatus, SciSDKFrameDecodedBuffer, SciSDKFrameRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKOscilloscopeStatus, SciSDKRateMeterRawBuffer, SciSDKSpectrumDecodedBuffer, SciSDKSpectrumStatus } from './SciSDKDefines';
 
 
-export default class SciSDK {
+export class SciSDK {
 
     private handle: any = null;
 
@@ -122,6 +122,26 @@ export default class SciSDK {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKRateMeterRawBuffer.cpointer_class, new SciSDKRateMeterRawBuffer.cpointer_class).ref();
         }
+        else if (buffer instanceof SciSDKSpectrumDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKSpectrumDecodedBuffer.cpointer_class, new SciSDKSpectrumDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFFTDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKFFTDecodedBuffer.cpointer_class, new SciSDKFFTDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFFTRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKFFTRawBuffer.cpointer_class, new SciSDKFFTRawBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFrameDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKFrameDecodedBuffer.cpointer_class, new SciSDKFrameDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFrameRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKFrameRawBuffer.cpointer_class, new SciSDKFrameRawBuffer.cpointer_class).ref();
+        }
         else {
             throw new Error("The type of the buffer is invalid");
         }
@@ -170,6 +190,26 @@ export default class SciSDK {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKRateMeterRawBuffer.cpointer_class, new SciSDKRateMeterRawBuffer.cpointer_class).ref();
         }
+        else if (buffer instanceof SciSDKSpectrumDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKSpectrumDecodedBuffer.cpointer_class, new SciSDKSpectrumDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFFTDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKFFTDecodedBuffer.cpointer_class, new SciSDKFFTDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFFTRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKFFTRawBuffer.cpointer_class, new SciSDKFFTRawBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFrameDecodedBuffer) {
+            decoded = 1;
+            buffer.cpointer = alloc(SciSDKFrameDecodedBuffer.cpointer_class, new SciSDKFrameDecodedBuffer.cpointer_class).ref();
+        }
+        else if (buffer instanceof SciSDKFrameRawBuffer) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKFrameRawBuffer.cpointer_class, new SciSDKFrameRawBuffer.cpointer_class).ref();
+        }
         else {
             throw new Error("The type of the buffer is invalid");
         }
@@ -209,6 +249,21 @@ export default class SciSDK {
         else if (buffer instanceof SciSDKRateMeterRawBuffer) {
             res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKRateMeterRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
         }
+        else if (buffer instanceof SciSDKSpectrumDecodedBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKSpectrumDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKFFTDecodedBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKFFTDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKFFTRawBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKFFTRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKFrameDecodedBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKFrameDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else if (buffer instanceof SciSDKFrameRawBuffer) {
+            res = SciSDKInterface.SCISDK_ReadData(path, (<Pointer<typeof SciSDKFrameRawBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
         else {
             throw new Error("The type of the buffer is invalid");
         }
@@ -217,8 +272,135 @@ export default class SciSDK {
         return res;
     }
 
+    FreeBuffer(path: string, buffer: any): number {
+        let decoded = 0;
+        if (buffer instanceof SciSDKOscilloscopeDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKOscilloscopeRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKOscilloscopeDualDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKOscilloscopeDualRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKDigitizerDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKDigitizerRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKListRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKCustomPacketDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKRateMeterRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKSpectrumDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKFFTDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKFFTRawBuffer) {
+            decoded = 0;
+        }
+        else if (buffer instanceof SciSDKFrameDecodedBuffer) {
+            decoded = 1;
+        }
+        else if (buffer instanceof SciSDKFrameRawBuffer) {
+            decoded = 0;
+        }
+        else {
+            throw new Error("The type of the buffer is invalid");
+        }
+        let res = SciSDKInterface.SCISDK_FreeBuffer(path, decoded, buffer.cpointer.ref(), this.handle);
+        buffer.cpointer = null;
+        return res;
+    }
+
+    ReadStatus(path: string, buffer: any): number {
+        
+        // if (buffer instanceof SciSDKOscilloscopeStatus) {
+        //     buffer.cpointer 
+        // }
+        // else if (buffer instanceof SciSDKFFTStatus) {
+
+        // }
+        // else if (buffer instanceof SciSDKSpectrumStatus) {
+
+        // }
+        // else {
+        //     throw new Error("The type of the buffer is invalid");
+        // }
+        return 0;
+    }
+
+    DecodeData(path: string, buffer_in: any, buffer_out: any): number {
+        // TODO: check if buffers are valid type
+        return SciSDKInterface.SCISDK_DecodeData(path, buffer_in.cpointer, buffer_out.cpointer, this.handle);
+    }
+
     ExecuteCommand(path: string, value: string): number {
         return SciSDKInterface.SCISDK_ExecuteCommand(path, value, this.handle);
+    }
+
+    s_error(ni_error: number): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_s_error(ni_error, ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    GetComponentList(board: string, type: string, return_json: boolean): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetComponentList(board, type, ret_ptr, return_json, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    GetAllParameters(path: string): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetAllParameters(path, ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    GetParameterDescription(path: string): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetParameterDescription(path, ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    GetParameterListOfValues(path: string): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetParameterListOfValues(path, ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    GetParameterMinimumValue(path: string): NumberNumberTuple {
+        var ret_ptr: Pointer<number> = <Pointer<number>>alloc(types.double);
+        let res = SciSDKInterface.SCISDK_GetParameterMinimumValue(path, ret_ptr, this.handle);
+        return [res, ret_ptr.readDoubleBE()];
+    }
+
+    GetParametersProperties(path: string): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetParametersProperties(path, ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
+    }
+
+    free_string(str: string): number {
+        // return SciSDKInterface.SCISDK_free_string(str);
+        return 0;
+    }
+
+    GetAttachedDevicesList(): NumberStringTuple {
+        var ret_ptr: Pointer<any> = <Pointer<any>>alloc(types.CString);
+        let res = SciSDKInterface.SCISDK_GetAttachedDevicesList(ret_ptr, this.handle);
+        return [res, ret_ptr.readPointer().readCString()];
     }
 
     GetLibraryVersion(): NumberStringTuple {
@@ -226,8 +408,8 @@ export default class SciSDK {
         let res = SciSDKInterface.SCISDK_GetLibraryVersion(ret_ptr, this.handle);
         return [res, ret_ptr.readPointer().readCString()];
     }
+
 }
 
-interface NumberStringTuple extends Array<string | number> { 0: number; 1: string }
-interface NumberNumberTuple extends Array<number> { 0: number; 1: number }
-interface NumberObjectTuple extends Array<number | object> { 0: number; 1: object }
+export interface NumberStringTuple extends Array<string | number> { 0: number; 1: string }
+export interface NumberNumberTuple extends Array<number> { 0: number; 1: number }

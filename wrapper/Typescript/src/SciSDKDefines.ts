@@ -488,21 +488,72 @@ export class SciSDKFFTRawBuffer {
     }
 }
 
+export class SciSDKFramePacket {
+    pixel: Array<number> = [];
+    n = 0;
+    info = {
+        timestamp: 0,
+        trigger_count: 0,
+        event_count: 0,
+        hits: 0,
+    }
+
+    static cpointer_class = Struct({
+        pixel: refType('uint32 *'),
+        n: types.uint32,
+        // info
+        timestamp: types.uint64,
+        trigger_count: types.uint64,
+        event_count: types.uint64,
+        hits: types.uint64,
+    });
+    static LoadFromCPointer(cpointer: any): SciSDKFramePacket {
+        let packet = new SciSDKFramePacket();
+        packet.pixel = PtrToUInt32Array(cpointer.pixel, cpointer.n);
+        packet.n = cpointer.n;
+        packet.info.timestamp = cpointer.timestamp;
+        packet.info.trigger_count = cpointer.trigger_count;
+        packet.info.event_count = cpointer.event_count;
+        packet.info.hits = cpointer.hits;
+        return packet;
+    }
+}
+
 export class SciSDKFrameDecodedBuffer {
+    magic: number = 0;
+    data: Array<SciSDKFramePacket> = [];
+    info = {
+        buffer_size: 0,
+        valid_data: 0
+    }
+
     static cpointer_class = Struct({
         magic: types.uint32,
-        data: refType('void *'),// TODO: cast to SCISDK_FRAME_PACKET
+        data: refType('void *'),
         // info
         buffer_size: types.uint32,
         valid_data: types.uint32,
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        let result = this.cpointer.data.reinterpret(this.cpointer.buffer_size * SciSDKFramePacket.cpointer_class.size);
+        for (let i = 0; i < this.cpointer.buffer_size; i++) {
+            this.data[i] = SciSDKFramePacket.LoadFromCPointer(ref.get(result, i * SciSDKFramePacket.cpointer_class.size, SciSDKFramePacket.cpointer_class));
+        }
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.valid_data = this.cpointer.valid_data;
     }
 }
 
 export class SciSDKFrameRawBuffer {
+    magic: number = 0;
+    data: Array<number> = [];
+    info = {
+        buffer_size: 0,
+        packet_size: 0,
+        valid_data: 0
+    }
     static cpointer_class = Struct({
         magic: types.uint32,
         data: refType('uint32 *'),
@@ -513,6 +564,60 @@ export class SciSDKFrameRawBuffer {
     });
     cpointer: any = null;
     LoadData = () => {
-
+        this.magic = this.cpointer.magic;
+        this.data = PtrToUInt32Array(this.cpointer.data, this.cpointer.buffer_size);
+        this.info.buffer_size = this.cpointer.buffer_size;
+        this.info.packet_size = this.cpointer.packet_size;
+        this.info.valid_data = this.cpointer.valid_data;
     }
+}
+
+export class SciSDKOscilloscopeStatus {
+    armed: boolean = false;
+    ready: boolean = false;
+    running: boolean = false;
+    static cpointer_class = Struct({
+        armed: types.bool,
+        ready: types.bool,
+        running: types.bool,
+    });
+    cpointer: any = null;
+    LoadData = () => {
+        this.armed = this.cpointer.armed;
+        this.ready = this.cpointer.ready;
+        this.running = this.cpointer.running;
+    }
+}
+
+export class SciSDKSpectrumStatus {
+    running: boolean = false;
+    completed: boolean = false;
+    progress: number = 0;
+    peak_max: number = 0;
+    total_counter: number = 0;
+    integration_time: number = 0;
+
+    static cpointer_class = Struct({
+        running: types.bool,
+        completed: types.bool,
+        progress: types.uint32,
+        peak_max: types.uint32,
+        total_counter: types.uint32,
+        integration_time: types.double,
+    })
+    cpointer: any = null;
+    LoadData = () => {
+        this.running = this.cpointer.running;
+        this.completed = this.cpointer.completed;
+        this.progress = this.cpointer.progress;
+        this.peak_max = this.cpointer.peak_max;
+        this.total_counter = this.cpointer.total_counter;
+        this.integration_time = this.cpointer.integration_time;
+    }
+}
+
+export class SciSDKFFTStatus {
+    armed: boolean = false;
+    ready: boolean = false;
+    running: boolean = false;
 }
