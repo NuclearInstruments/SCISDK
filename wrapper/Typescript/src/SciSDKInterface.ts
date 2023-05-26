@@ -1,5 +1,4 @@
 import { Library, } from "ffi-napi";
-import { refType, types } from "ref-napi";
 
 
 export const SciSDKInterface = Library(process.platform == "win32" ? "SciSDK_DLL.dll" : "SciSDK_DLL.so", {
@@ -15,24 +14,24 @@ export const SciSDKInterface = Library(process.platform == "win32" ? "SciSDK_DLL
     "SCISDK_GetParameterInteger": ['int', ['string', 'int*', 'void*']],
     "SCISDK_GetParameterUInteger": ['int', ['string', 'uint*', 'void*']],
     "SCISDK_GetParameterDouble": ['int', ['string', 'double*', 'void*']],
-    // "SCISDK_DecodeData": ['int', ['string', 'void*', 'void*', 'void*']],
+    "SCISDK_DecodeData": ['int', ['string', 'void*', 'void*', 'void*']],
     "SCISDK_AllocateBuffer": ['int', ['string', 'int', 'void**', 'void*']],
     "SCISDK_AllocateBufferSize": ['int', ['string', 'int', 'void**', 'void*', 'int']],
     "SCISDK_SetRegister": ['int', ['string', 'uint', 'void*']],
     "SCISDK_GetRegister": ['int', ['string', 'uint*', 'void*']],
-    // "SCISDK_FreeBuffer": ['int', ['string', 'int', 'void**', 'void*']],
+    "SCISDK_FreeBuffer": ['int', ['string', 'int', 'void**', 'void*']],
     "SCISDK_ReadData": ['int', ['string', 'void*', 'void*']],
-    // "SCISDK_ReadStatus": ['int', ['string', 'void*', 'void*']],
-    // "SCISDK_s_error": ['int', ['int', 'char**', 'void*']],
+    "SCISDK_ReadStatus": ['int', ['string', 'void*', 'void*']],
+    "SCISDK_s_error": ['int', ['int', 'char**', 'void*']],
     "SCISDK_ExecuteCommand": ['int', ['string', 'string', 'void*']],
-    // "SCISDK_GetComponentList": ['int', ['char*', 'char*', 'char**', 'bool', 'void*']],
-    // "SCISDK_GetAllParameters": ['int', ['string', 'char**', 'void*']],
-    // "SCISDK_GetParameterDescription": ['int', ['string', 'char**', 'void*']],
-    // "SCISDK_GetParameterListOfValues": ['int', ['string', 'char**', 'void*']],
-    // "SCISDK_GetParameterMinimumValue": ['int', ['string', 'double*', 'void*']],
-    // "SCISDK_GetParameterMaximumValue": ['int', ['string', 'double*', 'void*']],
-    // "SCISDK_GetParametersProperties": ['int', ['string', 'char**', 'void*']],
-    // "SCISDK_free_string": ['int', ['string']],
-    // "SCISDK_GetAttachedDevicesList": ['int', ['char**. void*']],
+    "SCISDK_GetComponentList": ['int', ['char*', 'char*', 'char**', 'bool', 'void*']],
+    "SCISDK_GetAllParameters": ['int', ['string', 'char**', 'void*']],
+    "SCISDK_GetParameterDescription": ['int', ['string', 'char**', 'void*']],
+    "SCISDK_GetParameterListOfValues": ['int', ['string', 'char**', 'void*']],
+    "SCISDK_GetParameterMinimumValue": ['int', ['string', 'double*', 'void*']],
+    "SCISDK_GetParameterMaximumValue": ['int', ['string', 'double*', 'void*']],
+    "SCISDK_GetParametersProperties": ['int', ['string', 'char**', 'void*']],
+    "SCISDK_free_string": ['int', ['string']],
+    "SCISDK_GetAttachedDevicesList": ['int', ['char**', 'void*']],
     "SCISDK_GetLibraryVersion": ['int', ['char**', 'void*']],
 });
