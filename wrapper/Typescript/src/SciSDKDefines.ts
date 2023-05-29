@@ -583,9 +583,9 @@ export class SciSDKOscilloscopeStatus {
     });
     cpointer: any = null;
     LoadData = () => {
-        this.armed = this.cpointer.armed;
-        this.ready = this.cpointer.ready;
-        this.running = this.cpointer.running;
+        this.armed = this.cpointer.deref().armed;
+        this.ready = this.cpointer.deref().ready;
+        this.running = this.cpointer.deref().running;
     }
 }
 
@@ -607,12 +607,12 @@ export class SciSDKSpectrumStatus {
     })
     cpointer: any = null;
     LoadData = () => {
-        this.running = this.cpointer.running;
-        this.completed = this.cpointer.completed;
-        this.progress = this.cpointer.progress;
-        this.peak_max = this.cpointer.peak_max;
-        this.total_counter = this.cpointer.total_counter;
-        this.integration_time = this.cpointer.integration_time;
+        this.running = this.cpointer.deref().running;
+        this.completed = this.cpointer.deref().completed;
+        this.progress = this.cpointer.deref().progress;
+        this.peak_max = this.cpointer.deref().peak_max;
+        this.total_counter = this.cpointer.deref().total_counter;
+        this.integration_time = this.cpointer.deref().integration_time;
     }
 }
 
@@ -620,4 +620,17 @@ export class SciSDKFFTStatus {
     armed: boolean = false;
     ready: boolean = false;
     running: boolean = false;
+
+    static cpointer_class = Struct({
+        armed: types.bool,
+        ready: types.bool,
+        running: types.bool,
+    })
+
+    cpointer: any = null;
+    LoadData = () => {
+        this.running = this.cpointer.deref().armed;
+        this.running = this.cpointer.deref().ready;
+        this.running = this.cpointer.deref().running;
+    }
 }

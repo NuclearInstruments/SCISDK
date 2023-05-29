@@ -325,20 +325,27 @@ export class SciSDK {
     }
 
     ReadStatus(path: string, buffer: any): number {
-        
-        // if (buffer instanceof SciSDKOscilloscopeStatus) {
-        //     buffer.cpointer 
-        // }
-        // else if (buffer instanceof SciSDKFFTStatus) {
-
-        // }
-        // else if (buffer instanceof SciSDKSpectrumStatus) {
-
-        // }
-        // else {
-        //     throw new Error("The type of the buffer is invalid");
-        // }
-        return 0;
+        if (buffer instanceof SciSDKOscilloscopeStatus) {
+            buffer.cpointer = alloc(SciSDKOscilloscopeStatus.cpointer_class)
+            let res = SciSDKInterface.SCISDK_ReadStatus(path, buffer.cpointer, this.handle)
+            buffer.LoadData();
+            return res;
+        }
+        else if (buffer instanceof SciSDKFFTStatus) {
+            buffer.cpointer = alloc(SciSDKFFTStatus.cpointer_class)
+            let res = SciSDKInterface.SCISDK_ReadStatus(path, buffer.cpointer, this.handle)
+            buffer.LoadData();
+            return res;
+        }
+        else if (buffer instanceof SciSDKSpectrumStatus) {
+            buffer.cpointer = alloc(SciSDKSpectrumStatus.cpointer_class)
+            let res = SciSDKInterface.SCISDK_ReadStatus(path, buffer.cpointer, this.handle)
+            buffer.LoadData();
+            return res;
+        }
+        else {
+            throw new Error("The type of the buffer is invalid");
+        }
     }
 
     DecodeData(path: string, buffer_in: any, buffer_out: any): number {
