@@ -218,9 +218,14 @@ NI_RESULT SciSDK_Device::SetRegister(string Path, uint32_t value) {
 	SciSDK_Node *node = NULL;
 	SciSDK_Register *reg = NULL;
 	node = FindMMC(Path);
-	reg = dynamic_cast<SciSDK_Register*> (node);
-	reg->SetValueU32(value);
-	return NI_OK;
+	if (node != NULL) {
+		reg = dynamic_cast<SciSDK_Register*> (node);
+		reg->SetValueU32(value);
+		return NI_OK;
+	}
+	else {
+		return NI_NOT_FOUND;
+	}
 }
 
 NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
