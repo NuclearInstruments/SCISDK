@@ -36,8 +36,40 @@ fi
 as_nl='
 '
 export as_nl
-as_echo='printf %s\n'
-as_echo_n='printf %s'
+# Printing a long string crashes Solaris 7 /usr/bin/printf.
+as_echo='\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
+as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo
+as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo$as_echo
+# Prefer a ksh shell builtin over an external printf program on Solaris,
+# but without wasting forks for bash or zsh.
+if test -z "$BASH_VERSION$ZSH_VERSION" \
+    && (test "X`print -r -- $as_echo`" = "X$as_echo") 2>/dev/null; then
+  as_echo='print -r --'
+  as_echo_n='print -rn --'
+elif (test "X`printf %s $as_echo`" = "X$as_echo") 2>/dev/null; then
+  as_echo='printf %s\n'
+  as_echo_n='printf %s'
+else
+  if test "X`(/usr/ucb/echo -n -n $as_echo) 2>/dev/null`" = "X-n $as_echo"; then
+    as_echo_body='eval /usr/ucb/echo -n "$1$as_nl"'
+    as_echo_n='/usr/ucb/echo -n'
+  else
+    as_echo_body='eval expr "X$1" : "X\\(.*\\)"'
+    as_echo_n_body='eval
+      arg=$1;
+      case $arg in #(
+      *"$as_nl"*)
+	expr "X$arg" : "X\\(.*\\)$as_nl";
+	arg=`expr "X$arg" : ".*$as_nl\\(.*\\)"`;;
+      esac;
+      expr "X$arg" : "X\\(.*\\)" | tr -d "$as_nl"
+    '
+    export as_echo_n_body
+    as_echo_n='sh -c $as_echo_n_body as_echo'
+  fi
+  export as_echo_body
+  as_echo='sh -c $as_echo_body as_echo'
+fi
 
 # The user is always right.
 if test "${PATH_SEPARATOR+set}" != set; then
@@ -192,7 +224,7 @@ do
   as_found=:
   case $as_dir in #(
 	 /*)
-	   for as_base in bash sh ksh sh5; do
+	   for as_base in sh bash ksh sh5; do
 	     # Try only shells that exist, to save several forks.
 	     as_shell=$as_dir/$as_base
 	     if { test -f "$as_shell" || test -f "$as_shell.exe"; } &&
@@ -621,6 +653,7 @@ am__nodep
 AMDEPBACKSLASH
 AMDEP_FALSE
 AMDEP_TRUE
+am__quote
 am__include
 DEPDIR
 am__untar
@@ -707,6 +740,7 @@ infodir
 docdir
 oldincludedir
 includedir
+runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -725,8 +759,7 @@ PACKAGE_VERSION
 PACKAGE_TARNAME
 PACKAGE_NAME
 PATH_SEPARATOR
-SHELL
-am__quote'
+SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
@@ -736,7 +769,7 @@ with_pic
 enable_fast_install
 with_aix_soname
 with_gnu_ld
-with_libtool_sysroot
+with_sysroot
 enable_libtool_lock
 enable_dependency_tracking
 enable_silent_rules
@@ -793,6 +826,7 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
+runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
@@ -1045,6 +1079,15 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
+  -runstatedir | --runstatedir | --runstatedi | --runstated \
+  | --runstate | --runstat | --runsta | --runst | --runs \
+  | --run | --ru | --r)
+    ac_prev=runstatedir ;;
+  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
+  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
+  | --run=* | --ru=* | --r=*)
+    runstatedir=$ac_optarg ;;
+
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1182,7 +1225,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir
+		libdir localedir mandir runstatedir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1335,6 +1378,7 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -1394,8 +1438,7 @@ Optional Packages:
                           shared library versioning (aka "SONAME") variant to
                           provide on AIX, [default=aix].
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
-  --with-libtool-sysroot[=DIR]
-                          Search for dependent libraries within DIR (or the
+  --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
 
 Some influential environment variables:
@@ -2298,6 +2341,7 @@ _ACEOF
 # Let the site file select an alternate cache file if it wants to.
 # Prefer an explicitly selected file to automatically selected ones.
 ac_site_file1=NONE
+ac_site_file2=NONE
 if test -n "$CONFIG_SITE"; then
   # We do not want a PATH search for config.site.
   case $CONFIG_SITE in #((
@@ -2305,8 +2349,14 @@ if test -n "$CONFIG_SITE"; then
     */*) ac_site_file1=$CONFIG_SITE;;
     *)   ac_site_file1=./$CONFIG_SITE;;
   esac
+elif test "x$prefix" != xNONE; then
+  ac_site_file1=$prefix/share/config.site
+  ac_site_file2=$prefix/etc/config.site
+else
+  ac_site_file1=$ac_default_prefix/share/config.site
+  ac_site_file2=$ac_default_prefix/etc/config.site
 fi
-for ac_site_file in $ac_site_file1
+for ac_site_file in "$ac_site_file1" "$ac_site_file2"
 do
   test "x$ac_site_file" = xNONE && continue
   if test /dev/null != "$ac_site_file" && test -r "$ac_site_file"; then
@@ -5341,7 +5391,7 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
   lt_cv_deplibs_check_method=pass_all
   ;;
 
-netbsd*)
+netbsd* | netbsdelf*-gnu)
   if echo __ELF__ | $CC -E - | $GREP __ELF__ > /dev/null; then
     lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so\.[0-9]+\.[0-9]+|_pic\.a)$'
   else
@@ -6407,34 +6457,29 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
 $as_echo_n "checking for sysroot... " >&6; }
 
-# Check whether --with-libtool-sysroot was given.
-if test "${with_libtool_sysroot+set}" = set; then :
-  withval=$with_libtool_sysroot;
+# Check whether --with-sysroot was given.
+if test "${with_sysroot+set}" = set; then :
+  withval=$with_sysroot;
 else
-  with_libtool_sysroot=no
+  with_sysroot=no
 fi
 
 
 lt_sysroot=
-case $with_libtool_sysroot in #(
- no)
+case $with_sysroot in #(
+ yes)
    if test yes = "$GCC"; then
      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
-     # Treat "/" the same a an unset sysroot. It seems to be more
-     # compatible across host platforms that way!?
-     if test "$lt_sysroot" = /; then
-       lt_sysroot=
-     fi
    fi
    ;; #(
- yes|''|/)
-   ;; #(
  /*)
-   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+   ;; #(
+ no|'')
    ;; #(
  *)
-   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $with_libtool_sysroot" >&5
-$as_echo "$with_libtool_sysroot" >&6; }
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $with_sysroot" >&5
+$as_echo "$with_sysroot" >&6; }
    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
    ;;
 esac
@@ -8054,8 +8099,7 @@ esac
 LIBTOOL_DEPS=$ltmain
 
 # Always use our own libtool.
-LIBTOOL='$(top_builddir)'
-LIBTOOL="$LIBTOOL/${host_alias}-libtool"
+LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 
 
 
@@ -8148,7 +8192,7 @@ aix3*)
 esac
 
 # Global variables:
-ofile=${host_alias}-libtool
+ofile=libtool
 can_build_shared=yes
 
 # All known linkers require a '.a' archive for static linking (except MSVC,
@@ -9089,6 +9133,9 @@ $as_echo_n "checking whether the $compiler linker ($LD) supports shared librarie
   openbsd* | bitrig*)
     with_gnu_ld=no
     ;;
+  linux* | k*bsd*-gnu | gnu*)
+    link_all_deplibs=no
+    ;;
   esac
 
   ld_shlibs=yes
@@ -9343,7 +9390,7 @@ _LT_EOF
       fi
       ;;
 
-    netbsd*)
+    netbsd* | netbsdelf*-gnu)
       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
 	archive_cmds='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
 	wlarc=
@@ -10013,6 +10060,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >&6; }
 	if test yes = "$lt_cv_irix_exported_symbol"; then
           archive_expsym_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
 	fi
+	link_all_deplibs=no
       else
 	archive_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
 	archive_expsym_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
@@ -10034,7 +10082,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >&6; }
       esac
       ;;
 
-    netbsd*)
+    netbsd* | netbsdelf*-gnu)
       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
 	archive_cmds='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
       else
@@ -11147,6 +11195,18 @@ fi
   # people can always --disable-shared, the test was removed, and we
   # assume the GNU/Linux dynamic linker is in use.
   dynamic_linker='GNU/Linux ld.so'
+  ;;
+
+netbsdelf*-gnu)
+  version_type=linux
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  dynamic_linker='NetBSD ld.elf_so'
   ;;
 
 netbsd*)
@@ -14043,7 +14103,7 @@ lt_prog_compiler_static_CXX=
 	    ;;
 	esac
 	;;
-      netbsd*)
+      netbsd* | netbsdelf*-gnu)
 	;;
       *qnx* | *nto*)
         # QNX uses GNU C++, but need to define -shared option too, otherwise
@@ -14417,6 +14477,9 @@ $as_echo_n "checking whether the $compiler linker ($LD) supports shared librarie
       exclude_expsyms_CXX='[_]+GLOBAL_OFFSET_TABLE_|[_]+GLOBAL__[FID]_.*|[_]+head_[A-Za-z0-9_]+_dll|[A-Za-z0-9_]+_dll_iname'
       ;;
     esac
+    ;;
+  linux* | k*bsd*-gnu | gnu*)
+    link_all_deplibs_CXX=no
     ;;
   *)
     export_symbols_cmds_CXX='$NM $libobjs $convenience | $global_symbol_pipe | $SED '\''s/.* //'\'' | sort | uniq > $export_symbols'
@@ -15111,6 +15174,18 @@ fi
   dynamic_linker='GNU/Linux ld.so'
   ;;
 
+netbsdelf*-gnu)
+  version_type=linux
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  dynamic_linker='NetBSD ld.elf_so'
+  ;;
+
 netbsd*)
   version_type=sunos
   need_lib_prefix=no
@@ -15464,7 +15539,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 # automake initialisation and check for minimal automake API version 1.9
 
-am__api_version='1.16'
+am__api_version='1.15'
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -15574,8 +15649,57 @@ case $srcdir in
     as_fn_error $? "unsafe srcdir value: '$srcdir'" "$LINENO" 5;;
 esac
 
+# Do 'set' in a subshell so we don't clobber the current shell's
+# arguments.  Must try -L first in case configure is actually a
+# symlink; some systems play weird games with the mod time of symlinks
+# (eg FreeBSD returns the mod time of the symlink's containing
+# directory).
+if (
+   am_has_slept=no
+   for am_try in 1 2; do
+     echo "timestamp, slept: $am_has_slept" > conftest.file
+     set X `ls -Lt "$srcdir/configure" conftest.file 2> /dev/null`
+     if test "$*" = "X"; then
+	# -L didn't work.
+	set X `ls -t "$srcdir/configure" conftest.file`
+     fi
+     if test "$*" != "X $srcdir/configure conftest.file" \
+	&& test "$*" != "X conftest.file $srcdir/configure"; then
+
+	# If neither matched, then we have a broken ls.  This can happen
+	# if, for instance, CONFIG_SHELL is bash and it inherits a
+	# broken ls alias from the environment.  This has actually
+	# happened.  Such a system could not be considered "sane".
+	as_fn_error $? "ls -t appears to fail.  Make sure there is not a broken
+  alias in your environment" "$LINENO" 5
+     fi
+     if test "$2" = conftest.file || test $am_try -eq 2; then
+       break
+     fi
+     # Just in case.
+     sleep 1
+     am_has_slept=yes
+   done
+   test "$2" = conftest.file
+   )
+then
+   # Ok.
+   :
+else
+   as_fn_error $? "newly created file is older than distributed files!
+Check your system clock" "$LINENO" 5
+fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
+# If we didn't sleep, we still need to ensure time stamps of config.status and
+# generated files are strictly newer.
+am_sleep_pid=
+if grep 'slept: no' conftest.file >/dev/null 2>&1; then
+  ( sleep 1 ) &
+  am_sleep_pid=$!
+fi
+
+rm -f conftest.file
 
 test "$program_prefix" != NONE &&
   program_transform_name="s&^&$program_prefix&;$program_transform_name"
@@ -15799,45 +15923,45 @@ DEPDIR="${am__leading_dot}deps"
 
 ac_config_commands="$ac_config_commands depfiles"
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} supports the include directive" >&5
-$as_echo_n "checking whether ${MAKE-make} supports the include directive... " >&6; }
-cat > confinc.mk << 'END'
+
+am_make=${MAKE-make}
+cat > confinc << 'END'
 am__doit:
-	@echo this is the am__doit target >confinc.out
+	@echo this is the am__doit target
 .PHONY: am__doit
 END
+# If we don't find an include directive, just comment out the code.
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for style of include used by $am_make" >&5
+$as_echo_n "checking for style of include used by $am_make... " >&6; }
 am__include="#"
 am__quote=
-# BSD make does it like this.
-echo '.include "confinc.mk" # ignored' > confmf.BSD
-# Other make implementations (GNU, Solaris 10, AIX) do it like this.
-echo 'include confinc.mk # ignored' > confmf.GNU
-_am_result=no
-for s in GNU BSD; do
-  { echo "$as_me:$LINENO: ${MAKE-make} -f confmf.$s && cat confinc.out" >&5
-   (${MAKE-make} -f confmf.$s && cat confinc.out) >&5 2>&5
-   ac_status=$?
-   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-   (exit $ac_status); }
-  case $?:`cat confinc.out 2>/dev/null` in #(
-  '0:this is the am__doit target') :
-    case $s in #(
-  BSD) :
-    am__include='.include' am__quote='"' ;; #(
-  *) :
-    am__include='include' am__quote='' ;;
-esac ;; #(
-  *) :
-     ;;
+_am_result=none
+# First try GNU make style include.
+echo "include confinc" > confmf
+# Ignore all kinds of additional output from 'make'.
+case `$am_make -s -f confmf 2> /dev/null` in #(
+*the\ am__doit\ target*)
+  am__include=include
+  am__quote=
+  _am_result=GNU
+  ;;
 esac
-  if test "$am__include" != "#"; then
-    _am_result="yes ($s style)"
-    break
-  fi
-done
-rm -f confinc.* confmf.*
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${_am_result}" >&5
-$as_echo "${_am_result}" >&6; }
+# Now try BSD make style include.
+if test "$am__include" = "#"; then
+   echo '.include "confinc"' > confmf
+   case `$am_make -s -f confmf 2> /dev/null` in #(
+   *the\ am__doit\ target*)
+     am__include=.include
+     am__quote="\""
+     _am_result=BSD
+     ;;
+   esac
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $_am_result" >&5
+$as_echo "$_am_result" >&6; }
+rm -f confinc confmf
 
 # Check whether --enable-dependency-tracking was given.
 if test "${enable_dependency_tracking+set}" = set; then :
@@ -15949,8 +16073,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
 # For better backward compatibility.  To be removed once Automake 1.9.x
 # dies out for good.  For more background, see:
-# <https://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
-# <https://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+# <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
+# <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 mkdir_p='$(MKDIR_P)'
 
 # We need awk for the "check" target (and possibly the TAP driver).  The
@@ -16257,7 +16381,7 @@ END
 Aborting the configuration process, to ensure you take notice of the issue.
 
 You can download and install GNU coreutils to get an 'rm' implementation
-that behaves properly: <https://www.gnu.org/software/coreutils/>.
+that behaves properly: <http://www.gnu.org/software/coreutils/>.
 
 If you want to complete the configuration process using your problematic
 'rm' anyway, export the environment variable ACCEPT_INFERIOR_RM_PROGRAM
@@ -16591,6 +16715,14 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking that generated files are newer than configure" >&5
+$as_echo_n "checking that generated files are newer than configure... " >&6; }
+   if test -n "$am_sleep_pid"; then
+     # Hide warnings about reused PIDs.
+     wait $am_sleep_pid 2>/dev/null
+   fi
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: done" >&5
+$as_echo "done" >&6; }
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   as_fn_error $? "conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -16660,8 +16792,40 @@ fi
 as_nl='
 '
 export as_nl
-as_echo='printf %s\n'
-as_echo_n='printf %s'
+# Printing a long string crashes Solaris 7 /usr/bin/printf.
+as_echo='\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
+as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo
+as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo$as_echo
+# Prefer a ksh shell builtin over an external printf program on Solaris,
+# but without wasting forks for bash or zsh.
+if test -z "$BASH_VERSION$ZSH_VERSION" \
+    && (test "X`print -r -- $as_echo`" = "X$as_echo") 2>/dev/null; then
+  as_echo='print -r --'
+  as_echo_n='print -rn --'
+elif (test "X`printf %s $as_echo`" = "X$as_echo") 2>/dev/null; then
+  as_echo='printf %s\n'
+  as_echo_n='printf %s'
+else
+  if test "X`(/usr/ucb/echo -n -n $as_echo) 2>/dev/null`" = "X-n $as_echo"; then
+    as_echo_body='eval /usr/ucb/echo -n "$1$as_nl"'
+    as_echo_n='/usr/ucb/echo -n'
+  else
+    as_echo_body='eval expr "X$1" : "X\\(.*\\)"'
+    as_echo_n_body='eval
+      arg=$1;
+      case $arg in #(
+      *"$as_nl"*)
+	expr "X$arg" : "X\\(.*\\)$as_nl";
+	arg=`expr "X$arg" : ".*$as_nl\\(.*\\)"`;;
+      esac;
+      expr "X$arg" : "X\\(.*\\)" | tr -d "$as_nl"
+    '
+    export as_echo_n_body
+    as_echo_n='sh -c $as_echo_n_body as_echo'
+  fi
+  export as_echo_body
+  as_echo='sh -c $as_echo_body as_echo'
+fi
 
 # The user is always right.
 if test "${PATH_SEPARATOR+set}" != set; then
@@ -17522,7 +17686,7 @@ fi
 
 
 
-AMDEP_TRUE="$AMDEP_TRUE" MAKE="${MAKE-make}"
+AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"
 
 _ACEOF
 
@@ -17980,7 +18144,6 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
     cat <<_LT_EOF >> "$cfgfile"
 #! $SHELL
 # Generated automatically by $as_me ($PACKAGE) $VERSION
-# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 
 # Provide generalized library-building support services.
@@ -18679,35 +18842,29 @@ _LT_EOF
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  # TODO: see whether this extra hack can be removed once we start
-  # requiring Autoconf 2.70 or later.
-  case $CONFIG_FILES in #(
-  *\'*) :
-    eval set x "$CONFIG_FILES" ;; #(
-  *) :
-    set x $CONFIG_FILES ;; #(
-  *) :
-     ;;
-esac
+  case $CONFIG_FILES in
+  *\'*) eval set x "$CONFIG_FILES" ;;
+  *)   set x $CONFIG_FILES ;;
+  esac
   shift
-  # Used to flag and report bootstrapping failures.
-  am_rc=0
-  for am_mf
+  for mf
   do
     # Strip MF so we end up with the name of the file.
-    am_mf=`$as_echo "$am_mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile which includes
-    # dependency-tracking related rules and includes.
-    # Grep'ing the whole file directly is not great: AIX grep has a line
+    mf=`echo "$mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile or not.
+    # We used to match only the files named 'Makefile.in', but
+    # some people rename them; so instead we look at the file content.
+    # Grep'ing the first line is not enough: some people post-process
+    # each Makefile.in and add a new line on top of each file to say so.
+    # Grep'ing the whole file is not good either: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
-      || continue
-    am_dirpart=`$as_dirname -- "$am_mf" ||
-$as_expr X"$am_mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$am_mf" : 'X\(//\)[^/]' \| \
-	 X"$am_mf" : 'X\(//\)$' \| \
-	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$am_mf" |
+    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
+      dirpart=`$as_dirname -- "$mf" ||
+$as_expr X"$mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$mf" : 'X\(//\)[^/]' \| \
+	 X"$mf" : 'X\(//\)$' \| \
+	 X"$mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$mf" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -18725,48 +18882,53 @@ $as_echo X"$am_mf" |
 	    q
 	  }
 	  s/.*/./; q'`
-    am_filepart=`$as_basename -- "$am_mf" ||
-$as_expr X/"$am_mf" : '.*/\([^/][^/]*\)/*$' \| \
-	 X"$am_mf" : 'X\(//\)$' \| \
-	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X/"$am_mf" |
-    sed '/^.*\/\([^/][^/]*\)\/*$/{
+    else
+      continue
+    fi
+    # Extract the definition of DEPDIR, am__include, and am__quote
+    # from the Makefile without running 'make'.
+    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
+    test -z "$DEPDIR" && continue
+    am__include=`sed -n 's/^am__include = //p' < "$mf"`
+    test -z "$am__include" && continue
+    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
+    # Find all dependency output files, they are included files with
+    # $(DEPDIR) in their names.  We invoke sed twice because it is the
+    # simplest approach to changing $(DEPDIR) to its actual value in the
+    # expansion.
+    for file in `sed -n "
+      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
+	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
+      # Make sure the directory exists.
+      test -f "$dirpart/$file" && continue
+      fdir=`$as_dirname -- "$file" ||
+$as_expr X"$file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$file" : 'X\(//\)[^/]' \| \
+	 X"$file" : 'X\(//\)$' \| \
+	 X"$file" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$file" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\/\(\/\/\)$/{
+	  /^X\(\/\/\)[^/].*/{
 	    s//\1/
 	    q
 	  }
-	  /^X\/\(\/\).*/{
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
 	    s//\1/
 	    q
 	  }
 	  s/.*/./; q'`
-    { echo "$as_me:$LINENO: cd "$am_dirpart" \
-      && sed -e '/# am--include-marker/d' "$am_filepart" \
-        | $MAKE -f - am--depfiles" >&5
-   (cd "$am_dirpart" \
-      && sed -e '/# am--include-marker/d' "$am_filepart" \
-        | $MAKE -f - am--depfiles) >&5 2>&5
-   ac_status=$?
-   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-   (exit $ac_status); } || am_rc=$?
+      as_dir=$dirpart/$fdir; as_fn_mkdir_p
+      # echo "creating $dirpart/$file"
+      echo '# dummy' > "$dirpart/$file"
+    done
   done
-  if test $am_rc -ne 0; then
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "Something went wrong bootstrapping makefile fragments
-    for automatic dependency tracking.  Try re-running configure with the
-    '--disable-dependency-tracking' option to at least be able to build
-    the package (albeit without support for automatic dependency tracking).
-See \`config.log' for more details" "$LINENO" 5; }
-  fi
-  { am_dirpart=; unset am_dirpart;}
-  { am_filepart=; unset am_filepart;}
-  { am_mf=; unset am_mf;}
-  { am_rc=; unset am_rc;}
-  rm -f conftest-deps.mk
 }
  ;;
 
