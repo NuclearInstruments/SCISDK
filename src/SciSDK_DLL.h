@@ -14,11 +14,10 @@
     #endif
 #else
     #ifdef SCISDK_DLL_EXPORTS
-        #define SCISDK_DLL_API __attribute__((visibility("default")))
+        #define SCISDK_DLL_API extern "C" __attribute__((visibility("default")))
     #else
         #define SCISDK_DLL_API
     #endif
-    
 #endif
 
 #include "scisdk_defines.h"
