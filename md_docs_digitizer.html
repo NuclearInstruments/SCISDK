@@ -135,7 +135,7 @@ $(document).ready(function(){initNavTree('md_docs_digitizer.html',''); initResiz
 <li>non-blocking : the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read.</li>
 </ul>
 <p><b>Raw Mode</b> In raw mode the digitizer do not process packet and provide to the user application the raw data. The user application must be able to process the data and extract the information. Raw mode can be useful in order to save at the maximum speed the data to disk. The user application can be a simple script that save the data in a file. A second application can be used to process the data and extract the waveforms.</p>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md87"></a>
 Parameters</h1>
 <p>The following parameters can be configured:</p>
 <table class="markdownTable">
@@ -164,19 +164,19 @@ Parameters</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">max_ch_samples   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">return the maximum number of samples per channel can be read   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md91"></a>
+<h2><a class="anchor" id="autotoc_md88"></a>
 Acquisition length</h2>
 <p>The <code>acq_len</code> parameter set the number of sample per channels to be read. The maximum value depends by tge number of channels enabled. The maximum value is the total size of the shared memory divided by the number of channels enabled. The driver suggest the maximum value for this parameter reading the <code>max_ch_samples</code> parameter.</p>
-<h2><a class="anchor" id="autotoc_md92"></a>
+<h2><a class="anchor" id="autotoc_md89"></a>
 Blocking/Non blocking mode</h2>
 <p>In blocking mode the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached. In non-blocking mode the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read. The maximum number of bytes that can be read is the size of the buffer allocated with the function <code>SCISDK_AllocateBuffer</code>. In blocking mode the timeout is set with the <code>timeout</code> parameter. The timeout is expressed in ms. In non-blocking mode the timeout is not used. In both mode, if the buffer is fill with even just a single word the function will return NI_OK. If there is no data at all the read function will return NI_NO_DATA_AVAILABLE.</p>
-<h2><a class="anchor" id="autotoc_md93"></a>
+<h2><a class="anchor" id="autotoc_md90"></a>
 Enable channels</h2>
 <p>The <code>enabledch</code> parameter is the number of enabled channels. It is only possible the specify the number of channels (N) starting from the channel 0. So If N = 2, CH0 and CH1 will be dumped, if N = 4, CH0, CH1, CH2, CH3 will be dumped. Valid number are from 1 to the maximum number of channels created in SciCompiler.</p>
-<h1><a class="anchor" id="autotoc_md94"></a>
+<h1><a class="anchor" id="autotoc_md91"></a>
 Data processing mode</h1>
 <p>The <code>data_processing</code> parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode. In raw mode the data are not processed and the user will receive the raw data from the FPGA. In decode mode the data are processed and the user will receive the data as they are pushed in the FPGA fifo, loosing the concept of packet. The custom packet behavior is the same of the list In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.</p>
-<h1><a class="anchor" id="autotoc_md95"></a>
+<h1><a class="anchor" id="autotoc_md92"></a>
 Commands</h1>
 <p>The following commands are available:</p>
 <table class="markdownTable">
@@ -188,7 +188,7 @@ Commands</h1>
 <td class="markdownTableBodyNone">stop   </td><td class="markdownTableBodyNone">Stop the acquisition   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
 <p>Start will clear the digitizer wave. All digitizer parameter can not be changed while the acquisition is in progress. Stop the digitizer before change any parameter or the property set will be rejected.</p>
-<h1><a class="anchor" id="autotoc_md96"></a>
+<h1><a class="anchor" id="autotoc_md93"></a>
 Buffer Allocation</h1>
 <p><b>Raw mode</b> In raw mode the buffer must be allocated with the function <code>SCISDK_AllocateBuffer</code>. In raw mode it is mandatory to specify the size of the buffer is FIFO word. The size of the FIFO word is 4 bytes (DWORD). </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(&lt;path to list&gt;, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;dgtz_data, &lt;number of word&gt;)</div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
@@ -196,7 +196,7 @@ Buffer Allocation</h1>
 </div><!-- fragment --><p><b>Decoded data</b> The buffer is allocated using the <code>SCISDK_AllocateBuffer</code> function. The buffer is freed using the <code>SCISDK_FreeBuffer</code> function. There is no argument to be pass to the <code>SCISDK_AllocateBuffer</code> function. The allocator will allocate the buffer with the size for each channe large enough to contain the maximum number of samples per channel in the configuration with a single channel enabled (the worst case).</p>
 <div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(&lt;path to list&gt;, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;dgtz_data)</div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:230</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md97"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md94"></a>
 Output data Format</h1>
 <p><b>Raw mode</b> In raw mode the data are not processed and the user will receive the raw data from the FPGA. This mode is useful to implement a simple script that dump the data on file and user will post process data with a second application.</p>
 <p>The file dumped from the script above will save the file as a list of events.</p>
@@ -290,9 +290,9 @@ Output data Format</h1>
 <li><code>channels</code>: the number of channels for which the digitizer has been created.</li>
 <li><code>enabled_channels</code>: the number of channels enabled channel in the current acquisition.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md98"></a>
+<h1><a class="anchor" id="autotoc_md95"></a>
 Basic Example</h1>
-<h2><a class="anchor" id="autotoc_md99"></a>
+<h2><a class="anchor" id="autotoc_md96"></a>
 C</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_DIGITIZER_DECODED_BUFFER</a> *ddb;</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Digitizer_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ddb, _sdk);</div>
@@ -312,7 +312,7 @@ C</h2>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a612babf059fa19eaac91fae6da160f85"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBufferSize(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md100"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md97"></a>
 C++</h2>
 <div class="fragment"><div class="line">{c++}</div>
 <div class="line">   SCISDK_DIGITIZER_DECODED_BUFFER *ddb;</div>
@@ -329,7 +329,7 @@ C++</h2>
 <div class="line">           // process the data </div>
 <div class="line">       }</div>
 <div class="line">   }</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md101"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md98"></a>
 Python</h2>
 <div class="fragment"><div class="line">res, ddb = sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Digitizer_0&quot;, 1)</div>
 <div class="line">if res != 0:</div>
@@ -347,7 +347,7 @@ Python</h2>
 <div class="line">    ret, ddb = sdk.ReadData(&quot;board0:/MMCComponents/Digitizer_0&quot;, ddb)</div>
 <div class="line">    if ret == NI_OK:</div>
 <div class="line">        # process the data </div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md102"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md99"></a>
 CSharp</h2>
 <div class="fragment"><div class="line">SCISDK_DIGITIZER_DECODED_BUFFER ddb = new SCISDK_DIGITIZER_DECODED_BUFFER();</div>
 <div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Digitizer_0&quot;, T_BUFFER_TYPE_DECODED, ref ddb);</div>
@@ -363,7 +363,7 @@ CSharp</h2>
 <div class="line">        // process the data </div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md103"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md100"></a>
 VB.NET</h2>
 <div class="fragment"><div class="line">Dim ddb As SCISDK_DIGITIZER_DECODED_BUFFER</div>
 <div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/Digitizer_0&quot;, 1, ddb)</div>
@@ -379,7 +379,7 @@ VB.NET</h2>
 <div class="line">        &#39; process the data </div>
 <div class="line">    End If</div>
 <div class="line">End While</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md104"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md101"></a>
 JAVA</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> enabled_channels = 1;</div>
 <div class="line"><span class="keywordtype">int</span> res = sdk.SetParameterString(<span class="stringliteral">&quot;board0:/MMCComponents/Digitizer_0.data_processing&quot;</span>, <span class="stringliteral">&quot;decode&quot;</span>);</div>
@@ -397,13 +397,13 @@ JAVA</h2>
 <div class="line">    <span class="comment">// read data</span></div>
 <div class="line">    res = sdk.ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/Digitizer_0&quot;</span>, buf);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md105"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md102"></a>
 Labview</h2>
 <p><img src="digitizer.PNG" alt="" class="inline"/></p>
 <p><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></p>
-<h1><a class="anchor" id="autotoc_md106"></a>
+<h1><a class="anchor" id="autotoc_md103"></a>
 Additional Examples</h1>
-<h2><a class="anchor" id="autotoc_md107"></a>
+<h2><a class="anchor" id="autotoc_md104"></a>
 Read decoded data and write on file, on channel per column</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_DIGITIZER_DECODED_BUFFER</a> *ddb;</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>(<span class="stringliteral">&quot;board0:/MMCComponents/Digitizer_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;ddb, _sdk);</div>
@@ -429,7 +429,7 @@ Read decoded data and write on file, on channel per column</h2>
 <div class="ttc" id="astruct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r_html_aab2723dc65566d7499fc48d2b6d1091b"><div class="ttname"><a href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#aab2723dc65566d7499fc48d2b6d1091b">SCISDK_DIGITIZER_DECODED_BUFFER::analog</a></div><div class="ttdeci">int32_t * analog</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:120</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r_html_acf44f3ec061091932d6eaf99f9b94de3"><div class="ttname"><a href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#acf44f3ec061091932d6eaf99f9b94de3">SCISDK_DIGITIZER_DECODED_BUFFER::valid_samples</a></div><div class="ttdeci">uint32_t valid_samples</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:127</div></div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r_html_af7ed75122e199161f9b3877fe18da59f"><div class="ttname"><a href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#af7ed75122e199161f9b3877fe18da59f">SCISDK_DIGITIZER_DECODED_BUFFER::enabled_channels</a></div><div class="ttdeci">uint32_t enabled_channels</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:129</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md108"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md105"></a>
 Read raw data and write on file</h2>
 <div class="fragment"><div class="line"><span class="comment">// DIGITIZER raw</span></div>
 <div class="line"><a class="code" href="struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___r_a_w___b_u_f_f_e_r.html">SCISDK_DIGITIZER_RAW_BUFFER</a> *ddb;</div>
