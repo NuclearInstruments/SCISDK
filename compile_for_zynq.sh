@@ -14,7 +14,7 @@ autoreconf -if
 mkdir build_zynq
 cd build_zynq
 ../configure --host=arm-xilinx-linux-gnueabi --prefix=$(pwd)/output/ CFLAGS="-O3" CXXFLAGS="-O3"
-make -j16
+make -j4 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
 make install
 cd output
 tar cvf ../scisdk-zynq.tar.gz .
