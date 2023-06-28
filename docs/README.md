@@ -233,67 +233,222 @@ This library uses autotools. The tool will generate both the static (.a) and the
 
 In order to install autoconf
 
-```
+``` bash
 sudo apt-get update
 sudo apt-get install autoconf
 ```
 
 We strogly suggest to compile the library in the linuxbuild folder in order to do not generate output file in the main folder
 
-```
+``` bash
 autoconf
 mkdir -p linuxbuild
 cd linuxbuild
 ../configure
-make
+make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
 ```
+
+*It's very important to make with CPPFLAGS+=-DSCISDK_DLL_EXPORTS flags otherwise the library will be compiled with C++ function names and will be not compatible with C programs*
 
 In order to install the library in the os default library folder
 
+``` bash
+sudo make install
 ```
-make install
+
+library will be installed in /usr/local/lib. Some OS will not export automatically this path in LD_LIBRARY_PATH indeed it is necessary to add it to LD_LIBRARY_PATH
+
+
+
+check that /usr/local/lib is in your LD_LIBRARY_PATH.
+``` bash
+echo $LD_LIBRARY_PATH
 ```
+
+if not you can add it simply (temporany)
+
+``` bash
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+```
+
+or permanent
+
+add to user profile
+``` bash
+nano ~/.profile
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+```
+
+add to user bashrc
+``` bash
+nano ~/.bashrc
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+```
+
+
+
 
 **Compile library to a target directory**
 It is also possible to compile the library and install them in a local folder
 
-```
+``` bash
 mkdir -p linuxbuild
 cd linuxbuild
 mkdir -p output
 ../configure --prefix=$(pwd)/output
-make
+make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
 make install
 ```
 
 
 
 Please note that this repository just compile the SciSDK_DLL.dll. In order to compile the board specific library you need to clone the specific repository and compile the library. The list of the repository is the following:
-- [SCIDK](https://github.com/NuclearInstruments/SciDK-WIN)
+- [SCIDK](https://github.com/NuclearInstruments/SCIDK-SDKLinux/)
 - [R5560/R5560SE/DT5560](https://github.com/NuclearInstruments/r5560_sdk)
 - [DT5550/DT5550W](https://github.com/NuclearInstruments/DT5550Wgcc)
 - [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
 
 Each one contains the detailed instruction to compile the library.
 
-### 6.3. Compiling on Raspberry Pi
-### 6.4. Cross-compiling for arm, aaarch64
+### 6.2.1 Example: how to compile and install the DT1260 libraries and SciSDK on Ubuntu 
 
-## 7. Usage
+This is a self contained example that explain how to download compile and install the two libraries in your Linux OS (Ubunto or any Debian), write a small dummy example and test the connection to the DT1260
 
-### 7.1. Create a VS2022 project linking to the library
+#### UPDATE YOUR SYSTEM
+```
+sudo apt update
+sudo apt install build-essential
+sudo apt-get install autoconf libtool
+```
 
-### 7.2. Create a g++ project linking to the library
+#### INSTALL FTDI
+The following link may change in the time. Check the last version on FTDI site
 
-### 7.3. Instantiate the library
+```
+wget https://ftdichip.com/wp-content/uploads/2022/07/libftd2xx-x86_64-1.4.27.tgz
+tar xvf libftd2xx-x86_64-1.4.27.tgz
+sudo cp  ./release/build/libftd2xx.so.1.4.27 /usr/local/lib/.
+cd /usr/local/lib
+sudo ln -s libftd2xx.so.1.4.27 libftd2xx.so 
+sudo chmod 0755 libftd2xx.so.1.4.27
+```
 
-### 7.4. Connecting to a board
+#### COMPILE SCIDK (DT1260 Libraries)
+```
+cd
+git clone https://github.com/NuclearInstruments/SCIDK-SDKLinux.git
+cd SCIDK-SDKLinux/
+cd udev
+sudo cp *.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules 
+sudo udevadm trigger
+cd ..
+make
+sudo make install
+```
 
-### 7.5. Set/Get a register value
+#### COMPILE SCISDK (SciCompiler Development Kit)
+```
+cd
+git clone https://github.com/NuclearInstruments/SCISDK.git
+cd SCISDK
+autoconf
+autoreconf  -f -i -Wall,no-obsolete
+mkdir -p linuxbuild
+cd linuxbuild
+../configure
+make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
+sudo make install
+```
 
-### 7.6. Allocate buffers for readout
+#### CREATE A CUSTOM APPLICATION
 
-### 7.7. Readout data from a board
+``` bash
+cd
+mkdir testscisdk
+cd testscisdk
+```
+
+create test.c file
+
+paste the following code
+``` C
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <scisdk/scisdk_defines.h>
+#include <scisdk/SciSDK_DLL.h>
+#include <scisdk/NIErrorCode.h>
+
+#define BOARD_SERIAL_NUMBER "13251"
+
+
+int main(int argc, char* argv[]){
+	void *handle = SCISDK_InitLib();
+	int ret;
+	uint32_t    val;
+
+
+	int adddevice = SCISDK_AddNewDevice( "usb:13251", "DT1260","RegisterFile.json", "board0", handle);
+	if(adddevice != 0){
+		printf("Unable to create device.\n");
+		return(adddevice);
+	}
+	
+	return 0;
+}
+``` 
+
+create a dummy RegisterFile.json
+``` json
+{
+  "Device": "SCIDK",
+  "Registers": [
+    {
+      "Name": "ANALOG_OFFSET",
+      "Address": 4294967289,
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "AnalogAFE"
+    }
+  ],
+  "Version": 0.0,
+  "GenerationData": "0001-01-01T00:00:00",
+  "MMCComponents": [
+  ]
+}
+```
+
+check that /usr/local/lib is in your LD_LIBRARY_PATH.
+``` bash
+echo $LD_LIBRARY_PATH
+```
+
+if not you can add it simply (temporany)
+
+``` bash
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+```
+
+or permanent (you must log out and login again to apply it)
+
+``` bash
+nano ~/.profile
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+```
+
+
+## 7 Use with Python
+
+The SciSDK is available as PyPI packet. It requires Python > 3.5 You can simply install it system wide
+
+``` bash
+pip install scisdk
+```
+
+>>>> The Python SciSDK PyPI packet is just a wrapper of the C library. You need to install in your system the SciSDK library (DLL/so) as explained (for Windows) in 4, (for Linux) in 6.2
+
 
 ## 8 Use with Java
 SciSDK can be used in Java with a [wrapper](https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK). 
