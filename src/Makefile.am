@@ -2,7 +2,7 @@
 
 # additional include paths necessary to compile the C++ library
 AUTOMAKE_OPTIONS = subdir-objects
-AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@ -Wno-narrowing -fpermissive
+AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@ -Wno-narrowing -fpermissive -DSCISDK_DLL_EXPORTS
 
 ###############################################################################
 # THE LIBRARIES TO BUILD
@@ -61,8 +61,7 @@ libscisdk_la_HEADERS =    \
 
 # the sources to add to the library and to add to the source distribution
 libscisdk_la_SOURCES =    \
-                        $(libmylib_a_HEADERS) \
-                        SciSDK_DLL.cpp \                 
+                        $(libmylib_a_HEADERS) \               
 						scisdk_DT5550W_petirocframe.cpp \
 						scisdk_core.cpp \
 						scisdk_digitizer.cpp  \
@@ -85,6 +84,7 @@ libscisdk_la_SOURCES =    \
 						scisdk_spectrum.cpp \
 						boards_driver/bd_dt1260.cpp \
 						boards_driver/bd_feelib.cpp \
-						boards_driver/bd_dt5560se.cpp
+						boards_driver/bd_dt5560se.cpp \
+						SciSDK_DLL.cpp 
 						
 ###############################################################################

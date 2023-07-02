@@ -241,11 +241,11 @@ sudo apt-get install autoconf
 We strogly suggest to compile the library in the linuxbuild folder in order to do not generate output file in the main folder
 
 ``` bash
-autoconf
+autoreconf  -f -i -Wall,no-obsolete
 mkdir -p linuxbuild
 cd linuxbuild
 ../configure
-make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
+make -j16
 ```
 
 *It's very important to make with CPPFLAGS+=-DSCISDK_DLL_EXPORTS flags otherwise the library will be compiled with C++ function names and will be not compatible with C programs*
@@ -296,7 +296,7 @@ mkdir -p linuxbuild
 cd linuxbuild
 mkdir -p output
 ../configure --prefix=$(pwd)/output
-make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
+make -j16
 make install
 ```
 
@@ -352,12 +352,11 @@ sudo make install
 cd
 git clone https://github.com/NuclearInstruments/SCISDK.git
 cd SCISDK
-autoconf
 autoreconf  -f -i -Wall,no-obsolete
 mkdir -p linuxbuild
 cd linuxbuild
 ../configure
-make -j16 CPPFLAGS+=-DSCISDK_DLL_EXPORTS
+make -j16
 sudo make install
 ```
 

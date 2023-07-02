@@ -21,7 +21,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		#ifdef _MSC_VER 
 			h_lib_instance = LoadLibrary(L"SCIDK_Lib.dll");
 		#else
- 			h_lib_instance = dlopen("SCIDK_Lib.so", RTLD_LAZY);
+ 			h_lib_instance = dlopen("libSCIDK.so", RTLD_LAZY);
 		#endif
 		if (h_lib_instance == NULL) {
 			cout << "SCIDK_Lib library not loaded ..." << endl;
