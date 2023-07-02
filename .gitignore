@@ -342,4 +342,4 @@ docs/html
 # LabView
 /wrapper/LabView/*.dll
 /SciSDK_VC++/*.dll
-/wrapper/LabView/Report.html
+/wrapper/LabView/Report.htmllinuxbuild/
