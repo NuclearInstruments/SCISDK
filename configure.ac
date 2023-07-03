@@ -14,6 +14,7 @@ AC_INIT([scisdk], [project_version],[abba@nuclearinstruments.eu])
 # check if the source folder is correct
 AC_CONFIG_SRCDIR([src/SciSDK_DLL.cpp])
 
+
 # Checks for programs
 
 # check for C++ preprocessor and compiler and the library compiler
@@ -25,7 +26,7 @@ AC_PROG_LIBTOOL
 
 # automake initialisation and check for minimal automake API version 1.9
 
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE([foreign subdir-objects])
 
 # use the C++ compiler for the following checks
 AC_LANG([C++])
