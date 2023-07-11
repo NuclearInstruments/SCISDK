@@ -1,3 +1,6 @@
+# scisdk (1.2.33)
+  * Labview component for connect DT5560 invalid board name corrected
+
 # scisdk (1.2.32)
   * changed build script to include -DSCISDK_DLL_EXPORTS in the default build procedure
   * corrected libSCRDK.so name in the hal file
