@@ -17,7 +17,7 @@ if [ "$ARCHITECTURE" = "x64" ]; then
     cd output
     fpm \
     -s dir -t deb \
-    -p ../../debs/scisdk-$DOCKER_IMAGE-x64.deb \
+    -p ../../debs/scisdk_${CI_COMMIT_TAG}_${DOCKER_IMAGE_MAP}_amd64.deb \
     --name scisdk \
     --license agpl3 \
     --version $CI_COMMIT_TAG \
@@ -38,7 +38,7 @@ elif [ "$ARCHITECTURE" = "i386" ]; then
     cd output
     fpm \
     -s dir -t deb \
-    -p ../../debs/scisdk-$DOCKER_IMAGE-i386.deb \
+    -p ../../debs/scisdk_$CI_COMMIT_TAG_$DOCKER_IMAGE_i386.deb \
     --name scisdk \
     --license agpl3 \
     --version $CI_COMMIT_TAG \
@@ -61,7 +61,7 @@ elif [ "$ARCHITECTURE" = "arm64" ]; then
     cd output
     fpm \
     -s dir -t deb \
-    -p ../../debs/scisdk-$DOCKER_IMAGE-arm64.deb \
+    -p ../../debs/scisdk_${CI_COMMIT_TAG}_${DOCKER_IMAGE_MAP}_arm64.deb \
     --name scisdk \
     --license agpl3 \
     --version $CI_COMMIT_TAG \
@@ -84,7 +84,7 @@ elif [ "$ARCHITECTURE" = "armhf" ]; then
     cd output
     fpm \
     -s dir -t deb \
-    -p ../../debs/scisdk-$DOCKER_IMAGE-armhf.deb \
+    -p ../../debs/scisdk_${CI_COMMIT_TAG}_${DOCKER_IMAGE_MAP}_armhf.deb \
     --name scisdk \
     --license agpl3 \
     --version $CI_COMMIT_TAG \
