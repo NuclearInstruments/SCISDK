@@ -246,7 +246,7 @@ deb_push:
     - ls -l debs/
     - export LINUXRELEASE=$(echo "$DOCKER_IMAGE_MAP" | awk -F, -v linuxrelease="$DOCKER_IMAGE" '{for(i=1;i<=NF;i++) if ($i ~ linuxrelease) print $i}' | cut -d'=' -f2)
     - echo "Publishing for release  $LINUXRELEASE" 
-    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${DOCKER_IMAGE_MAP}"
+    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${LINUXRELEASE}"
 #    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-i386.deb" -F "distribution=jammy"
 #    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-arm64.deb" -F "distribution=jammy"
 #    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-armhf.deb" -F "distribution=jammy"

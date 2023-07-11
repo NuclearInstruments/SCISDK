@@ -1,4 +1,4 @@
-# scisdk (1.2.33)
+# scisdk (1.2.34)
   * Labview component for connect DT5560 invalid board name corrected
 
 # scisdk (1.2.32)
