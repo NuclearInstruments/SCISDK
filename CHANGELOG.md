@@ -1,3 +1,7 @@
+# scisdk (1.2.37)
+  * Modified library h include to support c++ compiler in linux
+
+
 # scisdk (1.2.34)
   * Labview component for connect DT5560 invalid board name corrected
 

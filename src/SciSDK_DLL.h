@@ -16,7 +16,7 @@
     #ifdef SCISDK_DLL_EXPORTS
         #define SCISDK_DLL_API extern "C" __attribute__((visibility("default")))
     #else
-        #define SCISDK_DLL_API
+        #define SCISDK_DLL_API extern "C" 
     #endif
 #endif
 
