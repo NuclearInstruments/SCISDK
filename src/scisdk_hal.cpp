@@ -41,7 +41,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		#ifdef _MSC_VER 
 			h_lib_instance = LoadLibrary(L"R5560_SDKLib.dll");
 		#else
-			h_lib_instance = dlopen("./libr5560.so", RTLD_LAZY);
+			h_lib_instance = dlopen("libr5560.so", RTLD_LAZY);
 			if (!h_lib_instance) {
 				/* fail to load the library */
 				fprintf(stderr, "Error: %s\n", dlerror());
@@ -64,7 +64,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 #ifdef _MSC_VER 
 		h_lib_instance = LoadLibrary(L"CAEN_FELib.dll");
 #else
-		h_lib_instance = dlopen("./caen_feelib.so", RTLD_LAZY);
+		h_lib_instance = dlopen("caen_feelib.so", RTLD_LAZY);
 		if (!h_lib_instance) {
 			/* fail to load the library */
 			fprintf(stderr, "Error: %s\n", dlerror());
