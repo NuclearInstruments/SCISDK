@@ -52,12 +52,12 @@ void TestDT4810() {
 	op_res = SCISDK_AllocateBufferSize("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&energy_spectrum, _sdk, 16384);
 	
 	for (int i = 0; i < 16384; i++) {
-		energy_spectrum->data[i] = i;
+		energy_spectrum->data[i] = i/4;
 	}
 
-	//energy_spectrum->data[2500] = 30000;
+	//energy_spectrum->data[1000] = 20000;
 	//energy_spectrum->data[2000] = 5000;
-	//energy_spectrum->data[14000] = 5000;
+	//energy_spectrum->data[400] = 5000;
 
 	/*for (int i = 5000; i < 10000; i++) {
 		energy_spectrum->data[i] = 30000;
@@ -65,6 +65,24 @@ void TestDT4810() {
 	energy_spectrum->info.valid_bins = 16384;
 
 	op_res = SCISDK_WriteData("board0:/boardapi", energy_spectrum, _sdk);
+
+
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER* obOsc;
+	
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "ext", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level",5000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 5000, _sdk);
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&obOsc, _sdk), &res, _sdk);
+
+	cout << "-----" << endl;
+	while (1) {
+		SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void*)obOsc, _sdk);
+		for (int i = 0; i < 250; i++) {
+			cout << (double)obOsc->analog[i] << endl;
+		}
+	}
 
 
 	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;

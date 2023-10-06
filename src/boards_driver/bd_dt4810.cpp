@@ -358,6 +358,12 @@ NI_RESULT bd_dt4810::WriteData(void* buffer) {
     unsigned int* Icumulativo = new unsigned int[32000];
     q = p->data[0];
     cumulativo[0] = 0;
+    //for (i = 1; i < 2000; i++) {
+    //    cout << p->data[i] << endl;
+    //}
+	//cout << "valid bins " << p->info.valid_bins << endl;
+    //cout << "allocated bins " << p->info.allocated_bins  << endl;
+    //cout << "magic " << p->magic << endl;
     for (i = 1; i < 16384; i++)
     {
         if (p->info.valid_bins > i){
