@@ -1,5 +1,5 @@
-import { refType, types } from 'ref-napi';
-import { PtrToDoubleArray, PtrToInt32Array, PtrToInt8Array, PtrToUInt32Array, PtrToUInt8Array } from './SciSDKTypeCast';
+import { alloc, refType, types } from 'ref-napi';
+import { PtrToDoubleArray, PtrToInt32Array, PtrToInt8Array, PtrToUInt32Array, PtrToUInt8Array, Uint32ArrayToPtr } from './SciSDKTypeCast';
 const ref = require("ref-napi");
 const Struct = require("ref-struct-di")(ref);
 
@@ -569,6 +569,48 @@ export class SciSDKFrameRawBuffer {
         this.info.buffer_size = this.cpointer.buffer_size;
         this.info.packet_size = this.cpointer.packet_size;
         this.info.valid_data = this.cpointer.valid_data;
+    }
+}
+
+export class SciSDKEmulatorEnergySpectrum {
+    magic: number = 0;
+    data: Array<number> = [];
+    info = {
+        allocated_bins: 0,
+        valid_bins: 0,
+    }
+
+    static cpointer_class = Struct({
+        magic: types.uint32,
+        data: refType('uint32 *'),
+        // info
+        allocated_bins: types.uint32,
+        valid_bins: types.uint32,
+    });
+
+    cpointer: any = null;
+
+    LoadData = () => {
+        this.magic = this.cpointer.magic;
+        this.data = PtrToUInt32Array(this.cpointer.data, this.cpointer.allocated_bins);
+        this.info.allocated_bins = this.cpointer.allocated_bins;
+        this.info.valid_bins = this.cpointer.valid_bins;
+    }
+
+    WriteData = () => {
+        // if (this.cpointer) {
+        //     this.cpointer = null;
+        // }
+        // this.cpointer = alloc(SciSDKEmulatorEnergySpectrum.cpointer_class, {
+        //     magic: this.magic,
+        //     data: Uint32ArrayToPtr(this.data),
+        //     allocated_bins: this.info.allocated_bins,
+        //     valid_bins: this.info.valid_bins,
+        // });
+        this.cpointer.magic = this.magic;
+        this.cpointer.data = Uint32ArrayToPtr(this.data);
+        this.cpointer.allocated_bins = this.info.allocated_bins;
+        this.cpointer.valid_bins = this.info.valid_bins;
     }
 }
 

@@ -1,6 +1,6 @@
 import { Pointer, alloc, types, ref, refType } from 'ref-napi';
 import { SciSDKInterface } from './SciSDKInterface';
-import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKFFTDecodedBuffer, SciSDKFFTRawBuffer, SciSDKFFTStatus, SciSDKFrameDecodedBuffer, SciSDKFrameRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKOscilloscopeStatus, SciSDKRateMeterRawBuffer, SciSDKSpectrumDecodedBuffer, SciSDKSpectrumStatus } from './SciSDKDefines';
+import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKEmulatorEnergySpectrum, SciSDKFFTDecodedBuffer, SciSDKFFTRawBuffer, SciSDKFFTStatus, SciSDKFrameDecodedBuffer, SciSDKFrameRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKOscilloscopeStatus, SciSDKRateMeterRawBuffer, SciSDKSpectrumDecodedBuffer, SciSDKSpectrumStatus } from './SciSDKDefines';
 
 
 export class SciSDK {
@@ -210,13 +210,31 @@ export class SciSDK {
             decoded = 0;
             buffer.cpointer = alloc(SciSDKFrameRawBuffer.cpointer_class, new SciSDKFrameRawBuffer.cpointer_class).ref();
         }
+        else if (buffer instanceof SciSDKEmulatorEnergySpectrum) {
+            decoded = 0;
+            buffer.cpointer = alloc(SciSDKEmulatorEnergySpectrum.cpointer_class, new SciSDKEmulatorEnergySpectrum.cpointer_class).ref();
+        }
         else {
             throw new Error("The type of the buffer is invalid");
         }
 
         let res = SciSDKInterface.SCISDK_AllocateBufferSize(path, decoded, buffer.cpointer, this.handle, size);
         buffer.cpointer = buffer.cpointer.deref().deref()
-        buffer.LoadData();
+        if (res == 0) {
+            buffer.LoadData();
+        }
+        return res;
+    }
+
+    WriteData(path: string, buffer: any) {
+        let res = -1;
+        if (buffer instanceof SciSDKEmulatorEnergySpectrum) {
+            buffer.WriteData();
+            res = SciSDKInterface.SCISDK_WriteData(path, (<Pointer<typeof SciSDKOscilloscopeDecodedBuffer.cpointer_class>>buffer.cpointer).ref(), this.handle);
+        }
+        else {
+            throw new Error("The type of the buffer is invalid");
+        }
         return res;
     }
 
