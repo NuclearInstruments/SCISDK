@@ -426,6 +426,25 @@ SCISDK_DLL_API int SCISDK_FreeBuffer(char* Path, int buffer_type, void **buffer,
  */
 SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void*handle);
 
+
+
+/**
+ * @brief Write data tothe board for the specific Memory Mapped Componet 
+ * or of the board specific endpoint.
+ *
+ * @param Path              The path to the Memory Mapped component or board endpoint
+ *                          The path must be in the format
+ *                          <device name>:.../<resource name>
+ *                          \n
+ *                          for example: /board0/boardapi/spectrum
+ *
+ * @param buffer            Pointer to the buffer to be filled with the data read from the board
+ *                          allocated with SCISDK_AllocateBuffer()
+ * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
+ * @return                  int error code defined in NIErrorCode.h
+ */
+SCISDK_DLL_API int SCISDK_WriteData(char* Path, void* buffer, void* handle);
+
 /**
  * @brief Query the board for the specific Memory Mapped Componet (oscilloscope, spectrum, list)
  * status using the MMC device driver

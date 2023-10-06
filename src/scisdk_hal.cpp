@@ -56,10 +56,51 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		}
 
 	}
+	if ((model == "DT5771") ) {
+		_model = BOARD_MODEL::DT5771;
+#ifdef _MSC_VER 
+		h_lib_instance = LoadLibrary(L"DT5771_SDKLib.dll");
+#else
+		h_lib_instance = dlopen("libdt5771.so", RTLD_LAZY);
+		if (!h_lib_instance) {
+			/* fail to load the library */
+			fprintf(stderr, "Error: %s\n", dlerror());
+		}
+#endif
+		if (h_lib_instance == NULL) {
+			cout << "DT5771_SDKLib library not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "DT5771_SDKLib library loaded correclty ..." << endl;
+		}
+
+	}
+	if ((model == "DT4810")) {
+		_model = BOARD_MODEL::DT4810;
+#ifdef _MSC_VER 
+		h_lib_instance = LoadLibrary(L"DT4810_SDKLib.dll");
+#else
+		h_lib_instance = dlopen("libdt4810.so", RTLD_LAZY);
+		if (!h_lib_instance) {
+			/* fail to load the library */
+			fprintf(stderr, "Error: %s\n", dlerror());
+		}
+#endif
+		if (h_lib_instance == NULL) {
+			cout << "DT4810_SDKLib library not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "DT4810_SDKLib library loaded correclty ..." << endl;
+		}
+
+	}
 	if ((model == "V2495") || (model == "DT2495")) {
 		_model = BOARD_MODEL::X2495;
 	}
-	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")) {
+	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")
+		|| (model == "V2730") || (model == "DT2730") ) {
 		_model = BOARD_MODEL::X2740;
 #ifdef _MSC_VER 
 		h_lib_instance = LoadLibrary(L"CAEN_FELib.dll");
@@ -130,6 +171,72 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					int port = stoi(p[1]);
 					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tR5560_Handle*)_handle);
+					mtx.unlock();
+					cout << "Connection Error Code: " << error_code << endl;
+					if (error_code == 0) {
+						return NI_OK;
+					}
+					else {
+						return NI_ERROR;
+					}
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::DT5771:
+		// connection to DT5771 board
+		if (h_lib_instance != NULL) {
+			_handle = malloc(sizeof(tDT5771_Handle));
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CONNECT_PROC_PTR)(char* address, int port, tDT5771_Handle* handle);
+			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "DT5771_ConnectTCP");
+#else
+			int (*connectTCP)(char* address, int port, tDT5771_Handle * handle);
+			*(void**)(&connectTCP) = dlsym(h_lib_instance, "DT5771_ConnectTCP");
+#endif
+			if (connectTCP) {
+				if (p[1].find_first_not_of("0123456789") == -1) {
+					int port = stoi(p[1]);
+					mtx.lock();
+					int error_code = connectTCP((char*)p[0].c_str(), port, (tDT5771_Handle*)_handle);
+					mtx.unlock();
+					cout << "Connection Error Code: " << error_code << endl;
+					if (error_code == 0) {
+						return NI_OK;
+					}
+					else {
+						return NI_ERROR;
+					}
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::DT4810:
+		// connection to DT4810 board
+		if (h_lib_instance != NULL) {
+			_handle = malloc(sizeof(tDT4810_Handle));
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CONNECT_PROC_PTR)(char* address, int port, tDT4810_Handle* handle);
+			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "DT4810_ConnectTCP");
+#else
+			int (*connectTCP)(char* address, int port, tDT4810_Handle* handle);
+			*(void**)(&connectTCP) = dlsym(h_lib_instance, "DT4810_ConnectTCP");
+#endif
+			if (connectTCP) {
+				if (p[1].find_first_not_of("0123456789") == -1) {
+					int port = stoi(p[1]);
+					mtx.lock();
+					int error_code = connectTCP((char*)p[0].c_str(), port, (tDT4810_Handle*)_handle);
 					mtx.unlock();
 					cout << "Connection Error Code: " << error_code << endl;
 					if (error_code == 0) {
@@ -262,6 +369,79 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 		}
 		return NI_ERROR;
 		break;
+
+	case BOARD_MODEL::DT5771:
+		// close connection with DT5771 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(tDT5771_Handle*);
+			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
+#else
+			int (*close_connection)(tDT5771_Handle*);
+			*(void**)(&close_connection) = dlsym(h_lib_instance, "NI_CloseConnection");
+#endif
+			if (close_connection) {
+				mtx.lock();
+				int res = close_connection((tDT5771_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+#ifdef _MSC_VER 
+					FreeLibrary(h_lib_instance);
+#else
+					dlclose(h_lib_instance);
+#endif
+					free(_handle);
+					return NI_OK;
+				}
+				else {
+					return NI_ERROR;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+		
+	case BOARD_MODEL::DT4810:
+		// close connection with DT4810 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+			typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(tDT4810_Handle*);
+			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
+#else
+			int (*close_connection)(tDT4810_Handle*);
+			*(void**)(&close_connection) = dlsym(h_lib_instance, "NI_CloseConnection");
+#endif
+			if (close_connection) {
+				mtx.lock();
+				int res = close_connection((tDT4810_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+#ifdef _MSC_VER 
+					FreeLibrary(h_lib_instance);
+#else
+					dlclose(h_lib_instance);
+#endif
+					free(_handle);
+					return NI_OK;
+				}
+				else {
+					return NI_ERROR;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+		
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
@@ -382,6 +562,57 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 
 		}
 		break;
+		
+	case BOARD_MODEL::DT5771:
+		// write register of DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT5771_Handle* handle);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
+#else
+			int (*write_reg)(uint32_t value, uint32_t address, tDT5771_Handle * handle);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "NI_WriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(value, address, (tDT5771_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		break;
+
+
+	case BOARD_MODEL::DT4810:
+		// write register of DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT4810_Handle* handle);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
+#else
+			int (*write_reg)(uint32_t value, uint32_t address, tDT4810_Handle * handle);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "NI_WriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(value, address, (tDT4810_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		break;
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
@@ -474,6 +705,59 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 		}
 		return NI_ERROR;
 		break;
+
+	case BOARD_MODEL::DT5771:
+		// read register from DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT5771_Handle* handle);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
+#else
+			int (*read_reg)(uint32_t * value, uint32_t address, tDT5771_Handle * handle);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "NI_ReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(value, address, (tDT5771_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT4810:
+		// read register from DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT4810_Handle* handle);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
+#else
+			int (*read_reg)(uint32_t * value, uint32_t address, tDT4810_Handle * handle);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "NI_ReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(value, address, (tDT4810_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+		
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
@@ -531,7 +815,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 				mtx.lock();
 				int res = write_data_proc(value, length, address, STREAMING, timeout_ms, (NI_HANDLE*)_handle, written_data);
 				mtx.unlock();
-				if (res) {
+				if (res==0) {
 					return NI_OK;
 				}
 			}
@@ -558,7 +842,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 				mtx.lock();
 				int res = write_data_proc(value, length, address, (tR5560_Handle*)_handle, written_data);
 				mtx.unlock();
-				if (res) {
+				if (res==0) {
 					return NI_OK;
 				}
 			}
@@ -569,6 +853,60 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 		}
 		return NI_ERROR;
 		break;
+
+	case BOARD_MODEL::DT5771:
+		// write data to DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__stdcall* WRITE_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT5771_Handle* handle, uint32_t* written_data);
+			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
+#else
+			int (*write_data_proc)(uint32_t * data, uint32_t count, uint32_t address, tDT5771_Handle * handle, uint32_t * written_data);
+			*(void**)(&write_data_proc) = dlsym(h_lib_instance, "NI_WriteData");
+#endif
+			if (write_data_proc) {
+				mtx.lock();
+				int res = write_data_proc(value, length, address, (tDT5771_Handle*)_handle, written_data);
+				mtx.unlock();
+				if (res==0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT4810:
+		// write data to DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__stdcall* WRITE_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT4810_Handle* handle, uint32_t* written_data);
+			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
+#else
+			int (*write_data_proc)(uint32_t * data, uint32_t count, uint32_t address, tDT4810_Handle * handle, uint32_t * written_data);
+			*(void**)(&write_data_proc) = dlsym(h_lib_instance, "NI_WriteData");
+#endif
+			if (write_data_proc) {
+				mtx.lock();
+				int res = write_data_proc(value, length, address, (tDT4810_Handle*)_handle, written_data);
+				mtx.unlock();
+				if (res==0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+		
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
@@ -634,6 +972,64 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			if (read_data_proc) {
 				mtx.lock();
 				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);				
+				mtx.unlock();
+				*read_data = rd;
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT5771:
+		// read data from DT5771 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT5771_Handle* handle, uint32_t* read_data);
+			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
+#else
+			int (*read_data_proc)(uint32_t * data, uint32_t count, uint32_t address, tDT5771_Handle * handle, uint32_t * read_data);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "NI_ReadData");
+
+#endif
+			if (read_data_proc) {
+				mtx.lock();
+				int res = read_data_proc(value, length, address, (tDT5771_Handle*)_handle, &rd);
+				mtx.unlock();
+				*read_data = rd;
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+	}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT4810:
+		// read data from DT5771 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT4810_Handle* handle, uint32_t* read_data);
+			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
+#else
+			int (*read_data_proc)(uint32_t * data, uint32_t count, uint32_t address, tDT4810_Handle * handle, uint32_t * read_data);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "NI_ReadData");
+
+#endif
+			if (read_data_proc) {
+				mtx.lock();
+				int res = read_data_proc(value, length, address, (tDT4810_Handle*)_handle, &rd);
 				mtx.unlock();
 				*read_data = rd;
 				if (res == 0) {
@@ -761,6 +1157,58 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			if (read_data_proc) {
 				mtx.lock();
 				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tR5560_Handle*)_handle, &rd);
+				mtx.unlock();
+				*read_data = rd;
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+		
+	case BOARD_MODEL::DT5771:
+		// read FIFO from DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT5771_Handle* handle, uint32_t* read_data);
+			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
+#else
+			int (*read_data_proc)(uint32_t * data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT5771_Handle * handle, uint32_t * read_data);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "NI_ReadFifo");
+#endif
+
+			if (read_data_proc) {
+				mtx.lock();
+				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tDT5771_Handle*)_handle, &rd);
+				mtx.unlock();
+				*read_data = rd;
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT4810:
+		// read FIFO from DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT4810_Handle* handle, uint32_t* read_data);
+			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
+#else
+			int (*read_data_proc)(uint32_t * data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT4810_Handle * handle, uint32_t * read_data);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "NI_ReadFifo");
+#endif
+
+			if (read_data_proc) {
+				mtx.lock();
+				int r = read_data_proc(value, length, address, addressStatus, STREAMING, timeout_ms, (tDT4810_Handle*)_handle, &rd);
 				mtx.unlock();
 				*read_data = rd;
 				return r;
@@ -1313,6 +1761,56 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterSet(uint32_t value,
 
 	}
 		break;
+
+	case BOARD_MODEL::DT5771:
+		// write register of DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, uint32_t index, tDT5771_Handle* handle);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
+#else
+			int (*write_reg)(uint32_t value, uint32_t address, uint32_t index, tDT5771_Handle * handle);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "NI_InternalWriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(value, address, index, (tDT5771_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		break;
+
+	case BOARD_MODEL::DT4810:
+		// write register of DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, uint32_t index, tDT4810_Handle* handle);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
+#else
+			int (*write_reg)(uint32_t value, uint32_t address, uint32_t index, tDT4810_Handle * handle);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "NI_InternalWriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(value, address, index, (tDT4810_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		break;
 	case BOARD_MODEL::X2495:
 		return NI_ERROR;
 		break;
@@ -1357,6 +1855,58 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
 			if (read_reg) {
 				mtx.lock();
 				int res = read_reg(value, address, index, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	case BOARD_MODEL::DT5771:
+		// read register from DT5771 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, uint32_t index, tDT5771_Handle* handle);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
+#else
+			int (*read_reg)(uint32_t * value, uint32_t address, uint32_t index, tDT5771_Handle * handle);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "NI_InternalReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(value, address, index, (tDT5771_Handle*)_handle);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+		
+	case BOARD_MODEL::DT4810:
+		// read register from DT4810 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, uint32_t index, tDT4810_Handle* handle);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
+#else
+			int (*read_reg)(uint32_t * value, uint32_t address, uint32_t index, tDT4810_Handle * handle);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "NI_InternalReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(value, address, index, (tDT4810_Handle*)_handle);
 				mtx.unlock();
 				if (res == 0) {
 					return NI_OK;

@@ -21,7 +21,10 @@ class bd_dt1260 : public  SciSDK_Node {
         NI_RESULT IGetParamU32(string name, uint32_t *value);
     private:
         NI_RESULT UpdateHardware();
+
     struct {
+        bd_reg A_TB_POISSON_P;
+		bd_reg A_TB_RATE;
         bd_reg offset;
     } board_params;
 };

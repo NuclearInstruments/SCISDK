@@ -472,4 +472,19 @@
 		bool flush;						/**< Flush of the aggregate word. Shared by all the events in the aggregate. Useful for debug purposes. */
 		uint32_t aggregate_counter;		/**< Aggregate counter section in the Event Aggregate structure. Shared by all the events */
 	} SCISDK_FE_OPENDPP_EVENT;
+
+
+	/**
+ * @brief Frame raw data structure
+ * @details This type is used to store frame raw result
+ * The reference document for the data format is the [Frame](frame.md)
+ */
+	typedef struct {
+		uint32_t magic;				/**< Magic number to identify the data type*/
+		uint32_t *data;				/**< Pointer to data allocated by the AllocateBuffer function*/
+		struct {
+			uint32_t allocated_bins;
+			uint32_t valid_bins;
+		} info;
+	}SCISDK_EMULATOR_ENERGY_SPECTRUM;
 #endif

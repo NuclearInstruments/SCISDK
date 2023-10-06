@@ -4,14 +4,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "V2740_StaticDemo", "SciSDK_VC++\SciSDK_VC++.vcxproj", "{0A03B4DC-6A16-4C2A-A740-9E722BE56BBC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7224C5D2-D84D-488A-A9B9-09449129D995} = {7224C5D2-D84D-488A-A9B9-09449129D995}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciSDK_DLL", "SciSDK_DLL\SciSDK_DLL.vcxproj", "{7224C5D2-D84D-488A-A9B9-09449129D995}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciSDK_DLL_Test", "SciSDK_DLL_Test\SciSDK_DLL_Test.vcxproj", "{B2879404-8F60-494C-B515-D9A7811D714A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7224C5D2-D84D-488A-A9B9-09449129D995} = {7224C5D2-D84D-488A-A9B9-09449129D995}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciSDK_Static", "SciSDK_Static\SciSDK_Static.vcxproj", "{619AC03E-33BD-4FDC-9EB4-4E786B984697}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7224C5D2-D84D-488A-A9B9-09449129D995} = {7224C5D2-D84D-488A-A9B9-09449129D995}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciSDK_Labview", "SciSDK_Labview\SciSDK_Labview.vcxproj", "{F55399DF-A251-4A49-BA37-D903084F8F07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7224C5D2-D84D-488A-A9B9-09449129D995} = {7224C5D2-D84D-488A-A9B9-09449129D995}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -139,6 +139,7 @@ public:
 	virtual NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void **buffer) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT ReadData(void *buffer) { return NI_NOT_IMPLEMENTED; }
+	virtual NI_RESULT WriteData(void* buffer) { return NI_NOT_IMPLEMENTED; }
 	//virtual NI_RESULT ReadData(string endpoint, void* buffer) { return NI_NOT_IMPLEMENTED; }
 
 	virtual NI_RESULT ExecuteCommand(string cmd, string param) { return NI_NOT_IMPLEMENTED; }

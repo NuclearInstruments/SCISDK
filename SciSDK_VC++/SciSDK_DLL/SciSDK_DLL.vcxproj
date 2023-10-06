@@ -153,6 +153,7 @@
     <ClInclude Include="..\..\headers\SCIDK_API_C.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_common.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_dt1260.h" />
+    <ClInclude Include="..\..\src\boards_driver\bd_dt4810.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_dt5560se.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_feelib.h" />
     <ClInclude Include="..\..\src\magic_numbers.h" />
@@ -185,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\boards_driver\bd_dt1260.cpp" />
+    <ClCompile Include="..\..\src\boards_driver\bd_dt4810.cpp" />
     <ClCompile Include="..\..\src\boards_driver\bd_dt5560se.cpp" />
     <ClCompile Include="..\..\src\boards_driver\bd_feelib.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
