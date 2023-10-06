@@ -194,6 +194,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aeae6abf2d2a9a72799a64a3aa2d528c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a> (char *Path, void *buffer, void *handle)</td></tr>
 <tr class="memdesc:aeae6abf2d2a9a72799a64a3aa2d528c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum, list) or of the board specific endpoint (scope, dpp). The function behavour depends on the configuration of the device driver of the Memory Mapped Component or board endpoint:  <a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">More...</a><br /></td></tr>
 <tr class="separator:aeae6abf2d2a9a72799a64a3aa2d528c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab472c8d5360b84d0df6ffaf35d6001bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ab472c8d5360b84d0df6ffaf35d6001bf">SCISDK_WriteData</a> (char *Path, void *buffer, void *handle)</td></tr>
+<tr class="memdesc:ab472c8d5360b84d0df6ffaf35d6001bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data tothe board for the specific Memory Mapped Componet or of the board specific endpoint.  <a href="_sci_s_d_k___d_l_l_8h.html#ab472c8d5360b84d0df6ffaf35d6001bf">More...</a><br /></td></tr>
+<tr class="separator:ab472c8d5360b84d0df6ffaf35d6001bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af08b6e91ece60f4b3dc311557efd1ff3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#af08b6e91ece60f4b3dc311557efd1ff3">SCISDK_ReadStatus</a> (char *Path, void *buffer, void *handle)</td></tr>
 <tr class="memdesc:af08b6e91ece60f4b3dc311557efd1ff3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the board for the specific Memory Mapped Componet (oscilloscope, spectrum, list) status using the MMC device driver The status is a structure, different for each MMC device driver, that contains the actual status of the MMC, (ie: running, stopped, run time, progress, number of samples in the spectrum, etc..)  <a href="_sci_s_d_k___d_l_l_8h.html#af08b6e91ece60f4b3dc311557efd1ff3">More...</a><br /></td></tr>
 <tr class="separator:af08b6e91ece60f4b3dc311557efd1ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1753,6 +1756,52 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int error code defined in <a class="el" href="_n_i_error_code_8h.html">NIErrorCode.h</a> <br  />
  </dd></dl>
+
+</div>
+</div>
+<a id="ab472c8d5360b84d0df6ffaf35d6001bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab472c8d5360b84d0df6ffaf35d6001bf">&#9670;&nbsp;</a></span>SCISDK_WriteData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> int SCISDK_WriteData </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>Path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>handle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data tothe board for the specific Memory Mapped Componet or of the board specific endpoint. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Path</td><td>The path to the Memory Mapped component or board endpoint The path must be in the format &lt;device name&gt;:.../&lt;resource name&gt; <br  />
+ for example: /board0/boardapi/spectrum</td></tr>
+    <tr><td class="paramname">buffer</td><td>Pointer to the buffer to be filled with the data read from the board allocated with <a class="el" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b" title="Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...">SCISDK_AllocateBuffer()</a> </td></tr>
+    <tr><td class="paramname">handle</td><td>Handle to the SciSDK allocated by <a class="el" href="_sci_s_d_k___d_l_l_8h.html#ad5f8fac9fefa5b07c7fb7937e452da80" title="Initialize the SciSDK handles accolating the resources. This function must be called before any other...">SCISDK_InitLib()</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int error code defined in <a class="el" href="_n_i_error_code_8h.html">NIErrorCode.h</a> </dd></dl>
 
 </div>
 </div>

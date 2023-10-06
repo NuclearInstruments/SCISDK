@@ -32,5 +32,6 @@ var _sci_s_d_k___d_l_l_8h =
     [ "SCISDK_SetParameterInteger", "_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f", null ],
     [ "SCISDK_SetParameterString", "_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3", null ],
     [ "SCISDK_SetParameterUInteger", "_sci_s_d_k___d_l_l_8h.html#a6a347e1a936c9662583538b28deb8e9f", null ],
-    [ "SCISDK_SetRegister", "_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a", null ]
+    [ "SCISDK_SetRegister", "_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a", null ],
+    [ "SCISDK_WriteData", "_sci_s_d_k___d_l_l_8h.html#ab472c8d5360b84d0df6ffaf35d6001bf", null ]
 ];

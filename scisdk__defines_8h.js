@@ -30,6 +30,7 @@ var scisdk__defines_8h =
     [ "SCISDK_PETIROC_RAW_BUFFER", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___p_e_t_i_r_o_c___r_a_w___b_u_f_f_e_r" ],
     [ "SCISDK_FE_SCOPE_EVENT", "struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html", "struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t" ],
     [ "SCISDK_FE_OPENDPP_EVENT", "struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html", "struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t" ],
+    [ "SCISDK_EMULATOR_ENERGY_SPECTRUM", "struct_s_c_i_s_d_k___e_m_u_l_a_t_o_r___e_n_e_r_g_y___s_p_e_c_t_r_u_m.html", "struct_s_c_i_s_d_k___e_m_u_l_a_t_o_r___e_n_e_r_g_y___s_p_e_c_t_r_u_m" ],
     [ "T_BUFFER_TYPE", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82e", [
       [ "T_BUFFER_TYPE_RAW", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c", null ],
       [ "T_BUFFER_TYPE_DECODED", "scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d", null ]
