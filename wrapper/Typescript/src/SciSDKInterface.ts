@@ -20,6 +20,7 @@ export const SciSDKInterface = Library(process.platform == "win32" ? "SciSDK_DLL
     "SCISDK_SetRegister": ['int', ['string', 'uint', 'void*']],
     "SCISDK_GetRegister": ['int', ['string', 'uint*', 'void*']],
     "SCISDK_FreeBuffer": ['int', ['string', 'int', 'void**', 'void*']],
+    "SCISDK_WriteData": ['int', ['string', 'void*', 'void*']],
     "SCISDK_ReadData": ['int', ['string', 'void*', 'void*']],
     "SCISDK_ReadStatus": ['int', ['string', 'void*', 'void*']],
     "SCISDK_s_error": ['int', ['int', 'char**', 'void*']],

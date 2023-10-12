@@ -20,6 +20,11 @@ export function PtrToUInt32Array(ptr: any, size: number): Array<number> {
     return decoded_data_arr;
 }
 
+export function Uint32ArrayToPtr(data: Array<number>): any {
+    let ptr = ref.alloc(types.uint32, data);
+    return ptr;
+}
+
 export function PtrToInt8Array(ptr: any, size: number): Array<number> {
     let raw_data_arr = ptr.reinterpret(size * types.int8.size);
     let decoded_data_arr: Array<number> = [];

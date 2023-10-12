@@ -44,6 +44,7 @@ public:
 	NI_RESULT AllocateBuffer(string Path, T_BUFFER_TYPE bt, void **buffer, int size);
 	NI_RESULT FreeBuffer(string Path, T_BUFFER_TYPE bt, void **buffer);
 	NI_RESULT ReadData(string Path, void *buffer);
+	NI_RESULT WriteData(string Path, void* buffer);
 	NI_RESULT DecodeData(string Path, void *buffer_in, void *buffer_out);
 	NI_RESULT ReadStatus(string Path, void *buffer);
 	NI_RESULT GetComponentList(string name, string Type, string *res, bool return_json);

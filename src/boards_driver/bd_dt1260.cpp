@@ -12,11 +12,12 @@ Framework Compatible version: 1.0
 */
 
 bd_dt1260::bd_dt1260(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
+    
     board_params.offset.value = 2048;
     board_params.offset.address = 4294967289;
 
+    cout << "Registering DT1260 endpoints" << endl;
     RegisterParameter("analog.offset", "set analog offset", SciSDK_Paramcb::Type::U32, this);
-
 
 }
 
@@ -46,6 +47,8 @@ NI_RESULT bd_dt1260::IGetParamU32(string name, uint32_t *value)
 
     return NI_INVALID_PARAMETER;
 }
+
+
 
 NI_RESULT bd_dt1260::UpdateHardware()
 {

@@ -11,58 +11,153 @@
 #include <string>
 using namespace std;
 
+void TestDT4810();
+void TestDT1260();
 
 
 int main(int argc, char* argv[])
 {
+	TestDT4810();
+	return 0;
+
+}
+
+
+void TestDT4810() {
 	void* _sdk = SCISDK_InitLib();
-	char * res = "";
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.122:8888", "dt4810", "dt4810-firmware.json", "board0", _sdk);
+
+	if (op_res == 0) {
+		cout << "Device added" << endl;
+	}
+	else {
+		cout << "Device not added" << endl;
+	}
+	op_res = SCISDK_ExecuteCommand("board0:/boardapi/initialize", "", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 8000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "spectrum", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 300, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/timebase.mode", "fixed", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 5, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 0, _sdk);
+
+	op_res = SCISDK_SetParameterString("board0:/boardapi/noise.gauss.enable", "false", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/noise.gauss.gain", 0.70, _sdk);
+
+	SCISDK_EMULATOR_ENERGY_SPECTRUM* energy_spectrum;
+
+	
+	op_res = SCISDK_AllocateBufferSize("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&energy_spectrum, _sdk, 16384);
+	
+	for (int i = 0; i < 16384; i++) {
+		energy_spectrum->data[i] = i/4;
+	}
+
+	//energy_spectrum->data[1000] = 20000;
+	//energy_spectrum->data[2000] = 5000;
+	//energy_spectrum->data[400] = 5000;
+
+	/*for (int i = 5000; i < 10000; i++) {
+		energy_spectrum->data[i] = 30000;
+	}*/
+	energy_spectrum->info.valid_bins = 16384;
+
+	op_res = SCISDK_WriteData("board0:/boardapi", energy_spectrum, _sdk);
+
+
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER* obOsc;
+	
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "ext", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blocking", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/MMCComponents/Oscilloscope_0.trigger_level",5000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/Oscilloscope_0.data_processing", "decode", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/MMCComponents/Oscilloscope_0.timeout", 5000, _sdk);
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&obOsc, _sdk), &res, _sdk);
+
+	cout << "-----" << endl;
+	while (1) {
+		SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void*)obOsc, _sdk);
+		for (int i = 0; i < 250; i++) {
+			cout << (double)obOsc->analog[i] << endl;
+		}
+	}
+
+
+	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
+
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Spectrum_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Spectrum_0.rebin", "0", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Spectrum_0.limitmode", "freerun", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Spectrum_0.limit", "100", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "", _sdk), &res, _sdk);
+	cout << res << endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+	//while (1) {
+		//std::ofstream out("c:/tmp/output1.txt");
+	SCISDK_ReadData("board0:/MMCComponents/Spectrum_0", (void*)obSpectrum, _sdk);
+	for (int i = 0; i < obSpectrum->info.total_bins; i++) {
+		cout << obSpectrum->data[i] << endl;
+	}
+	//out.close();
+	SCISDK_FreeBuffer("board0:/MMCComponents/Spectrum_0", 1, (void**)&obSpectrum, _sdk);
+	
+}
+
+void TestDT1260() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
 
 	/*SCISDK_s_error(SCISDK_AddNewDevice("192.168.102.220:8888", "DT5560", "C:/GIT/Tutorial/Transistor_reset_demo/RegisterFile.json", "board0", _sdk), &res, _sdk);
 	int ret = SCISDK_SetRegister("board0:/Registers/RUNREG", 0, _sdk);*/
 
 	int op_res = SCISDK_AddNewDevice("usb:28645", "dt1260", "C:/git/scisdk/examples/components/LabView/Registers/DT1260RegisterFile.json", "board0", _sdk);
 	op_res = SCISDK_SetRegister("board0:/Registers/doesnotexist", 10, _sdk);
-	return 0;
+
 	char* str_tmp = "";
 	int int_tmp = 0;
 	SCISDK_s_error(SCISDK_GetParameterInteger("board0:/MMCComponents/Oscilloscope_0.trigger_dtrack", &int_tmp, _sdk), &res, _sdk);
 	cout << endl << "********" << to_string(int_tmp) << endl;
-	
 
-		//// SPECTRUM
-		SCISDK_SPECTRUM_DECODED_BUFFER *obSpectrum;
-		
-		SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.rebin", "0",_sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limitmode", "freerun", _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limit", "100", _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk), &res, _sdk);
-		cout << res << endl;
-		SCISDK_s_error(SCISDK_SetRegister("board0:/Registers/DELAY", 100, _sdk), &res, _sdk);
-		cout << res << endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
-		//while (1) {
-			//std::ofstream out("c:/tmp/output1.txt");
-			SCISDK_ReadData("board0:/MMCComponents/TOF_0", (void *)obSpectrum, _sdk);
-			for (int i = 0; i < obSpectrum->info.total_bins; i++) {
-			cout << obSpectrum->data[i] << endl;
-			}
-			//out.close();
-			SCISDK_FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
-		//}
 
-		
+	//// SPECTRUM
+	SCISDK_SPECTRUM_DECODED_BUFFER* obSpectrum;
 
-	return 0;
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/TOF_0", T_BUFFER_TYPE_DECODED, (void**)&obSpectrum, _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.rebin", "0", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limitmode", "freerun", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/TOF_0.limit", "100", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.reset", "", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/TOF_0.start", "", _sdk), &res, _sdk);
+	cout << res << endl;
+	SCISDK_s_error(SCISDK_SetRegister("board0:/Registers/DELAY", 100, _sdk), &res, _sdk);
+	cout << res << endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+	//while (1) {
+		//std::ofstream out("c:/tmp/output1.txt");
+	SCISDK_ReadData("board0:/MMCComponents/TOF_0", (void*)obSpectrum, _sdk);
+	for (int i = 0; i < obSpectrum->info.total_bins; i++) {
+		cout << obSpectrum->data[i] << endl;
+	}
+	//out.close();
+	SCISDK_FreeBuffer("board0:/MMCComponents/TOF_0", 1, (void**)&obSpectrum, _sdk);
+	//}
+
 
 }
+
 
 
 /*SCISDK_RM_RAW_BUFFER *rmb;

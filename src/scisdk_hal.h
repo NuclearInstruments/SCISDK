@@ -23,6 +23,8 @@ enum class BOARD_MODEL {
 	DT1260,
 	DT5550X,
 	X5560,
+	DT5771,
+	DT4810,
 	X2495,
 	X2740
 };
@@ -123,6 +125,20 @@ typedef struct {
 	SOCKET_TYPE socketType;
 	tZMQEndpoint *zmq;
 } tR5560_Handle;
+
+typedef struct {
+	int Csocket;
+	int connected;
+	uint32_t __IICBASEADDRESS;
+	uint32_t __IICBASEADDRESS_STATUS;
+	SOCKET_TYPE socketType;
+	tZMQEndpoint* zmq;
+} tDT5771_Handle;
+
+typedef struct {
+	int Csocket;
+	int connected;
+} tDT4810_Handle;
 
 typedef uint64_t FEELibHandle;
 

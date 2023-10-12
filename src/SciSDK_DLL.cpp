@@ -272,6 +272,17 @@ SCISDK_DLL_API int SCISDK_ReadData(char* Path, void* buffer, void* handle) {
 	return res;
 }
 
+SCISDK_DLL_API int SCISDK_WriteData(char* Path, void* buffer, void* handle) {
+	if (handle == NULL)return NI_ERROR;
+	if (Path == NULL)return NI_ERROR;
+	if (buffer == NULL)return NI_ERROR;
+
+	SciSDK* _sdk = (SciSDK*)handle;
+	string _Path(Path);
+	int res = _sdk->WriteData(_Path, buffer);
+	return res;
+}
+
 SCISDK_DLL_API int SCISDK_ReadStatus(char* Path, void* buffer, void* handle) {
 	if (handle == NULL)return NI_ERROR;
 	if (Path == NULL)return NI_ERROR;
