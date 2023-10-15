@@ -91,6 +91,25 @@ public:
 
 	}
 
+	SciSDK_Node(SciSDK_HAL *hal, void *dev, json j, string path) {
+		_path = path;
+		_hal = hal;
+		if (path == "/Device") {
+			name = "boardapi";
+			type = "boardapi";
+			_path = "";
+		}
+		else {
+			name = (string)j.at("Name");
+			try {
+				type = (string)j.at("Type");
+			}
+			catch (json::exception& e) {
+				type = "Register";
+			}
+		}
+	}
+
 	//bool operator==(const string rhs) const { return (this->_path + "/" + this->name) == rhs; }
 
 	string GetPath() {
@@ -151,6 +170,7 @@ protected:
 	string name;
 	string _path;
 	SciSDK_HAL *_hal;
+
 
 	void RegisterParameter(string name, string description, SciSDK_Paramcb::Type type, SciSDK_Node *caller) {
 		params.push_back(SciSDK_Paramcb(name, description, type, caller));

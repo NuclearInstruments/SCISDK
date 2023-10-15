@@ -11,9 +11,9 @@ Framework Compatible version: 1.0
 
 */
 
-bd_dt4810::bd_dt4810(SciSDK_HAL *hal, SciSDK_Device *dev, json j, string path) : SciSDK_Node(hal, j, path) {
+bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_Node(hal, dev, j, path) {
     
-    _dev = dev;
+    _dev = (SciSDK_Device*)dev;
     board_params.offset.value = 2048;
     board_params.offset.address = 4294967289;
     //for (auto r : j["Registers"]) {
@@ -60,6 +60,15 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, SciSDK_Device *dev, json j, string path) :
     RegisterParameter("boardapi/main.output.enable", "enable output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/main.output.gate", "gate output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
 
+
+    hw_config.energy.mode = hw_config.energy.FIXED;
+    hw_config.energy.constant = 10000;
+    hw_config.noise.gaussian.enabled = false;
+    hw_config.noise.gaussian.gain = 0;
+    hw_config.shape.rise = 0;
+    hw_config.shape.tau = 2;
+    hw_config.timebase.mode = hw_config.timebase.PERIODIC;
+    hw_config.timebase.rate = 1000;
 
 }
 

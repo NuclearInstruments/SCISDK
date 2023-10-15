@@ -18,7 +18,7 @@ using namespace std;
 
 class bd_dt4810 : public  SciSDK_Node {
     public:
-	    bd_dt4810(SciSDK_HAL *hal, SciSDK_Device * dev, json j, string path);
+	    bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path);
         NI_RESULT ISetParamU32(string name, uint32_t value);
         NI_RESULT IGetParamU32(string name, uint32_t *value);
         NI_RESULT ISetParamDouble(string name, double value);
