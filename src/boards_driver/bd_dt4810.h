@@ -61,6 +61,14 @@ private:
                 bool enabled;
             } gaussian;
         }noise;
+
+        struct {
+            bool invert;
+            bool en;
+            bool tmgate;
+            double gain;
+            int offset;
+        } global;
     } hw_config;
 
     struct {

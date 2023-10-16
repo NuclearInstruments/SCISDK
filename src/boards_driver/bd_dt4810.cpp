@@ -56,9 +56,22 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     
     RegisterParameter("boardapi/main.invert", "invert signal polarity", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("main.gain", "global gain", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("main.offset", "global offseet", SciSDK_Paramcb::Type::I32, this);
+    RegisterParameter("main.offset", "global offseet", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/main.output.enable", "enable output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/main.output.gate", "gate output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
+
+
+    RegisterParameter("mon.icr", "input count rate", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.ocr", "output count rate", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.ic", "input count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.oc", "output count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.sc", "saturated count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.deadp", "percent dead event", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.dead", "dead time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.rt", "real time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.lt", "live time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.los", "number of lost events", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("mon.ovl", "number of overflow events", SciSDK_Paramcb::Type::d, this);
 
 
     hw_config.energy.mode = hw_config.energy.FIXED;
@@ -80,7 +93,7 @@ NI_RESULT bd_dt4810::ISetParamU32(string name, uint32_t value)
         if ((value > 16384) || (value<0)) {
             return NI_PARAMETER_OUT_OF_RANGE;
         } else {
-            ret = _dev->SetRegister("/Registers/A_EN_FIXED_ENERGY", value);
+            ret = _dev->SetRegister("/Registers/A_EN_FIXED_ENERGY", value*2);
             if (ret) return NI_ERROR_INTERFACE;
             hw_config.energy.constant = value;
             return NI_OK;
@@ -94,17 +107,14 @@ NI_RESULT bd_dt4810::ISetParamU32(string name, uint32_t value)
 NI_RESULT bd_dt4810::IGetParamU32(string name, uint32_t *value)
 {
 	int ret = 0;
-    if (name == "amplitude.fixed") {
-        uint32_t fixed;
-        _dev->GetRegister("/Registers/A_EN_FIXED_ENERGY", &fixed);
-        if (ret) return NI_ERROR_INTERFACE;
-        hw_config.energy.constant = fixed;
-        *value = hw_config.energy.constant;
+    if (name == "main.offset") {
+        *value = hw_config.global.offset;
         return NI_OK;
     }
 
     return NI_INVALID_PARAMETER;
 }
+
 
 NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
 {
@@ -187,6 +197,23 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
         return NI_OK;
     }
 
+    if (name == "main.gain") {
+        uint32_t g = value * 0xFFFF;
+        ret = _dev->SetRegister("/Registers/A_OM_GAIN", g);
+        if (ret) return NI_ERROR_INTERFACE;
+        hw_config.global.gain = value;
+        return NI_OK;
+
+    }
+    if (name == "main.offset") {
+        uint32_t g = 0x7FFF-(value*2) ;
+        ret = _dev->SetRegister("/Registers/A_OM_OFFSET", g);
+        if (ret) return NI_ERROR_INTERFACE;
+        hw_config.global.gain = value;
+        return NI_OK;
+
+    }
+
 
     return NI_INVALID_PARAMETER;
     
@@ -217,6 +244,108 @@ NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
     if (name == "noise.gauss.gain") {
 		*value = hw_config.noise.gaussian.gain;
     }
+
+    if (name == "mon.icr") {
+        uint32_t l=0, h=0;
+        ret = _dev->GetRegister("/Registers/a_ICR", &l);
+		if (ret) return NI_ERROR_INTERFACE;
+		uint64_t u64 = l + (((uint64_t)h)<<32L);
+		*value = ((double)u64)*4;
+    }
+
+    if (name == "mon.ocr") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_OCR", &l);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = ((double)u64)* 4;
+    }
+
+    if (name == "mon.ic") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_IC_L", &l);
+        ret = _dev->GetRegister("/Registers/a_IC_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (double)u64;
+    }
+    if (name == "mon.oc") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_OC_L", &l);
+        ret = _dev->GetRegister("/Registers/a_OC_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (double)u64;
+    }
+    if (name == "mon.sc") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_SC_L", &l);
+        ret = _dev->GetRegister("/Registers/a_SC_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (double)u64;
+    }
+
+    if (name == "mon.deadp") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_IC_L", &l);
+        ret = _dev->GetRegister("/Registers/a_IC_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t ic = l + (((uint64_t)h) << 32L);
+        ret = _dev->GetRegister("/Registers/a_OC_L", &l);
+        ret = _dev->GetRegister("/Registers/a_OC_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t oc = l + (((uint64_t)h) << 32L);
+
+        *value = ((double)oc)/ ((double)ic) * 100.0;
+    }
+    
+    if (name == "mon.dead") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_DT_L", &l);
+        ret = _dev->GetRegister("/Registers/a_DT_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (((double)u64) * 2e-3) ;
+    }
+    
+    if (name == "mon.rt") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_RT_L", &l);
+        ret = _dev->GetRegister("/Registers/a_RT_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (((double)u64) *2e-3);
+    }
+
+    if (name == "mon.lt") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_LT_L", &l);
+        ret = _dev->GetRegister("/Registers/a_LT_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (((double)u64) * 2e-3);
+    }
+
+    if (name == "mon.los") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_LOS_L", &l);
+        ret = _dev->GetRegister("/Registers/a_LOS_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (double)u64;
+    }
+
+    if (name == "mon.ovl") {
+        uint32_t l = 0, h = 0;
+        ret = _dev->GetRegister("/Registers/a_OVL_L", &l);
+        ret = _dev->GetRegister("/Registers/a_OVL_H", &h);
+        if (ret) return NI_ERROR_INTERFACE;
+        uint64_t u64 = l + (((uint64_t)h) << 32L);
+        *value = (double)u64;
+    }
+
+
     return NI_INVALID_PARAMETER;
 
 }
@@ -281,6 +410,61 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
         }
 
     }
+
+    if (name == "main.output.enable") {
+        if (value == "true") {
+            ret = _dev->SetRegister("/Registers/A_OM_ON", 0x1);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.en = true;
+            return NI_OK;
+        }
+        else if (value == "false") {
+            ret = _dev->SetRegister("/Registers/A_OM_ON", 0x0);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.en = false;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+    }
+
+    if (name == "main.output.gate") {
+        if (value == "true") {
+            ret = _dev->SetRegister("/Registers/A_OM_GATE", 0x1);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.tmgate = true;
+            return NI_OK;
+        }
+        else if (value == "false") {
+            ret = _dev->SetRegister("/Registers/A_OM_GATE", 0x0);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.tmgate = false;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+    }
+    
+    if (name == "main.invert") {
+        if (value == "true") {
+            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x1);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.invert = true;
+            return NI_OK;
+        }
+        else if (value == "false") {
+            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x0);
+            if (ret) return NI_ERROR_INTERFACE;
+            hw_config.global.invert = false;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+    }
+    
     return NI_INVALID_PARAMETER;
 }
 
