@@ -449,13 +449,13 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
     
     if (name == "main.invert") {
         if (value == "true") {
-            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x1);
+            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x0);
             if (ret) return NI_ERROR_INTERFACE;
             hw_config.global.invert = true;
             return NI_OK;
         }
         else if (value == "false") {
-            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x0);
+            ret = _dev->SetRegister("/Registers/A_OM_INVERT", 0x1);
             if (ret) return NI_ERROR_INTERFACE;
             hw_config.global.invert = false;
             return NI_OK;
@@ -487,6 +487,7 @@ NI_RESULT bd_dt4810::ExecuteCommand(string cmd, string param) {
         _dev->SetRegister("/Registers/A_TB_RESET", 0x0);
 
         _dev->SetRegister("/Registers/A_GLOBAL_LSFR_SETTINGS", 0x4);
+        _dev->SetRegister("/Registers/A_OM_INVERT", 0x1);
         return NI_OK;
     }
     
