@@ -35,9 +35,16 @@ void TestDT4810() {
 	else {
 		cout << "Device not added" << endl;
 	}
+	char *fwversion;
+	char *hwversion;
+	op_res = SCISDK_GetParameterString("board0:/boardapi/fwver", &fwversion, _sdk);
+	op_res = SCISDK_GetParameterString("board0:/boardapi/hwver", &hwversion, _sdk);
+	cout << "Firmware version: " << fwversion << endl;
+	cout << "Hardware version: " << hwversion << endl;
+	
 	op_res = SCISDK_ExecuteCommand("board0:/boardapi/initialize", "", _sdk);
-	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 8000, _sdk);
-	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "spectrum", _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 12000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "fixed", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 300, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/timebase.mode", "fixed", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 5, _sdk);
@@ -45,6 +52,50 @@ void TestDT4810() {
 
 	op_res = SCISDK_SetParameterString("board0:/boardapi/noise.gauss.enable", "false", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/noise.gauss.gain", 0.70, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/main.gain", 1, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/main.offset", 000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.enable", "false", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.enable", "true", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.gate", "true", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.invert", "false", _sdk);
+
+	/* "mon.icr",
+	 "mon.ocr",
+	 "mon.ic", "
+	 "mon.oc", "
+	 "mon.deadp"
+	 "mon.dead",
+	 "mon.rt", "
+	 "mon.lt", "
+	 "mon.los",
+	 "mon.ovl",
+	 */
+	cout << endl;
+	double icr, ocr, ic, rt, lt, los, ovl, deadp, dead, oc, sc;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.icr", &icr, _sdk);
+	cout << "ICR: " << icr << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.ocr", &ocr, _sdk);
+	cout << "OCR: " << ocr << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.ic", &ic, _sdk);
+	cout << "IC: " << ic << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.oc", &oc, _sdk);
+	cout << "OC: " << oc << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.sc", &sc, _sdk);
+	cout << "SC: " << sc << endl;
+
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.rt", &rt, _sdk);
+	cout << "RT: " << rt << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.lt", &lt, _sdk);
+	cout << "LT: " << lt << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.los", &los, _sdk);
+	cout << "LOS: " << los << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.ovl", &ovl, _sdk);
+	cout << "OVL: " << ovl << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.deadp", &deadp, _sdk);
+	cout << "DEADP: " << deadp << endl;
+	op_res = SCISDK_GetParameterDouble("board0:/boardapi/mon.dead", &dead, _sdk);
+	cout << "DEAD: " << dead << endl;
+	
 
 	SCISDK_EMULATOR_ENERGY_SPECTRUM* energy_spectrum;
 
