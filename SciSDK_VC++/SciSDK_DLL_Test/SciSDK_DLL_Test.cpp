@@ -35,6 +35,13 @@ void TestDT4810() {
 	else {
 		cout << "Device not added" << endl;
 	}
+	char *fwversion;
+	char *hwversion;
+	op_res = SCISDK_GetParameterString("board0:/boardapi/fwver", &fwversion, _sdk);
+	op_res = SCISDK_GetParameterString("board0:/boardapi/hwver", &hwversion, _sdk);
+	cout << "Firmware version: " << fwversion << endl;
+	cout << "Hardware version: " << hwversion << endl;
+	
 	op_res = SCISDK_ExecuteCommand("board0:/boardapi/initialize", "", _sdk);
 	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 12000, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "fixed", _sdk);

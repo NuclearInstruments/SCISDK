@@ -73,6 +73,9 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     RegisterParameter("mon.los", "number of lost events", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("mon.ovl", "number of overflow events", SciSDK_Paramcb::Type::d, this);
 
+    RegisterParameter("boardapi/fwver", "firmware version", SciSDK_Paramcb::Type::str, this);
+    RegisterParameter("boardapi/hwver", "hardware version", SciSDK_Paramcb::Type::str, this);
+
 
     hw_config.energy.mode = hw_config.energy.FIXED;
     hw_config.energy.constant = 10000;
@@ -469,7 +472,58 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
 }
 
 NI_RESULT bd_dt4810::IGetParamString(string name, string* value) {
-    
+    int ret;
+    if (name == "fwver") {
+		uint32_t u32;
+        ret = _dev->GetRegister("/Registers/a_FWVER", &u32);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        std::stringstream hexStream;
+        hexStream << "0x" << std::setw(8) << std::setfill('0') << std::hex << std::uppercase << u32;
+        std::string hexString = hexStream.str();
+
+        // Rimuovi il prefisso "0x" dalla stringa
+        hexString = hexString.substr(2);
+
+        // Dividi la stringa in quattro parti da due caratteri ciascuna
+        std::string year = hexString.substr(0, 2);
+        std::string month = hexString.substr(2, 2);
+        std::string day = hexString.substr(4, 2);
+        std::string revision = hexString.substr(6, 2);
+
+        // Costruisci la stringa di versione nel formato "yyyy.mm.dd.revisione"
+        std::string finalVersion = "20" + year + "." + month + "." + day + "." + revision;
+
+        *value = finalVersion;
+        return NI_OK;
+		
+    }
+
+    if (name == "hwver") {
+        uint32_t u32;
+        ret = _dev->GetRegister("/Registers/a_HWVER", &u32);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        std::stringstream hexStream;
+        hexStream << "0x" << std::setw(8) << std::setfill('0') << std::hex << std::uppercase << u32;
+        std::string hexString = hexStream.str();
+
+        // Rimuovi il prefisso "0x" dalla stringa
+        hexString = hexString.substr(2);
+
+        // Dividi la stringa in quattro parti da due caratteri ciascuna
+        std::string year = hexString.substr(0, 2);
+        std::string month = hexString.substr(2, 2);
+        std::string day = hexString.substr(4, 2);
+        std::string revision = hexString.substr(6, 2);
+
+        // Costruisci la stringa di versione nel formato "yyyy.mm.dd.revisione"
+        std::string finalVersion = year + "." + month + "." + day + "." + revision;
+
+        *value = finalVersion;
+        return NI_OK;
+
+    }
     return NI_INVALID_PARAMETER;
 }
 
