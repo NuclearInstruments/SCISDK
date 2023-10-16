@@ -297,7 +297,7 @@ NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
         if (ret) return NI_ERROR_INTERFACE;
         uint64_t oc = l + (((uint64_t)h) << 32L);
 
-        *value = ((double)oc)/ ((double)ic) * 100.0;
+        *value = (1-((double)oc)/ ((double)ic)) * 100.0;
     }
     
     if (name == "mon.dead") {

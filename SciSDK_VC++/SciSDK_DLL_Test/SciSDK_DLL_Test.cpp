@@ -46,10 +46,11 @@ void TestDT4810() {
 	op_res = SCISDK_SetParameterString("board0:/boardapi/noise.gauss.enable", "false", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/noise.gauss.gain", 0.70, _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/main.gain", 1, _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/main.offset", -10000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/main.offset", 000, _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.enable", "false", _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.enable", "true", _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.gate", "true", _sdk);
-	op_res = SCISDK_SetParameterString("board0:/boardapi/main.invert", "true", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/main.invert", "false", _sdk);
 
 	/* "mon.icr",
 	 "mon.ocr",
