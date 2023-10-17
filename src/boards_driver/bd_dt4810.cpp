@@ -129,7 +129,7 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
         }
         else {
 			uint32_t rate = clock_fpga / value;
-            uint32_t prate = ((value * (1.0 / clock_fpga))) * pow(2.0, 32);
+            uint32_t prate = ((value * (1.0 / clock_dac))) * pow(2.0, 32);
             ret |= _dev->SetRegister("/Registers/A_TB_RATE", rate);
             ret |= _dev->SetRegister("/Registers/A_TB_POISSON_P", prate);
             if (ret) return NI_ERROR_INTERFACE;
@@ -184,6 +184,35 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
             if (ret) return NI_ERROR_INTERFACE;
         }
         else {
+            double compensation = 1/( - 0.135 * log(value) + 2.6091);
+            float alfa =  exp(-1 / (1e-9*value * compensation * clock_dac));
+            double a[8];
+            uint32_t aU32[8];
+            double b;
+            uint32_t bU32;
+
+            for (int i = 0; i < 8; i++) {
+                float aX = alfa;
+                for (int j = 0; j < i; j++) {
+                    aX = aX * alfa;
+                }
+                a[i] = aX;
+				aU32[i] = a[i] * 0xFFFFFF;
+                cout << "a[" << i << "] : " << std::hex << (uint32_t)(a[i] * (0xFFFFFF)) << "   ";
+            }
+
+            b = 1 - alfa;
+			bU32 = b * 0xFFFF;
+            ret = 0;
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A1", aU32[0]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A2", aU32[1]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A3", aU32[2]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A4", aU32[3]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A5", aU32[4]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A6", aU32[5]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A7", aU32[6]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_A8", aU32[7]);
+            ret |= _dev->SetRegister("/Registers/A_SH_DRC_B", bU32);
             ret = _dev->SetRegister("/Registers/A_SH_DRC_BYPASS_LOWPASS", 0);
             if (ret) return NI_ERROR_INTERFACE;
         }

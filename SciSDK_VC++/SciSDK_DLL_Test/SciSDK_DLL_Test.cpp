@@ -43,12 +43,12 @@ void TestDT4810() {
 	cout << "Hardware version: " << hwversion << endl;
 	
 	op_res = SCISDK_ExecuteCommand("board0:/boardapi/initialize", "", _sdk);
-	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 12000, _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 8000, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "fixed", _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 300, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 100, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/timebase.mode", "fixed", _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 5, _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 0, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 200, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 50, _sdk);
 
 	op_res = SCISDK_SetParameterString("board0:/boardapi/noise.gauss.enable", "false", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/noise.gauss.gain", 0.70, _sdk);
@@ -59,6 +59,17 @@ void TestDT4810() {
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.gate", "true", _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.invert", "false", _sdk);
 
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 20, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 50, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 100, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 250, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 500, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 1000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 2000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 4000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 6000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 8000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 10000, _sdk);
 	/* "mon.icr",
 	 "mon.ocr",
 	 "mon.ic", "
