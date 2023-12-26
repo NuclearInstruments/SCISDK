@@ -516,6 +516,8 @@ repeat_blocking_raw:
 
 			uint32_t buffer_size_dw = p->info.buffer_size * p->info.packet_size;
 
+			p->info.valid_data = 0;
+
 			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
 				uint32_t status;
 				NI_RESULT ret = _hal->ReadReg(&status, address.status);
@@ -536,39 +538,114 @@ repeat_blocking_raw:
 					return NI_NO_DATA_AVAILABLE;
 				}
 
-				int pkcount = 0;
-				int ridx = 0;
-				bool store;
+
+				//// print in hex the first 8 words
+				//for (int i = 0; i < vd; i++) {
+				//	cout << std::hex << buffer[i] << endl;
+				//}
+
+				// push data in pQ deque
 				for (int i = 0; i < vd; i++) {
-					if (check_align_word == true) {
-						if (ridx == 0) {
-							if (buffer[i] == first_word_const_value) {
-								store = true;
+					pQ.push(buffer[i]);
+				}
+				free(buffer);
+
+
+				if (pQ.size() > 0) {
+					int ridx = 0;
+					bool store;
+					if (pQ.size() >= settings.packet_size) {
+						while (pQ.size() > 0) {
+							if (check_align_word == true) {
+								if (ridx == 0) {
+									if (pQ.front() == first_word_const_value) {
+										if (pQ.size() < settings.packet_size) {
+											return NI_NO_DATA_AVAILABLE;
+										}
+										store = true;
+									}
+									else {
+										pQ.pop();
+										store = false;
+									}
+								}
+								else {
+
+								}
 							}
 							else {
-								store = false;
+								store = true;
 							}
-						}
-						else {
+
+							if (store == true) {
+								p->data[p->info.valid_data].row[ridx] = pQ.front();
+								pQ.pop();
+								ridx++;
+								if (ridx == settings.packet_size) {
+									p->info.valid_data++;
+									ridx = 0;
+									if (pQ.size() < settings.packet_size) {	//no more data in the buffer to complete a packet
+										return NI_OK;
+									}
+									if (p->info.valid_data >= p->info.buffer_size) { // no more space in output buffer
+										return NI_OK;
+									}
+								}
+							}
 
 						}
+						return NI_OK;
 					}
 					else {
-						store = true;
-					}
-
-					if (store == true) {
-						p->data[pkcount].row[ridx] = buffer[i];
-						ridx++;
-						if (ridx == settings.packet_size) {
-							pkcount++;
-							ridx = 0;
-						}
+						return NI_NO_DATA_AVAILABLE;
 					}
 				}
-				p->info.valid_data = pkcount;
-				free(buffer);
-				return NI_OK;
+				else {
+					return NI_NO_DATA_AVAILABLE;
+				}
+
+
+
+
+
+
+
+
+
+
+			//	int pkcount = 0;
+			//	int ridx = 0;
+			//	bool store;
+			//	for (int i = 0; i < vd; i++) {
+			//		if (check_align_word == true) {
+			//			if (ridx == 0) {
+			//				if (buffer[i] == first_word_const_value) {
+			//					store = true;
+			//				}
+			//				else {
+			//					store = false;
+			//				}
+			//			}
+			//			else {
+
+			//			}
+			//		}
+			//		else {
+			//			store = true;
+			//		}
+
+			//		if (store == true) {
+			//			p->data[pkcount].row[ridx] = buffer[i];
+			//			ridx++;
+			//			if (ridx == settings.packet_size) {
+			//				pkcount++;
+			//				ridx = 0;
+			//			}
+			//		}
+			//	}
+			//	p->info.valid_data = pkcount;
+			//	free(buffer);
+			//	return NI_OK;
 			}
 			else {
 				return NI_NO_DATA_AVAILABLE;
