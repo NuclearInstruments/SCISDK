@@ -578,7 +578,7 @@ repeat_blocking_raw:
 				//}
 
 				// push data in pQ deque
-				for (int i = 0; i < vd; i++) {
+				for (int i = 0; i < vd; i++) { 
 					pQ.push(buffer_temp[i]);
 				}
 				free(buffer_temp);
