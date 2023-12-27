@@ -66,12 +66,19 @@ public:
 		uint32_t timeout_ms,
 		uint32_t *read_data);
 
-	NI_RESULT ReadFIFODMA(uint32_t *value,
+
+	NI_RESULT ReadFIFODMA(
+		uint32_t channel,
+		uint32_t* data,
 		uint32_t length,
-		uint32_t address,
-		uint32_t addressStatus,
-		uint32_t timeout_ms,
-		uint32_t *read_data);
+		uint32_t* read_data);
+
+
+	NI_RESULT DMAConfigure(
+		uint32_t channel,
+		bool blocking,
+		uint32_t timeout,
+		uint32_t buffer_size);
 
 	string ReadFirmwareInformationApp();
 	string GetFirmwareTree();

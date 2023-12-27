@@ -8,7 +8,11 @@
 #include <NIErrorCode.h>
 using namespace std;
 
+#define ENDPOINT "CP_0"
 
+ std::string buildEndpointPath( char * endpoint, const std::string& suffix) {
+	 return ("board0:/MMCComponents/" + std::string(endpoint) + suffix);
+}
 
 #ifdef _MSC_VER
 #define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
@@ -43,13 +47,13 @@ int main()
 	SCISDK_CP_DECODED_BUFFER* lrb;
 
 
-	SCISDK_SetParameterString("board0:/MMCComponents/CPXX_0.thread", "false", _sdk);
-	SCISDK_SetParameterString("board0:/MMCComponents/CPXX_0.data_processing", "decode", _sdk);
-	SCISDK_SetParameterInteger("board0:/MMCComponents/CPXX_0.timeout", 2000, _sdk);
-	SCISDK_SetParameterString("board0:/MMCComponents/CPXX_0.acq_mode", "blocking", _sdk);
-	SCISDK_SetParameterString("board0:/MMCComponents/CPXX_0.check_align_word", "true", _sdk);
+	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".thread").c_str(), "false", _sdk);
+	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".data_processing").c_str(), "decode", _sdk);
+	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".timeout").c_str(), 2000, _sdk);
+	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".acq_mode").c_str(), "blocking", _sdk);
+	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".check_align_word").c_str(), "true", _sdk);
 
-	ret = SCISDK_AllocateBufferSize((char*)("board0:/MMCComponents/CPXX_0"), T_BUFFER_TYPE_DECODED, (void**)&lrb, _sdk, 10);
+	ret = SCISDK_AllocateBufferSize((char*)buildEndpointPath(ENDPOINT, "").c_str(), T_BUFFER_TYPE_DECODED, (void**)&lrb, _sdk, 100);
 
 	if (ret != NI_OK) {
 		cout << "Error allocating buffer\n" << endl;
@@ -58,11 +62,11 @@ int main()
 
 	SCISDK_SetRegister("board0:/Registers/periodg", uint32_t(10*1e6), _sdk);
 	
-	ret = SCISDK_ExecuteCommand("board0:/MMCComponents/CPXX_0.start", "", _sdk);
+	ret = SCISDK_ExecuteCommand((char*)buildEndpointPath(ENDPOINT, ".start").c_str(), "", _sdk);
 
 	
 	while (1) {
-		ret = SCISDK_ReadData("board0:/MMCComponents/CPXX_0", (void*)lrb, _sdk);
+		ret = SCISDK_ReadData((char*)buildEndpointPath(ENDPOINT, "").c_str(), (void*)lrb, _sdk);
 		if (ret == NI_OK) {
 			for (int i = 0; i < lrb->info.valid_data ; i++) {
 				DATA_STRUCT* decoded_data = (DATA_STRUCT*)lrb->data[i].row;

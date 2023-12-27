@@ -1291,16 +1291,15 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	return NI_OK;
 }
 
-NI_RESULT SciSDK_HAL::ReadFIFODMA(uint32_t *value,
+NI_RESULT SciSDK_HAL::ReadFIFODMA(
+	uint32_t channel,
+	uint32_t *data,
 	uint32_t length,
-	uint32_t address,
-	uint32_t addressStatus,
-	uint32_t timeout_ms,
 	uint32_t *read_data) {
-	uint32_t rd, vd;
+	uint32_t rd;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
-		cout << "ReadFIFO-DMA  @" << address << " Size: " << length << endl;
+		cout << "ReadFIFO-DMA  @" << channel << " Size: " << length << endl;
 		return NI_OK;
 		break;
 		
@@ -1310,6 +1309,97 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(uint32_t *value,
 	case BOARD_MODEL::DT5550X:
 		break;
 	case BOARD_MODEL::X5560:
+		//check if length is multiple of 2
+		if (length % 2 != 0) {
+		 	return NI_MISSALIGNED;
+		}
+		// read FIFO from X5560 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t channel, uint8_t* data, uint32_t length, uint32_t* read_data,  tR5560_Handle* handle);
+			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_DMA_Read");
+#else
+			int (*read_data_proc)(uint32_t channel, uint8_t * data, uint32_t length, uint32_t * read_data, tR5560_Handle * handle);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "NI_DMA_Read");
+#endif
+
+			if (read_data_proc) {
+				mtx.lock();
+				int r = read_data_proc(channel, (uint8_t*)data, length*4, &rd, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				if (rd > length * 4) {
+					*read_data = length;
+				}
+				else {
+					*read_data = rd / 4;
+				}
+				
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+
+NI_RESULT SciSDK_HAL::DMAConfigure(
+	uint32_t channel,
+	bool blocking,
+	uint32_t timeout,
+	uint32_t buffer_size) {
+	uint32_t rd;
+	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "Configure-DMA  @" << channel << " Size: " << buffer_size <<  " Timeout: " << timeout << endl;
+		return NI_OK;
+		break;
+
+	case BOARD_MODEL::DT1260:
+		return NI_NOT_IMPLEMENTED;
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+		//check if length is multiple of 2
+		if (buffer_size % 2 != 0) {
+			return NI_MISSALIGNED;
+		}
+		// read FIFO from X5560 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* DMA_CONFIG_PTR)(uint32_t channel, uint32_t blocking, uint32_t timeout, uint32_t buffer_length, tR5560_Handle* handle);
+			DMA_CONFIG_PTR config_proc = (DMA_CONFIG_PTR)GetProcAddress(h_lib_instance, "NI_DMA_SetOptions");
+#else
+			int (*config_proc)(uint32_t channel, uint32_t blocking, uint32_t timeout, uint32_t buffer_length, tR5560_Handle * handle);
+			*(void**)(&config_proc) = dlsym(h_lib_instance, "NI_DMA_SetOptions");
+#endif
+
+			if (config_proc) {
+				mtx.lock();
+				int r = config_proc(channel, blocking?1:0, timeout, buffer_size, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2495:
 		break;
