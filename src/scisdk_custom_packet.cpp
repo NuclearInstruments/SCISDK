@@ -573,9 +573,9 @@ repeat_blocking_raw:
 
 
 				//// print in hex the first 8 words
-				for (int i = 0; i < vd; i++) {
-					cout << std::hex << buffer_temp[i] << endl;
-				}
+				//for (int i = 0; i < vd; i++) {
+				//	cout << std::hex << buffer_temp[i] << endl;
+				//}
 
 				// push data in pQ deque
 				for (int i = 0; i < vd; i++) {

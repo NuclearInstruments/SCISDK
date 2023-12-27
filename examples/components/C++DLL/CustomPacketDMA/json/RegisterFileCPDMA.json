@@ -54,8 +54,37 @@
     }
   ],
   "UseDMA": true,
-  "listOfWord": [],
-  "BufferLength": 0
+  "listOfWord": [
+    {
+      "PioWE": [
+        {
+          "Type": "Constant",
+          "Signal": "FFFFFFFF",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "FFFFFFFF",
+          "ValueFormat": "Hex"
+        }
+      ]
+    },
+    {
+      "PioWE": [
+        {
+          "Type": "Input",
+          "Signal": "IN_1",
+          "BitStart": 0,
+          "BitStop": 31,
+          "SliceStart": 31,
+          "SliceStop": 0,
+          "Value": "IN_1",
+          "ValueFormat": ""
+        }
+      ]
+    }
+  ],
+  "BufferLength": 1024
 },
 {
   "Name": "CPXX_0",
@@ -123,5 +152,5 @@
       ]
     }
   ],
-  "BufferLength": 0
+  "BufferLength": 1024
 }],"Device":"R5560","Project":"fifodma5560"}
