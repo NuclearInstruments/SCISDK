@@ -8,7 +8,10 @@
 #include <NIErrorCode.h>
 using namespace std;
 
+// Endpoint CP_0 USE DMA
 #define ENDPOINT "CP_0"
+// Endpoint CPXX_0 DO NOT USE DMA
+//#define ENDPOINT "CPXX_0"
 
  std::string buildEndpointPath( char * endpoint, const std::string& suffix) {
 	 return ("board0:/MMCComponents/" + std::string(endpoint) + suffix);
@@ -53,7 +56,8 @@ int main()
 	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".acq_mode").c_str(), "blocking", _sdk);
 	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".check_align_word").c_str(), "true", _sdk);
 
-	ret = SCISDK_AllocateBufferSize((char*)buildEndpointPath(ENDPOINT, "").c_str(), T_BUFFER_TYPE_DECODED, (void**)&lrb, _sdk, 100);
+	// When using the DMA list the allocator will allocate a minimum of 2048 word buffer elements
+	ret = SCISDK_AllocateBufferSize((char*)buildEndpointPath(ENDPOINT, "").c_str(), T_BUFFER_TYPE_DECODED, (void**)&lrb, _sdk, 10);
 
 	if (ret != NI_OK) {
 		cout << "Error allocating buffer\n" << endl;

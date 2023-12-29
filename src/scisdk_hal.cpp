@@ -1327,6 +1327,7 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(
 				mtx.lock();
 				int r = read_data_proc(channel, (uint8_t*)data, length*4, &rd, (tR5560_Handle*)_handle);
 				mtx.unlock();
+				cout << "ReadFIFO-DMA  @" << channel << " Size: " << length << " Read: " << rd/4 << endl;
 				if (rd > length * 4) {
 					*read_data = length;
 				}
@@ -1391,6 +1392,58 @@ NI_RESULT SciSDK_HAL::DMAConfigure(
 			if (config_proc) {
 				mtx.lock();
 				int r = config_proc(channel, blocking?1:0, timeout, buffer_size, (tR5560_Handle*)_handle);
+				mtx.unlock();
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+	case BOARD_MODEL::X2495:
+		break;
+	case BOARD_MODEL::X2740:
+		break;
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
+
+NI_RESULT SciSDK_HAL::DMAEnable(
+	uint32_t channel,
+	bool enable) {
+	uint32_t rd;
+	switch (_model) {
+	case BOARD_MODEL::FAKEBOARD:
+		cout << "Configure-DMA  @" << channel << " Enable: " << enable << endl;
+		return NI_OK;
+		break;
+
+	case BOARD_MODEL::DT1260:
+		return NI_NOT_IMPLEMENTED;
+		break;
+	case BOARD_MODEL::DT5550X:
+		break;
+	case BOARD_MODEL::X5560:
+
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* INTERNAL_REGISTER_WRITE_PTR)(uint32_t data, uint32_t address, tR5560_Handle* handle);
+			INTERNAL_REGISTER_WRITE_PTR internal_register_write= (INTERNAL_REGISTER_WRITE_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
+#else
+			int (*internal_register_write)(uint32_t data, uint32_t address, tR5560_Handle * handle);
+			*(void**)(&internal_register_write) = dlsym(h_lib_instance, "NI_InternalWriteReg");
+#endif
+
+			if (internal_register_write) {
+				mtx.lock();
+				int r = internal_register_write(enable==true?1:0, 30 << 16, (tR5560_Handle*)_handle);
 				mtx.unlock();
 				return r;
 			}

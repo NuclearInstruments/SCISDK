@@ -47,7 +47,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 	acq_mode = ACQ_MODE::BLOCKING;
 	settings.acq_len = j.at("BufferLength");
 	settings.packet_size = 0;
-	settings.dma_buffer_size = settings.acq_len;
+	settings.dma_buffer_size = 1e6; //settings.acq_len;
 	for (auto& r : j.at("listOfWord")) {
 		settings.packet_size++;
 	}
@@ -273,6 +273,9 @@ NI_RESULT SciSDK_CustomPacket::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 }
 
 NI_RESULT SciSDK_CustomPacket::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
+	if (settings.usedma) {
+		if (size < 2048) size = 2048;
+	}
 	if (bt == T_BUFFER_TYPE_DECODED) {
 		*buffer = (SCISDK_CP_DECODED_BUFFER *)malloc(sizeof(SCISDK_CP_DECODED_BUFFER));
 		if (*buffer == NULL) {
@@ -755,11 +758,14 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 	}
 
 	if (settings.usedma) {
+		//Configure DMA readout for clean the buffer
 		NI_RESULT ret = _hal->DMAConfigure(
 			settings.dma_channel,
-			(acq_mode == ACQ_MODE::BLOCKING?1:0),
-			timeout,
+			1,
+			1000,
 			settings.dma_buffer_size);
+
+		_hal->DMAEnable(settings.dma_channel, false);
 		//if (ret) return ret;
 	}
 
@@ -770,6 +776,25 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
 	_hal->WriteReg(0, address.config);
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
+	if (settings.usedma) {
+		uint32_t vd = 0;
+		uint32_t cleaned = 0;
+		uint32_t* __tmpbuffer = (uint32_t*)malloc(1024 * sizeof(uint32_t));
+		do {
+			int ret = _hal->ReadFIFODMA(settings.dma_channel, __tmpbuffer, 512, &vd);
+			cleaned += vd;
+		} while (vd > 0);
+		free(__tmpbuffer);
+		cout << "CLEANED " << cleaned << endl;
+	}
+	if (settings.usedma) {
+		NI_RESULT ret = _hal->DMAConfigure(
+			settings.dma_channel,
+			(acq_mode == ACQ_MODE::BLOCKING ? 1 : 0),
+			timeout,
+			settings.dma_buffer_size);
+		_hal->DMAEnable(settings.dma_channel, true);
+	}
 	_hal->WriteReg(1, address.config);
 	h_mutex.unlock();
 

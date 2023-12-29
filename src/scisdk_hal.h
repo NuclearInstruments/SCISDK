@@ -80,6 +80,10 @@ public:
 		uint32_t timeout,
 		uint32_t buffer_size);
 
+	NI_RESULT DMAEnable(
+		uint32_t channel,
+		bool enable);
+
 	string ReadFirmwareInformationApp();
 	string GetFirmwareTree();
 
