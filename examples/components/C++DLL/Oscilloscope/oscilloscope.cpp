@@ -7,7 +7,7 @@
 using namespace std;
 
 // Endpoint CP_0 USE DMA
-#define ENDPOINT "CP_0"
+#define ENDPOINT "Oscilloscope_0"
 // Endpoint CPXX_0 DO NOT USE DMA
 //#define ENDPOINT "CPXX_0"
 
@@ -33,8 +33,8 @@ int main()
 	char* res;
 	int ret = 0;
 
-	ret = SCISDK_AddNewDevice("192.168.102.119:8888", "R5560", "RegisterFileCPDMA.json", "board0", _sdk);
-	//ret = SCISDK_AddNewDevice("192.168.102.219:8888", "DT5560", "RegisterFileCPDMA.json", "board0", _sdk);
+	//ret = SCISDK_AddNewDevice("192.168.102.119:8888", "R5560", "OscilloscopeDT5560.json", "board0", _sdk);
+	ret = SCISDK_AddNewDevice("192.168.102.219:8888", "DT5560", "OscilloscopeDT5560.json", "board0", _sdk);
 
 	if (ret == NI_OK) {
 		cout << "Connected to the device." << endl;
@@ -46,39 +46,36 @@ int main()
 	}
 
 
-	SCISDK_CP_DECODED_BUFFER* lrb;
+	SCISDK_OSCILLOSCOPE_DECODED_BUFFER* odb;
 
 
-	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".thread").c_str(), "false", _sdk);
 	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".data_processing").c_str(), "decode", _sdk);
-	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".timeout").c_str(), 2000, _sdk);
+	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".trigger_level").c_str(), 500, _sdk);
+	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".trigger_mode").c_str(), "analog", _sdk);
+	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".trigger_channel").c_str(), 0, _sdk);
+	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".pretrigger").c_str(), 233, _sdk);
+	SCISDK_SetParameterInteger((char*)buildEndpointPath(ENDPOINT, ".decimator").c_str(), 0, _sdk);
 	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".acq_mode").c_str(), "blocking", _sdk);
-	SCISDK_SetParameterString((char*)buildEndpointPath(ENDPOINT, ".check_align_word").c_str(), "true", _sdk);
 
 	// When using the DMA list the allocator will allocate a minimum of 2048 word buffer elements
-	ret = SCISDK_AllocateBufferSize((char*)buildEndpointPath(ENDPOINT, "").c_str(), T_BUFFER_TYPE_DECODED, (void**)&lrb, _sdk, 10);
+	ret = SCISDK_AllocateBuffer((char*)buildEndpointPath(ENDPOINT, "").c_str(), T_BUFFER_TYPE_DECODED, (void**)&odb, _sdk);
 
 	if (ret != NI_OK) {
 		cout << "Error allocating buffer\n" << endl;
 		return -1;
 	}
 
-	SCISDK_SetRegister("board0:/Registers/periodg", uint32_t(10 * 1e6), _sdk);
+	SCISDK_SetRegister("board0:/Registers/HI", uint32_t(30), _sdk);
+	SCISDK_SetRegister("board0:/Registers/PERIOD", uint32_t(50), _sdk);
 
-	ret = SCISDK_ExecuteCommand((char*)buildEndpointPath(ENDPOINT, ".start").c_str(), "", _sdk);
+
 
 
 	while (1) {
-		ret = SCISDK_ReadData((char*)buildEndpointPath(ENDPOINT, "").c_str(), (void*)lrb, _sdk);
+		ret = SCISDK_ReadData((char*)buildEndpointPath(ENDPOINT, "").c_str(), (void*)odb, _sdk);
 		if (ret == NI_OK) {
-			for (int i = 0; i < lrb->info.valid_data; i++) {
-				DATA_STRUCT* decoded_data = (DATA_STRUCT*)lrb->data[i].row;
-				//for (int n = 0; n < lrb->data[i].n; n++) {
-				//	//print rows in hexadecimal fixed width 8
-				//	cout << hex << setw(10) << setfill(' ') << lrb->data[i].row[n] << " ";
-				//}
-				//printf("\n");
-				cout << "Counter:  " << decoded_data->counter << endl;
+			for (int i = 0; i < odb->info.samples_analog; i++) {
+				cout << odb->analog[i] << endl;
 			}
 			cout << "-------------------------" << endl;
 		}
@@ -88,6 +85,4 @@ int main()
 
 	}
 }
-
-
 

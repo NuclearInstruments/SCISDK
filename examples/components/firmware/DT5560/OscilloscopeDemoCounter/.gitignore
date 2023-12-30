@@ -1,0 +1,7 @@
+/*
+!.gitignore
+!*.scf
+!*.jpg
+|*.json
+!*.md
+!output/
