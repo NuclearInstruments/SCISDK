@@ -97,7 +97,7 @@ In raw mode the data are not processed and the user will receive the raw data fr
 In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.
 
 ## DMA
-The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA SciCompiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. 
+The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA SciCompiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. If a custom packet is allocated as a DMA custom packet in SciCompiler, SciSDK can only read the endpoint using DMA. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. 
 On the PC side a user copy buffer can be allocated using the `SCISDK_AllocateBuffer` function. The minimum size of the buffer is 2048 word (8192 bytes). If user specify a buffer size smaller than 2048 word, the function will still allocate 2048 word and return a bigger buffer
 
 DMA Usage example is provided in the example folder of the source code of the library.
