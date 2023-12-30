@@ -1,3 +1,14 @@
+# scisdk (1.2.40)
+  * Support for x5560 DMA
+  * Clean-up of the custom packet on start
+  * Support for DT4810
+  * Patched absolute path in Linux
+  * Typescript version for NodeJS
+  
+  
+# scisdk (1.2.37)
+  * Modified library h include to support c++ compiler in linux
+  
 # scisdk (1.2.37)
   * Modified library h include to support c++ compiler in linux
 
