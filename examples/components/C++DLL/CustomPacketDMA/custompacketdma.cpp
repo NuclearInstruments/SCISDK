@@ -36,6 +36,7 @@ int main()
 	int ret = 0;
 	
 	ret = SCISDK_AddNewDevice("192.168.102.119:8888", "R5560", "RegisterFileCPDMA.json", "board0", _sdk);
+	//ret = SCISDK_AddNewDevice("192.168.102.219:8888", "DT5560", "RegisterFileCPDMA.json", "board0", _sdk);
 
 	if (ret == NI_OK) {
 		cout << "Connected to the device." << endl;

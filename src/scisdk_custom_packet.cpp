@@ -26,7 +26,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 		if (idx == 0) {
 			if (((string)r.at("PioWE")[0].at("Type") == "Constant") && ((string)r.at("PioWE")[0].at("ValueFormat") == "Hex")) {
 				string first_word_txt = (string)r.at("PioWE")[0].at("Value");
-				cout << "********* " << first_word_txt << endl;
+				//cout << "********* " << first_word_txt << endl;
 				first_word_const_value = std::stoul(first_word_txt, nullptr, 16);
 				valid_align_word = true;
 			}
