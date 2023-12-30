@@ -1327,7 +1327,7 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(
 				mtx.lock();
 				int r = read_data_proc(channel, (uint8_t*)data, length*4, &rd, (tR5560_Handle*)_handle);
 				mtx.unlock();
-				cout << "ReadFIFO-DMA  @" << channel << " Size: " << length << " Read: " << rd/4 << endl;
+				//cout << "ReadFIFO-DMA  @" << channel << " Size: " << length << " Read: " << rd/4 << endl;
 				if (rd > length * 4) {
 					*read_data = length;
 				}

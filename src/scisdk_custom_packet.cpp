@@ -458,7 +458,12 @@ repeat_blocking:
 				double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
 				if (elapsed_time_ms > timeout) {
-					return NI_TIMEOUT;
+					if (p->info.valid_data > 0) {
+						return NI_OK;
+					}
+					else {
+						return NI_TIMEOUT;
+					}
 				}
 				else {
 					if (p->info.valid_data >= p->info.buffer_size) {
@@ -539,7 +544,7 @@ repeat_blocking_raw:
 
 			p->info.valid_data = 0;
 
-			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+			if ((acq_mode == ACQ_MODE::NON_BLOCKING) && (!settings.usedma)) {
 				uint32_t status;
 				NI_RESULT ret = _hal->ReadReg(&status, address.status);
 				_size = (status >> 8) & 0xFFFFFF;
@@ -688,7 +693,7 @@ repeat_blocking_raw:
 
 			uint32_t buffer_size_dw = p->info.buffer_size;
 
-			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+			if ((acq_mode == ACQ_MODE::NON_BLOCKING) && (!settings.usedma)) {
 				uint32_t status;
 				NI_RESULT ret = _hal->ReadReg(&status, address.status);
 				_size = (status >> 8) & 0xFFFFFF;
@@ -712,12 +717,12 @@ repeat_blocking_raw:
 				//int ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
 				p->info.valid_data = vd;
 				if (vd == 0) {
-					cout << "TIMEOUT" << endl;
+					//cout << "TIMEOUT" << endl;
 					return NI_NO_DATA_AVAILABLE;
 				}
 			}
 			else {
-				cout << "NO-DATA" << endl;
+				//cout << "NO-DATA" << endl;
 				return NI_NO_DATA_AVAILABLE;
 			}
 			return NI_OK;
@@ -785,7 +790,7 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 			cleaned += vd;
 		} while (vd > 0);
 		free(__tmpbuffer);
-		cout << "CLEANED " << cleaned << endl;
+		//cout << "CLEANED " << cleaned << endl;
 	}
 	if (settings.usedma) {
 		NI_RESULT ret = _hal->DMAConfigure(
@@ -854,18 +859,22 @@ void SciSDK_CustomPacket::producer_thread() {
 			if (!producer.canRun) return;
 		} while (go == false);
 
-		if (!high_performance) {
-			uint32_t status;
-			NI_RESULT ret = _hal->ReadReg(&status, address.status);
-			_size = (status >> 8) & 0xFFFFFF;
+		if (!settings.usedma) {
+			if (!high_performance) {
+				uint32_t status;
+				NI_RESULT ret = _hal->ReadReg(&status, address.status);
+				_size = (status >> 8) & 0xFFFFFF;
+			}
+			else {
+				_size = transfer_size;
+			}
+			_size = _size > transfer_size ? transfer_size : _size;
+
+			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 		}
 		else {
-			_size = transfer_size;
+			_size = 2048;
 		}
-		_size = _size > transfer_size ? transfer_size : _size;
-
-		_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
-
 		if (_size > 0) {
 			NI_RESULT ret;
 			if (settings.usedma) {
