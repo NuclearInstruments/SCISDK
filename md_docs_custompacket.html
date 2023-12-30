@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('md_docs_custompacket.html',''); initRe
 <div class="title">Custom Packet driver </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The custom packet allows to transfer data from FPGA to the PC in list mode.</p>
+<div class="textblock"><p>The custom packet allows to transfer data from FPGA to the PC in list mode. This element support both burst and DMA access</p>
 <p>The custom packet is particular version of the list where the user can define the data packet format.</p>
 <p><img src="cp01.png" alt="" class="inline"/> <br  />
 </p>
@@ -160,6 +160,8 @@ Parameters</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">data_processing   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set data processing mode: raw, decode   </td><td class="markdownTableBodyNone">decode    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">dma_buffer_size   </td><td class="markdownTableBodyNone">R/W   </td><td class="markdownTableBodyNone">set the size of the client side (DLL) dma buffer. MAX 16 Mbyte   </td><td class="markdownTableBodyNone">1000000    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer type: <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html" title="Oscilloscope raw data type.">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a> or <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html" title="Oscilloscope decoded data type.">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a>   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
 <h2><a class="anchor" id="autotoc_md108"></a>
@@ -186,6 +188,10 @@ Allignment check</h1>
 Data processing mode</h1>
 <p>The <code>data_processing</code> parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode. In raw mode the data are not processed and the user will receive the raw data from the FPGA. In decode mode the data are processed and the user will receive the data as they are pushed in the FPGA fifo, loosing the concept of packet. The custom packet behavior is the same of the list In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.</p>
 <h1><a class="anchor" id="autotoc_md114"></a>
+DMA</h1>
+<p>The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA SciCompiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. On the PC side a user copy buffer can be allocated using the <code>SCISDK_AllocateBuffer</code> function. The minimum size of the buffer is 2048 word (8192 bytes). If user specify a buffer size smaller than 2048 word, the function will still allocate 2048 word and return a bigger buffer</p>
+<p>DMA Usage example is provided in the example folder of the source code of the library.</p>
+<h1><a class="anchor" id="autotoc_md115"></a>
 Commands</h1>
 <p>The following commands are available:</p>
 <table class="markdownTable">
@@ -197,7 +203,7 @@ Commands</h1>
 <td class="markdownTableBodyNone">stop   </td><td class="markdownTableBodyNone">Stop the acquisition   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
 <p>Start will clear the list content, create the internal thread and allocate the thread buffer if thread mode is enable and start the acquisition. All list parameter can not be changed while the acquisition is in progress. Stop the list before change any parameter or the property set will be rejected.</p>
-<h1><a class="anchor" id="autotoc_md115"></a>
+<h1><a class="anchor" id="autotoc_md116"></a>
 Buffer Allocation</h1>
 <p>The buffer is allocated using the <code>SCISDK_AllocateBuffer</code> function. The buffer is freed using the <code>SCISDK_FreeBuffer</code> function. Because the List inside the Custom Packet is a FIFO is not possible to know a priori the number of bytes that will be transferred. The <code>SCISDK_AllocateBuffer</code> take indeed an extra parameter to specify the size of the buffer (in packet) on the PC side; the <code>SCISDK_ReadData</code> function will try to read the maximum number of bytes that can fit in the buffer.</p>
 <p>This is an example on how allocate a Custom Packet Buffer: </p><div class="fragment"><div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(&lt;path to custom packet&gt;, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;cp_data, &lt;number of packets&gt;)</div>
@@ -212,9 +218,9 @@ Buffer Allocation</h1>
 <div class="fragment"><div class="line"> <a class="code" href="struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html">SCISDK_CP_RAW_BUFFER</a> cp_data;</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;cp_data, 1000)</div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html">SCISDK_CP_RAW_BUFFER</a></div><div class="ttdoc">Custom Packet Raw data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:204</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md116"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md117"></a>
 Output data Format</h1>
-<h2><a class="anchor" id="autotoc_md117"></a>
+<h2><a class="anchor" id="autotoc_md118"></a>
 Raw Data</h2>
 <p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line">    uint32_t magic;             </div>
@@ -225,7 +231,7 @@ Raw Data</h2>
 <div class="line">    } info;</div>
 <div class="line">}<a class="code" href="struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html">SCISDK_CP_RAW_BUFFER</a>;</div>
 </div><!-- fragment --><p> <code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_CP_RAW_BUFFER_MAGIC <code>data</code> : it's the array of the raw data. The data is stored as a uint32_t array. No further details on data decode is provided for raw mode. Raw mode is provided for post processing porpouse of the data. is just usefull to read data in a buffer and store it in a file. The decode should be done in post processing.</p>
-<h2><a class="anchor" id="autotoc_md118"></a>
+<h2><a class="anchor" id="autotoc_md119"></a>
 Decoded Data</h2>
 <p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line">    uint32_t magic;                 </div>
@@ -321,9 +327,9 @@ Decoded Data</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Qshort: %6d   Qlong: %6d\n&quot;</span>, data[i].qshort);</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Qshort: %6d   Qlong: %6d\n&quot;</span>, data[i].qlong);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md119"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md120"></a>
 Basic Examples</h1>
-<h2><a class="anchor" id="autotoc_md120"></a>
+<h2><a class="anchor" id="autotoc_md121"></a>
 C</h2>
 <p><b>Simple example with raw data</b> </p><div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___c_p___r_a_w___b_u_f_f_e_r.html">SCISDK_CP_RAW_BUFFER</a> *lrb;</div>
 <div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
@@ -415,7 +421,7 @@ C</h2>
 <div class="line">        0x00000123</div>
 <div class="line">        0x02510168</div>
 <div class="line">....</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md121"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md122"></a>
 C++</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_CP_DECODED_BUFFER</a> *lrb;</div>
 <div class="line">sdk-&gt;AllocateBufferSize(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>, T_BUFFER_TYPE_DECODE, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
@@ -431,7 +437,7 @@ C++</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Error reading data\n&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">return</span> -1;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md122"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md123"></a>
 Python</h2>
 <div class="fragment"><div class="line">res, lrb = sdk.AllocateBufferSize(&quot;board0:/MMCComponents/CP_0&quot;, 1, 1024)</div>
 <div class="line"> </div>
@@ -446,7 +452,7 @@ Python</h2>
 <div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/CP_0.start&quot;, &quot;&quot;)</div>
 <div class="line"> </div>
 <div class="line">res, lrb = sdk.ReadData(&quot;board0:/MMCComponents/CP_0&quot;, lrb)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md123"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md124"></a>
 C Sharp</h2>
 <div class="fragment"><div class="line">SCISDK_CP_DECODED_BUFFER lrb = new SCISDK_CP_DECODED_BUFFER();</div>
 <div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/CP_0&quot;, 1, ref lrb, 1024);</div>
@@ -462,7 +468,7 @@ C Sharp</h2>
 <div class="line">    Console.WriteLine(&quot;Error reading data&quot;);</div>
 <div class="line">    return -1;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md124"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md125"></a>
 VB.NET</h2>
 <div class="fragment"><div class="line">Dim lrb As New SCISDK_CP_DECODED_BUFFER()</div>
 <div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/CP_0&quot;, 0, lrb, 1024)</div>
@@ -478,7 +484,7 @@ VB.NET</h2>
 <div class="line">    Console.WriteLine(&quot;Error reading data&quot;)</div>
 <div class="line">    Return -1</div>
 <div class="line">End If</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md125"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md126"></a>
 JAVA</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> res = sdk.SetParameterString(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>);</div>
 <div class="line">res = sdk.SetParameterInteger(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0.timeout&quot;</span>, 500);</div>
@@ -493,17 +499,17 @@ JAVA</h2>
 <div class="line"><span class="keywordflow">if</span>(res == 0) {</div>
 <div class="line">    res = sdk.ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>, buf);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md126"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md127"></a>
 Labview Single</h2>
 <p><img src="cp-single.PNG" alt="" class="inline"/></p>
 <p><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></p>
-<h2><a class="anchor" id="autotoc_md127"></a>
+<h2><a class="anchor" id="autotoc_md128"></a>
 Labview Multiple</h2>
 <p><img src="cp-multiple.PNG" alt="" class="inline"/></p>
 <p><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></p>
-<h1><a class="anchor" id="autotoc_md128"></a>
+<h1><a class="anchor" id="autotoc_md129"></a>
 Additional Examples</h1>
-<h2><a class="anchor" id="autotoc_md129"></a>
+<h2><a class="anchor" id="autotoc_md130"></a>
 Decode list data in C</h2>
 <p>A multichannel system is used to detect neutron and gamma. Neutron has a longer dacay time and gamma has a shorter decay time. The system will use a charge integrator with two time windows to calculate Qshoe and Qlong.</p>
 <p>ROW 0:</p><ul>
@@ -564,7 +570,7 @@ Decode list data in C</h2>
 <div class="line">        printf(<span class="stringliteral">&quot;Qshort: %6d   Qlong: %6d\n&quot;</span>, data[i].qlong);</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md130"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md131"></a>
 Use non-blocking mode in C</h2>
 <div class="fragment"><div class="line">SCISDK_CP_DECODE_BUFFER *lrb;</div>
 <div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/CP_0&quot;</span>), 1, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 100);</div>
@@ -602,7 +608,7 @@ Use non-blocking mode in C</h2>
 <div class="ttc" id="a_n_i_error_code_8h_html_ab44d3b4fb5f18b8063b2e8e7299096f9"><div class="ttname"><a href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a></div><div class="ttdeci">#define NI_TIMEOUT</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:41</div></div>
 <div class="ttc" id="a_n_i_error_code_8h_html_ae09d585b8f09078008dab96dd03ea905"><div class="ttname"><a href="_n_i_error_code_8h.html#ae09d585b8f09078008dab96dd03ea905">NI_NO_DATA_AVAILABLE</a></div><div class="ttdeci">#define NI_NO_DATA_AVAILABLE</div><div class="ttdef"><b>Definition:</b> NIErrorCode.h:14</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac9e9b4e1a5d91597095829bd13eafa30"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30">SCISDK_s_error</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_s_error(int err_no, char **value, void *handle)</div><div class="ttdoc">Convert the returned error code in a human readable string explaining the error.</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md131"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md132"></a>
 Dump raw data in C and than open it in python and decode it</h2>
 <p>In this example we will dump the raw data in a binary file and then we will open it in python and decode it. We assume that the data packet is the following:</p><ul>
 <li>32 bit word alignament fixed to 0xABBA1234</li>
