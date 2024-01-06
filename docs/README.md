@@ -438,6 +438,28 @@ LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 ```
 
 
+## 6.3.1 Verify installed version of the library [Windows]
+In the bin\x64 folder or bin\Win32 folder you can find the executable file "SciSDK_DLL_Info.exe" that prints the version of the library installed in your system.
+
+The tool will print the path of the library and the version of the library.
+
+Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.
+
+It will display the information of the library that will be used by your application.
+
+This tool will also print the board low level library path.
+
+## 6.3.2 Verify installed version of the library [linux]
+
+In folder tools/src you can find the source code of the tool "SciSDK_DLL_Info.cpp" that prints the version of the library installed in your system.
+
+g++ SciSDK_DLL_Info.cpp -o scisdk_info -ldl
+
+Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.
+
+It will display the information of the library that will be used by your application.
+
+
 ## 7 Use with Python
 
 The SciSDK is available as PyPI packet. It requires Python > 3.5 You can simply install it system wide

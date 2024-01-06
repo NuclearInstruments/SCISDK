@@ -44,6 +44,17 @@ It will display the information of the library that will be used by your applica
 
 This tool will also print the board low level library path.
 
+# Verify installed version of the library [linux]
+
+In folder tools/src you can find the source code of the tool "SciSDK_DLL_Info.cpp" that prints the version of the library installed in your system.
+
+g++ SciSDK_DLL_Info.cpp -o scisdk_info -ldl
+
+Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.
+
+It will display the information of the library that will be used by your application.
+
+
 ### Example: How to compiler low level library for DT1260
 
 Update your system:

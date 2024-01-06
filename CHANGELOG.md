@@ -1,3 +1,6 @@
+# scisdk (1.2.41)
+  * In tools/src add a tool to print the version of the library installed in your system and the board driver installed in the system.
+  
 # scisdk (1.2.40)
   * Support for x5560 DMA
   * Clean-up of the custom packet on start
