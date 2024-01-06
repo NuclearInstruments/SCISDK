@@ -16,6 +16,7 @@ using namespace std;
 #else
 #define __cdecl 
 #include <dlfcn.h>
+#include <link.h>
 #endif
 
 
@@ -51,7 +52,8 @@ int GetSciSDKVersion() {
 			std::wcout << L"Unable to locate the DLL path." << std::endl;
 		}
 #else
-		void* sym = dlsym(handle, "SCISDK_InitLib");
+		Dl_info dl_info;
+		void* sym = dlsym(h_lib_instance, "SCISDK_InitLib");
 
 		// Utilizza dladdr per ottenere informazioni sulla libreria
 		if (dladdr(sym, &dl_info)) {

@@ -33,6 +33,16 @@ The list of the repository is the following:
 - [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
 
 
+# Verify installed version of the library [Windows]
+In the bin\x64 folder or bin\Win32 folder you can find the executable file "SciSDK_DLL_Info.exe" that prints the version of the library installed in your system.
+
+The tool will print the path of the library and the version of the library.
+
+Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.
+
+It will display the information of the library that will be used by your application.
+
+This tool will also print the board low level library path.
 
 ### Example: How to compiler low level library for DT1260
 
