@@ -68,7 +68,7 @@ int GetSciSDKVersion() {
 		typedef SCISDK_HANDLE(__cdecl* CONNECT_PROC_PTR)();
 		CONNECT_PROC_PTR _SCISDK_InitLib = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "SCISDK_InitLib");
 #else
-		SCISDK_HANDLE(*_SCISDK_InitLib)(char*, NI_HANDLE*);
+		SCISDK_HANDLE(*_SCISDK_InitLib)();
 		*(void**)(&_SCISDK_InitLib) = dlsym(h_lib_instance, "SCISDK_InitLib");
 #endif
 		if (_SCISDK_InitLib) {
@@ -106,16 +106,21 @@ int GetSciSDKVersion() {
 				}
 			}
 		}
+#ifdef _MSC_VER 
 		FreeLibrary(h_lib_instance);
+#else
+		dlclose(h_lib_instance);
+#endif
 	}
 	return 0;
 }
 
 void DependancyLibraryInfo(string lib) {
+
+#ifdef _MSC_VER 
 	std::wstring stemp = std::wstring(lib.begin(), lib.end());
 	LPCWSTR sw = stemp.c_str();
 	HINSTANCE h_lib_instance;
-#ifdef _MSC_VER 
 	h_lib_instance = LoadLibrary(sw);
 #else
 	h_lib_instance = dlopen(lib.c_str(), RTLD_LAZY);
