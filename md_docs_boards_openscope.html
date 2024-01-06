@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('md_docs_boards_openscope.html',''); in
 </ul>
 <p>The SciCompiler project must be created as Scope project. DPP firmware uses the OpenDPP driver.</p>
 <p>It is important to note that OpenScope readout endpoint allows a much faster and deeper waveform readout data than Oscilloscope or Digitizer SciCompiler embedded IP.</p>
-<h1><a class="anchor" id="autotoc_md268"></a>
+<h1><a class="anchor" id="autotoc_md270"></a>
 Access to board endpoints</h1>
 <p>Refere to the Board endpoint driver documentation to understand how to configure and read board specific parameters.</p>
 <p>Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project. This board parameters are accessible through the following path:</p>
@@ -139,7 +139,7 @@ Access to board endpoints</h1>
 <p>ask to the FELib SDK to set/read the <code>ChEnable</code> parameter of the channel 0.</p>
 <p>The documentation of the board specific API is available in the <a href="https://www.caen.it/products/caen-felib-library/">board SDK documentation</a></p>
 <p><b>Data type in SetParameter must be STRING, indeed just the SCISDK_SetParameterString function is supported because the felib requires all parameters to be a string.</b></p>
-<h1><a class="anchor" id="autotoc_md269"></a>
+<h1><a class="anchor" id="autotoc_md271"></a>
 OpenScope data structure</h1>
 <p>The OpenScope driver uses a custom data structure to store the waveform readout from the board.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct  </span>{</div>
@@ -155,7 +155,7 @@ OpenScope data structure</h1>
 </div><!-- fragment --><p><code>timestamp</code>: A 64-bit unsigned integer representing the timestamp of the event in nanoseconds. <code>trigger_id</code>: A 32-bit unsigned integer representing the trigger identifier for the event. <code>event_size</code>: A size_t representing the size of the event data in bytes. <code>waveform</code>: A pointer to an array of pointers to 16-bit unsigned integers, where each element in the array represents a channel of the oscilloscope and each element in the array of pointers represents a sample in that channel. <code>n_samples</code>: A pointer to a size_t representing the number of samples in each channel of the oscilloscope. <code>n_allocated_samples</code>: A pointer to a size_t representing the number of samples that have been allocated for each channel of the oscilloscope. <code>n_channels</code>: An unsigned integer representing the number of channels in the oscilloscope</p>
 <p>in order to access to the j-th sample of the i-th channel use the following syntax:</p>
 <p><code>event-&gt;waveform[i][j]</code></p>
-<h1><a class="anchor" id="autotoc_md270"></a>
+<h1><a class="anchor" id="autotoc_md272"></a>
 Code Examples</h1>
 <p>This example configure the board to acquire 50 samples. The acquisition is triggered by a software trigger and the test pulse is enabled. The test pulse period is 100 us and the test pulse width is 1 us. The data is readout and saved in a text file, one channel for column, one sample per row.</p>
 <div class="fragment"><div class="line">{c++}</div>
