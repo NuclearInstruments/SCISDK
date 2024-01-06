@@ -116,11 +116,11 @@ int GetSciSDKVersion() {
 }
 
 void DependancyLibraryInfo(string lib) {
-
+	HINSTANCE h_lib_instance;
 #ifdef _MSC_VER 
 	std::wstring stemp = std::wstring(lib.begin(), lib.end());
 	LPCWSTR sw = stemp.c_str();
-	HINSTANCE h_lib_instance;
+
 	h_lib_instance = LoadLibrary(sw);
 #else
 	h_lib_instance = dlopen(lib.c_str(), RTLD_LAZY);
