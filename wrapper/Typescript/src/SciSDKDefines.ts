@@ -588,7 +588,11 @@ export class SciSDKEmulatorEnergySpectrum {
         valid_bins: types.uint32,
     });
 
-    cpointer: any = null;
+    cpointer: any;
+
+    constructor() {
+        this.cpointer = alloc(SciSDKEmulatorEnergySpectrum.cpointer_class, new SciSDKEmulatorEnergySpectrum.cpointer_class).ref().deref().deref();
+    }
 
     LoadData = () => {
         this.magic = this.cpointer.magic;
@@ -598,17 +602,15 @@ export class SciSDKEmulatorEnergySpectrum {
     }
 
     WriteData = () => {
-        // if (this.cpointer) {
-        //     this.cpointer = null;
-        // }
-        // this.cpointer = alloc(SciSDKEmulatorEnergySpectrum.cpointer_class, {
-        //     magic: this.magic,
-        //     data: Uint32ArrayToPtr(this.data),
-        //     allocated_bins: this.info.allocated_bins,
-        //     valid_bins: this.info.valid_bins,
-        // });
         this.cpointer.magic = this.magic;
-        this.cpointer.data = Uint32ArrayToPtr(this.data);
+        var buf = new Buffer(this.data.length * 4);
+        // var buf = Buffer.alloc(this.data.length * 4);
+        for (var i = 0; i < this.data.length; i++) {
+            buf.writeInt32LE(this.data[i], i * 4)
+        }
+        this.cpointer.data.type = ref.types.int
+        this.cpointer.data = buf;
+
         this.cpointer.allocated_bins = this.info.allocated_bins;
         this.cpointer.valid_bins = this.info.valid_bins;
     }
