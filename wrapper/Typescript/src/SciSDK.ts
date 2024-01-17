@@ -1,6 +1,25 @@
 import { Pointer, alloc, types, ref, refType } from 'ref-napi';
 import { SciSDKInterface } from './SciSDKInterface';
-import { SciSDKCustomPacketDecodedBuffer, SciSDKDigitizerDecodedBuffer, SciSDKDigitizerRawBuffer, SciSDKEmulatorEnergySpectrum, SciSDKFFTDecodedBuffer, SciSDKFFTRawBuffer, SciSDKFFTStatus, SciSDKFrameDecodedBuffer, SciSDKFrameRawBuffer, SciSDKListRawBuffer, SciSDKOscilloscopeDecodedBuffer, SciSDKOscilloscopeDualDecodedBuffer, SciSDKOscilloscopeDualRawBuffer, SciSDKOscilloscopeRawBuffer, SciSDKOscilloscopeStatus, SciSDKRateMeterRawBuffer, SciSDKSpectrumDecodedBuffer, SciSDKSpectrumStatus } from './SciSDKDefines';
+import {
+    SciSDKCustomPacketDecodedBuffer,
+    SciSDKDigitizerDecodedBuffer,
+    SciSDKDigitizerRawBuffer,
+    SciSDKEmulatorEnergySpectrum,
+    SciSDKFFTDecodedBuffer,
+    SciSDKFFTRawBuffer,
+    SciSDKFFTStatus,
+    SciSDKFrameDecodedBuffer,
+    SciSDKFrameRawBuffer,
+    SciSDKListRawBuffer,
+    SciSDKOscilloscopeDecodedBuffer,
+    SciSDKOscilloscopeDualDecodedBuffer,
+    SciSDKOscilloscopeDualRawBuffer,
+    SciSDKOscilloscopeRawBuffer,
+    SciSDKOscilloscopeStatus,
+    SciSDKRateMeterRawBuffer,
+    SciSDKSpectrumDecodedBuffer,
+    SciSDKSpectrumStatus
+} from './SciSDKDefines';
 
 
 export class SciSDK {
@@ -65,9 +84,9 @@ export class SciSDK {
     }
 
     GetParameterDouble(path: string): NumberNumberTuple {
-        let ret_ptr: Pointer<number> = alloc(types.uint32);
+        let ret_ptr: Pointer<number> = alloc(types.double);
         let res = SciSDKInterface.SCISDK_GetParameterDouble(path, ret_ptr, this.handle);
-        return [res, ret_ptr.readUInt32LE()];
+        return [res, ret_ptr.readDoubleLE()];
     }
 
     SetRegister(path: string, value: number): number {

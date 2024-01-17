@@ -6,7 +6,7 @@ MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild -p:Configuration=Rele
 MSBuild wrapper\CSharp_SciSDK\CSharp_SciSDK.sln -t:Rebuild -p:Configuration=Debug -p:Platform="Any CPU"
 
 New-Item -Path "." -Name "output" -ItemType "directory" -Force
-Copy-Item ".\bin" -Destination ".\output\" -Recurse -Force -Exclude *.pdb,*.exe,*.exp
+Copy-Item ".\bin" -Destination ".\output\" -Recurse -Force -Exclude *.pdb,*.exp
 New-Item -Path "." -Name "output\src" -ItemType "directory" -Force
 Copy-Item ".\src\NIErrorCode.h" -Destination ".\output\src\" -Force
 Copy-Item ".\src\SciSDK_DLL.h" -Destination ".\output\src\" -Force

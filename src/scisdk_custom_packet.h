@@ -61,6 +61,8 @@ private:
 		int32_t acq_len;
 		uint32_t packet_size;
 		bool usedma;
+		uint32_t dma_channel;
+		uint32_t dma_buffer_size;
 	} settings;
 
 	uint32_t *__buffer;

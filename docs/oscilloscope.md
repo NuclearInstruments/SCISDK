@@ -218,7 +218,15 @@ if (res != NI_OK) {
 	return -1;
 }
 
-SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk);
+res = SCISDK_ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob, _sdk);
+
+if (res == NI_OK) {
+	for (int i = 0; i < ob->info.samples_analog; i++) {
+		cout << ob->analog[i] << endl;
+	}
+	cout << "-------------------------" << endl;
+}
+
 ```
 
 ### C++
@@ -235,7 +243,15 @@ if (res != NI_OK) {
 	cout << "Error allocating buffer" << endl;
 	return -1;
 }
-sdk->ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+res = sdk->ReadData("board0:/MMCComponents/Oscilloscope_0", (void *)ob);
+
+if (res == NI_OK) {
+	for (int i = 0; i < ob->info.samples_analog; i++) {
+		cout << ob->analog[i] << endl;
+	}
+	cout << "-------------------------" << endl;
+}
+
 ```
 
 ### Python
@@ -248,9 +264,11 @@ sdk.SetParameterString("board0:/MMCComponents/Oscilloscope_0.acq_mode", "blockin
 
 res, buf = sdk.AllocateBuffer("board0:/MMCComponents/Oscilloscope_0")
 res, buf = sdk.ReadData("board0:/MMCComponents/Oscilloscope_0", buf)
-if (res == 0) {
-	# do something with the buffer
-}
+if res == 0:
+	# print data in analog buffer
+	for i in range(0,buf.info.samples_analog):
+		print(buf.analog[i])
+
 ```
 
 ### C Sharp

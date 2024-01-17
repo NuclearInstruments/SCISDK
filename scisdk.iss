@@ -93,6 +93,8 @@ Source: "scisdk\src\scisdk_defines.h"; DestDir: "{app}\src\"; Flags: ignoreversi
 Source: "scisdk\src\SciSDK_DLL.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "scisdk\scisdk_docs\*"; DestDir: "{app}\docs\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "scisdk\examples\*"; DestDir: "{app}\examples\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\x64\Release\SciSDK_DLL_Info.exe"; DestDir: "{app}\bin\x64\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "scisdk\bin\Win32\Release\SciSDK_DLL_Info.exe"; DestDir: "{app}\bin\Win32\"; Flags: ignoreversion recursesubdirs; Components: program
 
 Source: "scisdk\bin\x64\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "dt1260\x64\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program

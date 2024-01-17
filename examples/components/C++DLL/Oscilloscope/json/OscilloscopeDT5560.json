@@ -1,0 +1,101 @@
+{"Registers":[
+{
+  "Name": "PERIOD",
+  "Type": null,
+  "Address": 0,
+  "Version": null,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+},
+{
+  "Name": "HI",
+  "Type": null,
+  "Address": 1,
+  "Version": null,
+  "RegionSize": 1,
+  "Description": "",
+  "Category": "Undefined"
+}],
+"MMCComponents":[
+{
+  "Name": "Oscilloscope_0",
+  "Type": "Oscilloscope",
+  "Address": 1024,
+  "Version": "1.0.0.0",
+  "Registers": [
+    {
+      "Name": "READ_STATUS",
+      "Type": "Register",
+      "Address": 2048,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "READ_POSITION",
+      "Type": "Register",
+      "Address": 2049,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_MODE",
+      "Type": "Register",
+      "Address": 2050,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_PRETRIGGER",
+      "Type": "Register",
+      "Address": 2051,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_TRIGGER_LEVEL",
+      "Type": "Register",
+      "Address": 2052,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_ARM",
+      "Type": "Register",
+      "Address": 2053,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    },
+    {
+      "Name": "CONFIG_DECIMATOR",
+      "Type": "Register",
+      "Address": 2054,
+      "Version": "",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined"
+    }
+  ],
+  "nsamples": 1024,
+  "Channels": 1,
+  "WordSize": 16,
+  "WordEnob": 16,
+  "AnalogInputs": 1,
+  "DigitalInputs": 4,
+  "SamplingFrequency": 0,
+  "TimeMultiplexing": 1,
+  "DecimatorMax": 0,
+  "DecimatorAveraging": false
+}],"Device":"DT5560","Magic":"3D5E279D","Project":"oscfirstsample"}

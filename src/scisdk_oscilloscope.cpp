@@ -488,7 +488,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 
 		for (int n = 0; n< settings.nchannels; n++)
 		{
-			int current = zero_posizition - pretrigger + 1;
+			int current = zero_posizition - pretrigger + 2;
 			if (current > 0)
 			{
 				int k = 0;

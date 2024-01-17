@@ -26,7 +26,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 		if (idx == 0) {
 			if (((string)r.at("PioWE")[0].at("Type") == "Constant") && ((string)r.at("PioWE")[0].at("ValueFormat") == "Hex")) {
 				string first_word_txt = (string)r.at("PioWE")[0].at("Value");
-				cout << "********* " << first_word_txt << endl;
+				//cout << "********* " << first_word_txt << endl;
 				first_word_const_value = std::stoul(first_word_txt, nullptr, 16);
 				valid_align_word = true;
 			}
@@ -34,15 +34,20 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 		idx++;
 	}
 
-	if (j.contains("UseDMA"))
+	if (j.contains("UseDMA")) {
+		settings.dma_channel = 0;
 		settings.usedma = (bool)j.at("UseDMA");
-	else
+	}	
+	else {
 		settings.usedma = false;
+	}
+		
 
 	data_processing = DATA_PROCESSING::DECODE;
 	acq_mode = ACQ_MODE::BLOCKING;
 	settings.acq_len = j.at("BufferLength");
 	settings.packet_size = 0;
+	settings.dma_buffer_size = 1e6; //settings.acq_len;
 	for (auto& r : j.at("listOfWord")) {
 		settings.packet_size++;
 	}
@@ -69,6 +74,7 @@ SciSDK_CustomPacket::SciSDK_CustomPacket(SciSDK_HAL *hal, json j, string path) :
 	const std::list<std::string> listOfDataProcessing = { "raw","decode" };
 	RegisterParameter("data_processing", "set data processing mode", SciSDK_Paramcb::Type::str, listOfDataProcessing, this);
 	RegisterParameter("buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
+	RegisterParameter("dma_buffer_size", "size in byte of the DMA buffer. Must be multiple of 8 bytes", SciSDK_Paramcb::Type::U32, this);
 
 	producer.isRunning = false;
 	producer.canRun = false;
@@ -85,6 +91,14 @@ NI_RESULT SciSDK_CustomPacket::ISetParamU32(string name, uint32_t value) {
 	else if (name == "threaded_buffer_size") {
 		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
 		threaded_buffer_size = value;
+		return NI_OK;
+	}
+	else if (name == "dma_buffer_size") {
+		if (isRunning) return NI_PARAMETER_CAN_NOT_BE_CANGHED_IN_RUN;
+		if (value % 8 != 0) return NI_PARAMETER_OUT_OF_RANGE;
+		if (value > 16*1024*1024) return NI_PARAMETER_OUT_OF_RANGE;
+		if (value < 8) return NI_PARAMETER_OUT_OF_RANGE;
+		settings.dma_buffer_size = value;
 		return NI_OK;
 	}
 
@@ -172,6 +186,10 @@ NI_RESULT SciSDK_CustomPacket::IGetParamU32(string name, uint32_t *value) {
 		*value = threaded_buffer_size;
 		return NI_OK;
 	}
+	else if (name == "dma_buffer_size") {
+		*value = settings.dma_buffer_size;
+		return NI_OK;
+	}
 
 	return NI_INVALID_PARAMETER;
 }
@@ -255,6 +273,9 @@ NI_RESULT SciSDK_CustomPacket::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer) {
 }
 
 NI_RESULT SciSDK_CustomPacket::AllocateBuffer(T_BUFFER_TYPE bt, void **buffer, int size) {
+	if (settings.usedma) {
+		if (size < 2048) size = 2048;
+	}
 	if (bt == T_BUFFER_TYPE_DECODED) {
 		*buffer = (SCISDK_CP_DECODED_BUFFER *)malloc(sizeof(SCISDK_CP_DECODED_BUFFER));
 		if (*buffer == NULL) {
@@ -437,7 +458,12 @@ repeat_blocking:
 				double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
 				if (elapsed_time_ms > timeout) {
-					return NI_TIMEOUT;
+					if (p->info.valid_data > 0) {
+						return NI_OK;
+					}
+					else {
+						return NI_TIMEOUT;
+					}
 				}
 				else {
 					if (p->info.valid_data >= p->info.buffer_size) {
@@ -516,7 +542,9 @@ repeat_blocking_raw:
 
 			uint32_t buffer_size_dw = p->info.buffer_size * p->info.packet_size;
 
-			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+			p->info.valid_data = 0;
+
+			if ((acq_mode == ACQ_MODE::NON_BLOCKING) && (!settings.usedma)) {
 				uint32_t status;
 				NI_RESULT ret = _hal->ReadReg(&status, address.status);
 				_size = (status >> 8) & 0xFFFFFF;
@@ -528,47 +556,129 @@ repeat_blocking_raw:
 			_size = buffer_size_dw > _size ? _size : buffer_size_dw;
 			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 			if (_size > 0) {
-				uint32_t *buffer = (uint32_t*)malloc((_size + 8) * sizeof(uint32_t));
-				NI_RESULT ret = _hal->ReadFIFO(buffer, _size, address.base, address.status, timeout, &vd);
+				uint32_t *buffer_temp = (uint32_t*)malloc((_size + 8) * sizeof(uint32_t));
+				if (buffer_temp == NULL) {
+					return NI_ALLOC_FAILED;
+				}
+
+
+				NI_RESULT ret;
+				if (settings.usedma) {
+					//approximate to the nearest multiple of 2 the _size. the approximate value need to be smaller than the real value
+					_size = floor((double)_size / (double)2) * 2;
+					ret = _hal->ReadFIFODMA(settings.dma_channel, buffer_temp, _size, &vd);
+				}
+				else {
+					ret = _hal->ReadFIFO(buffer_temp, _size, address.base, address.status, timeout, &vd);
+				}
+
+				//NI_RESULT ret = _hal->ReadFIFO(buffer_temp, _size, address.base, address.status, timeout, &vd);
 
 				if (vd == 0) {
-					free(buffer);
+					free(buffer_temp);
 					return NI_NO_DATA_AVAILABLE;
 				}
 
-				int pkcount = 0;
-				int ridx = 0;
-				bool store;
-				for (int i = 0; i < vd; i++) {
-					if (check_align_word == true) {
-						if (ridx == 0) {
-							if (buffer[i] == first_word_const_value) {
-								store = true;
+
+				//// print in hex the first 8 words
+				//for (int i = 0; i < vd; i++) {
+				//	cout << std::hex << buffer_temp[i] << endl;
+				//}
+
+				// push data in pQ deque
+				for (int i = 0; i < vd; i++) { 
+					pQ.push(buffer_temp[i]);
+				}
+				free(buffer_temp);
+
+
+				if (pQ.size() > 0) {
+					int ridx = 0;
+					bool store;
+					if (pQ.size() >= settings.packet_size) {
+						while (pQ.size() > 0) {
+							if (check_align_word == true) {
+								if (ridx == 0) {
+									if (pQ.front() == first_word_const_value) {
+										if (pQ.size() < settings.packet_size) {
+											return NI_NO_DATA_AVAILABLE;
+										}
+										store = true;
+									}
+									else {
+										pQ.pop();
+										store = false;
+									}
+								}
+								else {
+
+								}
 							}
 							else {
-								store = false;
+								store = true;
 							}
-						}
-						else {
+
+							if (store == true) {
+								p->data[p->info.valid_data].row[ridx] = pQ.front();
+								pQ.pop();
+								ridx++;
+								if (ridx == settings.packet_size) {
+									p->info.valid_data++;
+									ridx = 0;
+									if (pQ.size() < settings.packet_size) {	//no more data in the buffer to complete a packet
+										return NI_OK;
+									}
+									if (p->info.valid_data >= p->info.buffer_size) { // no more space in output buffer
+										return NI_OK;
+									}
+								}
+							}
 
 						}
+						return NI_OK;
 					}
 					else {
-						store = true;
-					}
-
-					if (store == true) {
-						p->data[pkcount].row[ridx] = buffer[i];
-						ridx++;
-						if (ridx == settings.packet_size) {
-							pkcount++;
-							ridx = 0;
-						}
+						return NI_NO_DATA_AVAILABLE;
 					}
 				}
-				p->info.valid_data = pkcount;
-				free(buffer);
-				return NI_OK;
+				else {
+					return NI_NO_DATA_AVAILABLE;
+				}
+
+
+			//	int pkcount = 0;
+			//	int ridx = 0;
+			//	bool store;
+			//	for (int i = 0; i < vd; i++) {
+			//		if (check_align_word == true) {
+			//			if (ridx == 0) {
+			//				if (buffer[i] == first_word_const_value) {
+			//					store = true;
+			//				}
+			//				else {
+			//					store = false;
+			//				}
+			//			}
+			//			else {
+
+			//			}
+			//		}
+			//		else {
+			//			store = true;
+			//		}
+
+			//		if (store == true) {
+			//			p->data[pkcount].row[ridx] = buffer[i];
+			//			ridx++;
+			//			if (ridx == settings.packet_size) {
+			//				pkcount++;
+			//				ridx = 0;
+			//			}
+			//		}
+			//	}
+			//	p->info.valid_data = pkcount;
+			//	free(buffer);
+			//	return NI_OK;
 			}
 			else {
 				return NI_NO_DATA_AVAILABLE;
@@ -583,7 +693,7 @@ repeat_blocking_raw:
 
 			uint32_t buffer_size_dw = p->info.buffer_size;
 
-			if (acq_mode == ACQ_MODE::NON_BLOCKING) {
+			if ((acq_mode == ACQ_MODE::NON_BLOCKING) && (!settings.usedma)) {
 				uint32_t status;
 				NI_RESULT ret = _hal->ReadReg(&status, address.status);
 				_size = (status >> 8) & 0xFFFFFF;
@@ -593,15 +703,26 @@ repeat_blocking_raw:
 			}
 
 			if (_size > 0) {
-				int ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
+
+				NI_RESULT ret;
+				if (settings.usedma) {
+					//approximate to the nearest multiple of 2 the _size. the approximate value need to be smaller than the real value
+					_size = floor((double)_size / (double)2) * 2;
+					ret = _hal->ReadFIFODMA(settings.dma_channel, p->data, _size, &vd);
+				}
+				else {
+					ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
+				}
+
+				//int ret = _hal->ReadFIFO(p->data, _size, address.base, address.status, timeout, &vd);
 				p->info.valid_data = vd;
 				if (vd == 0) {
-					cout << "TIMEOUT" << endl;
+					//cout << "TIMEOUT" << endl;
 					return NI_NO_DATA_AVAILABLE;
 				}
 			}
 			else {
-				cout << "NO-DATA" << endl;
+				//cout << "NO-DATA" << endl;
 				return NI_NO_DATA_AVAILABLE;
 			}
 			return NI_OK;
@@ -641,6 +762,18 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 		return NI_ALREADY_RUNNING;
 	}
 
+	if (settings.usedma) {
+		//Configure DMA readout for clean the buffer
+		NI_RESULT ret = _hal->DMAConfigure(
+			settings.dma_channel,
+			1,
+			1000,
+			settings.dma_buffer_size);
+
+		_hal->DMAEnable(settings.dma_channel, false);
+		//if (ret) return ret;
+	}
+
 	//Critical section : configure and clear list
 	h_mutex.lock();
 	while (!pQ.empty()) pQ.pop();
@@ -648,6 +781,25 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
 	_hal->WriteReg(0, address.config);
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
+	if (settings.usedma) {
+		uint32_t vd = 0;
+		uint32_t cleaned = 0;
+		uint32_t* __tmpbuffer = (uint32_t*)malloc(1024 * sizeof(uint32_t));
+		do {
+			int ret = _hal->ReadFIFODMA(settings.dma_channel, __tmpbuffer, 512, &vd);
+			cleaned += vd;
+		} while (vd > 0);
+		free(__tmpbuffer);
+		//cout << "CLEANED " << cleaned << endl;
+	}
+	if (settings.usedma) {
+		NI_RESULT ret = _hal->DMAConfigure(
+			settings.dma_channel,
+			(acq_mode == ACQ_MODE::BLOCKING ? 1 : 0),
+			timeout,
+			settings.dma_buffer_size);
+		_hal->DMAEnable(settings.dma_channel, true);
+	}
 	_hal->WriteReg(1, address.config);
 	h_mutex.unlock();
 
@@ -655,7 +807,7 @@ NI_RESULT SciSDK_CustomPacket::CmdStart() {
 		free(__buffer);
 
 	//transfer_size = settings.nchannels * settings.acq_len;
-	transfer_size = settings.acq_len * settings.packet_size;
+	//transfer_size = settings.acq_len * settings.packet_size;
 	__buffer = (uint32_t*)malloc((transfer_size + 8) * sizeof(uint32_t));
 
 	if (threaded) {
@@ -707,21 +859,31 @@ void SciSDK_CustomPacket::producer_thread() {
 			if (!producer.canRun) return;
 		} while (go == false);
 
-		if (!high_performance) {
-			uint32_t status;
-			NI_RESULT ret = _hal->ReadReg(&status, address.status);
-			_size = (status >> 8) & 0xFFFFFF;
+		if (!settings.usedma) {
+			if (!high_performance) {
+				uint32_t status;
+				NI_RESULT ret = _hal->ReadReg(&status, address.status);
+				_size = (status >> 8) & 0xFFFFFF;
+			}
+			else {
+				_size = transfer_size;
+			}
+			_size = _size > transfer_size ? transfer_size : _size;
+
+			_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
 		}
 		else {
-			_size = transfer_size;
+			_size = 2048;
 		}
-		_size = _size > transfer_size ? transfer_size : _size;
-
-		_size = floor((double)_size / (double)settings.packet_size) * settings.packet_size;
-
 		if (_size > 0) {
-
-			NI_RESULT ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, timeout, &vd);
+			NI_RESULT ret;
+			if (settings.usedma) {
+				//approximate to the nearest multiple of 2 the _size. the approximate value need to be smaller than the real value
+				_size = floor((double)_size / (double)2) * 2;
+				ret = _hal->ReadFIFODMA(settings.dma_channel, __buffer, _size, &vd);
+			} else {
+				ret = _hal->ReadFIFO(__buffer, _size, address.base, address.status, timeout, &vd);
+			}
 			if (ret == NI_OK) {
 				if (vd > 0) {
 					h_mutex.lock();

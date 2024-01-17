@@ -1,6 +1,7 @@
 # Custom Packet driver
 
 The custom packet allows to transfer data from FPGA to the PC in list mode.
+This element support both burst and  DMA access
 
 The custom packet is particular version of the list where the user can define the data packet format.
 
@@ -51,6 +52,7 @@ The following parameters can be configured:
 | threaded_buffer_size  | R/W        | size in dword of the internal buffer                                                     | 100000        |
 | check_align_word      | R/W        | if true, check the packet alignment                                                      | false         |
 | data_processing       | R/W        | set data processing mode: raw, decode                                                    | decode        |
+| dma_buffer_size       | R/W        | set the size of the client side (DLL) dma buffer.  MAX 16 Mbyte 					        | 1000000       |
 | buffer_type           | R          | get buffer type: SCISDK_OSCILLOSCOPE_RAW_BUFFER or SCISDK_OSCILLOSCOPE_DECODED_BUFFER    |               |
 
 ### Acquisition length
@@ -93,6 +95,12 @@ In order to set to true the `check_align_word` parameter, the first word in the 
 The `data_processing` parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode.
 In raw mode the data are not processed and the user will receive the raw data from the FPGA. In decode mode the data are processed and the user will receive the data as they are pushed in the FPGA fifo, loosing the concept of packet. The custom packet behavior is the same of the list
 In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.
+
+## DMA
+The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA SciCompiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. If a custom packet is allocated as a DMA custom packet in SciCompiler, SciSDK can only read the endpoint using DMA. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. 
+On the PC side a user copy buffer can be allocated using the `SCISDK_AllocateBuffer` function. The minimum size of the buffer is 2048 word (8192 bytes). If user specify a buffer size smaller than 2048 word, the function will still allocate 2048 word and return a bigger buffer
+
+DMA Usage example is provided in the example folder of the source code of the library.
 
 ## Commands
 The following commands are available:
