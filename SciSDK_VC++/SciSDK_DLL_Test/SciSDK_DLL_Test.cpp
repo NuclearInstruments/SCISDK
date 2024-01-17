@@ -13,11 +13,12 @@ using namespace std;
 
 void TestDT4810();
 void TestDT1260();
-
+void TestAFEDT5771();
 
 int main(int argc, char* argv[])
 {
-	TestDT4810();
+	//TestDT4810();
+	TestAFEDT5771();
 	return 0;
 
 }
@@ -220,6 +221,15 @@ void TestDT1260() {
 
 }
 
+void TestAFEDT5771() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.229:8888", "dt5771", "dt5771RegisterFile.json", "board0", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.range", "2v", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.impedance", "1k", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/analog/CH0.offset", 101, _sdk);
+}
 
 
 /*SCISDK_RM_RAW_BUFFER *rmb;
