@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('md_docs_list.html',''); initResizable(
 <li>polling : the <code>SCISDK_ReadData</code> function will read the data from the hardware FIFO when the user call the function.</li>
 <li>threaded : on start command, the list will start a thread that will read the data from the hardware FIFO and store it in an internal buffer (thread buffer). The <code>SCISDK_ReadData</code> function will read the data from the thread buffer. Thread mode increase the perfomance of the list because, while the use elaborate the previous data, the list accumulate next data in the thread buffer.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md178"></a>
+<h1><a class="anchor" id="autotoc_md175"></a>
 Parameters</h1>
 <p>The following parameters can be configured:</p>
 <table class="markdownTable">
@@ -153,19 +153,19 @@ Parameters</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer type: <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html" title="Oscilloscope raw data type.">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a> or <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html" title="Oscilloscope decoded data type.">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a>   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md179"></a>
+<h2><a class="anchor" id="autotoc_md176"></a>
 Acquisition length</h2>
 <p>The <code>acq_len</code> parameter is the maximum number of sample to be transferred per physical FIFO access. This parameter has an impact on the transfer speed. As bigger is the value, as faster is the transfer. Bigger value will lock the bus for a longer time and can cause a loss of data if the readout channel is shared between multiple readout block (for example multiple list or custom packet). The raccomanded value is the 90% size of the size of the internal FIFO. This parameter is expressed in double word (32 bit).</p>
-<h2><a class="anchor" id="autotoc_md180"></a>
+<h2><a class="anchor" id="autotoc_md177"></a>
 Blocking/Non blocking mode</h2>
 <p>In blocking mode the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached. In non-blocking mode the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read. The maximum number of bytes that can be read is the size of the buffer allocated with the function <code>SCISDK_AllocateBuffer</code>. In blocking mode the timeout is set with the <code>timeout</code> parameter. The timeout is expressed in ms. In non-blocking mode the timeout is not used. In both mode, if the buffer is fill with even just a single word the function will return NI_OK. If there is no data at all the read function will return NI_NO_DATA_AVAILABLE.</p>
-<h2><a class="anchor" id="autotoc_md181"></a>
+<h2><a class="anchor" id="autotoc_md178"></a>
 Threaded mode</h2>
 <p>In threaded mode the list will start a thread that will read the data from the hardware FIFO and store it in an internal buffer (thread buffer). The <code>SCISDK_ReadData</code> function will read the data from the thread buffer. While in polling mode, if the user do not call the <code>SCISDK_ReadData</code> function, the FIFO in the FPGA can be full and the data will be lost. In threaded mode the data are stored in the thread buffer automatically. The internall thread will poll the FPGA to check if data is available and will store it in the thread buffer. Thread mode increase the perfomance of the list because, but consume continuously the communication bandiwdth between the FPGA and the PC. The user lost the control on how much time the specific list will access to the shared bus.</p>
-<h2><a class="anchor" id="autotoc_md182"></a>
+<h2><a class="anchor" id="autotoc_md179"></a>
 High performance mode</h2>
 <p>We discurage to enable this parameter. If enabled, the highe performace mode force the internal physical ReadFIFO function to ignore the word available field of the FIFO. When this parameter is disable, the ReadFIFO function check the word available field of the FIFO and will make a read only if this number if not 0. More over the read size will be the minimum between word available and acq_len parameter. In this way the ReadFIFO function will not lock the bus for a long time. In high perforamnce mode, the ReadFIFO will always setup a read cycle with size equal to acq_len parameter. This will lock the bus for a long time untill all data are received. This will increase significantly the transfer speed but no other access, even to read/write register can be done until all data are received or the timeout is reached. Use this mode only if you are sure that the bus is not shared with other readout block and you don't need</p>
-<h1><a class="anchor" id="autotoc_md183"></a>
+<h1><a class="anchor" id="autotoc_md180"></a>
 Commands</h1>
 <p>The following commands are available:</p>
 <table class="markdownTable">
@@ -177,7 +177,7 @@ Commands</h1>
 <td class="markdownTableBodyNone">stop   </td><td class="markdownTableBodyNone">Stop the acquisition   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
 <p>Start will clear the list content, create the internal thread and allocate the thread buffer if thread mode is enable and start the acquisition. All list parameter can not be changed while the acquisition is in progress. Stop the list before change any parameter or the property set will be rejected.</p>
-<h1><a class="anchor" id="autotoc_md184"></a>
+<h1><a class="anchor" id="autotoc_md181"></a>
 Buffer Allocation</h1>
 <p>The buffer is allocated using the <code>SCISDK_AllocateBuffer</code> function. The buffer is freed using the <code>SCISDK_FreeBuffer</code> function. Because the List is a FIFO is not possible to know a priori the number of bytes that will be transferred. The <code>SCISDK_AllocateBuffer</code> take indeed an extra parameter to specify the size of the buffer (in word) on the PC side; the <code>SCISDK_ReadData</code> function will try to read the maximum number of bytes that can fit in the buffer.</p>
 <p>The list support just RAW data. The data struct cointains a char* filed (array of char). The user must cast or convert it to correctly rappresents the data from the FPGA</p>
@@ -189,9 +189,9 @@ Buffer Allocation</h1>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a> list_data;</div>
 <div class="line"><a class="code" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;list_data, 1000)</div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a></div><div class="ttdoc">List raw data type.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:155</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md185"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md182"></a>
 Output data Format</h1>
-<h2><a class="anchor" id="autotoc_md186"></a>
+<h2><a class="anchor" id="autotoc_md183"></a>
 Raw Data</h2>
 <p>The data output structure is the following: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line">    uint32_t magic;             </div>
@@ -265,9 +265,9 @@ Raw Data</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;%d\n&quot;</span>, data[i].veto_marker);</div>
 <div class="line">    printf(<span class="stringliteral">&quot;%d\n&quot;</span>, data[i].energy);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md187"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md184"></a>
 Basic Examples</h1>
-<h2><a class="anchor" id="autotoc_md188"></a>
+<h2><a class="anchor" id="autotoc_md185"></a>
 C</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a> *lrb;</div>
 <div class="line">ret = <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>((<span class="keywordtype">char</span>*)(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>), <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, _sdk, 1024);</div>
@@ -289,7 +289,7 @@ C</h2>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a612babf059fa19eaac91fae6da160f85"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBufferSize(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md189"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md186"></a>
 C++</h2>
 <div class="fragment"><div class="line"><a class="code" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html">SCISDK_LIST_RAW_BUFFER</a> *lrb;</div>
 <div class="line">sdk-&gt;AllocateBuffer(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>, <a class="code" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a>, (<span class="keywordtype">void</span>**)&amp;lrb, 1024);</div>
@@ -304,7 +304,7 @@ C++</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Error reading data\n&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">return</span> -1;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md190"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md187"></a>
 Python</h2>
 <div class="fragment"><div class="line">res, lrb = sdk.AllocateBuffer(&quot;board0:/MMCComponents/List_0&quot;, 1024)</div>
 <div class="line"> </div>
@@ -318,7 +318,7 @@ Python</h2>
 <div class="line">sdk.ExecuteCommand(&quot;board0:/MMCComponents/List_0.start&quot;, &quot;&quot;)</div>
 <div class="line"> </div>
 <div class="line">res, lrb = sdk.ReadData(&quot;board0:/MMCComponents/List_0&quot;, lrb)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md191"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md188"></a>
 C Sharp</h2>
 <div class="fragment"><div class="line">SciSDKListRawBuffer lrb = new SciSDKListRawBuffer();</div>
 <div class="line">sdk.AllocateBuffer(&quot;board0:/MMCComponents/List_0&quot;, 0, ref lrb, 1024);</div>
@@ -333,7 +333,7 @@ C Sharp</h2>
 <div class="line">    Console.WriteLine(&quot;Error reading data&quot;);</div>
 <div class="line">    return -1;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md192"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md189"></a>
 VB.NET</h2>
 <div class="fragment"><div class="line">Dim lrb As New SciSDKListRawBuffer()</div>
 <div class="line">sdk.AllocateBufferSize(&quot;board0:/MMCComponents/List_0&quot;, 0, lrb, 1024)</div>
@@ -348,7 +348,7 @@ VB.NET</h2>
 <div class="line">    Console.WriteLine(&quot;Error reading data&quot;)</div>
 <div class="line">    Return -1</div>
 <div class="line">End If</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md193"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md190"></a>
 JAVA</h2>
 <div class="fragment"><div class="line"><span class="comment">// set parameters</span></div>
 <div class="line">res = sdk.SetParameterString(<span class="stringliteral">&quot;board0:/MMCComponents/List_0.thread&quot;</span>, <span class="stringliteral">&quot;false&quot;</span>);</div>
@@ -364,13 +364,13 @@ JAVA</h2>
 <div class="line">    res = sdk.ExecuteCommand(<span class="stringliteral">&quot;board0:/MMCComponents/List_0.start&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    res = sdk.ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/List_0&quot;</span>, buf);</div>
 <div class="line">}</div>
-</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md194"></a>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md191"></a>
 Labview</h2>
 <p><img src="list.PNG" alt="" class="inline"/></p>
 <p><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></p>
-<h1><a class="anchor" id="autotoc_md195"></a>
+<h1><a class="anchor" id="autotoc_md192"></a>
 Additional Examples</h1>
-<h2><a class="anchor" id="autotoc_md196"></a>
+<h2><a class="anchor" id="autotoc_md193"></a>
 Decode list data in C</h2>
 <p>A multichannel system is used to detect neutron and gamma. Neutron has a longer dacay time and gamma has a shorter decay time. The system will use a charge integrator with two time windows to calculate Qshoe and Qlong.</p>
 <p>Decode a 64 bit list data with the following bit organization:</p><ul>
@@ -426,7 +426,7 @@ Decode list data in C</h2>
 <div class="line">        printf(<span class="stringliteral">&quot;%d\n&quot;</span>, data[i].qlong);</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md197"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md194"></a>
 Use non-blocking mode in C</h2>
 <p>```c <a class="el" href="struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html" title="List raw data type.">SCISDK_LIST_RAW_BUFFER</a> <em>lrb; ret = SCISDK_AllocateBufferSize((char</em>)("board0:/MMCComponents/List_0"), T_BUFFER_TYPE_RAW, (void**)&amp;lrb, _sdk, 100);</p>
 <p>if (ret != NI_OK) { printf("Error allocating buffer\n"); return -1; }</p>

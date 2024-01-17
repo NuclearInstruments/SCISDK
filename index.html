@@ -418,21 +418,6 @@ CREATE A CUSTOM APPLICATION</h3>
 </div><!-- fragment --><p></em></em></p>
 <p><em><em></em></em></p>
 <h1><a class="anchor" id="autotoc_md18"></a>
-6.3.1 Verify installed version of the library [Windows]</h1>
-<p><em><em>In the bin\x64 folder or bin\Win32 folder you can find the executable file "SciSDK_DLL_Info.exe" that prints the version of the library installed in your system.</em></em></p>
-<p><em><em>The tool will print the path of the library and the version of the library.</em></em></p>
-<p><em><em>Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.</em></em></p>
-<p><em><em>It will display the information of the library that will be used by your application.</em></em></p>
-<p><em><em>This tool will also print the board low level library path.</em></em></p>
-<p><em><em></em></em></p>
-<h1><a class="anchor" id="autotoc_md19"></a>
-6.3.2 Verify installed version of the library [linux]</h1>
-<p><em><em> In folder tools/src you can find the source code of the tool "SciSDK_DLL_Info.cpp" that prints the version of the library installed in your system.</em></em></p>
-<p><em><em>g++ SciSDK_DLL_Info.cpp -o scisdk_info -ldl</em></em></p>
-<p><em><em>Execute this file in the folder you want to use the library (for example the folder where you are compiling your application ) and run it.</em></em></p>
-<p><em><em>It will display the information of the library that will be used by your application.</em></em></p>
-<p><em><em></em></em></p>
-<h1><a class="anchor" id="autotoc_md20"></a>
 7 Use with Python</h1>
 <p><em><em> The SciSDK is available as PyPI packet. It requires Python &gt; 3.5 You can simply install it system wide</em></em></p>
 <p><em><em></p><div class="fragment"><div class="line">pip install scisdk</div>
@@ -448,12 +433,12 @@ CREATE A CUSTOM APPLICATION</h3>
 </blockquote>
 <p></em></em></p>
 <p><em><em></em></em></p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 8 Use with Java</h1>
 <p><em><em>SciSDK can be used in Java with a <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/JSciSDK/JSciSDK">wrapper</a>.</em></em></p>
 <p><em><em>To use this wrapper library you must have SciSDK installed on your computer.</em></em></p>
 <p><em><em>SciSDK java wrapper can be included in projects that use different build tools, here is explained how to include JSciSDK in Ant and Maven managed projects: </em></em></p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 8.1 Include in an Ant managed project</h2>
 <p><em><em>To use SciSDK in an Ant managed java project you need to:</p><ul>
 <li>Download latest version on SciSDK java library's .jar file</li>
@@ -462,7 +447,7 @@ CREATE A CUSTOM APPLICATION</h3>
 </ul>
 <p></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 8.2 Include in a Maven managed project</h2>
 <p><em><em>To use SciSDK in a Maven managed java project you need to:</p><ul>
 <li>Copy dependency xml formatted string of the latest version of SciSDK java wrapper from <a href="https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK">Maven Central Repository</a>, for example for library version 1.1 will be: <div class="fragment"><div class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.github.NuclearInstruments/JSciSDK --&gt;</span></div>
@@ -477,14 +462,14 @@ CREATE A CUSTOM APPLICATION</h3>
 <p></em></em></p>
 <p><em><em>In a Maven managed project you don't need to include JNA dependency like in a Java with Ant project because it will be automatically included as dependency of SciSDK java wrapper.</em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 8.3. Instantiate the library</h2>
 <p><em><em>To initialize the library use the default SciSDK constructor: </p><div class="fragment"><div class="line">SciSDK sdk = <span class="keyword">new</span> SciSDK();</div>
 </div><!-- fragment --><p> This constructor creates a pointer to the SciSDK native code object instance so when you no longer need to use the SciSDK in your program (for example before the end of the program) free up memory with:</em></em></p>
 <p><em><em></p><div class="fragment"><div class="line">sdk.FreeLib();</div>
 </div><!-- fragment --><p></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 8.4 Connecting to a board</h2>
 <p><em><em>The following example explains how to connect to a dt1260 board.</em></em></p>
 <p><em><em></p><div class="fragment"><div class="line">SciSDK sdk = <span class="keyword">new</span> SciSDK();</div>
@@ -505,7 +490,7 @@ CREATE A CUSTOM APPLICATION</h3>
 <div class="line">sdk.FreeLib();</div>
 </div><!-- fragment --><p></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 8.5 Set/Get a register value</h2>
 <p><em><em>The following example explains how to set the value of a register: </p><div class="fragment"><div class="line"><span class="comment">// set value of register A</span></div>
 <div class="line">res = sdk.SetRegister(<span class="stringliteral">&quot;board0:/Registers/A&quot;</span>, 100);</div>
@@ -514,30 +499,30 @@ CREATE A CUSTOM APPLICATION</h3>
 <div class="line">sdk.GetRegister(<span class="stringliteral">&quot;board0:/Registers/B&quot;</span>, value);</div>
 <div class="line">System.out.println(<span class="stringliteral">&quot;Register B value is: &quot;</span> + value.get());</div>
 </div><!-- fragment --><p> </em></em></p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 8.6 Allocate buffers for readout</h2>
 <p><em><em>The following example explains how to allocate buffer for readout: </p><div class="fragment"><div class="line"><span class="comment">// allocate oscilloscope buffer</span></div>
 <div class="line">Ref&lt;OscilloscopeDecodedBuffer&gt; buffer = <span class="keyword">new</span> Ref&lt;&gt;(<span class="keyword">new</span> OscilloscopeDecodedBuffer());</div>
 <div class="line">res = sdk.AllocateBuffer(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, buffer);</div>
 </div><!-- fragment --><p></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 8.7 Readout data from a board</h2>
 <p><em><em>The following example explains how to read data from the board: </p><div class="fragment"><div class="line"><span class="comment">// read oscilloscope oscilloscope data</span></div>
 <div class="line">res = sdk.ReadData(<span class="stringliteral">&quot;board0:/MMCComponents/Oscilloscope_0&quot;</span>, buffer);</div>
 </div><!-- fragment --><p> Buffer parameter is the buffer that has been allocated in the previous example</em></em></p>
 <p><em><em>You can find more examples in each component description page and in the <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples">examples folder</a></em></em></p>
 <p><em><em></em></em></p>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 9 Use in LabView</h1>
 <p><em><em>You can use SciSDK in LabView with a <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/wrapper/LabView">wrapper library</a></em></em></p>
 <p><em><em>SciSDK can be included in Labview in different ways:</em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 9.1 Install automatically with SciSDK setup</h2>
 <p><em><em>When you're installing SciSDK with the installer you can check the component <code>Labview wrapper library</code> to install the Labview wrapper library, this will copy the SciSDK labview library inside the <code>user.lib</code> directory in LabView installation folder. When you restart Labview VIs will appear in functions palette under User Libraries section.</em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 9.2 Manually add VIs to palette</h2>
 <p><em><em>To install SciSDK manually you need to follow this steps:</p><ul>
 <li>Copy <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">SciSDK LabView wrapper folder</a> (you can clone the Github repository or download it)</li>
@@ -547,11 +532,11 @@ CREATE A CUSTOM APPLICATION</h3>
 </ul>
 <p></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 9.3 Use SciSDK VIs without add them to LabView Palette</h2>
 <p><em><em>To use SciSDK LabView wrapper VIs without adding them to palette you can download the <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">SciSDK LabView wrapper folder</a> and open the library file (SciSDK_Labview.lvlib), now you can drag and drop VIs from the library's window.</em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 9.4 Instantiate the library</h2>
 <p><em><em>To initizialize the library use <code>LV SCISDK Init Lib</code> VI, this VI will allocate memory for a native library's object instance.</em></em></p>
 <p><em><em><img src="initialize.PNG" alt="" class="inline"/></em></em></p>
@@ -559,7 +544,7 @@ CREATE A CUSTOM APPLICATION</h3>
 <p><em><em><img src="init-free.PNG" alt="" class="inline"/></em></em></p>
 <p><em><em><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 9.5 Connecting to board</h2>
 <p><em><em>To attach a board to SciSDK use <code>LV SCISDK ADD BOARD</code> VI. This VI requires five arguments:</p><ul>
 <li>SciSDK Handle: is the handle returned by the <code>LV SCISDK Init Lib</code> VI.</li>
@@ -580,7 +565,7 @@ CREATE A CUSTOM APPLICATION</h3>
 <p><em><em><img src="detach-board.PNG" alt="" class="inline"/></em></em></p>
 <p><em><em><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 9.6 Get a register value</h2>
 <p><em><em>To set the value of a register you need to use <code>LV SET REGISTER</code> VI. This VI requires three arguments:</p><ul>
 <li>Register Name: the name of the register</li>
@@ -591,7 +576,7 @@ CREATE A CUSTOM APPLICATION</h3>
 <p><em><em><img src="set-register-value.PNG" alt="" class="inline"/></em></em></p>
 <p><em><em><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 9.7 Set a register value</h2>
 <p><em><em>To get the value of a register you need to use <code>LV GET REGISTER</code> VI. This VI requires two arguments:</p><ul>
 <li>Register Name: the name of the register</li>
@@ -602,7 +587,7 @@ CREATE A CUSTOM APPLICATION</h3>
 <p><em><em><img src="get-register-value.PNG" alt="" class="inline"/></em></em></p>
 <p><em><em><em>You can find the labview file for this example <a href="https://github.com/NuclearInstruments/SCISDK/tree/master/examples/components/LabView">here</a></em></em></em></p>
 <p><em><em></em></em></p>
-<h2><a class="anchor" id="autotoc_md37"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 9.8 Readout data from a board</h2>
 <p><em><em>To read data from a board you need to use two VIs: one to initialize the component and one to read data, for example:</p><ul>
 <li>For the oscilloscope component you need to use the <code>LV SciSDK INIT OSCILLOSCOPE</code> VI to initizalize the oscilloscope and the <code>LV SciSDK OSCILLOSCOPE</code> to read data</li>

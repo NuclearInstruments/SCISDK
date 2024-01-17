@@ -32,7 +32,6 @@ var _n_i_error_code_8h =
     [ "NI_INVALID_PATH", "_n_i_error_code_8h.html#a8c09172c946b908232809d47eae3e2ba", null ],
     [ "NI_INVALID_TYPE", "_n_i_error_code_8h.html#a8f8f1543551ac89e8e8189129bf78a06", null ],
     [ "NI_MEMORY_NOT_ALLOCATED", "_n_i_error_code_8h.html#a8089e839199c293e57a4113844e82421", null ],
-    [ "NI_MISSALIGNED", "_n_i_error_code_8h.html#a8f85db9b30d4653be7a1895b7b8ac21e", null ],
     [ "NI_NO_DATA_AVAILABLE", "_n_i_error_code_8h.html#ae09d585b8f09078008dab96dd03ea905", null ],
     [ "NI_NOT_ARMED", "_n_i_error_code_8h.html#adde56c46d3e649675d74c252da813eb1", null ],
     [ "NI_NOT_FOUND", "_n_i_error_code_8h.html#a6ff5552953c0d14683cdaa9e9f71172d", null ],
