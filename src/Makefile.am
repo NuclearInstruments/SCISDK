@@ -85,6 +85,7 @@ libscisdk_la_SOURCES =    \
 						scisdk_spectrum.cpp \
 						boards_driver/bd_dt1260.cpp \
  						boards_driver/bd_dt4810.cpp \						
+ 						boards_driver/bd_dt5771.cpp \
 						boards_driver/bd_feelib.cpp \
 						boards_driver/bd_dt5560se.cpp \
 						SciSDK_DLL.cpp 

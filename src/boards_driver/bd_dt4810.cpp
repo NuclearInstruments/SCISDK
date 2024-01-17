@@ -580,13 +580,13 @@ NI_RESULT bd_dt4810::ExecuteCommand(string cmd, string param) {
 
 NI_RESULT bd_dt4810::UpdateHardware()
 {
-    int ret;
+   // int ret;
 
-   // int ret = _hal->WriteReg(board_params.offset.value, board_params.offset.address);
+   //// int ret = _hal->WriteReg(board_params.offset.value, board_params.offset.address);
 		
-    if (ret) {
-        return NI_ERROR_INTERFACE;
-    } else
+   // if (ret) {
+   //     return NI_ERROR_INTERFACE;
+   // } else
     return NI_OK;
 
 }

@@ -105,6 +105,12 @@
     <ClInclude Include="..\..\src\boards_driver\bd_dt5560se.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\boards_driver\bd_dt5771.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\boards_driver\bd_dt4810.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SciSDK_VC++.cpp">
@@ -177,6 +183,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\boards_driver\bd_dt5560se.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\boards_driver\bd_dt4810.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\boards_driver\bd_dt5771.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
