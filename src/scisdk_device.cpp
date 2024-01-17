@@ -27,6 +27,7 @@
 #include "boards_driver/bd_dt1260.h"
 #include "boards_driver/bd_dt4810.h"
 #include "boards_driver/bd_dt5560se.h"
+#include "boards_driver/bd_dt5771.h"
 
 void toLower(std::string& str)
 {
@@ -522,6 +523,9 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						}
 						else if ((model == "dt5560") || (model == "dt5560se")) {
 							mmcs.push_back(new bd_dt5560se(_hal, rs, parent + "/" + (string)it.key()));
+						}
+						else if (model == "dt5771")  {
+							mmcs.push_back(new bd_dt5771(_hal, rs, parent + "/" + (string)it.key()));
 						}
 					} 
 					else {

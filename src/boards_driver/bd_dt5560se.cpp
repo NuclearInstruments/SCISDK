@@ -3,22 +3,28 @@
 #include <chrono>
 #include <thread>
 
-#define DT5560_IR_TERM_SET   0x00000000       //Stringa binaria a 32 bit
-#define DT5560_IR_TERM_GET   0x00000001       
-#define DT5560_IR_DIV_SET    0x00000002       //Stringa binaria a 32 bit
-#define DT5560_IR_DIV_GET    0x00000003
-#define DT5560_IR_GAIN_SET   0x00000004       //valore da 0 a 79 (cmd_address per l'id canale
-#define DT5560_IR_GAIN_GET   0x00000005       
-#define DT5560_IR_OFFSET_SET 0x00000006       
-#define DT5560_IR_OFFSET_GET 0x00000007       
-#define DT5560_IR_SHAPER     0x00000008
-#define DT5560_IR_SHAPER     0x00000009
-#define DT5560_IR_SYNC_REG   0x0000001E
-#define DT5560_IR_SYNC_REG   0x0000001F
-
-#define DT5560_IR_APPLY      0x000000FF
+#define DT5560_IR_TERM_SET   10
+#define DT5560_IR_TERM_GET   10
+#define DT5560_IR_DIV_SET    11
+#define DT5560_IR_DIV_GET    11
+#define DT5560_IR_GAIN_SET   7
+#define DT5560_IR_GAIN_GET   7
+#define DT5560_IR_OFFSET_SET 8
+#define DT5560_IR_OFFSET_GET 8
+#define DT5560_IR_SHAPER     9
+#define DT5560_IR_SHAPER     9
+#define DT5560_IR_SYNC_REG   20
+#define DT5560_IR_SYNC_REG   20
 
 
+
+#define DT5771_IR_IMP_SET		10
+#define DT5771_IR_RANGE_SET		11
+#define DT5771_IR_BW_SET		41
+#define DT5771_IR_COUPLIG_SET	9
+#define DT5771_IR_GAIN_SET		7
+#define DT5771_IR_DTERM_SET		40
+#define DT5771_IR_OFFSET_SET	8
 
 
 
@@ -308,13 +314,6 @@ NI_RESULT bd_dt5560se::UpdateHardware()
     if (ret) {
         return NI_ERROR_INTERFACE;
     }
-
-    ret = _hal->ConfigurationRegisterSet(0, DT5560_IR_APPLY, 0);
-    if (ret) {
-        return NI_ERROR_INTERFACE;
-    }
-
-    
 
         return NI_OK;
 

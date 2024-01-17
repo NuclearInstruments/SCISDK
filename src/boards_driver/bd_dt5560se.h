@@ -49,7 +49,7 @@ class bd_dt5560se : public  SciSDK_Node {
         std::string syncTypeToString(bd_dt5560se::SyncType t);
             
         struct {
-            int32_t offset_mV[32];
+            double offset_mV[32];
 			uint32_t gain[16];
             bool div[16];
 			bool r50[16];

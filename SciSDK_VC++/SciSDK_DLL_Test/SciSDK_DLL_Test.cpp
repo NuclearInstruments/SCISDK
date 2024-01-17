@@ -13,11 +13,12 @@ using namespace std;
 
 void TestDT4810();
 void TestDT1260();
-
+void TestAFEDT5771();
 
 int main(int argc, char* argv[])
 {
-	TestDT4810();
+	//TestDT4810();
+	TestAFEDT5771();
 	return 0;
 
 }
@@ -43,12 +44,12 @@ void TestDT4810() {
 	cout << "Hardware version: " << hwversion << endl;
 	
 	op_res = SCISDK_ExecuteCommand("board0:/boardapi/initialize", "", _sdk);
-	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 12000, _sdk);
+	op_res = SCISDK_SetParameterUInteger("board0:/boardapi/amplitude.fixed", 8000, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/amplitude.mode", "fixed", _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 300, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/timebase.rate", 100, _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/timebase.mode", "fixed", _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 5, _sdk);
-	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 0, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.decay", 200, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 50, _sdk);
 
 	op_res = SCISDK_SetParameterString("board0:/boardapi/noise.gauss.enable", "false", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/noise.gauss.gain", 0.70, _sdk);
@@ -59,6 +60,17 @@ void TestDT4810() {
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.output.gate", "true", _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/main.invert", "false", _sdk);
 
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 20, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 50, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 100, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 250, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 500, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 1000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 2000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 4000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 6000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 8000, _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/shape.drc.risetime", 10000, _sdk);
 	/* "mon.icr",
 	 "mon.ocr",
 	 "mon.ic", "
@@ -209,6 +221,15 @@ void TestDT1260() {
 
 }
 
+void TestAFEDT5771() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.229:8888", "dt5771", "dt5771RegisterFile.json", "board0", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.range", "2v", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.impedance", "1k", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/analog/CH0.offset", 101, _sdk);
+}
 
 
 /*SCISDK_RM_RAW_BUFFER *rmb;
