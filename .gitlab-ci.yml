@@ -72,7 +72,7 @@ build_vs2022_windows:
   stage: build
   image: registry.lanni/microsoft/win10-vc-build-tools-2022:latest
   script:
-    - ./build.ps1
+    - ./build.ps1 $CI_COMMIT_TAG
   tags:
     - docker-windows
   artifacts:
@@ -91,7 +91,7 @@ build_zynq:
   image: registry.lanni/nibuntu/console-20.04:latest
   script:
     - echo $CI_COMMIT_TAG>VERSION
-    - ./compile_for_zynq.sh
+    - ./compile_for_zynq.sh $CI_COMMIT_TAG
   artifacts:
     untracked: false
     paths:
@@ -123,7 +123,7 @@ build_ubuntu_all_arch:
     - echo $CI_COMMIT_TAG>VERSION
     - mkdir -p tars
     - mkdir -p debs    
-    - ./compile_all_architecures.sh
+    - ./compile_all_architecures.sh $CI_COMMIT_TAG
 #    - ./compile_deb.sh
 #    - mv scisdk-x64.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-x64.deb
 #    - mv scisdk-i386.deb debs/scisdk-$CI_COMMIT_TAG-$LINUXRELEASE-i386.deb
