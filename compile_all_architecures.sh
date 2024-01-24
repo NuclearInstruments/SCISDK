@@ -4,6 +4,29 @@ rm -rf build_*
 unset CC
 unset CXX
 
+
+# Controlla se è stato fornito almeno un argomento
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <version>"
+    exit 1
+fi
+
+# Ottieni la versione dall'argomento
+version="$1"
+
+# Costruisci il contenuto da scrivere nel file src/scisdk_version.h
+versionContent="#ifndef __SCISDK_VERSION_H
+#define __SCISDK_VERSION_H
+
+#define SCISDK_VERSION \"$version\"
+#endif"
+
+# Scrivi il contenuto nel file version.h
+echo "$versionContent" > "src/scisdk_version.h"
+
+echo "Version updated in src/scisdk_version.h to $version"
+
+
 autoreconf -if
 BUILD="$(echo $MACHTYPE | sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")"
 
