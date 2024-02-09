@@ -27,8 +27,8 @@ bd_dt5771::bd_dt5771(SciSDK_HAL* hal, json j, string path) : SciSDK_Node(hal, j,
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".gain", "set analog gain", SciSDK_Paramcb::Type::I32, this);
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".range", "set analog range", SciSDK_Paramcb::Type::str, listOfRange, this);
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".impedance", "set analog input impedance", SciSDK_Paramcb::Type::str, listOfImpedance, this);
-		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".bw", "set analog input impedance", SciSDK_Paramcb::Type::str, listOfBw, this);
-		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".shaper", "set analog shaper", SciSDK_Paramcb::Type::str, listOfBw, this);
+		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".bw", "set analog input bandwith", SciSDK_Paramcb::Type::str, listOfBw, this);
+		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".shaper", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
 	}
 
 	RegisterParameter("boardapi/digitalio/LEMO0.impedance", "set digital lemo input impedance", SciSDK_Paramcb::Type::str, listOfDigitalImpedance, this);
@@ -69,7 +69,7 @@ NI_RESULT bd_dt5771::ISetParamI32(string name, int32_t value)
 	for (int i = 0; i < 1; i++) {
 		if (name == "analog/CH" + std::to_string(i) + ".gain") {
 			analog_settings[i].gain = value;
-			int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].gain, DT5771_IR_OFFSET_SET << 16, i);
+			int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].gain, DT5771_IR_GAIN_SET, i);
 			if (ret) {
 				return NI_ERROR_INTERFACE;
 			}

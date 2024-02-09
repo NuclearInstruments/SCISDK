@@ -46,8 +46,8 @@ private:
 
     int findIndexInList(const std::list<std::string>& lst, const std::string& value);
 
-    const std::list<std::string> listOfBw = { "full", "20MHz", "100MHz", "200MHz", "350MHz", "650MHz", "750MHz" };
-    const std::list<std::string> listOfCoupling = { "DC", "300ns", "1us", "10us" };
+    const std::list<std::string> listOfBw = { "full", "20mhz", "100mhz", "200mhz", "350mhz", "650mhz", "750mhz" };
+    const std::list<std::string> listOfCoupling = { "dc", "300ns", "1us", "10us" };
     const std::list<std::string> listOfBoolean = { "false", "true" };
     const std::list<std::string> listOfRange = { "2v", "10v" };
     const std::list<std::string> listOfImpedance = { "1k", "50r" };
