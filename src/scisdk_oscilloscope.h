@@ -100,6 +100,7 @@ enum class TRIGGER_POLARITY {
         uint32_t nchannels;
         uint32_t nanalog;
         uint32_t ndigital;
+		uint32_t enob;
     } settings;
 
 

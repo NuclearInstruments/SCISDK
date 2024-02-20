@@ -33,7 +33,10 @@ SciSDK_Oscilloscope::SciSDK_Oscilloscope(SciSDK_HAL *hal, json j, string path) :
 	settings.ndigital = 4;
 	settings.nchannels= (uint32_t)j.at("Channels");
 	settings.nsamples = (uint32_t)j.at("nsamples");
-
+	if (j.contains("WordEnob"))
+		settings.enob = (uint32_t)j.at("WordEnob");
+	else
+		settings.enob = 16;
 
 	__buffer = (uint32_t *)malloc(settings.nchannels * settings.nsamples * sizeof(uint32_t));
 
@@ -485,7 +488,7 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 		p->trigger_position = pretrigger;
 		p->timecode = timestamp;
 
-
+		uint32_t _MASK_ = (1 << settings.enob) - 1;
 		for (int n = 0; n< settings.nchannels; n++)
 		{
 			int current = zero_posizition - pretrigger + 2;
@@ -494,18 +497,18 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 				int k = 0;
 				for (int i = current; i < settings.nsamples; i++)
 				{
-					p->analog[k + (settings.nsamples*n)] =  __buffer[i + (settings.nsamples*n)] & 65535;
+					p->analog[k + (settings.nsamples*n)] =  __buffer[i + (settings.nsamples*n)] & _MASK_;
 					for (int d=0;d<settings.ndigital;d++)
-						p->digital[k + (settings.nsamples*d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
+						p->digital[k + (settings.nsamples*d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (settings.enob +d) & 1;
 					k++;
 					
 				}
 				for (int i = 0; i < current; i++)
 				{
 					
-					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
+					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & _MASK_;
 					for (int d = 0; d<settings.ndigital; d++)
-						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (settings.enob +d) & 1;
 					k++;
 				}
 			}
@@ -515,17 +518,17 @@ NI_RESULT SciSDK_Oscilloscope::ReadData(void *buffer) {
 				for (int i = settings.nsamples + current; i < settings.nsamples ; i++)
 				{
 					
-					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
+					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & _MASK_;
 					for (int d = 0; d<settings.ndigital; d++)
-						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (settings.enob +d) & 1;
 
 					k++;
 				}
 				for (int i = 0; i < settings.nsamples + current ; i++)
 				{
-					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & 65535;
+					p->analog[k + (settings.nsamples*n)] = __buffer[i + (settings.nsamples*n)] & _MASK_;
 					for (int d = 0; d<settings.ndigital; d++)
-						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (16+d) & 1;
+						p->digital[k + (settings.nsamples * d) + (settings.nsamples * settings.ndigital * n)] = __buffer[i + (settings.nsamples*n)] >> (settings.enob +d) & 1;
 					k++;
 				}
 			}
