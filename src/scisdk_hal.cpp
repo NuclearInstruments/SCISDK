@@ -172,11 +172,12 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tR5560_Handle*)_handle);
 					mtx.unlock();
-					cout << "Connection Error Code: " << error_code << endl;
 					if (error_code == 0) {
+						cout << "Connection successful" << endl;
 						return NI_OK;
 					}
 					else {
+						cout << "Connection Error Code: " << error_code << endl;
 						return NI_ERROR;
 					}
 				}
@@ -205,11 +206,12 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tDT5771_Handle*)_handle);
 					mtx.unlock();
-					cout << "Connection Error Code: " << error_code << endl;
 					if (error_code == 0) {
+						cout << "Connection successful" << endl;
 						return NI_OK;
 					}
 					else {
+						cout << "Connection Error Code: " << error_code << endl;
 						return NI_ERROR;
 					}
 				}
@@ -238,11 +240,12 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 					mtx.lock();
 					int error_code = connectTCP((char*)p[0].c_str(), port, (tDT4810_Handle*)_handle);
 					mtx.unlock();
-					cout << "Connection Error Code: " << error_code << endl;
 					if (error_code == 0) {
+						cout << "Connection successful" << endl;
 						return NI_OK;
 					}
 					else {
+						cout << "Connection Error Code: " << error_code << endl;
 						return NI_ERROR;
 					}
 				}
