@@ -183,7 +183,7 @@ Raw Data</h2>
 <div class="line">        uint32_t channels;</div>
 <div class="line">    } info;</div>
 <div class="line">}<a class="code" href="struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html">SCISDK_FFT_RAW_BUFFER</a>;</div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html">SCISDK_FFT_RAW_BUFFER</a></div><div class="ttdoc">FFT monitor raw data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:285</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html">SCISDK_FFT_RAW_BUFFER</a></div><div class="ttdoc">FFT monitor raw data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:304</div></div>
 </div><!-- fragment --><p> <code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_OSCILLOSCOPE_RAW_BUFFER_MAGIC <code>data</code> : it's the array of the raw data. The data is stored in the fft memory as it is. Every "sample" is composed by two 32 bit words. The first word contains the real part of the sample, the second word contains the imaginary part of the sample.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -222,7 +222,7 @@ Decoded</h2>
 <div class="line">        uint32_t channels;</div>
 <div class="line">    } info;</div>
 <div class="line">}<a class="code" href="struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FFT_DECODED_BUFFER</a>;</div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FFT_DECODED_BUFFER</a></div><div class="ttdoc">FFT monitor decoded data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:269</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html">SCISDK_FFT_DECODED_BUFFER</a></div><div class="ttdoc">FFT monitor decoded data structure.</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:288</div></div>
 </div><!-- fragment --><p><code>magic</code> : magic number to identify the buffer type. It is set to SCISDK_OSCILLOSCOPE_DECODE_BUFFER_MAGIC <code>mag</code> : phase value calculated with forumale sqrt(pow(re,2)+pow(im,2)) <code>ph</code> : phase value calculated with forumale atan(im/re) <code>timecode</code> : timecode of the acquisition</p>
 <p><code>info</code> : it contains information about the oscilloscope buffer. The fields are:</p><ul>
 <li><code>samples</code> : the number of samples per channel</li>
@@ -379,7 +379,7 @@ Processing raw data and store in a file</h2>
 <div class="line"> </div>
 <div class="line">fclose(fp);</div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82eaf0dd46bc0744f52a1c3a06194e8b115c">T_BUFFER_TYPE_RAW</a></div><div class="ttdeci">@ T_BUFFER_TYPE_RAW</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:229</div></div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r_html_a69a951127c5e90d3e04792bcbd3ee948"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html#a69a951127c5e90d3e04792bcbd3ee948">SCISDK_FFT_RAW_BUFFER::data</a></div><div class="ttdeci">uint32_t * data</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:287</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r_html_a69a951127c5e90d3e04792bcbd3ee948"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html#a69a951127c5e90d3e04792bcbd3ee948">SCISDK_FFT_RAW_BUFFER::data</a></div><div class="ttdeci">uint32_t * data</div><div class="ttdef"><b>Definition:</b> scisdk_defines.h:306</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

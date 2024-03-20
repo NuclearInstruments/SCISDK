@@ -1,6 +1,7 @@
 var annotated_dup =
 [
     [ "_tUSBDevice", "struct__t_u_s_b_device.html", "struct__t_u_s_b_device" ],
+    [ "SCISDK_2DHISTOGRAM_DECODED_BUFFER", "struct_s_c_i_s_d_k__2_d_h_i_s_t_o_g_r_a_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k__2_d_h_i_s_t_o_g_r_a_m___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_CITIROC_DECODED_BUFFER", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_CITIROC_PACKET", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t" ],
     [ "SCISDK_CITIROC_PIXEL", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html", "struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l" ],

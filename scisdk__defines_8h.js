@@ -14,6 +14,7 @@ var scisdk__defines_8h =
     [ "SCISDK_RM_RAW_BUFFER", "struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r" ],
     [ "SCISDK_SPECTRUM_DECODED_BUFFER", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_SPECTRUM_STATUS", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s" ],
+    [ "SCISDK_2DHISTOGRAM_DECODED_BUFFER", "struct_s_c_i_s_d_k__2_d_h_i_s_t_o_g_r_a_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k__2_d_h_i_s_t_o_g_r_a_m___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_FFT_DECODED_BUFFER", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_FFT_RAW_BUFFER", "struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_f_t___r_a_w___b_u_f_f_e_r" ],
     [ "SCISDK_FFT_STATUS", "struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s" ],

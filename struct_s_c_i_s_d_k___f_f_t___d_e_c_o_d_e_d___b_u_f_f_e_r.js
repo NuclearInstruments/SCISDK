@@ -1,7 +1,7 @@
 var struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r =
 [
     [ "channels", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a18cd9351de5eae9cd78bf8f39f4f4593", null ],
-    [ "info", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a6051b33b30be796d77a3bfa5c6537199", null ],
+    [ "info", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#aa98101b8ae0137a89b79049797ef6a33", null ],
     [ "mag", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#af9c3b062e3eae6dd59e8be67903ee6ea", null ],
     [ "magic", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a7064d2c4305e26f7046707d4bdb250f3", null ],
     [ "ph", "struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a64da50d21ce3ac32b8adc332424e6d53", null ],

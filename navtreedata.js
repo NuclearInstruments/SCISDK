@@ -390,7 +390,7 @@ var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
 "md_docs_fft.html#autotoc_md201",
-"struct_s_c_i_s_d_k___e_m_u_l_a_t_o_r___e_n_e_r_g_y___s_p_e_c_t_r_u_m.html#a3bf5e4105ac503322dcd016fbae07ee4"
+"struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___r_a_w___b_u_f_f_e_r.html#a1cd7a2882684b7f2a037c08aaa56387d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
