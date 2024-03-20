@@ -262,6 +262,25 @@
 
 
 	/**
+	 * @brief 2D Histogram decoded data
+	 * @details This type is used to store data from 2d histogram.
+	 * The reference document for the data format is the  [2D Histogram](histogram2d.md)
+	 */
+	typedef struct {
+		uint32_t magic;					/**< Magic number to identify the data type*/
+		uint32_t* data;					/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint64_t timecode;				/**< Epoch of the PC related to when the spectrum has been readout*/
+		uint32_t inttime;				/**< Integration time in clock cycles (calculated by the FPGA)*/
+		struct {
+			uint32_t buffer_size;		/**< Size of the data in samples (on sample per bin)*/
+			uint32_t total_bins;		/**< Total number of bins*/
+			uint32_t valid_bins;		/**< Number of valid bins*/
+			uint32_t binsX;				/**< Total number of bins on X*/
+			uint32_t binsY;				/**< Total number of bins on Y*/
+		} info;
+	}SCISDK_2DHISTOGRAM_DECODED_BUFFER;
+
+	/**
 	 * @brief FFT monitor decoded data structure
 	 * @details This type is used to store FFT moditor decoded result
 	 * The reference document for the data format is the  [FFT](fft.md)

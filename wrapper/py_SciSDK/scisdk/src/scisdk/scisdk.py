@@ -175,6 +175,9 @@ class SciSDK:
             elif type == "SCISDK_SPECTRUM_DECODED_BUFFER":
                 buffer_pointer = ctypes.POINTER(SpectrumDecodedBuffer)
                 buffer_type = 1
+            elif type == "SCISDK_2DHISTOGRAM_DECODED_BUFFER":
+                buffer_pointer = ctypes.POINTER(Histogram2DDecodedBuffer)
+                buffer_type = 1
             elif type == "SCISDK_FFT_DECODED_BUFFER":
                 buffer_pointer = ctypes.POINTER(FFTDecodedBuffer)
                 buffer_type = 1
@@ -255,6 +258,8 @@ class SciSDK:
             read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(RatemeterRawBuffer), ctypes.c_void_p]    
         elif type(buffer) == SpectrumDecodedBuffer:
             read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(SpectrumDecodedBuffer), ctypes.c_void_p]    
+        elif type(buffer) == Histogram2DDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(Histogram2DDecodedBuffer), ctypes.c_void_p]    
         elif type(buffer) == FFTDecodedBuffer:
             read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FFTDecodedBuffer), ctypes.c_void_p]    
         elif type(buffer) == FFTRawBuffer:
@@ -314,6 +319,9 @@ class SciSDK:
         elif type(buffer) == SpectrumDecodedBuffer:
             buffer_pointer = ctypes.POINTER(SpectrumDecodedBuffer)
             buffer_type = 1
+        elif type(buffer) == Histogram2DDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(Histogram2DDecodedBuffer)
+            buffer_type = 1            
         elif type(buffer) == FFTDecodedBuffer:
             buffer_pointer = ctypes.POINTER(FFTDecodedBuffer)
             buffer_type = 1

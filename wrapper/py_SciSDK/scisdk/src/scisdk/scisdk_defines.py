@@ -132,6 +132,22 @@ class RatemeterRawBuffer(ctypes.Structure):
                 ('info', RatemeterRawBufferInfo)]
 
 # Spectrum decoded buffer
+class Histogram2DDecodedBufferInfo(ctypes.Structure):
+    _fields_ = [('buffer_size', ctypes.c_uint32),
+                ('total_bins', ctypes.c_uint32),
+                ('valid_bins', ctypes.c_uint32),
+                ('binsX', ctypes.c_uint32),
+                ('binsY', ctypes.c_uint32)
+                ]
+
+class Histogram2DDecodedBuffer(ctypes.Structure):
+    _fields_ = [('magic', ctypes.c_uint32),
+                ('data', ctypes.POINTER(ctypes.c_uint32)),
+                ('timecode', ctypes.c_uint64),
+                ('inttime', ctypes.c_uint32),
+                ('info', Histogram2DDecodedBufferInfo),]
+    
+# Spectrum decoded buffer
 class SpectrumDecodedBufferInfo(ctypes.Structure):
     _fields_ = [('buffer_size', ctypes.c_uint32),
                 ('total_bins', ctypes.c_uint32),

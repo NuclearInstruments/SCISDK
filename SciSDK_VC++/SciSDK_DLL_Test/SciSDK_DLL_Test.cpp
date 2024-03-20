@@ -9,20 +9,56 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 void TestDT4810();
 void TestDT1260();
 void TestAFEDT5771();
-
+void TestR5560();
 int main(int argc, char* argv[])
 {
 	//TestDT4810();
-	TestAFEDT5771();
+	//TestAFEDT5771();
+	TestR5560();
 	return 0;
 
 }
 
+void TestR5560() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+	uint32_t revalue=0;
+
+	int op_res = SCISDK_AddNewDevice("130.246.55.76:8888", "R5560", "RegisterFile.json", "board0", _sdk);
+	//op_res = SCISDK_GetRegister("board0:/Registers/INTGAIN", &revalue, _sdk);
+	//cout <<" op res " << op_res << " v: " << revalue << endl;
+
+
+	SCISDK_2DHISTOGRAM_DECODED_BUFFER* obHistrogram;
+
+	SCISDK_s_error(SCISDK_AllocateBuffer("board0:/MMCComponents/Hist2D_0", T_BUFFER_TYPE_DECODED, (void**)&obHistrogram, _sdk), &res, _sdk);
+	cout << res << endl;
+	//SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Spectrum_0.limitmode", "freerun", _sdk), &res, _sdk);
+	//cout << res << endl;
+	//SCISDK_s_error(SCISDK_SetParameterString("board0:/MMCComponents/Spectrum_0.limit", "100", _sdk), &res, _sdk);
+	//cout << res << endl;
+	//SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.reset", "", _sdk), &res, _sdk);
+	//cout << res << endl;
+	//SCISDK_s_error(SCISDK_ExecuteCommand("board0:/MMCComponents/Spectrum_0.start", "", _sdk), &res, _sdk);
+	//cout << res << endl;
+	//std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+	//while (1) {
+	std::ofstream out("c:/temp/output1.txt");
+	SCISDK_ReadData("board0:/MMCComponents/Hist2D_0", (void*)obHistrogram, _sdk);
+	for (int i = 0; i < obHistrogram->info.total_bins; i++) {
+		out << obHistrogram->data[i] << endl;
+	}
+	out.close();
+	SCISDK_FreeBuffer("board0:/MMCComponents/Hist2D_0", 1, (void**)&obHistrogram, _sdk);
+
+
+}
 
 void TestDT4810() {
 	void* _sdk = SCISDK_InitLib();

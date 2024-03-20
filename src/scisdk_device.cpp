@@ -8,6 +8,7 @@
 #include <sstream>
 #include <algorithm>
 
+#include "scisdk_2dhistogram.h"
 #include "scisdk_register.h"
 #include "scisdk_oscilloscope.h"
 #include "scisdk_digitizer.h"
@@ -234,6 +235,7 @@ NI_RESULT SciSDK_Device::GetRegister(string Path, uint32_t *value) {
 	SciSDK_Node *node = NULL;
 	SciSDK_Register *reg = NULL;
 	node = FindMMC(Path);
+	if (node == NULL) return NI_NOT_FOUND;
 	reg = dynamic_cast<SciSDK_Register*> (node);
 	reg->GetValueU32(value);
 	return NI_OK;
@@ -479,6 +481,9 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						}
 						else if (ToUpper(r.at("Type")) == "SPECTRUM") {
 							mmcs.push_back(new SciSDK_Spectrum(_hal, r, parent + "/" + (string)it.key()));
+						}
+						else if (ToUpper(r.at("Type")) == "HISTOGRAM2D") {
+							mmcs.push_back(new SciSDK_2DHistogram(_hal, r, parent + "/" + (string)it.key()));
 						}
 						else if (ToUpper(r.at("Type")) == "CUSTOMPACKET") {
 							mmcs.push_back(new SciSDK_CustomPacket(_hal, r, parent + "/" + (string)it.key()));
