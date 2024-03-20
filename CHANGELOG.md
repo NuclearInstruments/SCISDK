@@ -1,3 +1,6 @@
+# scisdk (1.2.55)
+  * 2d Histrograms
+  
 # scisdk (1.2.42)
   * In tools/src add a tool to print the version of the library installed in your system and the board driver installed in the system.
   
