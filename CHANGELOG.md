@@ -1,3 +1,6 @@
+# scisdk (1.2.56)
+  * fixed dt4810 boardapi paths
+
 # scisdk (1.2.55)
   * 2d Histrograms
   

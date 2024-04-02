@@ -18,9 +18,9 @@ void TestAFEDT5771();
 void TestR5560();
 int main(int argc, char* argv[])
 {
-	//TestDT4810();
+	TestDT4810();
 	//TestAFEDT5771();
-	TestR5560();
+	//TestR5560();
 	return 0;
 
 }
@@ -64,13 +64,14 @@ void TestDT4810() {
 	void* _sdk = SCISDK_InitLib();
 	char* res = "";
 
-	int op_res = SCISDK_AddNewDevice("192.168.102.122:8888", "dt4810", "dt4810-firmware.json", "board0", _sdk);
+	int op_res = SCISDK_AddNewDevice("192.168.102.120:8888", "dt4810", "dt4810-firmware.json", "board0", _sdk);
 
 	if (op_res == 0) {
 		cout << "Device added" << endl;
 	}
 	else {
 		cout << "Device not added" << endl;
+		exit(-1);
 	}
 	char *fwversion;
 	char *hwversion;

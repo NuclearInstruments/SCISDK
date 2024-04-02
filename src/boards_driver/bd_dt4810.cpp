@@ -30,48 +30,48 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
 
     const std::list<std::string> listOfTrueFalse = { "false", "true" };
 
-    RegisterParameter("timebase.rate", "set generation rate", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/timebase.rate", "set generation rate", SciSDK_Paramcb::Type::d, this);
     const std::list<std::string> listOfTimebaseMode = { "fixed", "random"};
     const std::list<std::string> listOfAmplitudeMode = { "fixed", "spectrum" };
     RegisterParameter("boardapi/timebase.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfTimebaseMode, this);
     RegisterParameter("boardapi/timebase.parallizable", "set parallizable machine mode", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
-    RegisterParameter("timebase.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64,  this);
-    RegisterParameter("timebase.seed2", "set timebase seed 2", SciSDK_Paramcb::Type::U64, this);
-    RegisterParameter("timebase.seed3", "set timebase seed 3", SciSDK_Paramcb::Type::U64, this);
-    RegisterParameter("timebase.seed4", "set timebase seed 4", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/timebase.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64,  this);
+    RegisterParameter("boardapi/timebase.seed2", "set timebase seed 2", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/timebase.seed3", "set timebase seed 3", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/timebase.seed4", "set timebase seed 4", SciSDK_Paramcb::Type::U64, this);
     
     RegisterParameter("boardapi/amplitude.mode", "set amplitude mode", SciSDK_Paramcb::Type::str, listOfAmplitudeMode, this);
-    RegisterParameter("amplitude.fixed", "set amplitude fixed value", SciSDK_Paramcb::Type::U32, this);
-    RegisterParameter("amplitude.seed1", "set amplitude seed 1", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/amplitude.fixed", "set amplitude fixed value", SciSDK_Paramcb::Type::U32, this);
+    RegisterParameter("boardapi/amplitude.seed1", "set amplitude seed 1", SciSDK_Paramcb::Type::U64, this);
 
-    RegisterParameter("shape.drc.decay", "set decay constant for DRC", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("shape.drc.risetime", "set risetime for DRC", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.drc.decay", "set decay constant for DRC", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.drc.risetime", "set risetime for DRC", SciSDK_Paramcb::Type::d, this);
 
     RegisterParameter("boardapi/noise.gauss.enable", "enable disable gaussian noise generator", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
-    RegisterParameter("noise.gauss.gain", "set magniture of gaussian noise", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("noise.gauss.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64, this);
-    RegisterParameter("noise.gauss.seed2", "set timebase seed 2", SciSDK_Paramcb::Type::U64, this);
-    RegisterParameter("noise.gauss.seed3", "set timebase seed 3", SciSDK_Paramcb::Type::U64, this);
-    RegisterParameter("noise.gauss.seed4", "set timebase seed 4", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/noise.gauss.gain", "set magniture of gaussian noise", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/noise.gauss.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/noise.gauss.seed2", "set timebase seed 2", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/noise.gauss.seed3", "set timebase seed 3", SciSDK_Paramcb::Type::U64, this);
+    RegisterParameter("boardapi/noise.gauss.seed4", "set timebase seed 4", SciSDK_Paramcb::Type::U64, this);
     
     RegisterParameter("boardapi/main.invert", "invert signal polarity", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
-    RegisterParameter("main.gain", "global gain", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("main.offset", "global offseet", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/main.gain", "global gain", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/main.offset", "global offseet", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/main.output.enable", "enable output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/main.output.gate", "gate output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
 
 
-    RegisterParameter("mon.icr", "input count rate", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.ocr", "output count rate", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.ic", "input count", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.oc", "output count", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.sc", "saturated count", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.deadp", "percent dead event", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.dead", "dead time in us", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.rt", "real time in us", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.lt", "live time in us", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.los", "number of lost events", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("mon.ovl", "number of overflow events", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.icr", "input count rate", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.ocr", "output count rate", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.ic", "input count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.oc", "output count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.sc", "saturated count", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.deadp", "percent dead event", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.dead", "dead time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.rt", "real time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.lt", "live time in us", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.los", "number of lost events", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/mon.ovl", "number of overflow events", SciSDK_Paramcb::Type::d, this);
 
     RegisterParameter("boardapi/fwver", "firmware version", SciSDK_Paramcb::Type::str, this);
     RegisterParameter("boardapi/hwver", "hardware version", SciSDK_Paramcb::Type::str, this);
