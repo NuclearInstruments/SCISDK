@@ -22,6 +22,7 @@ class bd_dt5560se : public  SciSDK_Node {
         NI_RESULT IGetParamI32(string name, int32_t *value);
         NI_RESULT ISetParamString(string name, string value);
         NI_RESULT IGetParamString(string name, string* value);
+        NI_RESULT ExecuteCommand(string cmd, string param);
     private:
         NI_RESULT UpdateHardware();
 

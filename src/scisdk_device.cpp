@@ -526,7 +526,7 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						else if ((model == "dt4810") ) {
 							mmcs.push_back(new bd_dt4810(_hal, this, rs, parent + "/" + (string)it.key()));
 						}
-						else if ((model == "dt5560") || (model == "dt5560se")) {
+						else if ((model == "dt5560") || (model == "dt5560se") || (model == "r5560se")) {
 							mmcs.push_back(new bd_dt5560se(_hal, rs, parent + "/" + (string)it.key()));
 						}
 						else if (model == "dt5771")  {

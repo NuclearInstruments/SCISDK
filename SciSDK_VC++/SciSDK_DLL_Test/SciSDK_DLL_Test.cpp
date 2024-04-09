@@ -16,9 +16,13 @@ void TestDT4810();
 void TestDT1260();
 void TestAFEDT5771();
 void TestR5560();
+void TestAFEDT55560();
+void TestAFEDT55560_reset();
 int main(int argc, char* argv[])
 {
-	TestDT4810();
+	//TestAFEDT55560();
+	TestAFEDT55560_reset();
+	//TestDT4810();
 	//TestAFEDT5771();
 	//TestR5560();
 	return 0;
@@ -266,6 +270,51 @@ void TestAFEDT5771() {
 	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.range", "2v", _sdk);
 	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.impedance", "1k", _sdk);
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/analog/CH0.offset", 101, _sdk);
+}
+
+
+void TestAFEDT55560() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "OscilloscopeDT5560.json", "board0", _sdk);
+	for (int i = 0; i < 16; i++) {
+		string ch = "board0:/boardapi/analog/CH" + to_string(i*2) + "_" + to_string(i*2+1) + ".gain";
+		op_res = SCISDK_SetParameterInteger((char*)ch.c_str(), i, _sdk);
+		ch = "board0:/boardapi/analog/CH" + to_string(i*2) + "_" + to_string(i*2 + 1) + ".50r";
+		op_res = SCISDK_SetParameterString((char*)ch.c_str(), i&0x1 ? "true" : "false", _sdk);
+		ch = "board0:/boardapi/analog/CH" + to_string(i * 2) + "_" + to_string(i * 2 + 1) + ".div";
+		op_res = SCISDK_SetParameterString((char*)ch.c_str(), i & 0x1 ? "false" : "true", _sdk);
+}
+	for (int i = 0; i < 32; i++) {
+		string ch = "board0:/boardapi/analog/CH" + to_string(i) + ".offset";
+		op_res = SCISDK_SetParameterInteger((char*)ch.c_str(), i, _sdk);
+	}
+	op_res = SCISDK_ExecuteCommand("board0:/boardapi/configure", "", _sdk);
+
+}
+
+
+void TestAFEDT55560_reset() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.219:8888", "dt5560", "OscilloscopeDT5560.json", "board0", _sdk);
+	for (int i = 0; i < 16; i++) {
+		string ch = "board0:/boardapi/analog/CH" + to_string(i * 2) + "_" + to_string(i * 2 + 1) + ".gain";
+		op_res = SCISDK_SetParameterInteger((char*)ch.c_str(), 0, _sdk);
+		ch = "board0:/boardapi/analog/CH" + to_string(i * 2) + "_" + to_string(i * 2 + 1) + ".50r";
+		op_res = SCISDK_SetParameterString((char*)ch.c_str(), "true", _sdk);
+		ch = "board0:/boardapi/analog/CH" + to_string(i * 2) + "_" + to_string(i * 2 + 1) + ".div";
+		op_res = SCISDK_SetParameterString((char*)ch.c_str(), "true", _sdk);
+	}
+	for (int i = 0; i < 32; i++) {
+		string ch = "board0:/boardapi/analog/CH" + to_string(i) + ".offset";
+		op_res = SCISDK_SetParameterInteger((char*)ch.c_str(), 0, _sdk);
+	}
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog.shaper", "dc", _sdk);
+	op_res = SCISDK_ExecuteCommand("board0:/boardapi/configure", "", _sdk);
+
 }
 
 

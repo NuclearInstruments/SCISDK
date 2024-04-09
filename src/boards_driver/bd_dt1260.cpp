@@ -17,7 +17,7 @@ bd_dt1260::bd_dt1260(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j,
     board_params.offset.address = 4294967289;
 
     cout << "Registering DT1260 endpoints" << endl;
-    RegisterParameter("analog.offset", "set analog offset", SciSDK_Paramcb::Type::U32, this);
+    RegisterParameter("boardapi/analog.offset", "set analog offset", SciSDK_Paramcb::Type::U32, this);
 
 }
 
