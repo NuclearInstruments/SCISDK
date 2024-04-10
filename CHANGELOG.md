@@ -1,3 +1,8 @@
+# scisdk (1.2.57)
+  * support to the DT5771 front end
+  * support to the DT/R5560 analog front end configuration (requires device system update > 2024.4.10.1)
+  * support to 2D histograms
+
 # scisdk (1.2.56)
   * fixed dt4810 boardapi paths
 
