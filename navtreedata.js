@@ -384,31 +384,28 @@ var NAVTREE =
     [ "DT5550W with Citiroc Board Driver", "md_docs_boards_dt5550w_citiroc.html", null ],
     [ "DT5550W with Petiroc Board Driver", "md_docs_boards_dt5550w_petiroc.html", null ],
     [ "DT5560 / R5560SE Board Driver", "md_docs_boards_x5560se.html", [
-      [ "| Parameter     | Description                           | Valid Values       | Grouped Channels | Default Value | Example node                         |", "md_docs_boards_x5560se.html#autotoc_md293", null ],
-      [ "How to use the boardapi/analog node", "md_docs_boards_x5560se.html#autotoc_md294", null ],
-      [ "Applying the configuration", "md_docs_boards_x5560se.html#autotoc_md295", null ],
-      [ "Example", "md_docs_boards_x5560se.html#autotoc_md296", [
-        [ "Configure a single channels", "md_docs_boards_x5560se.html#autotoc_md297", [
+      [ "How to use the boardapi/analog node", "md_docs_boards_x5560se.html#autotoc_md293", null ],
+      [ "Applying the configuration", "md_docs_boards_x5560se.html#autotoc_md294", null ],
+      [ "Example", "md_docs_boards_x5560se.html#autotoc_md295", [
+        [ "Configure a single channels", "md_docs_boards_x5560se.html#autotoc_md296", [
           [ "C/C++", "md_docs_boards_dt1260.html#autotoc_md287", null ],
           [ "Python", "md_docs_boards_dt1260.html#autotoc_md288", null ],
-          [ "C/C++", "md_docs_boards_x5560se.html#autotoc_md298", null ],
-          [ "Python", "md_docs_boards_x5560se.html#autotoc_md299", null ]
+          [ "C/C++", "md_docs_boards_x5560se.html#autotoc_md297", null ],
+          [ "Python", "md_docs_boards_x5560se.html#autotoc_md298", null ]
         ] ],
-        [ "Configure all channels of the board", "md_docs_boards_x5560se.html#autotoc_md300", [
-          [ "C/C++", "md_docs_boards_x5560se.html#autotoc_md301", null ]
+        [ "Configure all channels of the board", "md_docs_boards_x5560se.html#autotoc_md299", [
+          [ "C/C++", "md_docs_boards_x5560se.html#autotoc_md300", null ]
         ] ]
       ] ]
     ] ],
     [ "R5560  Board Driver", "md_docs_boards_x5560.html", null ],
     [ "DT5771 Board Driver", "md_docs_boards_dt5771.html", [
-      [ "| Parameter     | Description                            | Valid Values                                        | Default Value  | Example node                              |", "md_docs_boards_dt5771.html#autotoc_md304", null ],
-      [ "| Parameter     | Description                            | Valid Values                                        | Default Value  | Example node                                   |", "md_docs_boards_dt5771.html#autotoc_md305", null ],
-      [ "How to use the boardapi/analog node", "md_docs_boards_dt5771.html#autotoc_md306", null ],
-      [ "Applying the configuration", "md_docs_boards_dt5771.html#autotoc_md307", null ],
-      [ "Example", "md_docs_boards_dt5771.html#autotoc_md308", [
-        [ "Configure a single channels", "md_docs_boards_dt5771.html#autotoc_md309", [
-          [ "C/C++", "md_docs_boards_dt5771.html#autotoc_md310", null ],
-          [ "Python", "md_docs_boards_dt5771.html#autotoc_md311", null ]
+      [ "How to use the boardapi/analog node", "md_docs_boards_dt5771.html#autotoc_md303", null ],
+      [ "Applying the configuration", "md_docs_boards_dt5771.html#autotoc_md304", null ],
+      [ "Example", "md_docs_boards_dt5771.html#autotoc_md305", [
+        [ "Configure a single channels", "md_docs_boards_dt5771.html#autotoc_md306", [
+          [ "C/C++", "md_docs_boards_dt5771.html#autotoc_md307", null ],
+          [ "Python", "md_docs_boards_dt5771.html#autotoc_md308", null ]
         ] ]
       ] ]
     ] ],
@@ -438,8 +435,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
-"md_docs_custompacket.html#autotoc_md122",
-"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html"
+"md_docs_custompacket.html#autotoc_md125",
+"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html#a45c4e0c208ec5fbd29473a776c9a7405"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

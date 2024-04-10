@@ -123,24 +123,33 @@ $(document).ready(function(){initNavTree('md_docs_boards_x5560se.html',''); init
 <p>SciSDK allows to configure the front end of the board from code in a very simple way.</p>
 <p>The board expose a node in the device tree called <code>boardapi/analog</code> that allows to configure the front end of the board.</p>
 <p>Pleas remember that the board has a 32 channels front end, but some of the parameters are shared between channels. In the table below you can see the group size column that indicates how many channels share the same parameter.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Valid Values   </th><th class="markdownTableHeadNone">Grouped Channels   </th><th class="markdownTableHeadNone">Default Value   </th><th class="markdownTableHeadNone">Example node    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">gain   </td><td class="markdownTableBodyNone">Gain of the front end   </td><td class="markdownTableBodyNone">0, 1, ... 99   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">0dB (1V/V)   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0_1.gain</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">50r   </td><td class="markdownTableBodyNone">Impedance of the front end   </td><td class="markdownTableBodyNone">true, false   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">false   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0_1.50r</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">div   </td><td class="markdownTableBodyNone">Division by five   </td><td class="markdownTableBodyNone">true, false   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">false   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0_1.div</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">offset   </td><td class="markdownTableBodyNone">Offset of the front end   </td><td class="markdownTableBodyNone">-32768, ... 32767   </td><td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.offset</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">shaper   </td><td class="markdownTableBodyNone">Coupling of the front end   </td><td class="markdownTableBodyNone">dc 1us 10us 30us   </td><td class="markdownTableBodyNone">32   </td><td class="markdownTableBodyNone">dc   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog.shaper</code>   </td></tr>
+</table>
 <h1><a class="anchor" id="autotoc_md293"></a>
-| Parameter     | Description                           | Valid Values       | Grouped Channels | Default Value | Example node                         |</h1>
-<p>| gain | Gain of the front end | 0, 1, ... 99 | 2 | 0dB (1V/V) | <code>board0:/boardapi/analog/CH0_1.gain</code> | <br  />
- | 50r | Impedance of the front end | true, false | 2 | false | <code>board0:/boardapi/analog/CH0_1.50r</code> | | div | Division by five | true, false | 2 | false | <code>board0:/boardapi/analog/CH0_1.div</code> | | offset | Offset of the front end | -32768, ... 32767 | 1 | 0 | <code>board0:/boardapi/analog/CH0.offset</code> | | shaper | Coupling of the front end | dc 1us 10us 30us | 32 | dc | <code>board0:/boardapi/analog.shaper</code> | <br  />
-</p>
-<h1><a class="anchor" id="autotoc_md294"></a>
 How to use the boardapi/analog node</h1>
 <p>The nodes with group size 1 are the ones that are unique for each channel. In order to access to channel <code>CH</code> you have to access to the node <code>board0:/boardapi/analog/CHx</code> where x is the number of the channel. For example to access to the offset of channel 3 you have to access to the node <code>board0:/boardapi/analog/CH3.offset</code></p>
 <p>channels with group size 2 groups adjacent channels. In order to access to channel <code>CH</code> you have to access to the node <code>board0:/boardapi/analog/CHx_x+1</code> where x is the number of the channel. For example to access to the gain of channel 3 and 4 you have to access to the node <code>board0:/boardapi/analog/CH3_4.gain</code></p>
 <p>The shaper is common for all channels. In order to access to the shaper you have to access to the node <code>board0:/boardapi/analog.shaper</code></p>
-<h1><a class="anchor" id="autotoc_md295"></a>
+<h1><a class="anchor" id="autotoc_md294"></a>
 Applying the configuration</h1>
 <p>Once you have set the parameters you have to execute the command <code>board0:/boardapi/configure</code> to apply the configuration.</p>
-<h1><a class="anchor" id="autotoc_md296"></a>
+<h1><a class="anchor" id="autotoc_md295"></a>
 Example</h1>
-<h2><a class="anchor" id="autotoc_md297"></a>
+<h2><a class="anchor" id="autotoc_md296"></a>
 Configure a single channels</h2>
-<h3><a class="anchor" id="autotoc_md298"></a>
+<h3><a class="anchor" id="autotoc_md297"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line">op_res |= <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0_1.gain&quot;</span>, 5, _sdk);</div>
@@ -152,7 +161,7 @@ C/C++</h3>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md299"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md298"></a>
 Python</h3>
 <div class="fragment"><div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog/CH0_1.gain&quot;, 5)</div>
 <div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog/CH0_1.50r&quot;, &quot;true&quot;,)</div>
@@ -160,9 +169,9 @@ Python</h3>
 <div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog/CH0.offset&quot;, 100)</div>
 <div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog.shaper&quot;, &quot;dc&quot;)</div>
 <div class="line">sdk.ExecuteCommand(&quot;board0:/boardapi/configure&quot;, &quot;&quot;)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md300"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md299"></a>
 Configure all channels of the board</h2>
-<h3><a class="anchor" id="autotoc_md301"></a>
+<h3><a class="anchor" id="autotoc_md300"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 16; i++) {</div>

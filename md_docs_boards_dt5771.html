@@ -121,25 +121,41 @@ $(document).ready(function(){initNavTree('md_docs_boards_dt5771.html',''); initR
 <div class="textblock"><p>The board has a versatile analog front-end with single channel analog input . The Front-End has configurable gain, offset, impedance, input division and coupling</p>
 <p>SciSDK allows to configure the front end of the board from code in a very simple way.</p>
 <p>The board expose a node in the device tree called <code>boardapi/analog</code> that allows to configure the front end of the board.</p>
-<h1><a class="anchor" id="autotoc_md304"></a>
-| Parameter     | Description                            | Valid Values                                        | Default Value  | Example node                              |</h1>
-<p>| gain | Gain of the front end | 0, 1, ... 15 | 0dB (1V/V) | <code>board0:/boardapi/analog/CH0.gain</code> | | impedance | Impedance of the front end | 1k, 50r | 1k | <code>board0:/boardapi/analog/CH0.impedance</code> | | range | Select input range | 2v, 10v | 2v | <code>board0:/boardapi/analog/CH0.rage</code> | | offset | Offset of the front end | -32768, ... 32767 | 0 | <code>board0:/boardapi/analog/CH0.offset</code> | | shaper | Coupling of the front end | dc, 300ns, 1us, 10us, floating | dc | <code>board0:/boardapi/analog/CH0.shaper</code> | | bw | Bandwidth limit | full, 20mhz, 100mhz, 200mhz, 350mhz, 650mhz, 750mhz | full | <code>board0:/boardapi/analog/CH0.bw</code> |</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Valid Values   </th><th class="markdownTableHeadNone">Default Value   </th><th class="markdownTableHeadNone">Example node    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">gain   </td><td class="markdownTableBodyNone">Gain of the front end   </td><td class="markdownTableBodyNone">0, 1, ... 15   </td><td class="markdownTableBodyNone">0dB (1V/V)   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.gain</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">impedance   </td><td class="markdownTableBodyNone">Impedance of the front end   </td><td class="markdownTableBodyNone">1k, 50r   </td><td class="markdownTableBodyNone">1k   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.impedance</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">range   </td><td class="markdownTableBodyNone">Select input range   </td><td class="markdownTableBodyNone">2v, 10v   </td><td class="markdownTableBodyNone">2v   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.rage</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">offset   </td><td class="markdownTableBodyNone">Offset of the front end   </td><td class="markdownTableBodyNone">-32768, ... 32767   </td><td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.offset</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">shaper   </td><td class="markdownTableBodyNone">Coupling of the front end   </td><td class="markdownTableBodyNone">dc, 300ns, 1us, 10us, floating   </td><td class="markdownTableBodyNone">dc   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.shaper</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">bw   </td><td class="markdownTableBodyNone">Bandwidth limit   </td><td class="markdownTableBodyNone">full, 20mhz, 100mhz, 200mhz, 350mhz, 650mhz, 750mhz   </td><td class="markdownTableBodyNone">full   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog/CH0.bw</code>   </td></tr>
+</table>
 <p>The board expose a node in the device tree called <code>boardapi/digitalio</code> used to configure digital lemo.</p>
-<h1><a class="anchor" id="autotoc_md305"></a>
-| Parameter     | Description                            | Valid Values                                        | Default Value  | Example node                                   |</h1>
-<p>| impedance | Impedance of the Lemo connector | hi, 50r | hi | <code>board0:/boardapi/digitalio/LEMO0.impedance</code> |</p>
-<h1><a class="anchor" id="autotoc_md306"></a>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Valid Values   </th><th class="markdownTableHeadNone">Default Value   </th><th class="markdownTableHeadNone">Example node    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">impedance   </td><td class="markdownTableBodyNone">Impedance of the Lemo connector   </td><td class="markdownTableBodyNone">hi, 50r   </td><td class="markdownTableBodyNone">hi   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/digitalio/LEMO0.impedance</code>   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md303"></a>
 How to use the boardapi/analog node</h1>
 <p>In order to access to the node <code>board0:/boardapi/analog/CH</code> you have to access to the node <code>board0:/boardapi/analog/CH</code> where x is the number of the channel. For example to access to the offset of channel 0 you have to access to the node <code>board0:/boardapi/analog/CH0.offset</code></p>
 <p>The shaper is common for all channels. In order to access to the shaper you have to access to the node <code>board0:/boardapi/analog.shaper</code></p>
-<h1><a class="anchor" id="autotoc_md307"></a>
+<h1><a class="anchor" id="autotoc_md304"></a>
 Applying the configuration</h1>
 <p>Parameters are applied immediately after setting them.</p>
-<h1><a class="anchor" id="autotoc_md308"></a>
+<h1><a class="anchor" id="autotoc_md305"></a>
 Example</h1>
-<h2><a class="anchor" id="autotoc_md309"></a>
+<h2><a class="anchor" id="autotoc_md306"></a>
 Configure a single channels</h2>
-<h3><a class="anchor" id="autotoc_md310"></a>
+<h3><a class="anchor" id="autotoc_md307"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line">op_res |= <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0.gain&quot;</span>, 5, _sdk);</div>
@@ -153,7 +169,7 @@ C/C++</h3>
 <div class="line">op_res |= <a class="code" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/digitalio/LEMO1.impedance&quot;</span>, <span class="stringliteral">&quot;hi&quot;</span>, _sdk);</div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md311"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md308"></a>
 Python</h3>
 <div class="fragment"><div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog/CH0.gain&quot;, 5)</div>
 <div class="line">sdk.SetParameter(&quot;board0:/boardapi/analog/CH0.impedance&quot;, &quot;1k&quot;)</div>
