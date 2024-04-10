@@ -177,7 +177,9 @@ The following example shows how to use the spectrum component.
 
 ```
 ### Python
+
 ```python
+
     import matplotlib.pyplot as plt
     import time
     from scisdk.scisdk import SciSDK
@@ -215,3 +217,6 @@ The following example shows how to use the spectrum component.
     sdk.FreeBuffer("board0:/MMCComponents/Hist2D_0", 1, buf2d)
 
 ```
+
+
+![](img/2dhist.png) 
