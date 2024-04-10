@@ -876,6 +876,7 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/digitizer.md \
                          docs/custompacket.md \
                          docs/spectrum.md \
+                         docs/2dhistogram.md \
                          docs/tof-spectrum.md \
                          docs/list.md \
                          docs/fft.md \
@@ -893,7 +894,9 @@ INPUT                  = src/SciSDK_DLL.h \
                          docs/boards/dt5550w_citiroc.md \
                          docs/boards/dt5550w_petiroc.md \
                          docs/boards/x5560se.md \
-                         docs/boards/x5560.md 
+                         docs/boards/x5560.md \
+                         docs/boards/dt5771.md \
+                         docs/boards/V2495.md  
                          
 
 # This tag can be used to specify the character encoding of the source files
