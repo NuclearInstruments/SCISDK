@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['petiroc_20configuration_20driver_506',['Petiroc Configuration driver',['../md_docs_petiroc_config.html',1,'']]],
-  ['petiroc_20frame_20transfer_20driver_507',['Petiroc Frame Transfer driver',['../md_docs_petiroc_frame.html',1,'']]]
+  ['opendpp_20board_20driver_520',['OpenDPP Board Driver',['../md_docs_boards_opendpp.html',1,'']]],
+  ['openscope_20board_20driver_521',['OpenScope Board Driver',['../md_docs_boards_openscope.html',1,'']]],
+  ['oscilloscope_20driver_522',['Oscilloscope driver',['../md_docs_oscilloscope.html',1,'']]],
+  ['oscilloscope_20dual_20driver_523',['Oscilloscope Dual driver',['../md_docs_oscilloscope_dual.html',1,'']]]
 ];

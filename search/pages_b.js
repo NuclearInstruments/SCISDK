@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wave_20digitizer_20driver_515',['Wave Digitizer driver',['../md_docs_digitizer.html',1,'']]]
+  ['time_20of_20flight_20spectrum_532',['Time of Flight Spectrum',['../md_docs_tof_spectrum.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['boardendpoint_2emd_291',['boardendpoint.md',['../boardendpoint_8md.html',1,'']]]
+  ['2dhistogram_2emd_300',['2dhistogram.md',['../2dhistogram_8md.html',1,'']]]
 ];

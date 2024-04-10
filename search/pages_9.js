@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['scicompiler_20internal_20bus_511',['SciCompiler internal bus',['../md_docs_mmc.html',1,'']]],
-  ['scisdk_20library_20introduction_512',['SciSDK Library Introduction',['../index.html',1,'']]],
-  ['simple_20register_513',['Simple Register',['../md_docs_registers.html',1,'']]]
+  ['r5560_20_20board_20driver_526',['R5560  Board Driver',['../md_docs_boards_x5560.html',1,'']]],
+  ['rate_20meter_527',['Rate Meter',['../md_docs_rate_meter.html',1,'']]],
+  ['register_20file_528',['Register File',['../md_docs_registers_file.html',1,'']]]
 ];

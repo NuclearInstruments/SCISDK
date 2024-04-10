@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['rate_2dmeter_2emd_309',['rate-meter.md',['../rate-meter_8md.html',1,'']]],
-  ['readme_2emd_310',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['registers_2dfile_2emd_311',['registers-file.md',['../registers-file_8md.html',1,'']]],
-  ['registers_2emd_312',['registers.md',['../registers_8md.html',1,'']]]
+  ['petiroc_2dconfig_2emd_320',['petiroc-config.md',['../petiroc-config_8md.html',1,'']]],
+  ['petiroc_2dframe_2emd_321',['petiroc-frame.md',['../petiroc-frame_8md.html',1,'']]]
 ];

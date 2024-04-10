@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['scisdk_5fdefines_2eh_313',['scisdk_defines.h',['../scisdk__defines_8h.html',1,'']]],
-  ['scisdk_5fdll_2eh_314',['SciSDK_DLL.h',['../_sci_s_d_k___d_l_l_8h.html',1,'']]],
-  ['spectrum_2emd_315',['spectrum.md',['../spectrum_8md.html',1,'']]]
+  ['rate_2dmeter_2emd_322',['rate-meter.md',['../rate-meter_8md.html',1,'']]],
+  ['readme_2emd_323',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['registers_2dfile_2emd_324',['registers-file.md',['../registers-file_8md.html',1,'']]],
+  ['registers_2emd_325',['registers.md',['../registers_8md.html',1,'']]]
 ];

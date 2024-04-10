@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['list_2emd_300',['list.md',['../list_8md.html',1,'']]]
+  ['fft_2emd_311',['fft.md',['../fft_8md.html',1,'']]],
+  ['frame_2emd_312',['frame.md',['../frame_8md.html',1,'']]]
 ];

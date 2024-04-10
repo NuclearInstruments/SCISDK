@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['r5560_20_20board_20driver_139',['R5560  Board Driver',['../md_docs_boards_x5560.html',1,'']]],
-  ['rate_20meter_140',['Rate Meter',['../md_docs_rate_meter.html',1,'']]],
-  ['rate_2dmeter_2emd_141',['rate-meter.md',['../rate-meter_8md.html',1,'']]],
-  ['readme_2emd_142',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['ready_143',['ready',['../struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___s_t_a_t_u_s.html#a1a761226bd6c6b707f2127e280e964c6',1,'SCISDK_OSCILLOSCOPE_STATUS::ready()'],['../struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s.html#ae6a02156cbd8f78b2db888429b9f319c',1,'SCISDK_FFT_STATUS::ready()']]],
-  ['register_20file_144',['Register File',['../md_docs_registers_file.html',1,'']]],
-  ['registers_2dfile_2emd_145',['registers-file.md',['../registers-file_8md.html',1,'']]],
-  ['registers_2emd_146',['registers.md',['../registers_8md.html',1,'']]],
-  ['row_147',['row',['../struct_s_c_i_s_d_k___c_p___p_a_c_k_e_t.html#a49f72ef15283a65aa75779f5c2ab547e',1,'SCISDK_CP_PACKET']]],
-  ['running_148',['running',['../struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___s_t_a_t_u_s.html#ae64bf9681e785ec69a26be2683604b0b',1,'SCISDK_OSCILLOSCOPE_STATUS::running()'],['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#aa8fa6efd4e862d115cd013ef2535abf1',1,'SCISDK_SPECTRUM_STATUS::running()'],['../struct_s_c_i_s_d_k___f_f_t___s_t_a_t_u_s.html#a47bac9c329dc3d251c4417f6147f1582',1,'SCISDK_FFT_STATUS::running()']]]
+  ['packet_5fsize_137',['packet_size',['../struct_s_c_i_s_d_k___c_p___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a116c26828fdf6e5a70660018274cd56e',1,'SCISDK_CP_DECODED_BUFFER::packet_size()'],['../struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html#a1c8e34de1a5c240920b52451763e5e84',1,'SCISDK_FRAME_RAW_BUFFER::packet_size()'],['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html#a32132bf5d7801ad4f879c3dadc385740',1,'SCISDK_CITIROC_RAW_BUFFER::packet_size()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html#aef9d2ab4b4b28c03b4dafb71ac5506bd',1,'SCISDK_PETIROC_RAW_BUFFER::packet_size()']]],
+  ['peak_5fmax_138',['peak_max',['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#a82f2ed3ff1c59695beb24df9fe087d88',1,'SCISDK_SPECTRUM_STATUS']]],
+  ['petiroc_20configuration_20driver_139',['Petiroc Configuration driver',['../md_docs_petiroc_config.html',1,'']]],
+  ['petiroc_20frame_20transfer_20driver_140',['Petiroc Frame Transfer driver',['../md_docs_petiroc_frame.html',1,'']]],
+  ['petiroc_2dconfig_2emd_141',['petiroc-config.md',['../petiroc-config_8md.html',1,'']]],
+  ['petiroc_2dframe_2emd_142',['petiroc-frame.md',['../petiroc-frame_8md.html',1,'']]],
+  ['ph_143',['ph',['../struct_s_c_i_s_d_k___f_f_t___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a64da50d21ce3ac32b8adc332424e6d53',1,'SCISDK_FFT_DECODED_BUFFER']]],
+  ['pixel_144',['pixel',['../struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#abf024cd43223999709803b10bfc12714',1,'SCISDK_FRAME_PACKET::pixel()'],['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html#a760ab28254f3f42ed6b84ecf969604c0',1,'SCISDK_CITIROC_PACKET::pixel()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t.html#ac675e4f5b9bcdfe98c9679f519d441ac',1,'SCISDK_PETIROC_PACKET::pixel()']]],
+  ['progress_145',['progress',['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#a9667a0b4f5d3d59173b4ceb333ffb513',1,'SCISDK_SPECTRUM_STATUS']]],
+  ['psd_146',['psd',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a38dbe20b1952fa1a1bab9530655fefe3',1,'SCISDK_FE_OPENDPP_EVENT']]]
 ];

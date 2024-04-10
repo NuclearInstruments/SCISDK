@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['board_20endpoint_20driver_491',['Board Endpoint driver',['../md_docs_boardendpoint.html',1,'']]]
+  ['2d_20histogram_505',['2D Histogram',['../md_docs_2dhistogram.html',1,'']]]
 ];

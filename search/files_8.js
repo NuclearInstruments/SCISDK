@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['petiroc_2dconfig_2emd_307',['petiroc-config.md',['../petiroc-config_8md.html',1,'']]],
-  ['petiroc_2dframe_2emd_308',['petiroc-frame.md',['../petiroc-frame_8md.html',1,'']]]
+  ['opendpp_2emd_316',['opendpp.md',['../opendpp_8md.html',1,'']]],
+  ['openscope_2emd_317',['openscope.md',['../openscope_8md.html',1,'']]],
+  ['oscilloscope_2ddual_2emd_318',['oscilloscope-dual.md',['../oscilloscope-dual_8md.html',1,'']]],
+  ['oscilloscope_2emd_319',['oscilloscope.md',['../oscilloscope_8md.html',1,'']]]
 ];

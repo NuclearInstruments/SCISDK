@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['r5560_20_20board_20driver_508',['R5560  Board Driver',['../md_docs_boards_x5560.html',1,'']]],
-  ['rate_20meter_509',['Rate Meter',['../md_docs_rate_meter.html',1,'']]],
-  ['register_20file_510',['Register File',['../md_docs_registers_file.html',1,'']]]
+  ['petiroc_20configuration_20driver_524',['Petiroc Configuration driver',['../md_docs_petiroc_config.html',1,'']]],
+  ['petiroc_20frame_20transfer_20driver_525',['Petiroc Frame Transfer driver',['../md_docs_petiroc_frame.html',1,'']]]
 ];

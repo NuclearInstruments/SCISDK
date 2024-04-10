@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['fft_20_28power_20spectrum_29_20driver_39',['FFT (Power Spectrum) driver',['../md_docs_fft.html',1,'']]],
-  ['fft_2emd_40',['fft.md',['../fft_8md.html',1,'']]],
-  ['fine_41',['fine',['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l.html#a8ffc3df2feb025799c5ab5625f6c0939',1,'SCISDK_PETIROC_PIXEL']]],
-  ['fine_5ftimestamp_42',['fine_timestamp',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a548f3e7f39d6041af358ffbeb4acd664',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flags_43',['flags',['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html#a168453b7504e039f1a4863fc03612410',1,'SCISDK_CITIROC_PACKET::flags()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t.html#accc031846ac7b4e56d12165232f6b496',1,'SCISDK_PETIROC_PACKET::flags()']]],
-  ['flags_5fa_44',['flags_a',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a5cd57e294188b5e7fc819450022427cd',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flags_5fb_45',['flags_b',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a0735fd381d74266b5a08dbb247ed6023',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flush_46',['flush',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#ac25e44a817b8dfa141ce5823908647bc',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['frame_20_28imaging_29_20driver_47',['Frame (imaging) driver',['../md_docs_frame.html',1,'']]],
-  ['frame_2emd_48',['frame.md',['../frame_8md.html',1,'']]]
+  ['enabled_5fchannels_41',['enabled_channels',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#af7ed75122e199161f9b3877fe18da59f',1,'SCISDK_DIGITIZER_DECODED_BUFFER']]],
+  ['energy_42',['energy',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a044abf47b918bc55d0fd37670f712ea8',1,'SCISDK_FE_OPENDPP_EVENT']]],
+  ['energy_20spectrum_43',['Energy Spectrum',['../md_docs_spectrum.html',1,'']]],
+  ['event_5fcount_44',['event_count',['../struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#aed4870e3f56319496a876342848fefb6',1,'SCISDK_FRAME_PACKET']]],
+  ['event_5fid_45',['event_id',['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html#a221f9eb5e0f0db3832bb412506f70d82',1,'SCISDK_CITIROC_PACKET::event_id()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t.html#a3c263d4d9e39a9b32b97c64025993ca2',1,'SCISDK_PETIROC_PACKET::event_id()']]],
+  ['event_5fsize_46',['event_size',['../struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#aedeb48a44b0e2d8a5f69cd86259a607a',1,'SCISDK_FE_SCOPE_EVENT::event_size()'],['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a559478a4b9a6865053a746866c5aa291',1,'SCISDK_FE_OPENDPP_EVENT::event_size()']]]
 ];
