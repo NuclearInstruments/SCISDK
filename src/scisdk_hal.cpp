@@ -1,9 +1,9 @@
 #include "scisdk_hal.h"
 #include <stdarg.h>
-#ifdef _MSC_VER 
-	
+#ifdef _MSC_VER
+
 #else
-	#define __cdecl 
+	#define __cdecl
 	#include <dlfcn.h>
 #endif
 //#include "../headers/SCIDK_API_C.h"
@@ -18,7 +18,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	if ((model == "DT1260") || (model == "SCIDK")) {
 		_model = BOARD_MODEL::DT1260;
 		//load the correct dll
-		#ifdef _MSC_VER 
+		#ifdef _MSC_VER
 			h_lib_instance = LoadLibrary(L"SCIDK_Lib.dll");
 		#else
  			h_lib_instance = dlopen("libSCIDK.so", RTLD_LAZY);
@@ -30,7 +30,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		else {
 			cout << "SCIDK_Lib library loaded correclty ..." << endl;
 		}
-		
+
 		//cout << "Last error " << GetLastError() << endl;
 	}
 	if ((model == "DT5550") || (model == "DT5550W")) {
@@ -38,7 +38,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	}
 	if ((model == "R5560") || (model == "R5560SE") || (model == "DT5560")) {
 		_model = BOARD_MODEL::X5560;
-		#ifdef _MSC_VER 
+		#ifdef _MSC_VER
 			h_lib_instance = LoadLibrary(L"R5560_SDKLib.dll");
 		#else
 			h_lib_instance = dlopen("libr5560.so", RTLD_LAZY);
@@ -58,7 +58,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	}
 	if ((model == "DT5771") ) {
 		_model = BOARD_MODEL::DT5771;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		h_lib_instance = LoadLibrary(L"DT5771_SDKLib.dll");
 #else
 		h_lib_instance = dlopen("libdt5771.so", RTLD_LAZY);
@@ -78,7 +78,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	}
 	if ((model == "DT4810")) {
 		_model = BOARD_MODEL::DT4810;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		h_lib_instance = LoadLibrary(L"DT4810_SDKLib.dll");
 #else
 		h_lib_instance = dlopen("libdt4810.so", RTLD_LAZY);
@@ -102,7 +102,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")
 		|| (model == "V2730") || (model == "DT2730") ) {
 		_model = BOARD_MODEL::X2740;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		h_lib_instance = LoadLibrary(L"CAEN_FELib.dll");
 #else
 		h_lib_instance = dlopen("libCAEN_FELib.so", RTLD_LAZY);
@@ -112,11 +112,11 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		}
 #endif
 		if (h_lib_instance == NULL) {
-			cout << "CAEN_FEELib library not loaded ..." << endl;
+			cout << "CAEN_FELib library not loaded ..." << endl;
 			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
 		}
 		else {
-			cout << "CAEN_FEELib library loaded correclty ..." << endl;
+			cout << "CAEN_FELib library loaded correclty ..." << endl;
 		}
 	}
 
@@ -131,8 +131,8 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		if (p[0] == "usb") {
 			_handle = malloc(sizeof(NI_HANDLE));
 			if (h_lib_instance != NULL) {
-				
-				#ifdef _MSC_VER 
+
+				#ifdef _MSC_VER
 					typedef int(__cdecl *CONNECT_PROC_PTR)(char*, NI_HANDLE*);
 					CONNECT_PROC_PTR connectUSB = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "SCIDK_ConnectUSB");
 				#else
@@ -159,7 +159,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		// connection to x5560 board
 		if (h_lib_instance != NULL) {
 			_handle = malloc(sizeof(tR5560_Handle));
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *CONNECT_PROC_PTR)(char* address, int port, tR5560_Handle* handle);
 				CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "R5560_ConnectTCP");
 			#else
@@ -193,7 +193,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		// connection to DT5771 board
 		if (h_lib_instance != NULL) {
 			_handle = malloc(sizeof(tDT5771_Handle));
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* CONNECT_PROC_PTR)(char* address, int port, tDT5771_Handle* handle);
 			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "DT5771_ConnectTCP");
 #else
@@ -227,7 +227,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		// connection to DT4810 board
 		if (h_lib_instance != NULL) {
 			_handle = malloc(sizeof(tDT4810_Handle));
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* CONNECT_PROC_PTR)(char* address, int port, tDT4810_Handle* handle);
 			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "DT4810_ConnectTCP");
 #else
@@ -262,7 +262,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	case BOARD_MODEL::X2740:
 		if (h_lib_instance != NULL) {
 			_handle = malloc(sizeof(FEELibHandle));
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* CONNECT_PROC_PTR)(const char* url, FEELibHandle* handle);
 			CONNECT_PROC_PTR connectTCP = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_Open");
 #else
@@ -275,7 +275,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				int error_code = connectTCP(url.c_str(), (FEELibHandle*)_handle);
 				mtx.unlock();
 
-				
+
 				if (error_code == 0) {
 					return NI_OK;
 				}
@@ -292,7 +292,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	default:
 		break;
 	}
-	
+
 	return NI_OK;
 }
 
@@ -307,7 +307,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 	case BOARD_MODEL::DT1260:
 		// close connection with DT1260 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(NI_HANDLE*);
 				CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 			#else
@@ -318,7 +318,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				mtx.lock();
 				NI_RESULT r = close_connection((NI_HANDLE*)_handle);
 				mtx.unlock();
-				#ifdef _MSC_VER 
+				#ifdef _MSC_VER
 					FreeLibrary(h_lib_instance);
 				#else
 					dlclose(h_lib_instance);
@@ -340,8 +340,8 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 	case BOARD_MODEL::X5560:
 		// close connection with X5560 board
 		if (h_lib_instance != NULL) {
-			
-			#ifdef _MSC_VER 
+
+			#ifdef _MSC_VER
 				typedef int(__cdecl *CLOSE_CONNECTION_PROC_PTR)(tR5560_Handle*);
 				CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 			#else
@@ -353,7 +353,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				int res = close_connection((tR5560_Handle*)_handle);
 				mtx.unlock();
 				if (res == 0) {
-					#ifdef _MSC_VER 
+					#ifdef _MSC_VER
 						FreeLibrary(h_lib_instance);
 					#else
 						dlclose(h_lib_instance);
@@ -377,7 +377,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 		// close connection with DT5771 board
 		if (h_lib_instance != NULL) {
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(tDT5771_Handle*);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 #else
@@ -389,7 +389,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				int res = close_connection((tDT5771_Handle*)_handle);
 				mtx.unlock();
 				if (res == 0) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 					FreeLibrary(h_lib_instance);
 #else
 					dlclose(h_lib_instance);
@@ -408,12 +408,12 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 		}
 		return NI_ERROR;
 		break;
-		
+
 	case BOARD_MODEL::DT4810:
 		// close connection with DT4810 board
 		if (h_lib_instance != NULL) {
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(tDT4810_Handle*);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "NI_CloseConnection");
 #else
@@ -425,7 +425,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				int res = close_connection((tDT4810_Handle*)_handle);
 				mtx.unlock();
 				if (res == 0) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 					FreeLibrary(h_lib_instance);
 #else
 					dlclose(h_lib_instance);
@@ -444,12 +444,12 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 		}
 		return NI_ERROR;
 		break;
-		
+
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* CLOSE_CONNECTION_PROC_PTR)(FEELibHandle);
 			CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_Close");
 #else
@@ -461,7 +461,7 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 				int res = close_connection(*((FEELibHandle*)(_handle)));
 				mtx.unlock();
 				if (res == 0) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 					FreeLibrary(h_lib_instance);
 #else
 					dlclose(h_lib_instance);
@@ -518,8 +518,8 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::DT1260:
 		// write register of DT1260 board
 		if (h_lib_instance != NULL) {
-			
-			#ifdef _MSC_VER 
+
+			#ifdef _MSC_VER
 				typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, NI_HANDLE* handle);
 				WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 			#else
@@ -544,7 +544,7 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::X5560:
 		// write register of X5560 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tR5560_Handle* handle);
 				WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 			#else
@@ -565,11 +565,11 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 
 		}
 		break;
-		
+
 	case BOARD_MODEL::DT5771:
 		// write register of DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT5771_Handle* handle);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 #else
@@ -595,7 +595,7 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::DT4810:
 		// write register of DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT4810_Handle* handle);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteReg");
 #else
@@ -621,7 +621,7 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 	case BOARD_MODEL::X2740:
 		// write register of X274X board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* WRITE_REG_PROC_PTR)(FEELibHandle handle, uint32_t address, uint32_t value);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetUserRegister");
 #else
@@ -660,8 +660,8 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::DT1260:
 		// read register form DT1260 board
 		if (h_lib_instance != NULL) {
-			
-			#ifdef _MSC_VER 
+
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, NI_HANDLE * handle);
 				READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 			#else
@@ -686,7 +686,7 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read register from X5560 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_REG_PROC_PTR)(uint32_t *value, uint32_t address, tR5560_Handle * handle);
 				READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 			#else
@@ -712,7 +712,7 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::DT5771:
 		// read register from DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT5771_Handle* handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 #else
@@ -738,7 +738,7 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 	case BOARD_MODEL::DT4810:
 		// read register from DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT4810_Handle* handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadReg");
 #else
@@ -760,13 +760,13 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 		}
 		return NI_ERROR;
 		break;
-		
+
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
 		// write register of X274X board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, uint32_t address, uint32_t *value);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetUserRegister");
 #else
@@ -807,7 +807,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::DT1260:
 		// write data to DT1260 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *WRITE_DATA_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *written_data);
 				WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 			#else
@@ -834,7 +834,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// write data to X5560 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__stdcall*WRITE_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *written_data);
 				WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 			#else
@@ -860,7 +860,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::DT5771:
 		// write data to DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* WRITE_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT5771_Handle* handle, uint32_t* written_data);
 			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 #else
@@ -886,7 +886,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 	case BOARD_MODEL::DT4810:
 		// write data to DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* WRITE_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT4810_Handle* handle, uint32_t* written_data);
 			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_WriteData");
 #else
@@ -909,7 +909,7 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 		return NI_ERROR;
 		break;
 
-		
+
 	case BOARD_MODEL::X2495:
 		break;
 	case BOARD_MODEL::X2740:
@@ -931,14 +931,14 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	uint32_t rd, vd;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
-		
+
 		return NI_OK;
 		break;
-		
+
 	case BOARD_MODEL::DT1260:
 		// write data from DT2160 board
-		if (h_lib_instance != NULL) {			
-			#ifdef _MSC_VER 
+		if (h_lib_instance != NULL) {
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *read_data, uint32_t *valid_data);// Pointer to read data function in DLL
 				READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 			#else
@@ -964,7 +964,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 		// read data from X5560 board
 		if (h_lib_instance != NULL) {
 
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_DATA_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, tR5560_Handle *handle, uint32_t *read_data);
 				READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 			#else
@@ -974,7 +974,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			#endif
 			if (read_data_proc) {
 				mtx.lock();
-				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);				
+				int res = read_data_proc(value, length, address, (tR5560_Handle*)_handle, &rd);
 				mtx.unlock();
 				*read_data = rd;
 				if (res == 0) {
@@ -993,7 +993,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 		// read data from DT5771 board
 		if (h_lib_instance != NULL) {
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT5771_Handle* handle, uint32_t* read_data);
 			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 #else
@@ -1022,7 +1022,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 		// read data from DT5771 board
 		if (h_lib_instance != NULL) {
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_DATA_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, tDT4810_Handle* handle, uint32_t* read_data);
 			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadData");
 #else
@@ -1052,7 +1052,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 
 		// read data from X274X board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* FEE_GET_HANDLE_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
 			FEE_GET_HANDLE_PTR CAEN_FELib_GetHandle = (FEE_GET_HANDLE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
 			typedef int(__stdcall* FEE_SET_VALUE_PTR)(FEELibHandle handle, const char* path, const char* value);
@@ -1098,7 +1098,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			}
 
 		}
-		
+
 		break;
 	default:
 		break;
@@ -1113,18 +1113,18 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	uint32_t addressStatus,
 	uint32_t timeout_ms,
 	uint32_t *read_data) {
- 
+
 	uint32_t rd, vd;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
 		cout << "ReadFIFO  @" << address << " Size: " << length << endl;
 		return NI_OK;
 		break;
-		
+
 	case BOARD_MODEL::DT1260:
 		// read FIFO from DT1260 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *value, uint32_t length, uint32_t address, uint32_t BusMode, uint32_t timeout_ms, NI_HANDLE * handle, uint32_t *read_data, uint32_t *valid_data);
 				READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFIFO");
 			#else
@@ -1149,7 +1149,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read FIFO from X5560 board
 		if (h_lib_instance != NULL) {
-			#ifdef _MSC_VER 
+			#ifdef _MSC_VER
 				typedef int(__cdecl *READ_FIFO_PROC_PTR)(uint32_t *data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tR5560_Handle *handle, uint32_t *read_data);
 				READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
 			#else
@@ -1171,11 +1171,11 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 		}
 		return NI_ERROR;
 		break;
-		
+
 	case BOARD_MODEL::DT5771:
 		// read FIFO from DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT5771_Handle* handle, uint32_t* read_data);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
 #else
@@ -1201,7 +1201,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	case BOARD_MODEL::DT4810:
 		// read FIFO from DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t* data, uint32_t count, uint32_t address, uint32_t fifo_status_address, uint32_t bus_mode, uint32_t timeout_ms, tDT4810_Handle* handle, uint32_t* read_data);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_ReadFifo");
 #else
@@ -1229,7 +1229,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 
 		// read fifo from X274X board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* FEE_GET_HANDLE_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
 			FEE_GET_HANDLE_PTR CAEN_FELib_GetHandle = (FEE_GET_HANDLE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
 			typedef int(__stdcall* FEE_SET_VALUE_PTR)(FEELibHandle handle, const char* path, const char* value);
@@ -1252,7 +1252,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 				uint32_t avail_word=0;
 				uint64_t ep_od_handle;
 				*read_data = 0;
-				
+
 				ReadReg(&avail_word, addressStatus);
 				avail_word = avail_word >> 8;
 				avail_word = avail_word > length ? length : avail_word;
@@ -1285,7 +1285,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			}
 
 		}
-		
+
 		break;
 	default:
 		break;
@@ -1305,7 +1305,7 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(
 		cout << "ReadFIFO-DMA  @" << channel << " Size: " << length << endl;
 		return NI_OK;
 		break;
-		
+
 	case BOARD_MODEL::DT1260:
 		return NI_NOT_IMPLEMENTED;
 		break;
@@ -1318,7 +1318,7 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(
 		}
 		// read FIFO from X5560 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_FIFO_PROC_PTR)(uint32_t channel, uint8_t* data, uint32_t length, uint32_t* read_data,  tR5560_Handle* handle);
 			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "NI_DMA_Read");
 #else
@@ -1337,7 +1337,7 @@ NI_RESULT SciSDK_HAL::ReadFIFODMA(
 				else {
 					*read_data = rd / 4;
 				}
-				
+
 				return r;
 			}
 			else {
@@ -1384,7 +1384,7 @@ NI_RESULT SciSDK_HAL::DMAConfigure(
 		}
 		// read FIFO from X5560 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* DMA_CONFIG_PTR)(uint32_t channel, uint32_t blocking, uint32_t timeout, uint32_t buffer_length, tR5560_Handle* handle);
 			DMA_CONFIG_PTR config_proc = (DMA_CONFIG_PTR)GetProcAddress(h_lib_instance, "NI_DMA_SetOptions");
 #else
@@ -1436,7 +1436,7 @@ NI_RESULT SciSDK_HAL::DMAEnable(
 	case BOARD_MODEL::X5560:
 
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* INTERNAL_REGISTER_WRITE_PTR)(uint32_t data, uint32_t address, tR5560_Handle* handle);
 			INTERNAL_REGISTER_WRITE_PTR internal_register_write= (INTERNAL_REGISTER_WRITE_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
 #else
@@ -1505,7 +1505,7 @@ string SciSDK_HAL::GetFirmwareTree() {
 		if (h_lib_instance != NULL) {
 			char* jsonString =(char*) malloc(2000000);
 			if (jsonString == NULL) return "";
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, char* jsonString, size_t size);
 			READ_REG_PROC_PTR CAEN_FELib_GetDeviceTree = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetDeviceTree");
 #else
@@ -1529,7 +1529,7 @@ string SciSDK_HAL::GetFirmwareTree() {
 			}
 
 		}
-		
+
 		break;
 	default:
 		break;
@@ -1554,7 +1554,7 @@ NI_RESULT SciSDK_HAL::SetBoardParamater(string path, string value){
 	case BOARD_MODEL::X2740:
 		// gettree
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, const char* path, const char* value);
 			READ_REG_PROC_PTR CAEN_FELib_SetValue = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
 #else
@@ -1599,7 +1599,7 @@ NI_RESULT SciSDK_HAL::GetBoardParamater(string path, string &value) {
 	case BOARD_MODEL::X2740:
 		// gettree
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__stdcall* READ_REG_PROC_PTR)(FEELibHandle handle, const char* path, const char* value);
 			READ_REG_PROC_PTR CAEN_FELib_GetValue = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetValue");
 #else
@@ -1650,7 +1650,7 @@ NI_RESULT SciSDK_HAL::FELib_GetHandle(uint64_t handle, const char* path, uint64_
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
 		FN_PTR CAEN_FELib_GetHandle = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetHandle");
 #else
@@ -1661,7 +1661,7 @@ NI_RESULT SciSDK_HAL::FELib_GetHandle(uint64_t handle, const char* path, uint64_
 			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_GetHandle(handle, path, pathHandle);
-			mtx.unlock();	
+			mtx.unlock();
 			return res;
 		}
 		else {
@@ -1677,7 +1677,7 @@ NI_RESULT SciSDK_HAL::FELib_GetParentHandle(uint64_t handle, const char* path, u
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(FEELibHandle handle, const char* path, uint64_t* pathHandle);
 		FN_PTR CAEN_FELib_GetParentHandle = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetParentHandle");
 #else
@@ -1705,7 +1705,7 @@ NI_RESULT SciSDK_HAL::FELib_GetValue(uint64_t handle, const char* path, char val
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path, char value[256]);
 		FN_PTR CAEN_FELib_GetValue = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_GetValue");
 #else
@@ -1732,7 +1732,7 @@ NI_RESULT SciSDK_HAL::FELib_SetValue(uint64_t handle, const char* path, const ch
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path, const char* value);
 		FN_PTR CAEN_FELib_SetValue = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
 #else
@@ -1759,7 +1759,7 @@ NI_RESULT SciSDK_HAL::FELib_SendCommand(uint64_t handle, const char* path) {
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* path);
 		FN_PTR CAEN_FELib_SendCommand = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SendCommand");
 #else
@@ -1786,7 +1786,7 @@ NI_RESULT SciSDK_HAL::FELib_SetReadDataFormat(uint64_t handle, const char* jsonS
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, const char* jsonString);
 		FN_PTR CAEN_FELib_SetReadDataFormat = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetReadDataFormat");
 #else
@@ -1815,7 +1815,7 @@ NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, int timeout, va_list args);
 		FN_PTR CAEN_FELib_ReadDataV = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadDataV");
 #else
@@ -1826,7 +1826,7 @@ NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
 			va_list args;
 
 			va_start(args, timeout);
-			
+
 			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_ReadDataV(handle, timeout, args);
@@ -1847,7 +1847,7 @@ NI_RESULT SciSDK_HAL::FELib_HasData(uint64_t handle, int timeout) {
 	if (_model != BOARD_MODEL::X2740) return NI_NOT_SUPPORTED;
 
 	if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef int(__stdcall* FN_PTR)(uint64_t handle, int timeout);
 		FN_PTR CAEN_FELib_HasData = (FN_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_HasData");
 #else
@@ -1886,7 +1886,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterSet(uint32_t value,
 	case BOARD_MODEL::X5560:
 		// write register of X5560 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tR5560_Handle* handle);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
 #else
@@ -1911,7 +1911,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterSet(uint32_t value,
 	case BOARD_MODEL::DT5771:
 		// write register of DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT5771_Handle* handle);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
 #else
@@ -1936,7 +1936,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterSet(uint32_t value,
 	case BOARD_MODEL::DT4810:
 		// write register of DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* WRITE_REG_PROC_PTR)(uint32_t value, uint32_t address, tDT4810_Handle* handle);
 			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalWriteReg");
 #else
@@ -1991,7 +1991,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
 	case BOARD_MODEL::X5560:
 		// read register from X5560 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tR5560_Handle* handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
 #else
@@ -2017,7 +2017,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
 	case BOARD_MODEL::DT5771:
 		// read register from DT5771 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT5771_Handle* handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
 #else
@@ -2039,11 +2039,11 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
 		}
 		return NI_ERROR;
 		break;
-		
+
 	case BOARD_MODEL::DT4810:
 		// read register from DT4810 board
 		if (h_lib_instance != NULL) {
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 			typedef int(__cdecl* READ_REG_PROC_PTR)(uint32_t* value, uint32_t address, tDT4810_Handle* handle);
 			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "NI_InternalReadReg");
 #else
@@ -2074,7 +2074,7 @@ NI_RESULT SciSDK_HAL::ConfigurationRegisterGet(uint32_t *value,
 	default:
 		return NI_ERROR;
 		break;
-		
+
 	}
 	return NI_OK;
 }
