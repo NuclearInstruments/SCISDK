@@ -11,17 +11,17 @@
 #include <string>
 using namespace std;
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 
 #else
-#define __cdecl 
+#define __cdecl
 #include <dlfcn.h>
 #include <link.h>
 #endif
 
 
-#ifdef _MSC_VER 
-#include <windows.h> 
+#ifdef _MSC_VER
+#include <windows.h>
 #else
 #define HINSTANCE void *
 #endif
@@ -30,7 +30,7 @@ typedef void* SCISDK_HANDLE;
 
 int GetSciSDKVersion() {
 	HINSTANCE h_lib_instance;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 	h_lib_instance = LoadLibrary(L"SciSDK_DLL.dll");
 #else
 	h_lib_instance = dlopen("libSCISDK.so", RTLD_LAZY);
@@ -43,7 +43,7 @@ int GetSciSDKVersion() {
 	else {
 		cout << "SciSDK library loaded correclty ..." << endl;
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		wchar_t path[1024];
 		if (GetModuleFileName(h_lib_instance, path, sizeof(path) / sizeof(wchar_t))) {
 			std::wcout << L"DLL Path: " << path << std::endl;
@@ -64,7 +64,7 @@ int GetSciSDKVersion() {
 		}
 
 #endif
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		typedef SCISDK_HANDLE(__cdecl* CONNECT_PROC_PTR)();
 		CONNECT_PROC_PTR _SCISDK_InitLib = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "SCISDK_InitLib");
 #else
@@ -80,7 +80,7 @@ int GetSciSDKVersion() {
 			}
 			else {
 				cout << "SCISDK_InitLib succeeded ..." << endl;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 				typedef int(__cdecl* CONNECT_PROC_PTR)(char** ret, SCISDK_HANDLE handle);
 				CONNECT_PROC_PTR _SCISDK_GetLibraryVersion = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "SCISDK_GetLibraryVersion");
 #else
@@ -106,7 +106,7 @@ int GetSciSDKVersion() {
 				}
 			}
 		}
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		FreeLibrary(h_lib_instance);
 #else
 		dlclose(h_lib_instance);
@@ -117,7 +117,7 @@ int GetSciSDKVersion() {
 
 void DependancyLibraryInfo(string lib) {
 	HINSTANCE h_lib_instance;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 	std::wstring stemp = std::wstring(lib.begin(), lib.end());
 	LPCWSTR sw = stemp.c_str();
 
@@ -133,7 +133,7 @@ void DependancyLibraryInfo(string lib) {
 	else {
 		wchar_t path[1024];
 		path[0] = 0;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 		if (GetModuleFileName(h_lib_instance, path, sizeof(path) / sizeof(wchar_t))) {
 		}
 		else {
@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
 	}
 	cout << "----------------------------------------" << endl;
 	cout << "Status of the board driver libraries:" << endl;
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 	DependancyLibraryInfo("SCIDK_Lib.dll");
 	DependancyLibraryInfo("R5560_SDKLib.dll");
 	DependancyLibraryInfo("DT5771_SDKLib.dll");
@@ -167,9 +167,9 @@ int main(int argc, char* argv[])
 	DependancyLibraryInfo("libr5560");
 	DependancyLibraryInfo("libdt5771.so");
 	DependancyLibraryInfo("libdt4810.so");
-	DependancyLibraryInfo("caen_feelib.so");
+	DependancyLibraryInfo("caen_felib.so");
 #endif
-	
+
 	return 0;
 
 }
