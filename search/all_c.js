@@ -55,8 +55,9 @@ var searchData=
   ['ni_5fresult_122',['NI_RESULT',['../_n_i_error_code_8h.html#a28c0be7ea74492ee124f8d5a7ae27cea',1,'NIErrorCode.h']]],
   ['ni_5fspecific_5ferror_123',['NI_SPECIFIC_ERROR',['../_n_i_error_code_8h.html#adf2d2a1081642e9b5036fc68dc09a28b',1,'NIErrorCode.h']]],
   ['ni_5fstatus_124',['NI_STATUS',['../_n_i_error_code_8h.html#ab15852d02bd1684b70a706e0f92903ad',1,'NIErrorCode.h']]],
-  ['ni_5ftimeout_125',['NI_TIMEOUT',['../_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9',1,'NIErrorCode.h']]],
-  ['ni_5ftoo_5fmany_5fdevices_5fconnected_126',['NI_TOO_MANY_DEVICES_CONNECTED',['../_n_i_error_code_8h.html#ae7b364ce8642ae38701fe8181f1c91ed',1,'NIErrorCode.h']]],
-  ['ni_5funable_5fto_5fload_5fexternal_5flibrary_127',['NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY',['../_n_i_error_code_8h.html#af45dcc9ecffc73294d2fe9df4e206f4a',1,'NIErrorCode.h']]],
-  ['nierrorcode_2eh_128',['NIErrorCode.h',['../_n_i_error_code_8h.html',1,'']]]
+  ['ni_5fthis_5fcode_5fshouldnot_5fbe_5fexecuted_125',['NI_THIS_CODE_SHOULDNOT_BE_EXECUTED',['../_n_i_error_code_8h.html#aa9bf3707fd739b94e0a9ab17e21033b4',1,'NIErrorCode.h']]],
+  ['ni_5ftimeout_126',['NI_TIMEOUT',['../_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9',1,'NIErrorCode.h']]],
+  ['ni_5ftoo_5fmany_5fdevices_5fconnected_127',['NI_TOO_MANY_DEVICES_CONNECTED',['../_n_i_error_code_8h.html#ae7b364ce8642ae38701fe8181f1c91ed',1,'NIErrorCode.h']]],
+  ['ni_5funable_5fto_5fload_5fexternal_5flibrary_128',['NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY',['../_n_i_error_code_8h.html#af45dcc9ecffc73294d2fe9df4e206f4a',1,'NIErrorCode.h']]],
+  ['nierrorcode_2eh_129',['NIErrorCode.h',['../_n_i_error_code_8h.html',1,'']]]
 ];

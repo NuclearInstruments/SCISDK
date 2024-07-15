@@ -49,6 +49,7 @@ var _n_i_error_code_8h =
     [ "NI_PARAMETER_MIN_MAX_NOT_SET", "_n_i_error_code_8h.html#a66c4606405785e7e152f71fbdc0af020", null ],
     [ "NI_PARAMETER_OUT_OF_RANGE", "_n_i_error_code_8h.html#aab5ad163c81f608b2630156b0c650316", null ],
     [ "NI_SPECIFIC_ERROR", "_n_i_error_code_8h.html#adf2d2a1081642e9b5036fc68dc09a28b", null ],
+    [ "NI_THIS_CODE_SHOULDNOT_BE_EXECUTED", "_n_i_error_code_8h.html#aa9bf3707fd739b94e0a9ab17e21033b4", null ],
     [ "NI_TIMEOUT", "_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9", null ],
     [ "NI_TOO_MANY_DEVICES_CONNECTED", "_n_i_error_code_8h.html#ae7b364ce8642ae38701fe8181f1c91ed", null ],
     [ "NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY", "_n_i_error_code_8h.html#af45dcc9ecffc73294d2fe9df4e206f4a", null ],
