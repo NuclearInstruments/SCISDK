@@ -810,6 +810,6 @@ bool SciSDK_Node::FindBoardApiParameterByName(string name,  SciSDK_Paramcb** p) 
 	while (getline(ss, item, '/')) {
 		substrings.push_back(item);
 	}
-	if (substrings.size() < 1) return NI_NOT_FOUND;
+	if (substrings.size() < 1) return false;
 	return FindParameterByName("boardapi/" + substrings[0] + "/**", p);
 }

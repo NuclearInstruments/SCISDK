@@ -248,7 +248,6 @@ NI_RESULT SciSDK_FFT::FreeBuffer(T_BUFFER_TYPE bt, void **buffer) {
 
 NI_RESULT SciSDK_FFT::ReadData(void *buffer) {
 	uint32_t dv;
-	uint32_t zero_posizition;
 	uint32_t rtimestamp[2];
 	uint64_t timestamp;
 	bool ready = false;

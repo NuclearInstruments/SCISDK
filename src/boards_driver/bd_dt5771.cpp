@@ -174,6 +174,8 @@ NI_RESULT bd_dt5771::ISetParamString(string name, string value)
 			return NI_OK;
 		}
 	}
+
+	return NI_THIS_CODE_SHOULDNOT_BE_EXECUTED;
 }
 
 NI_RESULT bd_dt5771::IGetParamString(string name, string* value) {

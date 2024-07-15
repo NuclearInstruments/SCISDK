@@ -18,7 +18,7 @@ void OpenDppDemo() {
 	out << "ch,timestamp" << endl;
 
 	//TEST DPP
-	res = sdk.AddNewDevice("10.105.250.18", "V2740", "C:/RegisterFile.json", "board0");
+	res = sdk.AddNewDevice("10.105.250.50", "V2740", "C:/temp/v2470test/RegisterFile.json", "board0");
 	sdk.p_error(res);
 	if (res) std::exit(res);
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/reset", ""));
@@ -222,7 +222,7 @@ int main()
 
 	//Just run one demo at time!
 
-	DemoSciCompilerRegister();
+	OpenDppDemo();
 
 
 	return 0;

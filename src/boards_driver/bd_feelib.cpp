@@ -99,7 +99,7 @@ NI_RESULT bd_feelib::ISetParamString(string name, string value)
 			return _hal->SetBoardParamater("/" + board_path, value);
 		}
 	}
-
+	return NI_THIS_CODE_SHOULDNOT_BE_EXECUTED;
 }
 
 NI_RESULT bd_feelib::IGetParamString(string name, string* value)
@@ -139,7 +139,7 @@ NI_RESULT bd_feelib::IGetParamString(string name, string* value)
 			return  _hal->GetBoardParamater("/" + board_path, *value);
 		}
 	}
-
+	return NI_THIS_CODE_SHOULDNOT_BE_EXECUTED;
 }
 
 int bd_feelib::ExtractRootPath(string fullpath, string &rootpath, string &board_path) {
@@ -206,13 +206,13 @@ NI_RESULT bd_feelib::ExecuteCommand(string cmd, string param) {
 	string rootpath;
 	string board_path;
 	int ret = ExtractRootPath(cmd, rootpath, board_path);
+	std::cout << cmd << "::" << rootpath << "::" << rootpath << endl;
 	if (ret) {
 		return NI_INVALID_PARAMETER_PATH;
 	}
 	if (rootpath == "felib") {
 		int ret = 0;
 		uint64_t handle;
-		uint64_t ep_handle;
 		if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
 		ret = _hal->FELib_SendCommand(handle, ("/" + board_path).c_str());
 		return ret;

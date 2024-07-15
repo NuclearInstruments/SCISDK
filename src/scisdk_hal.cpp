@@ -928,7 +928,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	uint32_t address,
 	uint32_t timeout_ms,
 	uint32_t *read_data) {
-	uint32_t rd, vd;
+	uint32_t rd=0,vd=0;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
 		
@@ -1114,7 +1114,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	uint32_t timeout_ms,
 	uint32_t *read_data) {
  
-	uint32_t rd, vd;
+	uint32_t rd;
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
 		cout << "ReadFIFO  @" << address << " Size: " << length << endl;
@@ -1365,7 +1365,7 @@ NI_RESULT SciSDK_HAL::DMAConfigure(
 	bool blocking,
 	uint32_t timeout,
 	uint32_t buffer_size) {
-	uint32_t rd;
+	
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
 		cout << "Configure-DMA  @" << channel << " Size: " << buffer_size <<  " Timeout: " << timeout << endl;
@@ -1421,7 +1421,7 @@ NI_RESULT SciSDK_HAL::DMAConfigure(
 NI_RESULT SciSDK_HAL::DMAEnable(
 	uint32_t channel,
 	bool enable) {
-	uint32_t rd;
+	
 	switch (_model) {
 	case BOARD_MODEL::FAKEBOARD:
 		cout << "Configure-DMA  @" << channel << " Enable: " << enable << endl;
@@ -1485,7 +1485,7 @@ string SciSDK_HAL::ReadFirmwareInformationApp() {
 		break;
 	}
 
-	return NI_OK;
+	return "";
 }
 
 
@@ -1535,7 +1535,7 @@ string SciSDK_HAL::GetFirmwareTree() {
 		break;
 	}
 
-	return NI_OK;
+	return "";
 }
 
 
@@ -1638,6 +1638,7 @@ NI_RESULT SciSDK_HAL::FELib_GetConnectionHandle(uint64_t *handle) {
 
 	if (h_lib_instance != NULL) {
 		*handle =*((uint64_t*) _handle);
+		return NI_OK;
 	}
 	else {
 		return NI_ERROR_INTERFACE;
@@ -1658,7 +1659,6 @@ NI_RESULT SciSDK_HAL::FELib_GetHandle(uint64_t handle, const char* path, uint64_
 		*(void**)(&CAEN_FELib_GetHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetHandle");
 #endif
 		if (CAEN_FELib_GetHandle) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_GetHandle(handle, path, pathHandle);
 			mtx.unlock();	
@@ -1685,7 +1685,6 @@ NI_RESULT SciSDK_HAL::FELib_GetParentHandle(uint64_t handle, const char* path, u
 		*(void**)(&CAEN_FELib_GetParentHandle) = dlsym(h_lib_instance, "CAEN_FELib_GetParentHandle");
 #endif
 		if (CAEN_FELib_GetParentHandle) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_GetParentHandle(handle, path, pathHandle);
 			mtx.unlock();
@@ -1713,7 +1712,6 @@ NI_RESULT SciSDK_HAL::FELib_GetValue(uint64_t handle, const char* path, char val
 		*(void**)(&CAEN_FELib_GetValue) = dlsym(h_lib_instance, "CAEN_FELib_GetValue");
 #endif
 		if (CAEN_FELib_GetValue) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_GetValue(handle, path, value);
 			mtx.unlock();
@@ -1740,7 +1738,6 @@ NI_RESULT SciSDK_HAL::FELib_SetValue(uint64_t handle, const char* path, const ch
 		*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
 #endif
 		if (CAEN_FELib_SetValue) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_SetValue(handle, path, value);
 			mtx.unlock();
@@ -1767,7 +1764,6 @@ NI_RESULT SciSDK_HAL::FELib_SendCommand(uint64_t handle, const char* path) {
 		*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
 #endif
 		if (CAEN_FELib_SendCommand) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_SendCommand(handle, path);
 			mtx.unlock();
@@ -1794,7 +1790,6 @@ NI_RESULT SciSDK_HAL::FELib_SetReadDataFormat(uint64_t handle, const char* jsonS
 		*(void**)(&CAEN_FELib_SetReadDataFormat) = dlsym(h_lib_instance, "CAEN_FELib_SetReadDataFormat");
 #endif
 		if (CAEN_FELib_SetReadDataFormat) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_SetReadDataFormat(handle, jsonString);
 			mtx.unlock();
@@ -1827,7 +1822,6 @@ NI_RESULT SciSDK_HAL::FELib_ReadData(uint64_t handle, int timeout, ...) {
 
 			va_start(args, timeout);
 			
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_ReadDataV(handle, timeout, args);
 			mtx.unlock();
@@ -1855,7 +1849,6 @@ NI_RESULT SciSDK_HAL::FELib_HasData(uint64_t handle, int timeout) {
 		*(void**)(&CAEN_FELib_HasData) = dlsym(h_lib_instance, "CAEN_FELib_HasData");
 #endif
 		if (CAEN_FELib_HasData) {
-			char v[300];
 			mtx.lock();
 			int res = CAEN_FELib_HasData(handle, timeout);
 			mtx.unlock();

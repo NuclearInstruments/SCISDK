@@ -128,8 +128,8 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
             return NI_PARAMETER_OUT_OF_RANGE;
         }
         else {
-			uint32_t rate = clock_fpga / value;
-            uint32_t prate = ((value * (1.0 / clock_dac))) * pow(2.0, 32);
+            uint32_t rate = (uint32_t)((clock_fpga) / value);
+            uint32_t prate = (uint32_t)(((value * (1.0 / clock_dac))) * pow(2.0, 32));
             ret |= _dev->SetRegister("/Registers/A_TB_RATE", rate);
             ret |= _dev->SetRegister("/Registers/A_TB_POISSON_P", prate);
             if (ret) return NI_ERROR_INTERFACE;
@@ -146,7 +146,7 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
         double Ma[8];
 		uint32_t MaI[8];
         for (int i = 0; i < 7; i++) {
-            float MX = Mf1;
+            float MX = (float) Mf1;
             for (int j = 0; j < i; j++) {
                 MX = MX * Mf1;
             }
@@ -619,7 +619,6 @@ NI_RESULT bd_dt4810::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size) {
 
 NI_RESULT bd_dt4810::WriteData(void* buffer) {
     int ret = 0;
-    uint64_t handle;
 
     if (buffer == NULL) {
         return NI_INVALID_BUFFER;
