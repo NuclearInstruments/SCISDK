@@ -53,6 +53,14 @@ private:
         struct {
             double tau;
             double rise;
+            double pulse_risetime;
+            double pulse_falltime;
+            double pulse_flattime;
+            double pulse_scale;
+            enum {
+                EXP,
+                PULSE
+            } mode;
         }shape;
 
         struct {

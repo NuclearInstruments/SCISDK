@@ -33,6 +33,9 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     RegisterParameter("boardapi/timebase.rate", "set generation rate", SciSDK_Paramcb::Type::d, this);
     const std::list<std::string> listOfTimebaseMode = { "fixed", "random"};
     const std::list<std::string> listOfAmplitudeMode = { "fixed", "spectrum" };
+
+    const std::list<std::string> listOfShapeMode = { "exp", "pulse" };
+
     RegisterParameter("boardapi/timebase.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfTimebaseMode, this);
     RegisterParameter("boardapi/timebase.parallizable", "set parallizable machine mode", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/timebase.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64,  this);
@@ -46,6 +49,12 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
 
     RegisterParameter("boardapi/shape.drc.decay", "set decay constant for DRC", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/shape.drc.risetime", "set risetime for DRC", SciSDK_Paramcb::Type::d, this);
+
+    RegisterParameter("boardapi/shape.pulse.risetime", "set the pulse rise time", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.pulse.falltime", "set the pulse fall time", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.pulse.flat", "set the pulse flat width", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.pulse.scale", "set the decimator on the pulse", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/shape.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfTimebaseMode, this);
 
     RegisterParameter("boardapi/noise.gauss.enable", "enable disable gaussian noise generator", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/noise.gauss.gain", "set magniture of gaussian noise", SciSDK_Paramcb::Type::d, this);
@@ -85,6 +94,12 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     hw_config.shape.tau = 2;
     hw_config.timebase.mode = hw_config.timebase.PERIODIC;
     hw_config.timebase.rate = 1000;
+
+    hw_config.shape.pulse_risetime = 32.0;
+    hw_config.shape.pulse_flattime = 1024.0;
+    hw_config.shape.pulse_falltime = 32.0;
+    hw_config.shape.pulse_scale = 1.0;
+    hw_config.shape.mode = hw_config.shape.EXP;
 
 }
 
@@ -220,7 +235,38 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
         hw_config.shape.rise = value;
         return NI_OK;
     }
-    
+
+    if (name == "shape.pulse.risetime") {
+        hw_config.shape.pulse_risetime = value;
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime)* hw_config.shape.pulse_scale > 4090 * clock_dac) {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime /clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+    }
+    if (name == "shape.pulse.falltime") {
+        hw_config.shape.pulse_falltime = value;
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4090 * clock_dac) {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime / clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+    }
+    if (name == "shape.pulse.flat") {
+        hw_config.shape.pulse_flattime = value;
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4090 * clock_dac) {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime / clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+    }
+    if (name == "shape.pulse.scale") {
+        hw_config.shape.pulse_scale = value;
+    }
+
     if (name == "noise.gauss.gain") {
 		uint32_t g = value * 0xFFFF;
         ret = _dev->SetRegister("/Registers/A_NS_GAUSS_GAIN", g);
@@ -275,6 +321,24 @@ NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
 
     if (name == "noise.gauss.gain") {
 		*value = hw_config.noise.gaussian.gain;
+    }
+
+
+
+    if (name == "shape.pulse.risetime") {
+        *value = hw_config.shape.pulse_risetime;
+    }
+
+    if (name == "shape.pulse.falltime") {
+        *value = hw_config.shape.pulse_falltime;
+    }
+
+    if (name == "shape.pulse.flat") {
+        *value = hw_config.shape.pulse_flattime;
+    }
+
+    if (name == "shape.pulse.scale") {
+        *value = hw_config.shape.pulse_scale;
     }
 
     if (name == "mon.icr") {
@@ -423,6 +487,25 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
 
     }
 
+    if (name == "shape.mode") {
+        if (value == "exp") {
+            ret = _dev->SetRegister("/Registers/A_SH_SHAPEMODE", 0x0);
+            hw_config.shape.mode = hw_config.shape.EXP;
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "pulse") {
+            ret = _dev->SetRegister("/Registers/A_SH_SHAPEMODE", 0x1);
+            hw_config.shape.mode = hw_config.shape.PULSE;
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+
+    }
+
 
     if (name == "noise.gauss.enable") {
         if (value == "true") {
@@ -553,6 +636,7 @@ NI_RESULT bd_dt4810::IGetParamString(string name, string* value) {
         return NI_OK;
 
     }
+
     return NI_INVALID_PARAMETER;
 }
 
