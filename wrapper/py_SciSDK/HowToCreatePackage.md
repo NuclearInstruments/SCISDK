@@ -5,6 +5,7 @@
 ```bash
 pip install hatchling
 pip install twine
+python -m pip install build
 ```
 
 ## Compile Package
