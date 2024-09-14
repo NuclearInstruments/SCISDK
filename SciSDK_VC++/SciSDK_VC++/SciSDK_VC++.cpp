@@ -18,7 +18,7 @@ void OpenDppDemo() {
 	out << "ch,timestamp" << endl;
 
 	//TEST DPP
-	res = sdk.AddNewDevice("10.105.250.50", "V2740", "C:/temp/v2470test/RegisterFile.json", "board0");
+	res = sdk.AddNewDevice("192.168.102.153", "V2740", "C:/OpenHardware/UserProject/v2740scisdkbug/library/RegisterFile.json", "board0");
 	sdk.p_error(res);
 	if (res) std::exit(res);
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/reset", ""));
@@ -56,6 +56,10 @@ void OpenDppDemo() {
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/armacquisition", ""));
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/swstartacquisition", ""));
 
+	string buffer_type;
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/readout.buffer_type", &buffer_type));
+
+	cout << "buffer_type: " << buffer_type << endl;
 
 	SCISDK_FE_OPENDPP_EVENT* dpp_evnt;
 
@@ -76,7 +80,7 @@ void OpenScopeDemo() {
 	int res = 0;
 	
 	//TEST SCOPE
-	res = sdk.AddNewDevice("10.105.250.18", "V2740", "SciSDKDev2740Wave.json", "board0");
+	res = sdk.AddNewDevice("192.168.102.153", "V2740", "C:/OpenHardware/UserProject/v2740scisdkbug/library/RegisterFile.json", "board0");
 
 	//TEST PARTE CAEN
 
@@ -93,6 +97,12 @@ void OpenScopeDemo() {
 	sdk.p_error(sdk.SetParameter("board0:/boardapi/felib/par/TestPulseWidth", "1000"));
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/armacquisition", ""));
 	sdk.p_error(sdk.ExecuteCommand("board0:/boardapi/felib/cmd/swstartacquisition", ""));
+
+	string buffer_type;
+	sdk.p_error(sdk.GetParameter("board0:/boardapi/buffer_type", &buffer_type));
+
+	cout << "buffer_type: " << buffer_type << endl;
+
 
 	SCISDK_FE_SCOPE_EVENT* evnt;
 	sdk.p_error(sdk.AllocateBuffer("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&evnt, 50));
@@ -222,8 +232,8 @@ int main()
 
 	//Just run one demo at time!
 
-	OpenDppDemo();
-
+	//OpenDppDemo();
+	OpenScopeDemo();
 
 	return 0;
 

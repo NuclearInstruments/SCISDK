@@ -148,7 +148,13 @@ class SciSDK:
     def AllocateBuffer(self, path: str, size = None):
         buffer_pointer = None
         buffer_type = 0
-        res, type = self.GetParameterString(path+".buffer_type")
+        if path.endswith("board_api") :
+            res, type = self.GetParameterString(path+"/buffer_type")
+        if path.endswith("board_api/") :
+            res, type = self.GetParameterString(path+"buffer_type")
+        else:
+            res, type = self.GetParameterString(path+".buffer_type")
+
         if(res == 0):
             if type == "SCISDK_OSCILLOSCOPE_DECODED_BUFFER":
                 buffer_pointer = ctypes.POINTER(OscilloscopeDecodedBuffer)
@@ -200,8 +206,10 @@ class SciSDK:
                 buffer_pointer = ctypes.POINTER(PetirocRawBuffer)      
             elif type == "SCISDK_FE_SCOPE_EVENT":
                 buffer_pointer = ctypes.POINTER(FEScopePacket)
+                buffer_type = 1
             elif type == "SCISDK_FE_OPENDPP_EVENT":
-                buffer_pointer = ctypes.POINTER(FEOpenDppPacket)      
+                buffer_pointer = ctypes.POINTER(FEOpenDppPacket)  
+                buffer_type = 1    
             else:
                 raise Exception("Isn't a valid buffer type") 
 
@@ -233,6 +241,7 @@ class SciSDK:
                     return err, buffer
                 else:
                     return err, None
+
 
 
     # read data

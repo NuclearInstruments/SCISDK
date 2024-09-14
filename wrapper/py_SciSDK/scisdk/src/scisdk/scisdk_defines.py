@@ -318,13 +318,16 @@ class PetirocRawBuffer(ctypes.Structure):
                 ('info', PetirocRawBufferInfo)]
 
 # FE-Scope packet
+# FE-Scope packet
 class FEScopePacket(ctypes.Structure):
     _fields_ = [('timestamp', ctypes.c_uint64),
-                ('trigger_id', ctypes.c_uint32),
-                ('event_size', ctypes.c_uint32),
+                ('trigger_id', ctypes.c_size_t),
+                ('event_size', ctypes.c_size_t),
                 ('waveform', ctypes.POINTER(ctypes.POINTER(ctypes.c_uint16))),
-                ('n_samples', ctypes.POINTER(ctypes.c_uint32)),
+                ('n_samples', ctypes.POINTER(ctypes.c_size_t)),
+                ('n_allocated_samples', ctypes.POINTER(ctypes.c_size_t)),
                 ('n_channels', ctypes.c_uint32)]
+
 
 
 # FE_OpenDpp packet
