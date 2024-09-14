@@ -1,3 +1,8 @@
+# scisdk (1.2.64)
+  * fixed openscope X27XX Python support
+  * spectrum limit mode time/counts now works (require new scicompiler)
+  * updated linux FElib file names
+
 # scisdk (1.2.57)
   * support to the DT5771 front end
   * support to the DT/R5560 analog front end configuration (requires device system update > 2024.4.10.1)
