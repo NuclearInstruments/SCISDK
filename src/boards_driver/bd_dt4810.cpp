@@ -54,7 +54,7 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     RegisterParameter("boardapi/shape.pulse.falltime", "set the pulse fall time", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/shape.pulse.flat", "set the pulse flat width", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/shape.pulse.scale", "set the decimator on the pulse", SciSDK_Paramcb::Type::d, this);
-    RegisterParameter("boardapi/shape.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfTimebaseMode, this);
+    RegisterParameter("boardapi/shape.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfShapeMode, this);
 
     RegisterParameter("boardapi/noise.gauss.enable", "enable disable gaussian noise generator", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/noise.gauss.gain", "set magniture of gaussian noise", SciSDK_Paramcb::Type::d, this);
@@ -137,7 +137,8 @@ NI_RESULT bd_dt4810::IGetParamU32(string name, uint32_t *value)
 NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
 {
     int ret = 0;
-
+    double dacTs = 1e9 / clock_dac;
+    double fpgaTS = 1e9 / clock_fpga;
     if (name == "timebase.rate") {
         if ((value > 10000000) || (value < 0)) {
             return NI_PARAMETER_OUT_OF_RANGE;
@@ -237,31 +238,56 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
     }
 
     if (name == "shape.pulse.risetime") {
-        hw_config.shape.pulse_risetime = value;
-        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime)* hw_config.shape.pulse_scale > 4090 * clock_dac) {
+        
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime)* hw_config.shape.pulse_scale > 4093 * fpgaTS) {
             return NI_PARAMETER_OUT_OF_RANGE;
         }
-        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime /clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+
+        hw_config.shape.pulse_risetime = value;
+        uint32_t r;
+        r = hw_config.shape.pulse_risetime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_LE", r<1?1:r);
+        r = hw_config.shape.pulse_flattime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", r < 1 ? 1 : r);
+        r = hw_config.shape.pulse_falltime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", r < 1 ? 1 : r);
+        return NI_OK;
     }
     if (name == "shape.pulse.falltime") {
-        hw_config.shape.pulse_falltime = value;
-        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4090 * clock_dac) {
+        
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4093 * fpgaTS) {
             return NI_PARAMETER_OUT_OF_RANGE;
         }
-        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime / clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+
+        hw_config.shape.pulse_falltime = value;
+
+        uint32_t r;
+        r = hw_config.shape.pulse_risetime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_LE", r < 1 ? 1 : r);
+        r = hw_config.shape.pulse_flattime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", r < 1 ? 1 : r);
+        r = hw_config.shape.pulse_falltime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", r < 1 ? 1 : r);
+
+        return NI_OK;
     }
     if (name == "shape.pulse.flat") {
-        hw_config.shape.pulse_flattime = value;
-        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4090 * clock_dac) {
+        
+        if ((hw_config.shape.pulse_risetime + hw_config.shape.pulse_flattime + hw_config.shape.pulse_falltime) * hw_config.shape.pulse_scale > 4093 * fpgaTS) {
             return NI_PARAMETER_OUT_OF_RANGE;
         }
-        ret = _dev->SetRegister("/Registers/A_SH_LE", hw_config.shape.pulse_risetime / clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_PE", hw_config.shape.pulse_flattime / clock_dac);
-        ret = _dev->SetRegister("/Registers/A_SH_TE", hw_config.shape.pulse_falltime / clock_dac);
+        
+        hw_config.shape.pulse_flattime = value;
+
+        uint32_t r;
+        r = hw_config.shape.pulse_risetime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_LE", r < 1 ? 1 : r);
+        r = hw_config.shape.pulse_flattime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_PE", r < 1 ? 1 : r);
+        r = hw_config.shape.pulse_falltime / (fpgaTS);
+        ret = _dev->SetRegister("/Registers/A_SH_TE", r < 1 ? 1 : r);
+
+        return NI_OK;
     }
     if (name == "shape.pulse.scale") {
         hw_config.shape.pulse_scale = value;
