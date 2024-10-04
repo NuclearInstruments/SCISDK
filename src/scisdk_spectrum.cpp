@@ -281,17 +281,18 @@ NI_RESULT SciSDK_Spectrum::ConfigureSpectrum() {
 		limit_reg = 0;
 		break;
 	case LIMIT_TYPE::TIME:
-		limit_reg = (2 << 29);
+		limit_reg = (2 << 30);
 		break;
 	case LIMIT_TYPE::TOTAL_CNT:
-		limit_reg = (1 << 29);
+		limit_reg = (1 << 30);
 		break;
 	case LIMIT_TYPE::PEAK_CNT:
-		limit_reg = (3 << 29);
+		limit_reg = (3 << 30);
 		break;
 
 	}
 
+	limit_reg = limit_reg + limit_value;
 	ret |= _hal->WriteReg(limit_reg, address.cfg_limit);
 
 	if (ret)
@@ -361,17 +362,30 @@ NI_RESULT SciSDK_Spectrum::ExecuteCommand(string cmd, string param) {
 	return NI_INVALID_COMMAND;
 }
 
-NI_RESULT SciSDK_Spectrum::CheckSpectrum(bool *running, bool *completed, uint32_t *limitcnt,
+NI_RESULT SciSDK_Spectrum::CheckSpectrum(bool *running, bool *completed, uint32_t *progress,
 	uint32_t *peak_max, uint32_t *total_counter, double *integration_time)
 {
 	uint32_t status;
 	if (_hal->ReadReg(&status, address.status)) return NI_ERROR_INTERFACE;
 	*running = (status & 0x1) ? true : false;
 	*completed = ((status >> 1) & 0x1) ? true : false;
-	*limitcnt = (status >> 4);
-	*peak_max = 0;
+	uint32_t limitcnt = (status >> 4);
 	*total_counter = 0;
-	integration_time = 0;
+	*integration_time = 0;
+	*peak_max = 0;
+	if (spectrum_limit == LIMIT_TYPE::TOTAL_CNT){
+		*total_counter = limitcnt;
+	}
+	else if (spectrum_limit == LIMIT_TYPE::TIME){
+		*integration_time = static_cast<double>(limitcnt);
+	}
+
+	if (limit_value != 0) {
+        *progress = (limitcnt * 100) / limit_value;  
+    } else {
+        *progress = 0;
+    }
+
 	return NI_OK;
 }
 
