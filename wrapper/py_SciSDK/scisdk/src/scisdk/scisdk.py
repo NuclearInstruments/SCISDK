@@ -135,7 +135,7 @@ class SciSDK:
         return err
 
     def GetParameterDouble(self, path:str):
-        get_parameter_api = self.scisdk_dll.SCISDK_SetParameterDouble
+        get_parameter_api = self.scisdk_dll.SCISDK_GetParameterDouble
         get_parameter_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double), ctypes.c_void_p]
         get_parameter_api.restype = ctypes.c_int
         # convert string to bytes array
