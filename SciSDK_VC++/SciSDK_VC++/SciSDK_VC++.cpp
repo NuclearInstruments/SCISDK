@@ -136,10 +136,10 @@ void DemoSciCompilerRegister() {
 
 void DemoSciCompilerOscilloscope() {
 	int res = 0;
-	res = sdk.AddNewDevice("10.105.250.18", "V2740", "SciSDKDev2740Wave.json", "board0");
+	res = sdk.AddNewDevice("v2740.sw", "V2740", "C:/OpenHardware/UserProject/v2740scisdkbug/library/RegisterFile.json", "board0");
 	
 	//// OSCILLOSCOPE (decoded & raw)
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "analog"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_mode", "free"));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.trigger_level", 33000));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.pretrigger", 150));
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/Oscilloscope_0.decimator", 0));
@@ -156,7 +156,7 @@ void DemoSciCompilerOscilloscope() {
 	if (res == NI_OK) {
 		cout << "Oscilloscope TS: " << ob->timecode << endl;
 		for (int i = 0; i < ob->info.samples_analog; i++) {
-			out << ob->analog[i] << endl;
+			cout << ob->analog[i] << endl;
 		}
 	}
 	sdk.FreeBuffer("board0:/MMCComponents/Oscilloscope_0", T_BUFFER_TYPE_DECODED, (void**)&ob);
@@ -233,7 +233,8 @@ int main()
 	//Just run one demo at time!
 
 	//OpenDppDemo();
-	OpenScopeDemo();
+	//OpenScopeDemo();
+	DemoSciCompilerOscilloscope();
 
 	return 0;
 

@@ -354,6 +354,32 @@ class FEOpenDppPacket(ctypes.Structure):
 
 
 
+class EmulatorEnergySpectrumInfo(ctypes.Structure):
+    _fields_ = [
+        ('allocated_bins', ctypes.c_uint32),
+        ('valid_bins', ctypes.c_uint32)
+    ]
+
+# Detector emulator energy spectrum
+class EmulatorEnergySpectrum(ctypes.Structure):
+    _fields_ = [
+        ('magic', ctypes.c_uint32),               
+        ('data', ctypes.POINTER(ctypes.c_uint32)),
+        ('info', EmulatorEnergySpectrumInfo)
+    ]
+
+    def __init__(self, num_bins=16384):
+        super().__init__()
+
+        # Initializer 'magic' e 'info'
+        self.magic = 12347
+        self.info.allocated_bins = num_bins  # allocated bins
+        self.info.valid_bins = 0  # valid bins
+
+        # allocate array of num_bins
+        self.c_array = (ctypes.c_uint32 * num_bins)()
+        self.data = ctypes.cast(self.c_array, ctypes.POINTER(ctypes.c_uint32))
+
 class NIErrors:
     NI_OK = 0x00000000
     NI_ERROR_GENERIC = 0x00000001

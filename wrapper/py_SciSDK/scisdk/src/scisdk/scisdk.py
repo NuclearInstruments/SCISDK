@@ -102,6 +102,27 @@ class SciSDK:
         err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.byref(ret_int), self.lib_ptr)
         return err, ret_int.value
 
+    def SetParameterUInteger(self, path: str, val: int) -> int:
+        set_parameter_api = self.scisdk_dll.SCISDK_SetParameterUInteger
+        set_parameter_api.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_void_p]
+        set_parameter_api.restype = ctypes.c_uint
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        # call C lib function
+        err = set_parameter_api(ctypes.c_char_p(path_b), val, self.lib_ptr)
+        return err
+
+    def GetParameterUInteger(self, path: str):
+        get_parameter_api = self.scisdk_dll.SCISDK_GetParameterUInteger
+        get_parameter_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_int), ctypes.c_void_p]
+        get_parameter_api.restype = ctypes.c_int
+        # convert string to bytes array
+        path_b = path.encode('utf-8')
+        ret_int = ctypes.c_uint()
+        # call C lib function
+        err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.byref(ret_int), self.lib_ptr)
+        return err, ret_int.value
+    
     def SetParameterString(self, path: str, value: str):
         set_parameter_api = self.scisdk_dll.SCISDK_SetParameterString
         set_parameter_api.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_void_p]
@@ -501,3 +522,32 @@ class SciSDK:
         ret_char_p = ctypes.c_char_p()
         err = get_library_version_api(ctypes.byref(ret_char_p), self.lib_ptr)
         return err, ret_char_p.value.decode('utf-8')
+
+    def WriteData(self, path: str, buffer):
+        """
+        Writes data from the given buffer to the specified path in the device.
+        
+        This function handles the buffer for EmulatorEnergySpectrum type and
+        prepares the data before calling the SCISDK_WriteData C function.
+        """
+        # Define the C function for writing data
+        write_data_api = self.scisdk_dll.SCISDK_WriteData
+
+        # Check if the buffer is an instance of EmulatorEnergySpectrum
+        if isinstance(buffer, EmulatorEnergySpectrum):
+
+            # Set up the argument types for the C function
+            write_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(EmulatorEnergySpectrum), ctypes.c_void_p]
+
+            # Convert the path to bytes (C compatible string)
+            path_b = path.encode('utf-8')
+
+            # Call the SCISDK_WriteData function with the path and buffer pointer
+            err = write_data_api(ctypes.c_char_p(path_b), ctypes.byref(buffer), self.lib_ptr)
+
+            # Return the error code from the C API call
+            return err
+        else:
+            raise Exception(f"Invalid buffer type: {type(buffer).__name__}. Expected EmulatorEnergySpectrum.")
+
+
