@@ -36,6 +36,9 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
 
     const std::list<std::string> listOfShapeMode = { "exp", "pulse" };
 
+    const std::list<std::string> listOfIoOutput = { "disabled", "run", "trigger", "trigger_valid", "saturation", "loopback"};
+    const std::list<std::string> listOfIoInput = { "disabled", "trigger_gate", "trigger_veto", "output_gate", "output_veto", "trigger_external"};
+
     RegisterParameter("boardapi/timebase.mode", "set timebase mode", SciSDK_Paramcb::Type::str, listOfTimebaseMode, this);
     RegisterParameter("boardapi/timebase.parallizable", "set parallizable machine mode", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/timebase.seed1", "set timebase seed 1", SciSDK_Paramcb::Type::U64,  this);
@@ -69,6 +72,9 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     RegisterParameter("boardapi/main.output.enable", "enable output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
     RegisterParameter("boardapi/main.output.gate", "gate output", SciSDK_Paramcb::Type::str, listOfTrueFalse, this);
 
+    RegisterParameter("boardapi/main.io.output", "io output mode", SciSDK_Paramcb::Type::str, listOfIoOutput, this);
+    RegisterParameter("boardapi/main.io.input", "io input mode", SciSDK_Paramcb::Type::str, listOfIoInput, this);
+    RegisterParameter("boardapi/main.io.width", "io output pulse width", SciSDK_Paramcb::Type::d, this);
 
     RegisterParameter("boardapi/mon.icr", "input count rate", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/mon.ocr", "output count rate", SciSDK_Paramcb::Type::d, this);
@@ -318,6 +324,17 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
 
     }
 
+    if (name == "main.io.width") {
+        uint32_t g = value / (fpgaTS);
+        uint32_t reg_value;
+        g = g > 0xFFFF ? 0xFFFF : g;
+        _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+        reg_value = (reg_value & 0x0000FFFF) + (g << 16);
+        ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+        return NI_OK;
+    }
+
 
     return NI_INVALID_PARAMETER;
     
@@ -327,7 +344,8 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
 NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
 {
     int ret = 0;
-    
+    double fpgaTS = 1e9 / clock_fpga;
+
     if (name == "timebase.rate") {
         uint32_t rate;
         ret = _dev->GetRegister("/Registers/A_TB_RATE", &rate);
@@ -467,6 +485,11 @@ NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
         *value = (double)u64;
     }
 
+    if (name == "main.io.width") {
+        uint32_t l;
+        ret = _dev->GetRegister("/Registers/A_OM_IO", &l);
+        *value = ((double)(l >> 16)) * fpgaTS;
+    }
 
     return NI_INVALID_PARAMETER;
 
@@ -605,12 +628,127 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
             return NI_PARAMETER_OUT_OF_RANGE;
         }
     }
+
+
+    if (name == "main.io.output") {
+        if (value == "disabled") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00)  | (0x0);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "run") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00) | (0x1);
+            cout << endl << endl << "                           RUN: " << reg_value << endl << endl;
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "trigger") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00) | (0x2);
+            cout << endl << endl << "                           TRIGGER: " << reg_value << endl << endl;
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "trigger_valid") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00) | (0x3);
+            cout << endl << endl << "                           TRIGGER VALID: " << reg_value << endl << endl;
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "saturation") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00) | (0x4);
+            cout << endl << endl << "                           SATURATION: " << reg_value << endl << endl;
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "loopback") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFFFF00) | (0x5);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+    }
+
+
+    if (name == "main.io.input") {
+        if (value == "disabled") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x0 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "trigger_gate") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x1 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "trigger_veto") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x2 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "output_gate") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x3 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "output_veto") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x4 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else if (value == "trigger_external") {
+            uint32_t reg_value;
+            _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+            reg_value = (reg_value & 0xFFFF00FF) | (0x5 << 8);
+            ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
+            if (ret) return NI_ERROR_INTERFACE;
+            return NI_OK;
+        }
+        else {
+            return NI_PARAMETER_OUT_OF_RANGE;
+        }
+    }
     
     return NI_INVALID_PARAMETER;
 }
 
 NI_RESULT bd_dt4810::IGetParamString(string name, string* value) {
     int ret;
+    uint32_t reg_value;
     if (name == "fwver") {
 		uint32_t u32;
         ret = _dev->GetRegister("/Registers/a_FWVER", &u32);
@@ -662,6 +800,95 @@ NI_RESULT bd_dt4810::IGetParamString(string name, string* value) {
         return NI_OK;
 
     }
+
+    if (name == "timebase.mode") {
+        ret = _dev->GetRegister("/Registers/A_TB_MODE", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x0) ? "fixed" : "random";
+        return NI_OK;
+    }
+
+    if (name == "amplitude.mode") {
+        ret = _dev->GetRegister("/Registers/A_EN_MODE", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x0) ? "fixed" : "spectrum";
+        return NI_OK;
+    }
+
+    if (name == "shape.mode") {
+        ret = _dev->GetRegister("/Registers/A_SH_SHAPEMODE", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x0) ? "exp" : "pulse";
+        return NI_OK;
+    }
+
+    if (name == "noise.gauss.enable") {
+        ret = _dev->GetRegister("/Registers/A_NS_ENABLE", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x1) ? "true" : "false";
+        return NI_OK;
+    }
+
+    if (name == "main.output.enable") {
+        ret = _dev->GetRegister("/Registers/A_OM_ON", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x1) ? "true" : "false";
+        return NI_OK;
+    }
+
+    if (name == "main.output.gate") {
+        ret = _dev->GetRegister("/Registers/A_OM_GATE", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x1) ? "true" : "false";
+        return NI_OK;
+    }
+
+    if (name == "main.invert") {
+        ret = _dev->GetRegister("/Registers/A_OM_INVERT", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        *value = (reg_value == 0x0) ? "true" : "false";
+        return NI_OK;
+    }
+
+    if (name == "main.io.output") {
+        ret = _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        switch (reg_value & 0xFF) {
+        case 0x0: *value = "disabled"; break;
+        case 0x1: *value = "run"; break;
+        case 0x2: *value = "trigger"; break;
+        case 0x3: *value = "trigger_valid"; break;
+        case 0x4: *value = "saturation"; break;
+        case 0x5: *value = "loopback"; break;
+        default: return NI_PARAMETER_OUT_OF_RANGE;
+        }
+        return NI_OK;
+    }
+
+    if (name == "main.io.input") {
+        ret = _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
+        if (ret) return NI_ERROR_INTERFACE;
+
+        switch ((reg_value >> 8) & 0xFF) {
+        case 0x0: *value = "disabled"; break;
+        case 0x1: *value = "trigger_gate"; break;
+        case 0x2: *value = "trigger_veto"; break;
+        case 0x3: *value = "output_gate"; break;
+        case 0x4: *value = "output_veto"; break;
+        case 0x5: *value = "trigger_external"; break;
+        default: return NI_PARAMETER_OUT_OF_RANGE;
+        }
+        return NI_OK;
+    }
+
 
     return NI_INVALID_PARAMETER;
 }

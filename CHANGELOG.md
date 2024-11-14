@@ -1,3 +1,7 @@
+# scisdk (1.2.65)
+  * dt4810 manage of io
+  * dt4810 readback string parameters from hardware
+  
 # scisdk (1.2.64)
   * fixed openscope X27XX Python support
   * spectrum limit mode time/counts now works (require new scicompiler)
