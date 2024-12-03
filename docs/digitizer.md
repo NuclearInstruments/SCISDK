@@ -41,7 +41,6 @@ The following parameters can be configured:
 | acq_mode              | R/W        | select blocking/non-blocking mode                                                        | blocking      |
 | timeout               | R/W        | set the timout in ms in blocking mode                                                    | 100           |
 | high_performance      | R/W        | if true the internal FIFO access lock the bus in priority mode.                          | false         |
-| check_align_word      | R/W        | if true, check the packet alignment                                                      | false         |
 | data_processing       | R/W        | set data processing mode: raw, decode                                                    | decode        |
 | enabledch             | R/W        | number of enabled channels.                                                              | --all ch--    |
 | buffer_type           | R          | get buffer type: SCISDK_OSCILLOSCOPE_RAW_BUFFER or SCISDK_OSCILLOSCOPE_DECODED_BUFFER    |               |
