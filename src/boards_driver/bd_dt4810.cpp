@@ -75,6 +75,7 @@ bd_dt4810::bd_dt4810(SciSDK_HAL *hal, void *dev, json j, string path) : SciSDK_N
     RegisterParameter("boardapi/main.io.output", "io output mode", SciSDK_Paramcb::Type::str, listOfIoOutput, this);
     RegisterParameter("boardapi/main.io.input", "io input mode", SciSDK_Paramcb::Type::str, listOfIoInput, this);
     RegisterParameter("boardapi/main.io.width", "io output pulse width", SciSDK_Paramcb::Type::d, this);
+    RegisterParameter("boardapi/main.io.delay", "io output pulse delay", SciSDK_Paramcb::Type::d, this);
 
     RegisterParameter("boardapi/mon.icr", "input count rate", SciSDK_Paramcb::Type::d, this);
     RegisterParameter("boardapi/mon.ocr", "output count rate", SciSDK_Paramcb::Type::d, this);
@@ -177,7 +178,7 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
             cout << "Ma[" << i << "] : " << std::hex << (uint64_t)(Ma[i] * (0xFFFFFFFF)) << "   ";
         }
 
-		double ratio = clock_dac / clock_fpga;
+		double ratio =2* clock_dac / clock_fpga;
         double Mf2 = 1 / (exp(ratio * deltaT / tau));
         double M = Mf2;
         uint32_t MI = M * 0xFFFF;
@@ -336,6 +337,14 @@ NI_RESULT bd_dt4810::ISetParamDouble(string name, double value)
     }
 
 
+    if (name == "main.io.delay") {
+        uint32_t d = value / (fpgaTS);
+        d = d > 4095 ? 4095 : d;
+        ret = _dev->SetRegister("/Registers/A_OM_IO_DELAY", d);
+        if (ret) return NI_ERROR_INTERFACE;
+        return NI_OK;
+    }
+
     return NI_INVALID_PARAMETER;
     
     
@@ -491,6 +500,12 @@ NI_RESULT bd_dt4810::IGetParamDouble(string name, double* value)
         *value = ((double)(l >> 16)) * fpgaTS;
     }
 
+    if (name == "main.io.delay") {
+        uint32_t l;
+        ret = _dev->GetRegister("/Registers/A_OM_IO_DELAY", &l);
+        *value = ((double)(l)) * fpgaTS;
+    }
+
     return NI_INVALID_PARAMETER;
 
 }
@@ -643,7 +658,7 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
             uint32_t reg_value;
             _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
             reg_value = (reg_value & 0xFFFFFF00) | (0x1);
-            cout << endl << endl << "                           RUN: " << reg_value << endl << endl;
+            //cout << endl << endl << "                           RUN: " << reg_value << endl << endl;
             ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
             if (ret) return NI_ERROR_INTERFACE;
             return NI_OK;
@@ -652,7 +667,7 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
             uint32_t reg_value;
             _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
             reg_value = (reg_value & 0xFFFFFF00) | (0x2);
-            cout << endl << endl << "                           TRIGGER: " << reg_value << endl << endl;
+            //cout << endl << endl << "                           TRIGGER: " << reg_value << endl << endl;
             ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
             if (ret) return NI_ERROR_INTERFACE;
             return NI_OK;
@@ -661,7 +676,7 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
             uint32_t reg_value;
             _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
             reg_value = (reg_value & 0xFFFFFF00) | (0x3);
-            cout << endl << endl << "                           TRIGGER VALID: " << reg_value << endl << endl;
+            //cout << endl << endl << "                           TRIGGER VALID: " << reg_value << endl << endl;
             ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
             if (ret) return NI_ERROR_INTERFACE;
             return NI_OK;
@@ -670,7 +685,7 @@ NI_RESULT bd_dt4810::ISetParamString(string name, string value) {
             uint32_t reg_value;
             _dev->GetRegister("/Registers/A_OM_IO", &reg_value);
             reg_value = (reg_value & 0xFFFFFF00) | (0x4);
-            cout << endl << endl << "                           SATURATION: " << reg_value << endl << endl;
+            //cout << endl << endl << "                           SATURATION: " << reg_value << endl << endl;
             ret = _dev->SetRegister("/Registers/A_OM_IO", reg_value);
             if (ret) return NI_ERROR_INTERFACE;
             return NI_OK;
