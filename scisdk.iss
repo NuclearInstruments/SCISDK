@@ -78,6 +78,10 @@ Source: "x5560\x64d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\x64\Debug\"; 
 Source: "x5560\x86d\R5560_SDKLib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "x5560\x86d\libsodium.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "x5560\x86d\libzmq-v140-mt-4_3_4.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt5771\x64\DT5771_SDKLib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt5771\x86\DT5771_SDKLib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt5771\x64d\DT5771_SDKLib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "dt5771\x86d\DT5771_SDKLib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
@@ -102,6 +106,7 @@ Source: "scisdk\bin\x64\Release\SciSDK_Labview.dll"; DestDir: "{sys}"; Flags: 64
 Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "x5560\x64\libsodium.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+Source: "dt5771\x64\DT5771_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "CAEN Dig2\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "CAEN FELib\x86_64\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 
@@ -110,6 +115,7 @@ Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Co
 Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "x5560\x86\libsodium.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+Source: "dt5771\x86\DT5771_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "CAEN Dig2\x86\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "CAEN FELib\x86\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

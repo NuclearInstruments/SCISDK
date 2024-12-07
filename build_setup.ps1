@@ -5,6 +5,9 @@ Move-Item -Path ./tmp/DT1260SDK/windows/ -Destination ./dt1260 -force
 python -m nirelease --pull -u X5560/rev-B/release/sw-lib/X5560SDK/ -o tmp
 Expand-Archive -LiteralPath ./tmp/X5560SDK/windows_x86_x64.zip -DestinationPath ./tmp/X5560SDK/ -Force
 Move-Item -Path ./tmp/X5560SDK/windows/ -Destination ./x5560 -force
+python -m nirelease --pull -u DT5771/rev-A/release/sw-lib/dt5771sdk-windows/ -o tmp
+Expand-Archive -LiteralPath ./tmp/dt5771sdk-windows/windows_x86_x64.zip -DestinationPath ./tmp/dt5771sdk-windows/ -Force
+Move-Item -Path ./tmp/dt5771sdk-windows/windows/ -Destination ./dt5771 -force
 python -m nirelease --pull -u SciSDK/rev-A/sub/sw-docs/SciSDKDocs/ -o tmp
 Expand-Archive -LiteralPath ./tmp/SciSDKDocs/scisdk_docs.zip -DestinationPath ./scisdk/ -Force
 New-Item -Path "." -Name "redist" -ItemType "directory" -Force

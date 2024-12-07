@@ -1,3 +1,7 @@
+# scisdk (1.2.66)
+  * DT5771 support
+  * DMA Digitizer support and python example for DT5771
+  
 # scisdk (1.2.65)
   * dt4810 manage of io
   * dt4810 readback string parameters from hardware
