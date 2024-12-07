@@ -1,4 +1,4 @@
-# scisdk (1.2.66)
+# scisdk (1.2.67)
   * DT5771 support
   * DMA Digitizer support and python example for DT5771
   
