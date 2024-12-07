@@ -1107,6 +1107,53 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 	return NI_OK;
 }
 
+
+NI_RESULT SciSDK_HAL::ReadDataDMA(uint8_t* buffer,
+	uint32_t length,
+	uint32_t dma_channel,
+	uint32_t timeout_ms,
+	uint32_t* read_data) {
+	uint32_t rd = 0, vd = 0;
+	switch (_model) {
+	
+	case BOARD_MODEL::DT5771:
+		// read data from DT5771 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+			
+			typedef int(__cdecl* READ_DATA_PROC_PTR)(uint32_t dma_channel, uint8_t* buffer, int num_samples, int timeout_ms, tDT5771_Handle* handle, uint32_t* valid_data);
+			READ_DATA_PROC_PTR read_dma_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "NI_DMA_Read");
+#else
+			int (*read_dma_data_proc)(uint32_t dma_channel, uint8_t * buffer, int num_samples, int timeout_ms, tDT5771_Handle * handle, uint32_t * valid_data);
+			*(void**)(&read_dma_data_proc) = dlsym(h_lib_instance, "NI_DMA_Read");
+
+#endif
+			if (read_dma_data_proc) {
+				mtx.lock();
+				int res = read_dma_data_proc(dma_channel, buffer, length, timeout_ms,(tDT5771_Handle*)_handle, &rd);
+				mtx.unlock();
+				*read_data = rd;
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
+		break;
+
+	default:
+		break;
+	}
+
+	return NI_OK;
+}
+
+
 NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 	uint32_t length,
 	uint32_t address,

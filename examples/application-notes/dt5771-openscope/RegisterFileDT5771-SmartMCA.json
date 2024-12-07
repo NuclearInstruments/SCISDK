@@ -1,0 +1,1465 @@
+{
+  "MMCComponents": [
+    {
+      "Name": "QDC_PSD",
+      "Type": "RegisterFile",
+      "Address": 15,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "PRE_INT",
+          "Type": "Register",
+          "Address": 16,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "QLONG",
+          "Type": "Register",
+          "Address": 17,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "QSHORT",
+          "Type": "Register",
+          "Address": 18,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "POST_INIB",
+          "Type": "Register",
+          "Address": 19,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "GAIN",
+          "Type": "Register",
+          "Address": 20,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/QDC_PSD"
+    },
+    {
+      "Name": "SCOPE_SEL",
+      "Type": "RegisterFile",
+      "Address": 51,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "EXT_TRIGGER",
+          "Type": "Register",
+          "Address": 52,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "AN_CH",
+          "Type": "Register",
+          "Address": 53,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/SCOPE_SEL"
+    },
+    {
+      "Name": "MONITOR_SEL",
+      "Type": "RegisterFile",
+      "Address": 33,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "ENERGY",
+          "Type": "Register",
+          "Address": 34,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIGGER",
+          "Type": "Register",
+          "Address": 35,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIGGER_D",
+          "Type": "Register",
+          "Address": 36,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/MONITOR_SEL"
+    },
+    {
+      "Name": "LE_TRIGGER",
+      "Type": "RegisterFile",
+      "Address": 0,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "THRS",
+          "Type": "Register",
+          "Address": 1,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "POLARITY",
+          "Type": "Register",
+          "Address": 2,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DELTA",
+          "Type": "Register",
+          "Address": 3,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "INIBIT",
+          "Type": "Register",
+          "Address": 4,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/LE_TRIGGER"
+    },
+    {
+      "Name": "PEAK_DETECTION",
+      "Type": "RegisterFile",
+      "Address": 22,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "DELAY",
+          "Type": "Register",
+          "Address": 23,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "PRE_TRIGGER",
+          "Type": "Register",
+          "Address": 24,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/PEAK_DETECTION"
+    },
+    {
+      "Name": "PILEUP_REJECT",
+      "Type": "RegisterFile",
+      "Address": 45,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "LEN",
+          "Type": "Register",
+          "Address": 46,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DLEN",
+          "Type": "Register",
+          "Address": 47,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "MODE",
+          "Type": "Register",
+          "Address": 48,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "PARAL",
+          "Type": "Register",
+          "Address": 49,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/PILEUP_REJECT"
+    },
+    {
+      "Name": "TRIGGER_LOGIC",
+      "Type": "RegisterFile",
+      "Address": 6,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "INT_TRIG_WIDTH",
+          "Type": "Register",
+          "Address": 7,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "INT_TRIG_DELAY",
+          "Type": "Register",
+          "Address": 8,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "EXT_TRIG_WIDTH",
+          "Type": "Register",
+          "Address": 9,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "EXT_TRIG_DELAY",
+          "Type": "Register",
+          "Address": 10,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIGGER_EDGE",
+          "Type": "Register",
+          "Address": 11,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRG_SEL",
+          "Type": "Register",
+          "Address": 12,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRG_MODE",
+          "Type": "Register",
+          "Address": 13,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/TRIGGER_LOGIC"
+    },
+    {
+      "Name": "BASELINE_RESTORER",
+      "Type": "RegisterFile",
+      "Address": 38,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "LEN",
+          "Type": "Register",
+          "Address": 39,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "HOLD",
+          "Type": "Register",
+          "Address": 40,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "IN_DELAY",
+          "Type": "Register",
+          "Address": 41,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "CONST",
+          "Type": "Register",
+          "Address": 42,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SEL",
+          "Type": "Register",
+          "Address": 43,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/BASELINE_RESTORER"
+    },
+    {
+      "Name": "ACQUISITION",
+      "Type": "RegisterFile",
+      "Address": 26,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "REG_RESET_CNT",
+          "Type": "Register",
+          "Address": 27,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "REG_RUN_CFG",
+          "Type": "Register",
+          "Address": 28,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "RUN_SEL",
+          "Type": "Register",
+          "Address": 29,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "REG_ACQ",
+          "Type": "Register",
+          "Address": 30,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "ACQ_SIGNAL_ENABLE",
+          "Type": "Register",
+          "Address": 31,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/ACQUISITION"
+    },
+    {
+      "Name": "RISETIME",
+      "Type": "RegisterFile",
+      "Address": 262145,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "PRE_TRIG",
+          "Type": "Register",
+          "Address": 262146,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "THRS1",
+          "Type": "Register",
+          "Address": 262147,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "THRS2",
+          "Type": "Register",
+          "Address": 262148,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "WINDOW",
+          "Type": "Register",
+          "Address": 262149,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "THRS3",
+          "Type": "Register",
+          "Address": 262150,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "MODE",
+          "Type": "Register",
+          "Address": 262151,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SEL",
+          "Type": "Register",
+          "Address": 262152,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/RISETIME"
+    },
+    {
+      "Name": "MCA_HP",
+      "Type": "RegisterFile",
+      "Address": 262209,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "THRS",
+          "Type": "Register",
+          "Address": 262210,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "POLARITY",
+          "Type": "Register",
+          "Address": 262211,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OFFSET",
+          "Type": "Register",
+          "Address": 262212,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIG_K",
+          "Type": "Register",
+          "Address": 262213,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIG_M",
+          "Type": "Register",
+          "Address": 262214,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DECONV",
+          "Type": "Register",
+          "Address": 262215,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRAP_K",
+          "Type": "Register",
+          "Address": 262216,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRAP_M",
+          "Type": "Register",
+          "Address": 262217,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "BL_LEN",
+          "Type": "Register",
+          "Address": 262218,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "BL_INIB",
+          "Type": "Register",
+          "Address": 262219,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SAMPLE_POS",
+          "Type": "Register",
+          "Address": 262220,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRAP_GAIN",
+          "Type": "Register",
+          "Address": 262221,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRIG_SEL",
+          "Type": "Register",
+          "Address": 262222,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/MCA_HP"
+    },
+    {
+      "Name": "PROCESSING",
+      "Type": "RegisterFile",
+      "Address": 262337,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "ENERGY_SEL",
+          "Type": "Register",
+          "Address": 262338,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DCFD_SEL",
+          "Type": "Register",
+          "Address": 262339,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SAT_REJ",
+          "Type": "Register",
+          "Address": 262340,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/PROCESSING"
+    },
+    {
+      "Name": "SIGNAL",
+      "Type": "RegisterFile",
+      "Address": 262342,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "SEL_D_I",
+          "Type": "Register",
+          "Address": 262343,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SEL_D_O",
+          "Type": "Register",
+          "Address": 262344,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SEL_A_O",
+          "Type": "Register",
+          "Address": 262345,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "POLARITY_A_I",
+          "Type": "Register",
+          "Address": 262346,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "GATE_D_O",
+          "Type": "Register",
+          "Address": 262347,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SEL_A_I_FILTER",
+          "Type": "Register",
+          "Address": 262348,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "A_I_FILTER_LEN",
+          "Type": "Register",
+          "Address": 262349,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "POLARITY_D_I",
+          "Type": "Register",
+          "Address": 262350,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DELAY_D_O",
+          "Type": "Register",
+          "Address": 262351,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DELAY_A_I",
+          "Type": "Register",
+          "Address": 262352,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TR_THRESHOLD",
+          "Type": "Register",
+          "Address": 262353,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TR_WIDTH",
+          "Type": "Register",
+          "Address": 262354,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TR_DELAY",
+          "Type": "Register",
+          "Address": 262355,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "T0_SEL",
+          "Type": "Register",
+          "Address": 262356,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "T0_PERIOD",
+          "Type": "Register",
+          "Address": 262357,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "D_GD_ENABLE",
+          "Type": "Register",
+          "Address": 262358,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "/SIGNAL"
+    },
+    {
+      "Name": "page_statistics_COUNTERS",
+      "Type": "RegisterFile",
+      "Address": 262275,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "TRG_CNT",
+          "Type": "Register",
+          "Address": 262276,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_TRG",
+          "Type": "Register",
+          "Address": 262277,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "ENERGY_CNT",
+          "Type": "Register",
+          "Address": 262278,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_ENERGY",
+          "Type": "Register",
+          "Address": 262279,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SINGLE_REJ_CNT",
+          "Type": "Register",
+          "Address": 262280,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_SINGLE_REJ",
+          "Type": "Register",
+          "Address": 262281,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OUT_CNT",
+          "Type": "Register",
+          "Address": 262282,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_OUT",
+          "Type": "Register",
+          "Address": 262283,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DOUBLE_REJ_CNT",
+          "Type": "Register",
+          "Address": 262284,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_DOUBLE_REJ",
+          "Type": "Register",
+          "Address": 262285,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "IN_SAT",
+          "Type": "Register",
+          "Address": 262286,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_IN_SAT",
+          "Type": "Register",
+          "Address": 262287,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "page_statistics/COUNTERS"
+    },
+    {
+      "Name": "page_statistics_TIMES",
+      "Type": "RegisterFile",
+      "Address": 262289,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "ACQUISITION",
+          "Type": "Register",
+          "Address": 262290,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "TRG_DEAD",
+          "Type": "Register",
+          "Address": 262291,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "PUR_DEAD",
+          "Type": "Register",
+          "Address": 262292,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "LIVE",
+          "Type": "Register",
+          "Address": 262293,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_ACQ",
+          "Type": "Register",
+          "Address": 262294,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_TRG_D",
+          "Type": "Register",
+          "Address": 262295,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_PUR_D",
+          "Type": "Register",
+          "Address": 262296,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_LIVE",
+          "Type": "Register",
+          "Address": 262297,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SATURATION",
+          "Type": "Register",
+          "Address": 262298,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OVERFLOW_SATURATION",
+          "Type": "Register",
+          "Address": 262299,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "page_statistics/TIMES"
+    },
+    {
+      "Name": "page_statistics_RATES",
+      "Type": "RegisterFile",
+      "Address": 262301,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "TCR",
+          "Type": "Register",
+          "Address": 262302,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "ECR",
+          "Type": "Register",
+          "Address": 262303,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "OCR",
+          "Type": "Register",
+          "Address": 262304,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "SINGLE_RCR",
+          "Type": "Register",
+          "Address": 262305,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "DOUBLE_RCR",
+          "Type": "Register",
+          "Address": 262306,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "IN_SAT_R",
+          "Type": "Register",
+          "Address": 262307,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "ICR",
+          "Type": "Register",
+          "Address": 262308,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "page_statistics/RATES"
+    },
+    {
+      "Name": "page_acquisition_LIST",
+      "Type": "RegisterFile",
+      "Address": 524292,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "BUSY",
+          "Type": "Register",
+          "Address": 524293,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "FULL",
+          "Type": "Register",
+          "Address": 524294,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "page_acquisition/LIST"
+    },
+    {
+      "Name": "page_acquisition_SPECTRUM",
+      "Type": "RegisterFile",
+      "Address": 524288,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "RUNNING",
+          "Type": "Register",
+          "Address": 524289,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        },
+        {
+          "Name": "ACCEPT",
+          "Type": "Register",
+          "Address": 524290,
+          "Version": "",
+          "RegionSize": 0,
+          "Description": null,
+          "Category": null,
+          "Path": null
+        }
+      ],
+      "Path": "page_acquisition/SPECTRUM"
+    },
+    {
+      "Name": "page_acquisition_Spectrum_0",
+      "Type": "Spectrum",
+      "Address": 589824,
+      "Version": "1.0.1.0",
+      "bins": 16384,
+      "Registers": [
+        {
+          "Name": "STATUS",
+          "Type": null,
+          "Address": 655360,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG",
+          "Type": null,
+          "Address": 655361,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_LIMIT",
+          "Type": null,
+          "Address": 655362,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_REBIN",
+          "Type": null,
+          "Address": 655363,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_MIN",
+          "Type": null,
+          "Address": 655364,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_MAX",
+          "Type": null,
+          "Address": 655365,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        }
+      ],
+      "CountsBit": 16,
+      "Path": "page_acquisition/Spectrum_0"
+    },
+    {
+      "Name": "page_acquisition_Oscilloscope_0",
+      "Type": "Oscilloscope",
+      "Address": 663552,
+      "Version": "1.0.0.0",
+      "Registers": [
+        {
+          "Name": "READ_STATUS",
+          "Type": "Register",
+          "Address": 671744,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "READ_POSITION",
+          "Type": "Register",
+          "Address": 671745,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_TRIGGER_MODE",
+          "Type": "Register",
+          "Address": 671746,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_PRETRIGGER",
+          "Type": "Register",
+          "Address": 671747,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_TRIGGER_LEVEL",
+          "Type": "Register",
+          "Address": 671748,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_ARM",
+          "Type": "Register",
+          "Address": 671749,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG_DECIMATOR",
+          "Type": "Register",
+          "Address": 671750,
+          "Version": "",
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        }
+      ],
+      "nsamples": 4096,
+      "Channels": 2,
+      "WordSize": 24,
+      "WordEnob": 24,
+      "AnalogInputs": 1,
+      "DigitalInputs": 4,
+      "SamplingFrequency": 0,
+      "TimeMultiplexing": 1,
+      "DecimatorMax": 0,
+      "DecimatorAveraging": false,
+      "Path": "page_acquisition/Oscilloscope_0"
+    },
+    {
+      "Name": "page_acquisition_List_0",
+      "Type": "ListModule",
+      "Address": 671752,
+      "Version": "1.1.0.0",
+      "WordSize": 0,
+      "Channels": 1,
+      "Registers": [
+        {
+          "Name": "STATUS",
+          "Type": null,
+          "Address": 671753,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        },
+        {
+          "Name": "CONFIG",
+          "Type": null,
+          "Address": 671754,
+          "Version": null,
+          "RegionSize": 1,
+          "Description": "",
+          "Category": "Undefined",
+          "Path": null
+        }
+      ],
+      "Path": "page_acquisition/List_0"
+    }
+  ],
+  "Registers": [
+    {
+      "Name": "page_input_EXT_ACQUISITION",
+      "Type": "Register",
+      "Address": 262176,
+      "Version": "1.0.0.0",
+      "RegionSize": 1,
+      "Description": "",
+      "Category": "Undefined",
+      "Path": "page_input/EXT_ACQUISITION"
+    }
+  ],
+  "Device": "DT5771",
+  "Project": "SmartMCA",
+  "Magic": "69BE8460",
+  "Version": null,
+  "FPGA": "xc7z020clg484-2",
+  "BuildDate": "2024-12-06T18:45:56.4026255+01:00"
+}

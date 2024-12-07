@@ -18,13 +18,15 @@ void TestAFEDT5771();
 void TestR5560();
 void TestAFEDT55560();
 void TestAFEDT55560_reset();
+void TestDigitizerDT5771();
 int main(int argc, char* argv[])
 {
 	//TestAFEDT55560();
-	TestAFEDT55560_reset();
+	//TestAFEDT55560_reset();
 	//TestDT4810();
 	//TestAFEDT5771();
 	//TestR5560();
+	TestDigitizerDT5771();
 	return 0;
 
 }
@@ -272,6 +274,26 @@ void TestAFEDT5771() {
 	op_res = SCISDK_SetParameterDouble("board0:/boardapi/analog/CH0.offset", 101, _sdk);
 }
 
+
+void TestDigitizerDT5771() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("192.168.102.139:8888", "dt5771", "RegisterFileDT5771-SmartMCA.json", "board0", _sdk);
+
+	SCISDK_FE_SCOPE_EVENT* evnt;
+	op_res = SCISDK_AllocateBufferSize("board0:/boardapi", T_BUFFER_TYPE_DECODED, (void**)&evnt,  _sdk, 1024 * 1024*8);
+	op_res = SCISDK_ReadData("board0:/boardapi", evnt, _sdk);
+
+	for (int i = 0; i < evnt->n_channels; i++) {
+		cout << "Channel " << i << endl;
+		for (int j = 0; j < 50; ++j) {
+			cout << evnt->waveform[i][j] << "  " << endl;
+		}
+	}
+
+	SCISDK_FreeBuffer("board0:/boardapi", T_BUFFER_TYPE_DECODED,(void**)&evnt, _sdk);
+}
 
 void TestAFEDT55560() {
 	void* _sdk = SCISDK_InitLib();

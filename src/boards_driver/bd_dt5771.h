@@ -24,6 +24,10 @@ public:
     NI_RESULT IGetParamString(string name, string* value);
     NI_RESULT ISetParamDouble(string name, double value);
     NI_RESULT IGetParamDouble(string name, double*value);
+    NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size);
+    NI_RESULT AllocateBuffer(T_BUFFER_TYPE bt, void** buffer);
+    NI_RESULT FreeBuffer(T_BUFFER_TYPE bt, void** buffer);
+    NI_RESULT ReadData(void* buffer);
 private:
     NI_RESULT UpdateHardware();
 
@@ -54,7 +58,7 @@ private:
     const std::list<std::string> listOfImpedance = { "1k", "50r" };
     const std::list<std::string> listOfDigitalImpedance = { "hi", "50r" };
 
-
+    uint32_t dgtz_timeout;
 
     struct {
         int32_t offset_mV;
