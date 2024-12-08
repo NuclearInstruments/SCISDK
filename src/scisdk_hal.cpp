@@ -1068,7 +1068,7 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 			*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
 			int (*CAEN_FELib_SendCommand)(FEELibHandle handle, const char* path);
 			*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
-			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, uint32_t *size);
+			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, size_t *size);
 			*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
 #endif
 			if ((CAEN_FELib_GetHandle) && (CAEN_FELib_SetValue) && (CAEN_FELib_SendCommand) && (CAEN_FELib_ReadData)) {
@@ -1283,7 +1283,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			FEE_SET_VALUE_PTR CAEN_FELib_SetValue = (FEE_SET_VALUE_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SetValue");
 			typedef int(__stdcall* FEE_SEND_CMD_PTR)(FEELibHandle handle, const char* path);
 			FEE_SEND_CMD_PTR CAEN_FELib_SendCommand = (FEE_SEND_CMD_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_SendCommand");
-			typedef int(__cdecl* FEE_READ_DATA_PTR)(uint64_t handle, int timeout, char* data, uint32_t* size);
+			typedef int(__cdecl* FEE_READ_DATA_PTR)(uint64_t handle, int timeout, char* data, size_t* size);
 			FEE_READ_DATA_PTR CAEN_FELib_ReadData = (FEE_READ_DATA_PTR)GetProcAddress(h_lib_instance, "CAEN_FELib_ReadData");
 #else
 			int (*CAEN_FELib_GetHandle)(FEELibHandle handle, const char* path, uint64_t * pathHandle);
@@ -1292,7 +1292,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 			*(void**)(&CAEN_FELib_SetValue) = dlsym(h_lib_instance, "CAEN_FELib_SetValue");
 			int (*CAEN_FELib_SendCommand)(FEELibHandle handle, const char* path);
 			*(void**)(&CAEN_FELib_SendCommand) = dlsym(h_lib_instance, "CAEN_FELib_SendCommand");
-			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, uint32_t * size);
+			int (*CAEN_FELib_ReadData)(FEELibHandle handle, int timeout, char* data, size_t * size);
 			*(void**)(&CAEN_FELib_ReadData) = dlsym(h_lib_instance, "CAEN_FELib_ReadData");
 #endif
 			if ((CAEN_FELib_GetHandle) && (CAEN_FELib_SetValue) && (CAEN_FELib_SendCommand) && (CAEN_FELib_ReadData)) {
@@ -1310,7 +1310,7 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 
 				mtx.lock();
 				int res = 0;
-				uint32_t rd = 0;
+				size_t rd = 0;
 				string size_transfer = std::to_string(avail_word);
 				string address_transfer = std::to_string(address * 4);
 				res += CAEN_FELib_GetHandle(*((FEELibHandle*)(_handle)), "/endpoint/opendata", &ep_od_handle);
