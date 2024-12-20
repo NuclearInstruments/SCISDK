@@ -122,7 +122,7 @@ class SciSDK:
         # call C lib function
         err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.byref(ret_int), self.lib_ptr)
         return err, ret_int.value
-    
+
     def SetParameterString(self, path: str, value: str):
         set_parameter_api = self.scisdk_dll.SCISDK_SetParameterString
         set_parameter_api.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_void_p]
@@ -163,7 +163,7 @@ class SciSDK:
         path_b = path.encode('utf-8')
         value = ctypes.c_double()
         # call C lib function
-        err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.POINTER(value), self.lib_ptr)
+        err = get_parameter_api(ctypes.c_char_p(path_b), ctypes.byref(value), self.lib_ptr)
         return err, value.value
 
     def AllocateBuffer(self, path: str, size = None):
@@ -522,6 +522,8 @@ class SciSDK:
         ret_char_p = ctypes.c_char_p()
         err = get_library_version_api(ctypes.byref(ret_char_p), self.lib_ptr)
         return err, ret_char_p.value.decode('utf-8')
+
+
 
     def WriteData(self, path: str, buffer):
         """
