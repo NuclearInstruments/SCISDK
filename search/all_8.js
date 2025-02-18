@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['hg_57',['hg',['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html#ac4d4ca03834e37850d87a8577ed8080e',1,'SCISDK_CITIROC_PIXEL']]],
-  ['hit_58',['hit',['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html#aed25b76e0ccab51ea5586dc1431f99cd',1,'SCISDK_CITIROC_PIXEL::hit()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l.html#aea5b90c44a7917d0c95eb689fe9f756a',1,'SCISDK_PETIROC_PIXEL::hit()']]],
-  ['hits_59',['hits',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a7d60e63c1bd87093e27d79b3c5d99867',1,'SCISDK_DIGITIZER_DECODED_BUFFER::hits()'],['../struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html#a55be01de3aa1f0d3bedb176c8431aa4f',1,'SCISDK_FRAME_PACKET::hits()']]]
+  ['9_201_20install_20automatically_20with_20scisdk_20setup_0',['9.1 Install automatically with SciSDK setup',['../index.html#autotoc_md30',1,'']]],
+  ['9_202_20manually_20add_20vis_20to_20palette_1',['9.2 Manually add VIs to palette',['../index.html#autotoc_md31',1,'']]],
+  ['9_203_20use_20scisdk_20vis_20without_20add_20them_20to_20labview_20palette_2',['9.3 Use SciSDK VIs without add them to LabView Palette',['../index.html#autotoc_md32',1,'']]],
+  ['9_204_20instantiate_20the_20library_3',['9.4 Instantiate the library',['../index.html#autotoc_md33',1,'']]],
+  ['9_205_20connecting_20to_20board_4',['9.5 Connecting to board',['../index.html#autotoc_md34',1,'']]],
+  ['9_206_20get_20a_20register_20value_5',['9.6 Get a register value',['../index.html#autotoc_md35',1,'']]],
+  ['9_207_20set_20a_20register_20value_6',['9.7 Set a register value',['../index.html#autotoc_md36',1,'']]],
+  ['9_208_20readout_20data_20from_20a_20board_7',['9.8 Readout data from a board',['../index.html#autotoc_md37',1,'']]],
+  ['9_20use_20in_20labview_8',['9 Use in LabView',['../index.html#autotoc_md29',1,'']]]
 ];

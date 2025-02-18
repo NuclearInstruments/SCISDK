@@ -24,7 +24,7 @@ var _sci_s_d_k___d_l_l_8h =
     [ "SCISDK_GetParameterString", "_sci_s_d_k___d_l_l_8h.html#a567cbbbd335966f9ee7bc8d2ce9e730b", null ],
     [ "SCISDK_GetParameterUInteger", "_sci_s_d_k___d_l_l_8h.html#aab6436159497af4907031b6c2421304a", null ],
     [ "SCISDK_GetRegister", "_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e", null ],
-    [ "SCISDK_InitLib", "_sci_s_d_k___d_l_l_8h.html#ad5f8fac9fefa5b07c7fb7937e452da80", null ],
+    [ "SCISDK_InitLib", "_sci_s_d_k___d_l_l_8h.html#a491b12b67faeecd218d29c0031094092", null ],
     [ "SCISDK_ReadData", "_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1", null ],
     [ "SCISDK_ReadStatus", "_sci_s_d_k___d_l_l_8h.html#af08b6e91ece60f4b3dc311557efd1ff3", null ],
     [ "SCISDK_s_error", "_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30", null ],

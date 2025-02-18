@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['2d_20histogram_507',['2D Histogram',['../md_docs_2dhistogram.html',1,'']]]
+  ['2d_20histogram_0',['2D Histogram',['../md_docs_22dhistogram.html',1,'']]]
 ];

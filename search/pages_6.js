@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['list_20driver_521',['List driver',['../md_docs_list.html',1,'']]]
+  ['histogram_0',['2D Histogram',['../md_docs_22dhistogram.html',1,'']]]
 ];

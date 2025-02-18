@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['fft_20_28power_20spectrum_29_20driver_47',['FFT (Power Spectrum) driver',['../md_docs_fft.html',1,'']]],
-  ['fft_2emd_48',['fft.md',['../fft_8md.html',1,'']]],
-  ['fine_49',['fine',['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_i_x_e_l.html#a8ffc3df2feb025799c5ab5625f6c0939',1,'SCISDK_PETIROC_PIXEL']]],
-  ['fine_5ftimestamp_50',['fine_timestamp',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a548f3e7f39d6041af358ffbeb4acd664',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flags_51',['flags',['../struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html#a168453b7504e039f1a4863fc03612410',1,'SCISDK_CITIROC_PACKET::flags()'],['../struct_s_c_i_s_d_k___p_e_t_i_r_o_c___p_a_c_k_e_t.html#accc031846ac7b4e56d12165232f6b496',1,'SCISDK_PETIROC_PACKET::flags()']]],
-  ['flags_5fa_52',['flags_a',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a5cd57e294188b5e7fc819450022427cd',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flags_5fb_53',['flags_b',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#a0735fd381d74266b5a08dbb247ed6023',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['flush_54',['flush',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#ac25e44a817b8dfa141ce5823908647bc',1,'SCISDK_FE_OPENDPP_EVENT']]],
-  ['frame_20_28imaging_29_20driver_55',['Frame (imaging) driver',['../md_docs_frame.html',1,'']]],
-  ['frame_2emd_56',['frame.md',['../frame_8md.html',1,'']]]
+  ['8_201_20include_20in_20an_20ant_20managed_20project_0',['8.1 Include in an Ant managed project',['../index.html#autotoc_md22',1,'']]],
+  ['8_202_20include_20in_20a_20maven_20managed_20project_1',['8.2 Include in a Maven managed project',['../index.html#autotoc_md23',1,'']]],
+  ['8_203_20instantiate_20the_20library_2',['8.3. Instantiate the library',['../index.html#autotoc_md24',1,'']]],
+  ['8_204_20connecting_20to_20a_20board_3',['8.4 Connecting to a board',['../index.html#autotoc_md25',1,'']]],
+  ['8_205_20set_20get_20a_20register_20value_4',['8.5 Set/Get a register value',['../index.html#autotoc_md26',1,'']]],
+  ['8_206_20allocate_20buffers_20for_20readout_5',['8.6 Allocate buffers for readout',['../index.html#autotoc_md27',1,'']]],
+  ['8_207_20readout_20data_20from_20a_20board_6',['8.7 Readout data from a board',['../index.html#autotoc_md28',1,'']]],
+  ['8_20readout_20data_20from_20a_20board_7',['9.8 Readout data from a board',['../index.html#autotoc_md37',1,'']]],
+  ['8_20use_20with_20java_8',['8 Use with Java',['../index.html#autotoc_md21',1,'']]]
 ];

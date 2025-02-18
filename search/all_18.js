@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['of_20decoding_20raw_20data_20in_20c_0',['Example of decoding RAW data in C++',['../md_docs_2frame.html#autotoc_md255',1,'']]],
+  ['of_20decoding_20raw_20data_20in_20python_1',['Example of decoding RAW data in Python',['../md_docs_2frame.html#autotoc_md256',1,'']]],
+  ['of_20flight_20spectrum_2',['Time of Flight Spectrum',['../md_docs_2tof-spectrum.html',1,'']]],
+  ['of_20the_20board_3',['Configure all channels of the board',['../md_docs_2boards_2x5560se.html#autotoc_md299',1,'']]],
+  ['of_20the_20library_20linux_4',['6.3.2 Verify installed version of the library [linux]',['../index.html#autotoc_md19',1,'']]],
+  ['of_20the_20library_20windows_5',['6.3.1 Verify installed version of the library [Windows]',['../index.html#autotoc_md18',1,'']]],
+  ['on_20analog_20signal_6',['Trigger on analog signal',['../md_docs_2oscilloscope.html#autotoc_md81',1,'']]],
+  ['on_20external_20signal_7',['Trigger on external signal',['../md_docs_2oscilloscope.html#autotoc_md80',1,'']]],
+  ['on_20file_8',['Read raw data and write on file',['../md_docs_2digitizer.html#autotoc_md107',1,'']]],
+  ['on_20file_20on_20channel_20per_20column_9',['Read decoded data and write on file, on channel per column',['../md_docs_2digitizer.html#autotoc_md106',1,'']]],
+  ['on_20ubuntu_10',['6.2.1 Example: how to compile and install the DT1260 libraries and SciSDK on Ubuntu',['../index.html#autotoc_md12',1,'']]],
+  ['one_20channel_20per_20column_11',['one channel per column',['../md_docs_2oscilloscope.html#autotoc_md83',1,'Processing decoded data and store in a file, one channel per column'],['../md_docs_2oscilloscope.html#autotoc_md84',1,'Processing decoded data and store in a file, one channel per column']]],
+  ['open_20it_20in_20python_20and_20decode_20it_12',['Dump raw data in C and than open it in python and decode it',['../md_docs_2custompacket.html#autotoc_md134',1,'']]],
+  ['opendpp_20board_20driver_13',['OpenDPP Board Driver',['../md_docs_2boards_2opendpp.html',1,'']]],
+  ['opendpp_20data_20structure_14',['OpenDPP data structure',['../md_docs_2boards_2opendpp.html#autotoc_md279',1,'']]],
+  ['opendpp_2emd_15',['opendpp.md',['../opendpp_8md.html',1,'']]],
+  ['openscope_20board_20driver_16',['OpenScope Board Driver',['../md_docs_2boards_2openscope.html',1,'']]],
+  ['openscope_20data_20structure_17',['OpenScope data structure',['../md_docs_2boards_2openscope.html#autotoc_md283',1,'']]],
+  ['openscope_2emd_18',['openscope.md',['../openscope_8md.html',1,'']]],
+  ['oscilloscope_20driver_19',['Oscilloscope driver',['../md_docs_2oscilloscope.html',1,'']]],
+  ['oscilloscope_20dual_20driver_20',['Oscilloscope Dual driver',['../md_docs_2oscilloscope-dual.html',1,'']]],
+  ['oscilloscope_2ddual_2emd_21',['oscilloscope-dual.md',['../oscilloscope-dual_8md.html',1,'']]],
+  ['oscilloscope_2emd_22',['oscilloscope.md',['../oscilloscope_8md.html',1,'']]],
+  ['output_20data_20format_23',['output data format',['../md_docs_2custompacket.html#autotoc_md119',1,'Output data Format'],['../md_docs_2digitizer.html#autotoc_md96',1,'Output data Format'],['../md_docs_2spectrum.html#autotoc_md143',1,'Output data Format'],['../md_docs_22dhistogram.html#autotoc_md164',1,'Output data Format'],['../md_docs_2tof-spectrum.html#autotoc_md176',1,'Output data Format'],['../md_docs_2list.html#autotoc_md197',1,'Output data Format'],['../md_docs_2fft.html#autotoc_md217',1,'Output data Format'],['../md_docs_2frame.html#autotoc_md239',1,'Output data Format'],['../md_docs_2oscilloscope.html#autotoc_md68',1,'Output data Format'],['../md_docs_2rate-meter.html#autotoc_md260',1,'Output data Format']]]
+];
