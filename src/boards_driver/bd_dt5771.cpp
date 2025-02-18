@@ -7,7 +7,7 @@
 #define DT5771_IR_IMP_SET		10
 #define DT5771_IR_RANGE_SET		11
 #define DT5771_IR_BW_SET		41
-#define DT5771_IR_COUPLIG_SET	9
+#define DT5771_IR_COUPLING_SET	9
 #define DT5771_IR_GAIN_SET		7
 #define DT5771_IR_DTERM_SET		40
 #define DT5771_IR_OFFSET_SET	8
@@ -159,7 +159,7 @@ NI_RESULT bd_dt5771::ISetParamString(string name, string value)
 			}
 			analog_settings[i].coupling = (COUPLING)index;
 
-			int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].coupling, DT5771_IR_COUPLIG_SET, i);
+			int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].coupling, DT5771_IR_COUPLING_SET, i);
 			if (ret) {
 				return NI_ERROR_INTERFACE;
 			}
