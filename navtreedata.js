@@ -363,7 +363,7 @@ var NAVTREE =
         ] ]
       ] ]
     ] ],
-    [ "DT5550 Board Driver", "md_docs_2boards_2_v2495.html", null ],
+    [ "V2495 Board Driver", "md_docs_2boards_2_v2495.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
