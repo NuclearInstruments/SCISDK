@@ -1083,10 +1083,10 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendataaddress", address_transfer.c_str());
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendatasize", size_transfer.c_str());
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/OpenDataMode", "RAM");
-				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
+				//res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
 				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/opendataread");
 				res += CAEN_FELib_ReadData(ep_od_handle, timeout_ms, (char*)value, &rd);
-				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
+				//res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
 				*read_data = rd/4;
 				mtx.unlock();
 				if (res == 0) {
@@ -1317,10 +1317,10 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendataaddress", address_transfer.c_str());
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/opendatasize", size_transfer.c_str());
 				res += CAEN_FELib_SetValue(*((FEELibHandle*)(_handle)), "/par/OpenDataMode", "FIFO");
-				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
+				//res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/armacquisition");
 				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/opendataread");
 				res += CAEN_FELib_ReadData(ep_od_handle, timeout_ms, (char*)value, &rd);
-				res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
+				//res += CAEN_FELib_SendCommand(*((FEELibHandle*)(_handle)), "/cmd/disarmacquisition");
 				*read_data = rd / 4;
 				mtx.unlock();
 				if (res == 0) {

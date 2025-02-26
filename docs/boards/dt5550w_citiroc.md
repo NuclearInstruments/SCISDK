@@ -1,3 +1,3 @@
 # DT5550W with Citiroc Board Driver
 
-To be written
+This board is not yet supported by the SCISDK driver.

@@ -1,3 +1,6 @@
+# scisdk (1.2.70)
+  * FELib improve readout speed
+  
 # scisdk (1.2.67)
   * DT5771 support
   * DMA Digitizer support and python example for DT5771

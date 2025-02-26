@@ -1,3 +1,3 @@
 # DT5550W with Petiroc Board Driver
 
-To be written
+This board is not yet supported by the SCISDK driver.

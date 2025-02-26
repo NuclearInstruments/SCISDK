@@ -12,9 +12,10 @@ python -m nirelease --pull -u SciSDK/rev-A/sub/sw-docs/SciSDKDocs/ -o tmp
 Expand-Archive -LiteralPath ./tmp/SciSDKDocs/scisdk_docs.zip -DestinationPath ./scisdk/ -Force
 New-Item -Path "." -Name "redist" -ItemType "directory" -Force
 Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x64.exe -OutFile redist/VC_redist.x64.exe 
-Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x86.exe -OutFile redist/VC_redist.x86.exe	 
-Invoke-WebRequest http://installers.lanni/windows_sw/caen_felib/felib_2022_12_1.zip -OutFile tmp/felib_2022_12_1.zip 
-Expand-Archive -LiteralPath ./tmp/felib_2022_12_1.zip -DestinationPath ./ -Force
+Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x86.exe -OutFile redist/VC_redist.x86.exe	
+python -m update_caen.py 
+#Invoke-WebRequest http://installers.lanni/windows_sw/caen_felib/felib_2022_12_1.zip -OutFile tmp/felib_2022_12_1.zip 
+#Expand-Archive -LiteralPath ./tmp/felib_2022_12_1.zip -DestinationPath ./ -Force
 New-Item -Path "." -Name "Drivers" -ItemType "directory" -Force
 Invoke-WebRequest http://installers.lanni/windows_sw/ftdi_driver/d2xx_setup.exe -OutFile Drivers/d2xx_setup.exe
 Invoke-WebRequest http://installers.lanni/windows_sw/ftdi_driver/d3xx_setup.exe -OutFile Drivers/d3xx_setup.exe
