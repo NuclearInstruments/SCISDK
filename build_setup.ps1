@@ -13,6 +13,7 @@ Expand-Archive -LiteralPath ./tmp/SciSDKDocs/scisdk_docs.zip -DestinationPath ./
 New-Item -Path "." -Name "redist" -ItemType "directory" -Force
 Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x64.exe -OutFile redist/VC_redist.x64.exe 
 Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x86.exe -OutFile redist/VC_redist.x86.exe	
+python -m pip install requests
 python update_caen.py 
 #Invoke-WebRequest http://installers.lanni/windows_sw/caen_felib/felib_2022_12_1.zip -OutFile tmp/felib_2022_12_1.zip 
 #Expand-Archive -LiteralPath ./tmp/felib_2022_12_1.zip -DestinationPath ./ -Force
