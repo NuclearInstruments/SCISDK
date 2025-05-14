@@ -48,6 +48,51 @@ Framework Compatible version: 1.0
 
 */
 
+
+typedef enum {
+    CAEN_FELib_Success                      = 0,    //!< Operation completed successfully  --> NI_OK
+    CAEN_FELib_GenericError                 = -1,   //!< Unspecified error --> NI_ERROR_GENERIC
+    CAEN_FELib_InvalidParam                 = -2,   //!< Invalid parameter --> NI_INVALID_PARAMETER
+    CAEN_FELib_DeviceAlreadyOpen            = -3,   //!< Returned by CAEN_FELib_Open() in case of device already opened --> NI_ALREADY_CONNECTED
+    CAEN_FELib_DeviceNotFound               = -4,   //!< Returned by CAEN_FELib_Open() in case of device not found --> NI_NOTCONNECTED
+    CAEN_FELib_MaxDevicesError              = -5,   //!< Returned by CAEN_FELib_Open() in case of maximum number of devices exceeded --> NI_TOO_MANY_DEVICES_CONNECTED
+    CAEN_FELib_CommandError                 = -6,   //!< Command error --> NI_INVALID_COMMAND
+    CAEN_FELib_InternalError                = -7,   //!< Internal error --> NI_FEELIB_INTERNAL_ERROR
+    CAEN_FELib_NotImplemented               = -8,   //!< Not yet implemented function --> NI_NOT_SUPPORTED
+    CAEN_FELib_InvalidHandle                = -9,   //!< Invalid handle --> NI_INVALID_HANDLE
+    CAEN_FELib_DeviceLibraryNotAvailable    = -10,  //!< Returned by CAEN_FELib_Open() in case of invalid prefix --> NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY
+    CAEN_FELib_Timeout                      = -11,  //!< Returned by CAEN_FELib_ReadData() and CAEN_FELib_HasData() in case of timeout -->NI_TIMEOUT
+    CAEN_FELib_Stop                         = -12,  //!< Returned by CAEN_FELib_ReadData() and CAEN_FELib_HasData() once after the last event of a run --> NI_LAST
+    CAEN_FELib_Disabled                     = -13,  //!< Disabled function --> NI_DISABLED
+    CAEN_FELib_BadLibraryVersion            = -14,  //!< Returned by CAEN_FELib_Open() in case of library version not supported by the server --> NI_INVALID_LIBRARY_VERSION
+    CAEN_FELib_CommunicationError           = -15,  //!< Communication error --> NI_ERROR_INTERFACE
+} CAEN_FELib_ErrorCode;
+
+
+
+
+static NI_RESULT CAEN_TO_SCISDK_ErrorTranslate(int caen_error){ 
+    switch(caen_error) {
+        case 0:   return NI_OK;
+        case -1:  return NI_ERROR_GENERIC;
+        case -2:  return NI_INVALID_PARAMETER;
+        case -3:  return NI_ALREADY_CONNECTED;
+        case -4:  return NI_NOTCONNECTED;
+        case -5:  return NI_TOO_MANY_DEVICES_CONNECTED;
+        case -6:  return NI_INVALID_COMMAND;
+        case -7:  return NI_FEELIB_INTERNAL_ERROR;
+        case -8:  return NI_NOT_SUPPORTED;
+        case -9:  return NI_INVALID_HANDLE;
+        case -10: return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+        case -11: return NI_TIMEOUT;
+        case -12: return NI_LAST;
+        case -13: return NI_DISABLED;
+        case -14: return NI_INVALID_LIBRARY_VERSION;
+        case -15: return NI_ERROR_INTERFACE;
+        default:  return NI_ERROR_GENERIC; // fallback in case of unknown error code
+    }
+}
+
 bd_feelib::bd_feelib(SciSDK_HAL *hal, json j, string path) : SciSDK_Node(hal, j, path) {
     RegisterParameter("boardapi/felib/**", "router all board api to string access", SciSDK_Paramcb::Type::str, this);
 	const std::list<std::string> listOfDataFormat = { "scope", "dpp"};
@@ -167,14 +212,14 @@ int bd_feelib::ConfigureEndpoint() {
 			uint64_t ep_handle;
 			if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
 			ret = _hal->FELib_GetHandle(handle, "/endpoint/scope", &ep_handle);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			uint64_t ep_folder_handle;
 			ret = _hal->FELib_GetParentHandle(ep_handle, NULL, &ep_folder_handle);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			ret = _hal->FELib_SetValue(handle, "/endpoint/par/activeendpoint", "scope");
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			ret = _hal->FELib_SetReadDataFormat(ep_handle, SCOPE_DATA_FORMAT);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			return NI_OK;
 		}
 		break;
@@ -185,14 +230,14 @@ int bd_feelib::ConfigureEndpoint() {
 			uint64_t ep_handle;
 			if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
 			ret = _hal->FELib_GetHandle(handle, "/endpoint/opendpp", &ep_handle);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			uint64_t ep_folder_handle;
 			ret = _hal->FELib_GetParentHandle(ep_handle, NULL, &ep_folder_handle);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			ret = _hal->FELib_SetValue(handle, "/endpoint/par/activeendpoint", "opendpp");
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			ret = _hal->FELib_SetReadDataFormat(ep_handle, OPENDPP_DATA_FORMAT);
-			if (ret) return ret;
+			if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 			return NI_OK;
 		}
 		break;
@@ -215,7 +260,7 @@ NI_RESULT bd_feelib::ExecuteCommand(string cmd, string param) {
 		uint64_t handle;
 		if (_hal->FELib_GetConnectionHandle(&handle) != NI_OK) return -1;
 		ret = _hal->FELib_SendCommand(handle, ("/" + board_path).c_str());
-		return ret;
+		return CAEN_TO_SCISDK_ErrorTranslate(ret);
 	}
 
 
@@ -232,7 +277,7 @@ NI_RESULT bd_feelib::AllocateBuffer(T_BUFFER_TYPE bt, void** buffer, int size) {
 	case  FEELIB_DATATYPE::SCOPE:
 	{
 		ret = _hal->FELib_GetValue(handle, "/par/NumCh", value);
-		if (ret != 0) return ret;
+		if (ret != 0) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 		int n_channels = (unsigned)value_to_ull(value);
 		SCISDK_FE_SCOPE_EVENT* evt;
 		*buffer = (SCISDK_FE_SCOPE_EVENT*)malloc(sizeof(*evt));
@@ -329,7 +374,7 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 		uint64_t ep_handle;
 
 		ret = _hal->FELib_GetHandle(handle, "/endpoint/scope", &ep_handle);
-		if (ret) return ret;
+		if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 		int ret = _hal->FELib_ReadData(ep_handle, acquisition_timeout_ms,
 			&p->timestamp,
 			&p->trigger_id,
@@ -337,7 +382,7 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 			p->n_samples,
 			&p->event_size
 		);
-		return ret;
+		return CAEN_TO_SCISDK_ErrorTranslate(ret);
 	}
 	break;
 
@@ -349,7 +394,7 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 		uint64_t ep_handle;
 
 		ret = _hal->FELib_GetHandle(handle, "/endpoint/opendpp", &ep_handle);
-		if (ret) return ret;
+		if (ret) return CAEN_TO_SCISDK_ErrorTranslate(ret);
 		int ret = _hal->FELib_ReadData(ep_handle, acquisition_timeout_ms,
 			&p->channel,
 			&p->timestamp,
@@ -370,7 +415,7 @@ NI_RESULT bd_feelib::ReadData(void* buffer) {
 			&p->flush,
 			&p->aggregate_counter
 		);
-		return ret;
+		return CAEN_TO_SCISDK_ErrorTranslate(ret);
 	}
 
 	default:

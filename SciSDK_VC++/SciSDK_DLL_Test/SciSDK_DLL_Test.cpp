@@ -340,6 +340,18 @@ void TestAFEDT55560_reset() {
 }
 
 
+void TestDT1260List() {
+	void* _sdk = SCISDK_InitLib();
+	char* res = "";
+
+	int op_res = SCISDK_AddNewDevice("usb:10500", "dt1260", "RegisterFileList.json", "board0", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/MMCComponents/List_0.thread", "false", _sdk);
+	op_res = SCISDK_SetParameterString("board0:/boardapi/analog/CH0.impedance", "1k", _sdk);
+	op_res = SCISDK_SetParameterDouble("board0:/boardapi/analog/CH0.offset", 101, _sdk);
+}
+
+
+
 /*SCISDK_RM_RAW_BUFFER *rmb;
 SCISDK_AllocateBuffer("board0:/MMCComponents/RateMeter_0", 0, (void**)&rmb, _sdk);
 SCISDK_ReadData("board0:/MMCComponents/RateMeter_0", (void *)rmb, _sdk);
