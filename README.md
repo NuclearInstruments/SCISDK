@@ -136,3 +136,17 @@ nano ~/.profile
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 ```
 
+# Install SciSDK from apt repository on Ubuntu
+
+You can install SciSDK from the apt repository on Ubuntu by adding the Nuclear Instruments repository to your system.
+```bash
+sudo mkdir -p /etc/apt/{sources.list.d,keyrings} && \
+sudo apt update && \
+sudo apt install -y ca-certificates curl gnupg lsb-release && \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/nuclearinstruments.gpg] http://packages.nuclearinstruments.eu/linux/apt/ubuntu/ $(lsb_release -cs) main" \
+  | sudo tee /etc/apt/sources.list.d/nuclearinstruments.list > /dev/null && \
+curl -fsSL http://packages.nuclearinstruments.eu/linux/apt/ubuntu/pubkey.gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/nuclearinstruments.gpg && \
+sudo apt update && \
+sudo apt install -y scisdk
+```
