@@ -125,28 +125,30 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2openscope.html',''); 
   <div class="headertitle"><div class="title">OpenScope Board Driver</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md281"></a> Caen board uses a custom endpoint to readout data with the host using accelerated DMA transfers and DDR4 memory. This driver is compatible with the following boards:</p><ul>
-<li>V2740</li>
+<div class="textblock"><p><a class="anchor" id="autotoc_md283"></a> Caen board uses a custom endpoint to readout data with the host using accelerated DMA transfers and DDR4 memory. This driver is compatible with the following boards:</p><ul>
+<li>V/XV2740</li>
 <li>DT2740</li>
-<li>V2745</li>
+<li>V/VX2745</li>
 <li>DT2745</li>
+<li>VX2730</li>
+<li>DT2730</li>
 </ul>
 <p>The SciCompiler project must be created as Scope project. DPP firmware uses the OpenDPP driver.</p>
 <p>It is important to note that OpenScope readout endpoint allows a much faster and deeper waveform readout data than Oscilloscope or Digitizer SciCompiler embedded IP.</p>
-<h1><a class="anchor" id="autotoc_md282"></a>
+<h1><a class="anchor" id="autotoc_md284"></a>
 Access to board endpoints</h1>
 <p>Refere to the Board endpoint driver documentation to understand how to configure and read board specific parameters.</p>
 <p>Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project. This board parameters are accessible through the following path:</p>
 <p><code>board0:/boardapi/</code></p>
 <p>This path is a virtual path that is mapped to the board specific framework control endpoint. All read/write operations are performed directly to the board SDK and it is managed by the SDK.</p>
-<p>For FELib compatible board (CAEN X274X) the board specific API is accessible through the following path:</p>
+<p>For FELib compatible board (CAEN X27XX) the board specific API is accessible through the following path:</p>
 <p><code>board0:/boardapi/felib/</code></p>
 <p>any path after the last <code>/</code> is mapped to the board specific SDK. For example:</p>
 <p><code>board0:/boardapi/felib/ch/0/par/ChEnable</code></p>
 <p>ask to the FELib SDK to set/read the <code>ChEnable</code> parameter of the channel 0.</p>
 <p>The documentation of the board specific API is available in the <a href="https://www.caen.it/products/caen-felib-library/">board SDK documentation</a></p>
 <p><b>Data type in SetParameter must be STRING, indeed just the SCISDK_SetParameterString function is supported because the felib requires all parameters to be a string.</b></p>
-<h1><a class="anchor" id="autotoc_md283"></a>
+<h1><a class="anchor" id="autotoc_md285"></a>
 OpenScope data structure</h1>
 <p>The OpenScope driver uses a custom data structure to store the waveform readout from the board.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct  </span>{</div>
@@ -159,26 +161,69 @@ OpenScope data structure</h1>
 <div class="line">    <span class="keywordtype">unsigned</span> n_channels;</div>
 <div class="line">} <a class="code hl_struct" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html">SCISDK_FE_SCOPE_EVENT</a>;</div>
 <div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html">SCISDK_FE_SCOPE_EVENT</a></div><div class="ttdoc">OpenScope structure.</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:454</div></div>
-</div><!-- fragment --><p><code>timestamp</code>: A 64-bit unsigned integer representing the timestamp of the event in nanoseconds. <code>trigger_id</code>: A 32-bit unsigned integer representing the trigger identifier for the event. <code>event_size</code>: A size_t representing the size of the event data in bytes. <code>waveform</code>: A pointer to an array of pointers to 16-bit unsigned integers, where each element in the array represents a channel of the oscilloscope and each element in the array of pointers represents a sample in that channel. <code>n_samples</code>: A pointer to a size_t representing the number of samples in each channel of the oscilloscope. <code>n_allocated_samples</code>: A pointer to a size_t representing the number of samples that have been allocated for each channel of the oscilloscope. <code>n_channels</code>: An unsigned integer representing the number of channels in the oscilloscope</p>
-<p>in order to access to the j-th sample of the i-th channel use the following syntax:</p>
-<p><code>event-&gt;waveform[i][j]</code></p>
-<h1><a class="anchor" id="autotoc_md284"></a>
+</div><!-- fragment --><p><code>timestamp</code>: A 64-bit unsigned integer representing the timestamp of the event in nanoseconds.</p>
+<p><code>trigger_id</code>: A 32-bit unsigned integer representing the trigger identifier for the event.</p>
+<p><code>event_size</code>: A size_t representing the size of the event data in bytes.</p>
+<p><code>waveform</code>: A pointer to an array of pointers to 16-bit unsigned integers, where each element in the array represents a channel of the oscilloscope and each element in the array of pointers represents a sample in that channel. In order to access to the j-th sample of the i-th channel use the following syntax: <code>event-&gt;waveform[i][j]</code></p>
+<p><code>n_samples</code>: A pointer to a size_t representing the number of samples in each channel of the oscilloscope.</p>
+<p><code>n_allocated_samples</code>: A pointer to a size_t representing the number of samples that have been allocated for each channel of the oscilloscope.</p>
+<p><code>n_channels</code>: An unsigned integer representing the number of channels in the oscilloscope. Since the event consists of data from all channels, this number also corresponds to the length of the arrays <code>n_allocated_samples</code>, <code>n_samples</code>, and <code>waveform</code>.</p>
+<h1><a class="anchor" id="autotoc_md286"></a>
+Run Control</h1>
+<p>The digitizers must be armed before can start any acquisition:</p>
+<div class="fragment"><div class="line"> ++</div>
+<div class="line"><span class="keywordtype">int</span> ret;</div>
+<div class="line">ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/armacquisition&quot;</span>, _sdk);</div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
+</div><!-- fragment --><p> In case of start source is set to software start, this will start an acquisition run: </p><div class="fragment"><div class="line"> ++</div>
+<div class="line">ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/swstartacquisition&quot;</span>, _sdk_);</div>
+</div><!-- fragment --><p> Similarly, to send a software stop and disarm the acquisition: </p><div class="fragment"><div class="line"> ++</div>
+<div class="line">ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/swstopacquisition&quot;</span>, _sdk);</div>
+<div class="line">ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/disarmacquisition&quot;</span>, _sdk);</div>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md287"></a>
+Read Data Loop</h1>
+<p>To read data from the digitizer as soon as it becomes available, the easier approach is to implement a loop around the <code><a class="el" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1" title="Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...">SCISDK_ReadData()</a></code> function, as demonstrated in the provided demo.</p>
+<p>If an event is already available in the endpoint, the function returns immediately with <code>NI_OK</code>. If no events are available within 10 seconds, it returns <code>NI_TIMEOUT</code>. Once acquisition has stopped, any remaining data stored in the digitizer can still be read until the function returns <code>NI_LAST</code>, indicating that no more data is available from that acquisition session.</p>
+<p>These return values can be used to build an efficient acquisition loop. The following code snippet illustrates this logic:</p>
+<div class="fragment"><div class="line"> ++</div>
+<div class="line"><span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line">    ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/boardapi&quot;</span>, evnt, _sdk);</div>
+<div class="line">    <span class="keywordflow">switch</span> (ret) {</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>:</div>
+<div class="line">            <span class="comment">// Process the event data here, or proceed to the next read.</span></div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a>:</div>
+<div class="line">            <span class="comment">// No event was available within the timeout window.</span></div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#a62591dd890151e37e85d9d91bc33515a">NI_LAST</a>:</div>
+<div class="line">            printf(<span class="stringliteral">&quot;\nAcquisition complete. No more data available.\n&quot;</span>);</div>
+<div class="line">            <span class="keywordflow">return</span> ret;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="a_n_i_error_code_8h_html_a62591dd890151e37e85d9d91bc33515a"><div class="ttname"><a href="_n_i_error_code_8h.html#a62591dd890151e37e85d9d91bc33515a">NI_LAST</a></div><div class="ttdeci">#define NI_LAST</div><div class="ttdef"><b>Definition</b> NIErrorCode.h:43</div></div>
+<div class="ttc" id="a_n_i_error_code_8h_html_ab44d3b4fb5f18b8063b2e8e7299096f9"><div class="ttname"><a href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a></div><div class="ttdeci">#define NI_TIMEOUT</div><div class="ttdef"><b>Definition</b> NIErrorCode.h:42</div></div>
+<div class="ttc" id="a_n_i_error_code_8h_html_ae749d3c5e8d435a8bc05e47792d996d8"><div class="ttname"><a href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a></div><div class="ttdeci">#define NI_OK</div><div class="ttdef"><b>Definition</b> NIErrorCode.h:8</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md288"></a>
 Code Examples</h1>
 <p>This example configure the board to acquire 50 samples. The acquisition is triggered by a software trigger and the test pulse is enabled. The test pulse period is 100 us and the test pulse width is 1 us. The data is readout and saved in a text file, one channel for column, one sample per row.</p>
 <div class="fragment"><div class="line">++</div>
 <div class="line">   <span class="keywordtype">void</span>* _sdk = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a491b12b67faeecd218d29c0031094092">SCISDK_InitLib</a>();</div>
 <div class="line"> </div>
 <div class="line">   <span class="keywordtype">int</span> res = 0;</div>
+<div class="line">   <span class="keywordtype">bool</span> acq_status = <span class="keyword">true</span>;</div>
+<div class="line">   std::ofstream out(<span class="stringliteral">&quot;c:/temp/output.csv&quot;</span>);</div>
+<div class="line">   out &lt;&lt; <span class="stringliteral">&quot;Trigger ID  Timestamp&quot;</span> &lt;&lt; endl;</div>
 <div class="line">   </div>
 <div class="line">   res = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a30c87ee142b0ba8afa0ad3e008903477">SCISDK_AddNewDevice</a>(<span class="stringliteral">&quot;10.105.250.18&quot;</span>, <span class="stringliteral">&quot;V2740&quot;</span>, <span class="stringliteral">&quot;SciSDKDev2740Wave.json&quot;</span>, <span class="stringliteral">&quot;board0&quot;</span>, _sdk);</div>
-<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30">SCISDK_s_error</a>(res, &amp;res, _sdk);</div>
-<div class="line">   <span class="keywordflow">if</span> (res) std::exit(res);</div>
+<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30">SCISDK_s_error</a>(res, &amp;ret, _sdk);</div>
+<div class="line">   <span class="keywordflow">if</span> (res) std::exit(ret);</div>
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/reset&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/readout.datatype&quot;</span>, <span class="stringliteral">&quot;scope&quot;</span>, _sdk);</div>
 <div class="line"> </div>
-<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/ch/0..63/par/ChEnable&quot;</span>, <span class="stringliteral">&quot;true&quot;</span>), _sdk);</div>
+<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/ch/0..63/par/ChEnable&quot;</span>, <span class="stringliteral">&quot;true&quot;</span>, _sdk);</div>
 <div class="line"> </div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/par/RecordLengthS&quot;</span>, <span class="stringliteral">&quot;50&quot;</span>, _sdk);</div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/par/PreTriggerS&quot;</span>, <span class="stringliteral">&quot;4&quot;</span>, _sdk);</div>
@@ -187,34 +232,43 @@ Code Examples</h1>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/par/TestPulseWidth&quot;</span>, <span class="stringliteral">&quot;1000&quot;</span>, _sdk);</div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/armacquisition&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
 <div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/swstartacquisition&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
+<div class="line">   <span class="comment">//let run the board for 1 sec</span></div>
+<div class="line">   Sleep(1000);</div>
+<div class="line">   <span class="comment">//disarm acquisition</span></div>
+<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/armacquisition&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
+<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a>(<span class="stringliteral">&quot;board0:/boardapi/felib/cmd/swstartacquisition&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, _sdk);</div>
 <div class="line"> </div>
 <div class="line">   <a class="code hl_struct" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html">SCISDK_FE_SCOPE_EVENT</a>* evnt;</div>
-<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a>(<span class="stringliteral">&quot;board0:/boardapi&quot;</span>, <a class="code hl_enumvalue" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;evnt, 50, _sdk);</div>
-<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/boardapi&quot;</span>, evnt, _sdk);</div>
-<div class="line"> </div>
-<div class="line">   <span class="comment">// save in a text file all data, one channel for column, one sample per row</span></div>
-<div class="line"> </div>
-<div class="line">   ofstream myfile;</div>
-<div class="line">   myfile.open(<span class="stringliteral">&quot;example.txt&quot;</span>);</div>
-<div class="line"> </div>
-<div class="line">   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; evnt-&gt;<a class="code hl_variable" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a747fc803a73bd126432e636c8133097b">n_samples</a>; ++i) {</div>
-<div class="line">       <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; evnt-&gt;<a class="code hl_variable" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a5e496631ec311bd52adb1ba33a12f027">n_channels</a>; j++) {</div>
-<div class="line">           myfile &lt;&lt; evnt-&gt;<a class="code hl_variable" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a0cb0db92087c395e856cf09a505e7058">waveform</a>[j][i] &lt;&lt; <span class="stringliteral">&quot;  &quot;</span>;</div>
+<div class="line">   <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a>(<span class="stringliteral">&quot;board0:/boardapi&quot;</span>, <a class="code hl_enumvalue" href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a>, (<span class="keywordtype">void</span>**)&amp;evnt, _sdk, 50);</div>
+<div class="line">   <span class="keywordflow">while</span> (acq_status) {</div>
+<div class="line">       ret = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a>(<span class="stringliteral">&quot;board0:/boardapi&quot;</span>, evnt, _sdk);</div>
+<div class="line">       <span class="keywordflow">switch</span> (ret) {</div>
+<div class="line">           <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a>:</div>
+<div class="line">               <span class="comment">// Process the event data here, or proceed to the next read.</span></div>
+<div class="line">               out &lt;&lt; evnt-&gt;<a class="code hl_variable" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a7790f1a49bae94ae1a4fef669297c253">trigger_id</a> &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; std::hex &lt;&lt; evnt-&gt;<a class="code hl_variable" href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#ad62e04e09d307282fd1b395f93aba6aa">timestamp</a> &lt;&lt; endl;</div>
+<div class="line">               <span class="keywordflow">break</span>;</div>
+<div class="line">           <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#ab44d3b4fb5f18b8063b2e8e7299096f9">NI_TIMEOUT</a>:</div>
+<div class="line">               <span class="comment">// No event was available within the timeout window.</span></div>
+<div class="line">               <span class="keywordflow">break</span>;</div>
+<div class="line">           <span class="keywordflow">case</span> <a class="code hl_define" href="_n_i_error_code_8h.html#a62591dd890151e37e85d9d91bc33515a">NI_LAST</a>:</div>
+<div class="line">               printf(<span class="stringliteral">&quot;\nAcquisition completed. No more data available.\n&quot;</span>);</div>
+<div class="line">               acq_status = <span class="keyword">false</span>;</div>
+<div class="line">               <span class="keywordflow">break</span>;</div>
+<div class="line">           <span class="keywordflow">default</span>:</div>
+<div class="line">               out &lt;&lt; <span class="stringliteral">&quot;Error during the acquisition\n&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">               out.close();</div>
+<div class="line">               <span class="keywordflow">return</span> res;</div>
 <div class="line">       }</div>
-<div class="line">       myfile &lt;&lt; endl;</div>
 <div class="line">   }</div>
-<div class="line">   myfile.close();</div>
+<div class="line">   out.close();</div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a30c87ee142b0ba8afa0ad3e008903477"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a30c87ee142b0ba8afa0ad3e008903477">SCISDK_AddNewDevice</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle)</div><div class="ttdoc">Connect to and hardware device. The function tries to connect to the device, decode the SciCompiler j...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a491b12b67faeecd218d29c0031094092"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a491b12b67faeecd218d29c0031094092">SCISDK_InitLib</a></div><div class="ttdeci">SCISDK_DLL_API void * SCISDK_InitLib()</div><div class="ttdoc">Initialize the SciSDK handles accolating the resources. This function must be called before any other...</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a612babf059fa19eaac91fae6da160f85"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBufferSize(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac9e9b4e1a5d91597095829bd13eafa30"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30">SCISDK_s_error</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_s_error(int err_no, char **value, void *handle)</div><div class="ttdoc">Convert the returned error code in a human readable string explaining the error.</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:230</div></div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html_a0cb0db92087c395e856cf09a505e7058"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a0cb0db92087c395e856cf09a505e7058">SCISDK_FE_SCOPE_EVENT::waveform</a></div><div class="ttdeci">uint16_t ** waveform</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:458</div></div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html_a5e496631ec311bd52adb1ba33a12f027"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a5e496631ec311bd52adb1ba33a12f027">SCISDK_FE_SCOPE_EVENT::n_channels</a></div><div class="ttdeci">unsigned n_channels</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:463</div></div>
-<div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html_a747fc803a73bd126432e636c8133097b"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a747fc803a73bd126432e636c8133097b">SCISDK_FE_SCOPE_EVENT::n_samples</a></div><div class="ttdeci">size_t * n_samples</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:461</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html_a7790f1a49bae94ae1a4fef669297c253"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a7790f1a49bae94ae1a4fef669297c253">SCISDK_FE_SCOPE_EVENT::trigger_id</a></div><div class="ttdeci">uint32_t trigger_id</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:456</div></div>
+<div class="ttc" id="astruct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t_html_ad62e04e09d307282fd1b395f93aba6aa"><div class="ttname"><a href="struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#ad62e04e09d307282fd1b395f93aba6aa">SCISDK_FE_SCOPE_EVENT::timestamp</a></div><div class="ttdeci">uint64_t timestamp</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:455</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

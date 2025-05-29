@@ -326,40 +326,44 @@ var NAVTREE =
     [ "OpenDPP Board Driver", "md_docs_2boards_2opendpp.html", [
       [ "Access to board endpoints", "md_docs_2boards_2opendpp.html#autotoc_md278", null ],
       [ "OpenDPP data structure", "md_docs_2boards_2opendpp.html#autotoc_md279", null ],
-      [ "Code Examples", "md_docs_2boards_2opendpp.html#autotoc_md280", null ]
+      [ "Run Control", "md_docs_2boards_2opendpp.html#autotoc_md280", null ],
+      [ "Read Data Loop", "md_docs_2boards_2opendpp.html#autotoc_md281", null ],
+      [ "Code Examples", "md_docs_2boards_2opendpp.html#autotoc_md282", null ]
     ] ],
     [ "OpenScope Board Driver", "md_docs_2boards_2openscope.html", [
-      [ "Access to board endpoints", "md_docs_2boards_2openscope.html#autotoc_md282", null ],
-      [ "OpenScope data structure", "md_docs_2boards_2openscope.html#autotoc_md283", null ],
-      [ "Code Examples", "md_docs_2boards_2openscope.html#autotoc_md284", null ]
+      [ "Access to board endpoints", "md_docs_2boards_2openscope.html#autotoc_md284", null ],
+      [ "OpenScope data structure", "md_docs_2boards_2openscope.html#autotoc_md285", null ],
+      [ "Run Control", "md_docs_2boards_2openscope.html#autotoc_md286", null ],
+      [ "Read Data Loop", "md_docs_2boards_2openscope.html#autotoc_md287", null ],
+      [ "Code Examples", "md_docs_2boards_2openscope.html#autotoc_md288", null ]
     ] ],
     [ "DT1260 Board Driver", "md_docs_2boards_2dt1260.html", [
-      [ "How to use the boardapi/analog node", "md_docs_2boards_2dt1260.html#autotoc_md286", null ]
+      [ "How to use the boardapi/analog node", "md_docs_2boards_2dt1260.html#autotoc_md290", null ]
     ] ],
     [ "DT5550 Board Driver", "md_docs_2boards_2dt5550.html", null ],
     [ "DT5550W with Citiroc Board Driver", "md_docs_2boards_2dt5550w__citiroc.html", null ],
     [ "DT5550W with Petiroc Board Driver", "md_docs_2boards_2dt5550w__petiroc.html", null ],
     [ "DT5560 / R5560SE Board Driver", "md_docs_2boards_2x5560se.html", [
-      [ "How to use the boardapi/analog node", "md_docs_2boards_2x5560se.html#autotoc_md293", null ],
-      [ "Applying the configuration", "md_docs_2boards_2x5560se.html#autotoc_md294", null ],
-      [ "Example", "md_docs_2boards_2x5560se.html#autotoc_md295", [
-        [ "Configure a single channels", "md_docs_2boards_2x5560se.html#autotoc_md296", [
-          [ "C/C++", "md_docs_2boards_2x5560se.html#autotoc_md297", null ],
-          [ "Python", "md_docs_2boards_2x5560se.html#autotoc_md298", null ]
+      [ "How to use the boardapi/analog node", "md_docs_2boards_2x5560se.html#autotoc_md297", null ],
+      [ "Applying the configuration", "md_docs_2boards_2x5560se.html#autotoc_md298", null ],
+      [ "Example", "md_docs_2boards_2x5560se.html#autotoc_md299", [
+        [ "Configure a single channels", "md_docs_2boards_2x5560se.html#autotoc_md300", [
+          [ "C/C++", "md_docs_2boards_2x5560se.html#autotoc_md301", null ],
+          [ "Python", "md_docs_2boards_2x5560se.html#autotoc_md302", null ]
         ] ],
-        [ "Configure all channels of the board", "md_docs_2boards_2x5560se.html#autotoc_md299", [
-          [ "C/C++", "md_docs_2boards_2x5560se.html#autotoc_md300", null ]
+        [ "Configure all channels of the board", "md_docs_2boards_2x5560se.html#autotoc_md303", [
+          [ "C/C++", "md_docs_2boards_2x5560se.html#autotoc_md304", null ]
         ] ]
       ] ]
     ] ],
     [ "R5560  Board Driver", "md_docs_2boards_2x5560.html", null ],
     [ "DT5771 Board Driver", "md_docs_2boards_2dt5771.html", [
-      [ "How to use the boardapi/analog node", "md_docs_2boards_2dt5771.html#autotoc_md303", null ],
-      [ "Applying the configuration", "md_docs_2boards_2dt5771.html#autotoc_md304", null ],
-      [ "Example", "md_docs_2boards_2dt5771.html#autotoc_md305", [
-        [ "Configure a single channels", "md_docs_2boards_2dt5771.html#autotoc_md306", [
-          [ "C/C++", "md_docs_2boards_2dt5771.html#autotoc_md307", null ],
-          [ "Python", "md_docs_2boards_2dt5771.html#autotoc_md308", null ]
+      [ "How to use the boardapi/analog node", "md_docs_2boards_2dt5771.html#autotoc_md307", null ],
+      [ "Applying the configuration", "md_docs_2boards_2dt5771.html#autotoc_md308", null ],
+      [ "Example", "md_docs_2boards_2dt5771.html#autotoc_md309", [
+        [ "Configure a single channels", "md_docs_2boards_2dt5771.html#autotoc_md310", [
+          [ "C/C++", "md_docs_2boards_2dt5771.html#autotoc_md311", null ],
+          [ "Python", "md_docs_2boards_2dt5771.html#autotoc_md312", null ]
         ] ]
       ] ]
     ] ],
@@ -389,8 +393,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
-"md_docs_2custompacket.html#autotoc_md126",
-"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___r_a_w___b_u_f_f_e_r.html#a9ee538f892128595baa1eee427e9712b"
+"md_docs_2custompacket.html#autotoc_md119",
+"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html#a6e44972f39539c7b53ac3de787af5ea9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

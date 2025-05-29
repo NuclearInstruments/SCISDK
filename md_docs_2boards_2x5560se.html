@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2x5560se.html',''); in
   <div class="headertitle"><div class="title">DT5560 / R5560SE Board Driver</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md292"></a> <b>Requires device system update newer than 2024.4.10.1</b></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md296"></a> <b>Requires device system update newer than 2024.4.10.1</b></p>
 <p>This two boards have a versatile analog front-end with 32 channels (or 32 channels per DAQ). Each Front-End has configurable gain, offset, impedance, input division and coupling</p>
 <p>SciSDK allows to configure the front end of the board from code in a very simple way.</p>
 <p>The board expose a node in the device tree called <code>boardapi/analog</code> that allows to configure the front end of the board.</p>
@@ -144,19 +144,19 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2x5560se.html',''); in
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">shaper   </td><td class="markdownTableBodyNone">Coupling of the front end   </td><td class="markdownTableBodyNone">dc 1us 10us 30us   </td><td class="markdownTableBodyNone">32   </td><td class="markdownTableBodyNone">dc   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/analog.shaper</code>   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md293"></a>
+<h1><a class="anchor" id="autotoc_md297"></a>
 How to use the boardapi/analog node</h1>
 <p>The nodes with group size 1 are the ones that are unique for each channel. In order to access to channel <code>CH</code> you have to access to the node <code>board0:/boardapi/analog/CHx</code> where x is the number of the channel. For example to access to the offset of channel 3 you have to access to the node <code>board0:/boardapi/analog/CH3.offset</code></p>
 <p>channels with group size 2 groups adjacent channels. In order to access to channel <code>CH</code> you have to access to the node <code>board0:/boardapi/analog/CHx_x+1</code> where x is the number of the channel. For example to access to the gain of channel 3 and 4 you have to access to the node <code>board0:/boardapi/analog/CH3_4.gain</code></p>
 <p>The shaper is common for all channels. In order to access to the shaper you have to access to the node <code>board0:/boardapi/analog.shaper</code></p>
-<h1><a class="anchor" id="autotoc_md294"></a>
+<h1><a class="anchor" id="autotoc_md298"></a>
 Applying the configuration</h1>
 <p>Once you have set the parameters you have to execute the command <code>board0:/boardapi/configure</code> to apply the configuration.</p>
-<h1><a class="anchor" id="autotoc_md295"></a>
+<h1><a class="anchor" id="autotoc_md299"></a>
 Example</h1>
-<h2><a class="anchor" id="autotoc_md296"></a>
+<h2><a class="anchor" id="autotoc_md300"></a>
 Configure a single channels</h2>
-<h3><a class="anchor" id="autotoc_md297"></a>
+<h3><a class="anchor" id="autotoc_md301"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line">op_res |= <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0_1.gain&quot;</span>, 5, _sdk);</div>
@@ -168,7 +168,7 @@ C/C++</h3>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md298"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md302"></a>
 Python</h3>
 <div class="fragment"><div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0_1.gain&quot;</span>, 5)</div>
 <div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0_1.50r&quot;</span>, <span class="stringliteral">&quot;true&quot;</span>,)</div>
@@ -176,9 +176,9 @@ Python</h3>
 <div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0.offset&quot;</span>, 100)</div>
 <div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog.shaper&quot;</span>, <span class="stringliteral">&quot;dc&quot;</span>)</div>
 <div class="line">sdk.ExecuteCommand(<span class="stringliteral">&quot;board0:/boardapi/configure&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md299"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md303"></a>
 Configure all channels of the board</h2>
-<h3><a class="anchor" id="autotoc_md300"></a>
+<h3><a class="anchor" id="autotoc_md304"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 16; i++) {</div>

@@ -91,7 +91,7 @@ var searchData=
   ['signal_88',['signal',['../md_docs_2oscilloscope.html#autotoc_md81',1,'Trigger on analog signal'],['../md_docs_2oscilloscope.html#autotoc_md80',1,'Trigger on external signal']]],
   ['simple_20register_89',['Simple Register',['../md_docs_2registers.html',1,'']]],
   ['single_90',['single',['../md_docs_2custompacket.html#autotoc_md129',1,'Labview Single'],['../md_docs_2frame.html#autotoc_md251',1,'Labview Single']]],
-  ['single_20channels_91',['single channels',['../md_docs_2boards_2x5560se.html#autotoc_md296',1,'Configure a single channels'],['../md_docs_2boards_2dt5771.html#autotoc_md306',1,'Configure a single channels']]],
+  ['single_20channels_91',['single channels',['../md_docs_2boards_2x5560se.html#autotoc_md300',1,'Configure a single channels'],['../md_docs_2boards_2dt5771.html#autotoc_md310',1,'Configure a single channels']]],
   ['sn_92',['SN',['../struct__t_u_s_b_device.html#a8409b824747a1cd912f1606aa490ce2a',1,'_tUSBDevice']]],
   ['source_93',['6. Compiling from source',['../index.html#autotoc_md9',1,'']]],
   ['special_5fevent_94',['special_event',['../struct_s_c_i_s_d_k___f_e___o_p_e_n_d_p_p___e_v_e_n_t.html#aa77878aeb359d125ed8e962e1904ecb1',1,'SCISDK_FE_OPENDPP_EVENT']]],
@@ -103,7 +103,7 @@ var searchData=
   ['status_100',['status',['../md_docs_22dhistogram.html#autotoc_md166',1,'Status'],['../md_docs_2tof-spectrum.html#autotoc_md178',1,'Status'],['../md_docs_2spectrum.html#autotoc_md145',1,'Status']]],
   ['store_20in_20a_20file_101',['store in a file',['../md_docs_2fft.html#autotoc_md230',1,'Processing decoded data and store in a file'],['../md_docs_2fft.html#autotoc_md231',1,'Processing raw data and store in a file']]],
   ['store_20in_20a_20file_20one_20channel_20per_20column_102',['store in a file one channel per column',['../md_docs_2oscilloscope.html#autotoc_md84',1,'Processing decoded data and store in a file, one channel per column'],['../md_docs_2oscilloscope.html#autotoc_md83',1,'Processing decoded data and store in a file, one channel per column']]],
-  ['structure_103',['structure',['../index.html#autotoc_md5',1,'3. SciSDK Structure'],['../md_docs_2oscilloscope-dual.html#autotoc_md86',1,'Data structure'],['../index.html#autotoc_md6',1,'File structure'],['../md_docs_2boards_2opendpp.html#autotoc_md279',1,'OpenDPP data structure'],['../md_docs_2boards_2openscope.html#autotoc_md283',1,'OpenScope data structure']]],
+  ['structure_103',['structure',['../index.html#autotoc_md5',1,'3. SciSDK Structure'],['../md_docs_2oscilloscope-dual.html#autotoc_md86',1,'Data structure'],['../index.html#autotoc_md6',1,'File structure'],['../md_docs_2boards_2opendpp.html#autotoc_md279',1,'OpenDPP data structure'],['../md_docs_2boards_2openscope.html#autotoc_md285',1,'OpenScope data structure']]],
   ['supported_20functions_3a_104',['Supported functions:',['../md_docs_2boardendpoint.html#autotoc_md275',1,'']]],
   ['system_105',['UPDATE YOUR SYSTEM',['../index.html#autotoc_md13',1,'']]]
 ];

@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2dt5771.html',''); ini
   <div class="headertitle"><div class="title">DT5771 Board Driver</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md302"></a> The board has a versatile analog front-end with single channel analog input . The Front-End has configurable gain, offset, impedance, input division and coupling</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md306"></a> The board has a versatile analog front-end with single channel analog input . The Front-End has configurable gain, offset, impedance, input division and coupling</p>
 <p>SciSDK allows to configure the front end of the board from code in a very simple way.</p>
 <p>The board expose a node in the device tree called <code>boardapi/analog</code> that allows to configure the front end of the board.</p>
 <table class="markdownTable">
@@ -151,18 +151,18 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2dt5771.html',''); ini
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">impedance   </td><td class="markdownTableBodyNone">Impedance of the Lemo connector   </td><td class="markdownTableBodyNone">hi, 50r   </td><td class="markdownTableBodyNone">hi   </td><td class="markdownTableBodyNone"><code>board0:/boardapi/digitalio/LEMO0.impedance</code>   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md303"></a>
+<h1><a class="anchor" id="autotoc_md307"></a>
 How to use the boardapi/analog node</h1>
 <p>In order to access to the node <code>board0:/boardapi/analog/CH</code> you have to access to the node <code>board0:/boardapi/analog/CH</code> where x is the number of the channel. For example to access to the offset of channel 0 you have to access to the node <code>board0:/boardapi/analog/CH0.offset</code></p>
 <p>The shaper is common for all channels. In order to access to the shaper you have to access to the node <code>board0:/boardapi/analog.shaper</code></p>
-<h1><a class="anchor" id="autotoc_md304"></a>
+<h1><a class="anchor" id="autotoc_md308"></a>
 Applying the configuration</h1>
 <p>Parameters are applied immediately after setting them.</p>
-<h1><a class="anchor" id="autotoc_md305"></a>
+<h1><a class="anchor" id="autotoc_md309"></a>
 Example</h1>
-<h2><a class="anchor" id="autotoc_md306"></a>
+<h2><a class="anchor" id="autotoc_md310"></a>
 Configure a single channels</h2>
-<h3><a class="anchor" id="autotoc_md307"></a>
+<h3><a class="anchor" id="autotoc_md311"></a>
 C/C++</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> op_res=0;</div>
 <div class="line">op_res |= <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a>(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0.gain&quot;</span>, 5, _sdk);</div>
@@ -176,7 +176,7 @@ C/C++</h3>
 <div class="line">op_res |= <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a>(<span class="stringliteral">&quot;board0:/boardapi/digitalio/LEMO1.impedance&quot;</span>, <span class="stringliteral">&quot;hi&quot;</span>, _sdk);</div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md308"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md312"></a>
 Python</h3>
 <div class="fragment"><div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0.gain&quot;</span>, 5)</div>
 <div class="line">sdk.SetParameter(<span class="stringliteral">&quot;board0:/boardapi/analog/CH0.impedance&quot;</span>, <span class="stringliteral">&quot;1k&quot;</span>)</div>
