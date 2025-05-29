@@ -295,8 +295,8 @@ SCISDK_DLL_API int SCISDK_DecodeData(char* Path, void*buffer_in, void*buffer_out
 
 /**
  * @brief Allocate a buffer to be used to store data from the board for the specific 
- * Memory Mapped Componet (oscilloscope, spectrum, list) or of the board specific endpoint
- * (scope, dpp).
+ * Memory Mapped Componet (oscilloscope, spectrum, list) or of the board specific dpp
+ * endpoint.
  * The buffer is allocated in function of the actual configuration of MMC/board endpoint.
  * For example, if a 1024 point oscilloscope is configured the buffer will be allocated to
  * store 1024 points (1 analog point + 4 digital point per sample).
@@ -323,8 +323,7 @@ SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, T_BUFFER_TYPE buffer_type, 
 
 /**
  * @brief Allocate a buffer to be used to store data from the board for the specific 
- * Memory Mapped Componet (list) or of the board specific endpoint
- * (scope, dpp).
+ * Memory Mapped Componet (list) or of the board specific scope endpoint.
  * The MMC operating in list mode does not have a maximum number of points to store, indeed an additional
  * parameter (size) is required to allocated a buffer to store the data.
  * The user will than use this buffer as temporany buffer for the readout and will store received data in
