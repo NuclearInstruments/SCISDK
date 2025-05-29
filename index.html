@@ -253,6 +253,21 @@ File structure</h2>
 <h1><a class="anchor" id="autotoc_md8"></a>
 5. Linux: Installation from binary package</h1>
 <p><em><em></em></em></p>
+<p><em><em>You can install SciSDK from the apt repository on Ubuntu by adding the Nuclear Instruments repository to your system.</em></em></p>
+<p><em><em></p><div class="fragment"><div class="line">wget https://raw.githubusercontent.com/NuclearInstruments/SCISDK/refs/heads/master/scisdk-install.sh</div>
+<div class="line">chmod +x scisdk-install.sh</div>
+<div class="line">sudo ./scisdk-install.sh</div>
+</div><!-- fragment --><p></em></em></p>
+<p><em><em>or you can do this by running the following commands in your terminal: </p><div class="fragment"><div class="line">sudo mkdir -p /etc/apt/{sources.list.d,keyrings} &amp;&amp; \</div>
+<div class="line">sudo apt update &amp;&amp; \</div>
+<div class="line">sudo apt install -y ca-certificates curl gnupg lsb-release &amp;&amp; \</div>
+<div class="line">echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/nuclearinstruments.gpg] http://packages.nuclearinstruments.eu/linux/apt/ubuntu/ $(lsb_release -cs) main&quot; \</div>
+<div class="line">  | sudo tee /etc/apt/sources.list.d/nuclearinstruments.list &gt; /dev/null &amp;&amp; \</div>
+<div class="line">curl -fsSL http://packages.nuclearinstruments.eu/linux/apt/ubuntu/pubkey.gpg \</div>
+<div class="line">  | sudo gpg --dearmor -o /etc/apt/keyrings/nuclearinstruments.gpg &amp;&amp; \</div>
+<div class="line">sudo apt update &amp;&amp; \</div>
+<div class="line">sudo apt install -y scisdk</div>
+</div><!-- fragment --><p></em></em></p>
 <p><em><em></em></em></p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 6. Compiling from source</h1>
