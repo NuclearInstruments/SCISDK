@@ -16,6 +16,10 @@ pages:
 
   image: registry.lanni/pages/doxygen:latest
 
+  tags:
+    - docker-linux
+    - docker-light
+
   script:
     - doxygen
     - mkdir -p public
@@ -33,6 +37,10 @@ push_github:
 
   image: registry.lanni/nibuntu/services-20.04:latest
 
+  tags:
+    - docker-linux
+    - docker-light
+
   script:
     - git config --global --add safe.directory '*'
     - git config remote.github_cicd.url >&- || git remote add github_cicd https://NuclearInstruments:${GITHUB_TOKEN}@github.com/NuclearInstruments/SCISDK.git
@@ -45,6 +53,11 @@ docs_nirelease:
   image: registry.lanni/apps/release-manager:latest
   dependencies: 
     - pages
+
+  tags:
+    - docker-linux
+    - docker-light
+
   script:
     - mv public scisdk_docs
     - zip -r scisdk_docs.zip scisdk_docs
@@ -89,6 +102,10 @@ build_vs2022_windows:
 build_zynq:
   stage: build
   image: registry.lanni/nibuntu/console-20.04:latest
+
+  tags:
+    - docker-linux
+
   script:
     - echo $CI_COMMIT_TAG>VERSION
     - ./compile_for_zynq.sh $CI_COMMIT_TAG
@@ -155,6 +172,11 @@ build_ubuntu_all_arch:
 nireleasewindows:
   stage: release_win
   image: registry.lanni/apps/release-manager:latest
+
+  tags:
+    - docker-linux
+    - docker-light
+
   dependencies: 
     - build_vs2022_windows
   script:
@@ -213,6 +235,11 @@ nirelease:
     - build_zynq  
     - build_ubuntu_all_arch
     - digital_signature
+
+  tags:
+    - docker-linux
+    - docker-light
+
   script:
     - cd tars
     - tar zcvf ../scisdk-lib-ubuntu.tar.gz .
@@ -242,6 +269,12 @@ nirelease:
 deb_push:
   stage: pck_push
   image: registry.lanni/apps/release-manager:latest
+
+  tags:
+    - docker-linux
+    - docker-light
+
+    
   dependencies: 
     - build_ubuntu_all_arch
 
