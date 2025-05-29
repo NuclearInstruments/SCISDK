@@ -213,6 +213,29 @@ You will also find:
 
 ## 5. Linux: Installation from binary package
 
+You can install SciSDK from the apt repository on Ubuntu by adding the Nuclear Instruments repository to your system.
+
+```bash 
+wget https://raw.githubusercontent.com/NuclearInstruments/SCISDK/refs/heads/master/scisdk-install.sh
+chmod +x scisdk-install.sh
+sudo ./scisdk-install.sh
+
+```
+
+or you can do this by running the following commands in your terminal:
+```bash
+sudo mkdir -p /etc/apt/{sources.list.d,keyrings} && \
+sudo apt update && \
+sudo apt install -y ca-certificates curl gnupg lsb-release && \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/nuclearinstruments.gpg] http://packages.nuclearinstruments.eu/linux/apt/ubuntu/ $(lsb_release -cs) main" \
+  | sudo tee /etc/apt/sources.list.d/nuclearinstruments.list > /dev/null && \
+curl -fsSL http://packages.nuclearinstruments.eu/linux/apt/ubuntu/pubkey.gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/nuclearinstruments.gpg && \
+sudo apt update && \
+sudo apt install -y scisdk
+```
+
+
 ## 6. Compiling from source
 
 ### 6.1. Compiling for Windows
