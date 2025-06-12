@@ -6,7 +6,7 @@
 
 #define DT5771_IR_IMP_SET		10
 #define DT5771_IR_RANGE_SET		11
-#define DT5771_IR_BW_SET		41
+//#define DT5771_IR_BW_SET		41
 #define DT5771_IR_COUPLING_SET	9
 #define DT5771_IR_GAIN_SET		7
 #define DT5771_IR_DTERM_SET		40
@@ -27,7 +27,7 @@ bd_dt5771::bd_dt5771(SciSDK_HAL* hal, json j, string path) : SciSDK_Node(hal, j,
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".gain", "set analog gain", SciSDK_Paramcb::Type::I32, this);
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".range", "set analog range", SciSDK_Paramcb::Type::str, listOfRange, this);
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".impedance", "set analog input impedance", SciSDK_Paramcb::Type::str, listOfImpedance, this);
-		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".bw", "set analog input bandwith", SciSDK_Paramcb::Type::str, listOfBw, this);
+		//RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".bw", "set analog input bandwith", SciSDK_Paramcb::Type::str, listOfBw, this);
 		RegisterParameter("boardapi/analog/CH" + std::to_string(i) + ".shaper", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
 	}
 
@@ -43,7 +43,7 @@ NI_RESULT bd_dt5771::ISetParamDouble(string name, double value)
 	for (int i = 0; i < 1; i++) {
 		if (name == "analog/CH" + std::to_string(i) + ".offset") {
 			analog_settings[i].offset_mV = value;
-			int ret = _hal->ConfigurationRegisterSet(0x8000 + (int)analog_settings[i].offset_mV, DT5771_IR_OFFSET_SET, i);
+			int ret = _hal->ConfigurationRegisterSet(0x5208 + (int)analog_settings[i].offset_mV, DT5771_IR_OFFSET_SET, i);
 			if (ret) {
 				return NI_ERROR_INTERFACE;
 			}
@@ -138,19 +138,19 @@ NI_RESULT bd_dt5771::ISetParamString(string name, string value)
 
 			return NI_OK;
 		}
-		if (name == "analog/CH" + std::to_string(i) + ".bw") {
-			int index = findIndexInList(listOfBw, value);
-			if (index == -1) {
-				return NI_PARAMETER_OUT_OF_RANGE;
-			}
-			analog_settings[i].bw = (BANDWIDTH) index;
+		//if (name == "analog/CH" + std::to_string(i) + ".bw") {
+		//	int index = findIndexInList(listOfBw, value);
+		//	if (index == -1) {
+		//		return NI_PARAMETER_OUT_OF_RANGE;
+		//	}
+		//	analog_settings[i].bw = (BANDWIDTH) index;
 
-			int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].bw, DT5771_IR_BW_SET, i);
-			if (ret) {
-				return NI_ERROR_INTERFACE;
-			}
-			return NI_OK;
-		}
+		//	int ret = _hal->ConfigurationRegisterSet((int)analog_settings[i].bw, DT5771_IR_BW_SET, i);
+		//	if (ret) {
+		//		return NI_ERROR_INTERFACE;
+		//	}
+		//	return NI_OK;
+		//}
 
 		if (name == "analog/CH" + std::to_string(i) + ".shaper") {
 			int index = findIndexInList(listOfCoupling, value);
@@ -199,16 +199,16 @@ NI_RESULT bd_dt5771::IGetParamString(string name, string* value) {
             *value = analog_settings[i].div ? "10v" : "2v";
             return NI_OK;
         }
-		if (name == "analog/CH" + std::to_string(i) + ".bw") {
-			if ((int)analog_settings[i].bw >= 0 && (int)analog_settings[i].bw < listOfBw.size()) {
-				auto it = std::next(listOfBw.begin(), (int)analog_settings[i].bw);
-				*value = *it;
-				return NI_OK;
-			}
-			else {
-				return NI_PARAMETER_OUT_OF_RANGE;
-			}
-		}
+		//if (name == "analog/CH" + std::to_string(i) + ".bw") {
+		//	if ((int)analog_settings[i].bw >= 0 && (int)analog_settings[i].bw < listOfBw.size()) {
+		//		auto it = std::next(listOfBw.begin(), (int)analog_settings[i].bw);
+		//		*value = *it;
+		//		return NI_OK;
+		//	}
+		//	else {
+		//		return NI_PARAMETER_OUT_OF_RANGE;
+		//	}
+		//}
         if (name == "analog/CH" + std::to_string(i) + ".shaper") {
             if ((int)analog_settings[i].coupling < listOfCoupling.size()) {
                 auto it = std::next(listOfCoupling.begin(), (int)analog_settings[i].coupling);

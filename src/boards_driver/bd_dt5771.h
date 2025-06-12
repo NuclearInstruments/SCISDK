@@ -39,19 +39,19 @@ private:
         FLOAT   = 4
     };
 
-    enum class BANDWIDTH {
-        FULL = 0,
-        MHz20 = 1,
-        MHz100 = 2,
-        MHz200 = 3,
-        MHz350 = 4,
-        MHz650 = 5,
-        MHz750 = 6
-    };
+   // enum class BANDWIDTH {
+   //     FULL = 0,
+   //     MHz20 = 1,
+   //     MHz100 = 2,
+   //     MHz200 = 3,
+   //     MHz350 = 4,
+   //     MHz650 = 5,
+   //     MHz750 = 6
+   // };
 
     int findIndexInList(const std::list<std::string>& lst, const std::string& value);
 
-    const std::list<std::string> listOfBw = { "full", "20mhz", "100mhz", "200mhz", "350mhz", "650mhz", "750mhz" };
+    //const std::list<std::string> listOfBw = { "full", "20mhz", "100mhz", "200mhz", "350mhz", "650mhz", "750mhz" };
     const std::list<std::string> listOfCoupling = { "dc", "ac0", "ac1", "ac2"};
     const std::list<std::string> listOfBoolean = { "false", "true" };
     const std::list<std::string> listOfRange = { "2v", "10v" };
@@ -66,7 +66,7 @@ private:
         bool div;
         bool r50;
         COUPLING coupling;
-        BANDWIDTH bw;
+        //BANDWIDTH bw;
     }analog_settings[1];
 
     struct {
