@@ -14,7 +14,6 @@
 #define DT5560_IR_SHAPER     9
 #define DT5560_IR_SHAPER     9
 #define DT5560_IR_SYNC_REG   20
-#define DT5560_IR_SYNC_REG   20
 #define DT5560_IR_CONFIGURE_AFE   255
 
 
@@ -54,6 +53,9 @@ bd_dt5560se::bd_dt5560se(SciSDK_HAL* hal, json j, string path) : SciSDK_Node(hal
 	}
 	
 	RegisterParameter("boardapi/analog.shaper", "set analog shaper", SciSDK_Paramcb::Type::str, listOfCoupling, this);
+    RegisterParameter("boardapi/sync_reg.0", "set sync reg 0", SciSDK_Paramcb::Type::I32, this);
+    RegisterParameter("boardapi/sync_reg.1", "set sync reg 1", SciSDK_Paramcb::Type::I32, this);
+    RegisterParameter("boardapi/sync_reg.2", "set sync reg 2", SciSDK_Paramcb::Type::I32, this);
 
     analog_settings.coupling[0] = COUPLING::DC;
     analog_settings.coupling[1] = COUPLING::DC;
@@ -87,6 +89,17 @@ NI_RESULT bd_dt5560se::ISetParamI32(string name, int32_t value)
         }
 		
     }
+
+     for (int i = 0; i < 3; i++) {
+         if (name == "sync_reg." + std::to_string(i)) {
+             int ret = _hal->ConfigurationRegisterSet(value, DT5560_IR_SYNC_REG, i);
+			 if (ret != 0) {
+				 return NI_ERROR_INTERFACE;
+			 }
+             return NI_OK;
+         }
+
+     }
   
 
     return NI_INVALID_PARAMETER;
