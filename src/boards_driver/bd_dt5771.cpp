@@ -43,7 +43,7 @@ NI_RESULT bd_dt5771::ISetParamDouble(string name, double value)
 	for (int i = 0; i < 1; i++) {
 		if (name == "analog/CH" + std::to_string(i) + ".offset") {
 			analog_settings[i].offset_mV = value;
-			int ret = _hal->ConfigurationRegisterSet(0x5208 + (int)analog_settings[i].offset_mV, DT5771_IR_OFFSET_SET, i);
+			int ret = _hal->ConfigurationRegisterSet(0x6496 + (int)analog_settings[i].offset_mV, DT5771_IR_OFFSET_SET, i);
 			if (ret) {
 				return NI_ERROR_INTERFACE;
 			}
