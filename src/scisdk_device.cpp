@@ -29,6 +29,7 @@
 #include "boards_driver/bd_dt4810.h"
 #include "boards_driver/bd_dt5560se.h"
 #include "boards_driver/bd_dt5771.h"
+#include "boards_driver/bd_v2495.h"
 
 void toLower(std::string& str)
 {
@@ -72,6 +73,7 @@ NI_RESULT SciSDK_Device::Connect() {
 
 			}
 			else {
+				std::cout << "Unable to locate json "  << _JSONFwFilePath << " file" << std::endl;
 				return NI_CFG_JSON_NOT_FOUND;
 			}
 
@@ -526,11 +528,14 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						else if ((model == "dt4810") ) {
 							mmcs.push_back(new bd_dt4810(_hal, this, rs, parent + "/" + (string)it.key()));
 						}
-						else if ((model == "dt5560") || (model == "dt5560se") || (model == "r5560se")) {
+						else if ((model == "dt5560") || (model == "dt5560se") || (model == "r5560se") || (model == "r5560")) {
 							mmcs.push_back(new bd_dt5560se(_hal, rs, parent + "/" + (string)it.key()));
 						}
 						else if (model == "dt5771")  {
 							mmcs.push_back(new bd_dt5771(_hal, rs, parent + "/" + (string)it.key()));
+						}
+						else if ((model == "v2495") || (model == "dt2495")) {
+							mmcs.push_back(new bd_v2495(_hal, rs, parent + "/" + (string)it.key()));
 						}
 					} 
 					else {

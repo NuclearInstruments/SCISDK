@@ -45,7 +45,8 @@ AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@ -Wno-narrowing -fpermissive -DSC
 # 						boards_driver/bd_dt1260.cpp \
 # 						boards_driver/bd_dt4810.cpp \
 # 						boards_driver/bd_feelib.cpp \
-# 						boards_driver/bd_dt5560se.cpp
+# 						boards_driver/bd_dt5560se.cpp\
+# 						boards_driver/bd_v2495.cpp
 
 lib_LTLIBRARIES = libscisdk.la
 
@@ -89,6 +90,7 @@ libscisdk_la_SOURCES =    \
  						boards_driver/bd_dt5771.cpp \
 						boards_driver/bd_feelib.cpp \
 						boards_driver/bd_dt5560se.cpp \
+						boards_driver/bd_v2495.cpp \
 						SciSDK_DLL.cpp 
 						
 ###############################################################################

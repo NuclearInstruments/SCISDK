@@ -98,6 +98,22 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 	}
 	if ((model == "V2495") || (model == "DT2495")) {
 		_model = BOARD_MODEL::X2495;
+#ifdef _MSC_VER 
+		h_lib_instance = LoadLibrary(L"CAEN_PLULib.dll");
+#else
+		h_lib_instance = dlopen("CAEN_PLULib.so", RTLD_LAZY);
+		if (!h_lib_instance) {
+			/* fail to load the library */
+			fprintf(stderr, "Error: %s\n", dlerror());
+		}
+#endif
+		if (h_lib_instance == NULL) {
+			cout << "CAEN_PLULib library not loaded ..." << endl;
+			return NI_UNABLE_TO_LOAD_EXTERNAL_LIBRARY;
+		}
+		else {
+			cout << "CAEN_PLULib library loaded correclty ..." << endl;
+		}
 	}
 	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")
 		|| (model == "V2730") || (model == "DT2730") ) {
@@ -258,6 +274,134 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2495:
+		if (h_lib_instance != NULL) {
+			int result = 0;
+			_handle = malloc(sizeof(int32_t));
+#ifdef _MSC_VER 
+			typedef int(__stdcall* CONNECT_PROC_PTR)(V2495_CONNECTION_MODE connection_mode, const char* IPAddress_or_SN_or_VMEBaseAddress, 
+				int VMElink, int VMEConetNode, int32_t* handle);
+			CONNECT_PROC_PTR connect2495 = (CONNECT_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_OpenDevice");
+#else
+			int (*connect2495)(V2495_CONNECTION_MODE connection_mode, const char* IPAddress_or_SN_or_VMEBaseAddress,
+				int VMElink, int VMEConetNode, int32_t* handle);
+			*(void**)(&connect2495) = dlsym(h_lib_instance, "CAEN_PLU_OpenDevice");
+#endif
+
+#ifdef _MSC_VER 
+			typedef int(__stdcall* CONNECT_PROC_PTR_2)(V2495_CONNECTION_MODE connection_mode, const void* IPAddress_or_SN_or_VMELink, 
+				int VMEConetNode, const char* VMEBaseAddress, int32_t* handle);
+			CONNECT_PROC_PTR_2 connect2495_2 = (CONNECT_PROC_PTR_2)GetProcAddress(h_lib_instance, "CAEN_PLU_OpenDevice2");
+#else
+			int (*connect2495)(V2495_CONNECTION_MODE connection_mode, const void* IPAddress_or_SN_or_VMELink, 
+				int VMEConetNode, const char* VMEBaseAddress, int32_t* handle);
+			*(void**)(&connect2495_2) = dlsym(h_lib_instance, "CAEN_PLU_OpenDevice2");
+#endif
+
+
+#ifdef _MSC_VER 
+			typedef int(__stdcall* INITGATEDELAY_PTR)(int32_t handle);
+			INITGATEDELAY_PTR inidgd2495 = (INITGATEDELAY_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_InitGateAndDelayGenerators");
+#else
+			int (*connect2495)(int32_t handle);
+			*(void**)(&inidgd2495) = dlsym(h_lib_instance, "CAEN_PLU_InitGateAndDelayGenerators");
+#endif
+
+			
+			if (p[0] == "usb") {
+				mtx.lock();
+				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_DIRECT_USB, p[1].c_str(), 0, 0,(int32_t*) _handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "eth") {
+				mtx.lock();
+				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_DIRECT_ETH, p[1].c_str(), 0, 0, (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "V1718") {
+				int vme_link = 0;
+				int vme_node = 0;
+				if (p.size() == 3) {
+					int vme_link = stoi(p[2]);
+					int vme_node = stoi(p[3]);
+				}
+				mtx.lock();
+				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V1718, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "V2718") {
+				int vme_link = 0;
+				int vme_node = 0;
+				if (p.size() == 3) {
+					int vme_link = stoi(p[2]);
+					int vme_node = stoi(p[3]);
+				}
+				mtx.lock();
+				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V2718, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "V4718ETH") {
+				int vme_base = 0;
+				int vme_node = 0;
+				if (p.size() < 3) {
+					return NI_INVALID_PARAMETER;
+				}
+				if (p.size() > 3) {
+					int vme_node = stoi(p[3]);
+				}
+				mtx.lock();
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V4718_ETH, p[1].c_str(), vme_node, p[2].c_str(), (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "V471USB") {
+				uint32_t vme_base = 0;
+				int vme_node = 0;
+				if (p.size() >= 2) {
+					stringstream ss;
+					ss << std::hex << p[2];
+					uint32_t vme_base;
+					ss >> vme_base;
+				}
+				if (p.size() >= 3) {
+					int vme_node = stoi(p[3]);
+				}
+				mtx.lock();
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V4718_USB, p[1].c_str(),  vme_node, p[2].c_str(), (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else if (p[0] == "A4818") {
+				int vme_link = 0;
+				int vme_node = 0;
+				if (p.size() == 3) {
+					int vme_link = stoi(p[2]);
+					int vme_node = stoi(p[3]);
+				}
+				mtx.lock();
+				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_A4818, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				mtx.unlock();
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+			if (result < 0) {
+				cout << "[V2495] Connection Error Code: " << result << endl;
+				return NI_ERROR;
+			}
+			else {
+				cout << "[V2495] Connection successful" << endl;
+				if (result >= 0) {
+					// initialize gate and delay generators
+					int init_result = inidgd2495(*((int32_t*)_handle));
+					if (init_result < 0) {
+						cout << "[V2495] Error initializing gate and delay generators: " << init_result << endl;
+						return NI_ERROR_FPGA;
+					}
+				}
+				return NI_OK;
+			}
+
+
+		}
 		break;
 	case BOARD_MODEL::X2740:
 		if (h_lib_instance != NULL) {
@@ -446,6 +590,39 @@ NI_RESULT SciSDK_HAL::CloseConnection() {
 		break;
 		
 	case BOARD_MODEL::X2495:
+			// close connection with DT4810 board
+		if (h_lib_instance != NULL) {
+
+#ifdef _MSC_VER 
+				typedef int(__cdecl* CLOSE_CONNECTION_PROC_PTR)(int32_t);
+				CLOSE_CONNECTION_PROC_PTR close_connection = (CLOSE_CONNECTION_PROC_PTR)GetProcAddress(h_lib_instance, "		CAEN_PLU_CloseDevice");
+#else
+				int (*close_connection)(int32_t);
+				*(void**)(&close_connection) = dlsym(h_lib_instance, "		CAEN_PLU_CloseDevice");
+#endif
+				if (close_connection) {
+					mtx.lock();
+					int res = close_connection(*((int32_t*)_handle));
+					mtx.unlock();
+					if (res == 0) {
+#ifdef _MSC_VER 
+						FreeLibrary(h_lib_instance);
+#else
+						dlclose(h_lib_instance);
+#endif
+						free(_handle);
+						return NI_OK;
+					}
+					else {
+						return NI_ERROR;
+					}
+				}
+				else {
+					return NI_INVALID_METHOD;
+				}
+
+			}
+		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2740:
 		if (h_lib_instance != NULL) {
@@ -617,6 +794,28 @@ NI_RESULT SciSDK_HAL::WriteReg(uint32_t value,
 		}
 		break;
 	case BOARD_MODEL::X2495:
+		// write register of V2495 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_REG_PROC_PTR)(int32_t handle, uint32_t address, uint32_t value);
+			WRITE_REG_PROC_PTR write_reg = (WRITE_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_WriteReg");
+#else
+			int (*write_reg)(int32_t handle, uint32_t address, uint32_t value);
+			*(void**)(&write_reg) = dlsym(h_lib_instance, "CAEN_PLU_WriteReg");
+#endif
+			if (write_reg) {
+				mtx.lock();
+				int res = write_reg(*((int32_t*)_handle),address,value);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
 		break;
 	case BOARD_MODEL::X2740:
 		// write register of X274X board
@@ -762,6 +961,29 @@ NI_RESULT SciSDK_HAL::ReadReg(uint32_t *value,
 		break;
 		
 	case BOARD_MODEL::X2495:
+		// read register from V2495 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_REG_PROC_PTR)(int32_t handle, uint32_t address, uint32_t* value);
+			READ_REG_PROC_PTR read_reg = (READ_REG_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_ReadReg");
+#else
+			int (*read_reg)(int32_t handle, uint32_t address, uint32_t* value);
+			*(void**)(&read_reg) = dlsym(h_lib_instance, "CAEN_PLU_ReadReg");
+#endif
+			if (read_reg) {
+				mtx.lock();
+				int res = read_reg(*((int32_t*)_handle), address, value);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2740:
 		// write register of X274X board
@@ -911,7 +1133,29 @@ NI_RESULT SciSDK_HAL::WriteData(uint32_t *value,
 
 		
 	case BOARD_MODEL::X2495:
-		break;
+		// write data to DT1260 board
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* WRITE_DATA_PROC_PTR)(int32_t handle, uint32_t start_address, uint32_t size, const uint32_t* value);
+			WRITE_DATA_PROC_PTR write_data_proc = (WRITE_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_WriteData32");
+#else
+			int (*write_data_proc)(int32_t handle, uint32_t start_address, uint32_t size, const uint32_t* value);
+			*(void**)(&write_data_proc) = dlsym(h_lib_instance, "CAEN_PLU_WriteData32");
+#endif
+			if (write_data_proc) {
+				mtx.lock();
+				int res = write_data_proc(*((int32_t*)_handle), address, length, value);
+				mtx.unlock();
+				if (res == 0) {
+					return NI_OK;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
 	case BOARD_MODEL::X2740:
 		for (int i = 0; i < length; i++) {
 			WriteReg(value[i], address + i);
@@ -1047,7 +1291,26 @@ NI_RESULT SciSDK_HAL::ReadData(uint32_t *value,
 		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2495:
-		break;
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_DATA_PROC_PTR)(int32_t handle, uint32_t start_address, uint32_t size, uint32_t* value, uint32_t* nw);
+			READ_DATA_PROC_PTR read_data_proc = (READ_DATA_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_ReadData32");
+#else
+			int (*read_data_proc)(int32_t handle, uint32_t start_address, uint32_t size, uint32_t* value, uint32_t* nw);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "CAEN_PLU_ReadData32");
+#endif
+			if (read_data_proc) {
+				mtx.lock();
+				NI_RESULT r = read_data_proc(*((int32_t*)_handle), address, length, value, read_data);
+				mtx.unlock();
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
 	case BOARD_MODEL::X2740:
 
 		// read data from X274X board
@@ -1271,7 +1534,28 @@ NI_RESULT SciSDK_HAL::ReadFIFO(uint32_t *value,
 		return NI_ERROR;
 		break;
 	case BOARD_MODEL::X2495:
+		if (h_lib_instance != NULL) {
+#ifdef _MSC_VER 
+			typedef int(__cdecl* READ_FIFO_PROC_PTR)(int32_t handle, uint32_t address, uint32_t size, uint32_t* value, uint32_t* nw);
+			READ_FIFO_PROC_PTR read_data_proc = (READ_FIFO_PROC_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_ReadFIFO32");
+#else
+			int (*read_data_proc)(int32_t handle, uint32_t address, uint32_t size, uint32_t* value, uint32_t* nw);
+			*(void**)(&read_data_proc) = dlsym(h_lib_instance, "CAEN_PLU_ReadFIFO32");
+#endif
+			if (read_data_proc) {
+				mtx.lock();
+				NI_RESULT r = read_data_proc(*((int32_t*)_handle), address, length, value, read_data);
+				mtx.unlock();
+				return r;
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+
+		}
+		return NI_ERROR;
 		break;
+
 	case BOARD_MODEL::X2740:
 
 		// read fifo from X274X board
@@ -1596,9 +1880,61 @@ NI_RESULT SciSDK_HAL::SetBoardParamater(string path, string value){
 		break;
 	case BOARD_MODEL::X5560:
 		break;
-	case BOARD_MODEL::X2495:
+	case BOARD_MODEL::X2495: {
+		if (h_lib_instance != nullptr) {
+#ifdef _MSC_VER
+			typedef int(__stdcall* PLU_SET_PROC)(int handle, uint32_t channel, uint32_t enable, uint32_t gate, uint32_t delay, uint32_t scale_factor);
+			PLU_SET_PROC CAEN_PLU_SetGateAndDelayGenerator = (PLU_SET_PROC)GetProcAddress(h_lib_instance, "CAEN_PLU_SetGateAndDelayGenerator");
+#else
+			int (*CAEN_PLU_SetGateAndDelayGenerator)(int handle, uint32_t channel, uint32_t enable, uint32_t gate, uint32_t delay, uint32_t scale_factor);
+			*(void**)(&CAEN_PLU_SetGateAndDelayGenerator) = dlsym(h_lib_instance, "CAEN_PLU_SetGateAndDelayGenerator");
+#endif
+			if (CAEN_PLU_SetGateAndDelayGenerator) {
+				const std::string prefix = "gd:";
+				// Expect path format "gd:<index>"
+				if (path.rfind(prefix, 0) == 0) {
+					// Extract channel index
+					uint32_t channel = std::stoul(path.substr(prefix.size()));
+
+					// Expect value format "delay,gate,scale_factor"
+					std::vector<uint32_t> params;
+					std::stringstream ss(value);
+					std::string token;
+					while (std::getline(ss, token, ',')) {
+						params.push_back(static_cast<uint32_t>(std::stoul(token)));
+					}
+					if (params.size() != 3) {
+						return NI_INVALID_PARAMETER;
+					}
+
+					uint32_t delay = params[0];
+					uint32_t gate = params[1];
+					uint32_t scale_factor = params[2];
+
+					// Call the PLU generator function
+					mtx.lock();
+					int res = CAEN_PLU_SetGateAndDelayGenerator(*reinterpret_cast<int*>(_handle),
+						channel,
+						1,       // enable
+						gate,
+						delay,
+						scale_factor);
+					mtx.unlock();
+					if (res != 0) {
+						return NI_FEELIB_INTERNAL_ERROR + abs(res);
+					}
+					return NI_OK;
+				}
+				else {
+					return NI_INVALID_PARAMETER;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+		}
 		break;
-	case BOARD_MODEL::X2740:
+	}	case BOARD_MODEL::X2740:
 		// gettree
 		if (h_lib_instance != NULL) {
 #ifdef _MSC_VER 
@@ -1641,8 +1977,47 @@ NI_RESULT SciSDK_HAL::GetBoardParamater(string path, string &value) {
 		break;
 	case BOARD_MODEL::X5560:
 		break;
-	case BOARD_MODEL::X2495:
+	case BOARD_MODEL::X2495: {
+		if (h_lib_instance != nullptr) {
+#ifdef _MSC_VER
+			typedef int(__stdcall* PLU_GET_PROC)(int handle, uint32_t channel, uint32_t* gate, uint32_t* delay, uint32_t* scale_factor);
+			PLU_GET_PROC CAEN_PLU_GetGateAndDelayGenerators = (PLU_GET_PROC)GetProcAddress(h_lib_instance, "CAEN_PLU_GetGateAndDelayGenerators");
+#else
+			int (*CAEN_PLU_GetGateAndDelayGenerators)(int handle, uint32_t channel, uint32_t * gate, uint32_t * delay, uint32_t * scale_factor);
+			*(void**)(&CAEN_PLU_GetGateAndDelayGenerators) = dlsym(h_lib_instance, "CAEN_PLU_GetGateAndDelayGenerators");
+#endif
+			if (CAEN_PLU_GetGateAndDelayGenerators) {
+				const std::string prefix = "gd:";
+				if (path.rfind(prefix, 0) == 0) {
+					uint32_t channel = std::stoul(path.substr(prefix.size()));
+					uint32_t gate = 0, delay = 0, scale_factor = 0;
+
+					mtx.lock();
+					int res = CAEN_PLU_GetGateAndDelayGenerators(*reinterpret_cast<int*>(_handle),
+						channel,
+						&gate,
+						&delay,
+						&scale_factor);
+					mtx.unlock();
+
+					if (res != 0) {
+						value.clear();
+						return NI_FEELIB_INTERNAL_ERROR + std::abs(res);
+					}
+					// Return in the same format: "delay,gate,scale_factor"
+					value = std::to_string(delay) + "," + std::to_string(gate) + "," + std::to_string(scale_factor);
+					return NI_OK;
+				}
+				else {
+					return NI_INVALID_PARAMETER;
+				}
+			}
+			else {
+				return NI_INVALID_METHOD;
+			}
+		}
 		break;
+	}
 	case BOARD_MODEL::X2740:
 		// gettree
 		if (h_lib_instance != NULL) {

@@ -225,16 +225,34 @@ void DemoSciCompilerFrame() {
 
 }
 
+void DemoV2495_V4718_ETH() {
+	string test;
+	int res = 0;
+	uint32_t v;
 
+	//TEST SCOPE
+	res = sdk.AddNewDevice("V4718ETH:v4718.sw:0x32100000", "V2495", "RegisterFileV2495.json", "board0");
+	sdk.SetParameter("board0:/boardapi/gd[0].delay", 100);
+	sdk.p_error(sdk.SetRegister("board0:/Registers/bb", 1));
+	sdk.p_error(sdk.GetRegister("board0:/Registers/aa", &v));
+	cout << "Register aa access result: " << v << endl;
+	sdk.p_error(sdk.GetRegister("board0:/Registers/cc", &v));
+	cout << "Register cc access result: " << v << endl;
+
+}
 
 int main()
 {
+	// Print actual executable path
+	std::cout << "SciSDK Version: " << SCISDK_VERSION << std::endl;
+	
 
 	//Just run one demo at time!
 
 	//OpenDppDemo();
 	//OpenScopeDemo();
-	DemoSciCompilerOscilloscope();
+	//DemoSciCompilerOscilloscope();
+	DemoV2495_V4718_ETH();
 
 	return 0;
 

@@ -157,6 +157,7 @@
     <ClInclude Include="..\..\src\boards_driver\bd_dt5560se.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_dt5771.h" />
     <ClInclude Include="..\..\src\boards_driver\bd_feelib.h" />
+    <ClInclude Include="..\..\src\boards_driver\bd_v2495.h" />
     <ClInclude Include="..\..\src\magic_numbers.h" />
     <ClInclude Include="..\..\src\NIErrorCode.h" />
     <ClInclude Include="..\..\src\scisdk_2dhistogram.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\..\src\boards_driver\bd_dt5560se.cpp" />
     <ClCompile Include="..\..\src\boards_driver\bd_dt5771.cpp" />
     <ClCompile Include="..\..\src\boards_driver\bd_feelib.cpp" />
+    <ClCompile Include="..\..\src\boards_driver\bd_v2495.cpp" />
     <ClCompile Include="..\..\src\scisdk_2dhistogram.cpp" />
     <ClCompile Include="..\..\src\scisdk_core.cpp" />
     <ClCompile Include="..\..\src\scisdk_custom_packet.cpp" />
