@@ -302,7 +302,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 			typedef int(__stdcall* INITGATEDELAY_PTR)(int32_t handle);
 			INITGATEDELAY_PTR inidgd2495 = (INITGATEDELAY_PTR)GetProcAddress(h_lib_instance, "CAEN_PLU_InitGateAndDelayGenerators");
 #else
-			int (*connect2495)(int32_t handle);
+			int (*inidgd2495)(int32_t handle);
 			*(void**)(&inidgd2495) = dlsym(h_lib_instance, "CAEN_PLU_InitGateAndDelayGenerators");
 #endif
 
