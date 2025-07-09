@@ -16,6 +16,13 @@ SciCompiler is a Nuclear Instruments (http://www.nuclearinstruments.eu) tool to 
 
 Download last setup from [Github releases](https://github.com/NuclearInstruments/SCISDK/releases) and install it in your system. The libraries for all supported board and the SciSDK library will be installed in your system.
 
+**V2495 PLU and VME library are not included in the installation**
+Download the library from [CAEN](http://www.caen.it)
+[PLU Library](https://www.caen.it/products/caen-plu-library/)
+[VME Library](https://www.caen.it/products/caenvmelib-library/)
+[Comm Library](https://www.caen.it/products/caencomm-library/)
+
+
 # Installation on Linux from source
 
 ** SciSDK does not include the low levels so library required to communicate with the board **
@@ -31,6 +38,12 @@ The list of the repository is the following:
 - [R5560/R5560SE/DT5560](https://github.com/NuclearInstruments/r5560_sdk)
 - [DT5550/DT5550W](https://github.com/NuclearInstruments/DT5550Wgcc)
 - [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
+
+- For V2495:
+[PLU Library](https://www.caen.it/products/caen-plu-library/)
+[VME Library](https://www.caen.it/products/caenvmelib-library/)
+[Comm Library](https://www.caen.it/products/caencomm-library/)
+
 
 
 # Verify installed version of the library [Windows]

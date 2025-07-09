@@ -281,7 +281,7 @@ deb_push:
 
   tags:
     - docker-linux
-    - docker-light
+    - light
 
     
   dependencies: 

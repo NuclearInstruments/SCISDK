@@ -352,7 +352,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V4718_ETH, p[1].c_str(), vme_node, p[2].c_str(), (int32_t*)_handle);
 				mtx.unlock();
 			}
-			else if (p[0] == "V471USB") {
+			else if (p[0] == "V4718USB") {
 				uint32_t vme_base = 0;
 				int vme_node = 0;
 				if (p.size() >= 2) {

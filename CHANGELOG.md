@@ -1,3 +1,9 @@
+# scisdk (1.2.77)
+  * V2495 support
+  * CAEN Board error code mapping
+  * documentation update for caen V27xx digitizers
+  * sync register for X5560
+  
 # scisdk (1.2.70)
   * FELib improve readout speed
   

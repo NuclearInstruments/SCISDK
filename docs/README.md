@@ -211,6 +211,13 @@ You will also find:
 - the documentation (c:\openhardware\SciSDK\docs) 
 - the examples for all the supported ip for several programming languages (c:\openhardware\SciSDK\examples).
 
+**V2495 PLU and VME library are not included in the installation**
+Download the library from [CAEN](http://www.caen.it)
+[PLU Library](https://www.caen.it/products/caen-plu-library/)
+[VME Library](https://www.caen.it/products/caenvmelib-library/)
+[Comm Library](https://www.caen.it/products/caencomm-library/)
+
+
 ## 5. Linux: Installation from binary package
 
 You can install SciSDK from the apt repository on Ubuntu by adding the Nuclear Instruments repository to your system.
@@ -332,6 +339,13 @@ Please note that this repository just compile the SciSDK_DLL.dll. In order to co
 - [V/DT274X/FELib](https://www.caen.it/products/caen-felib-library/)
 
 Each one contains the detailed instruction to compile the library.
+
+- For V2495:
+[PLU Library](https://www.caen.it/products/caen-plu-library/)
+[VME Library](https://www.caen.it/products/caenvmelib-library/)
+[Comm Library](https://www.caen.it/products/caencomm-library/)
+
+
 
 ### 6.2.1 Example: how to compile and install the DT1260 libraries and SciSDK on Ubuntu 
 
