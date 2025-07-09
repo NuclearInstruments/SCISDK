@@ -292,7 +292,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				int VMEConetNode, const char* VMEBaseAddress, int32_t* handle);
 			CONNECT_PROC_PTR_2 connect2495_2 = (CONNECT_PROC_PTR_2)GetProcAddress(h_lib_instance, "CAEN_PLU_OpenDevice2");
 #else
-			int (*connect2495)(V2495_CONNECTION_MODE connection_mode, const void* IPAddress_or_SN_or_VMELink, 
+			int (*connect2495_2)(V2495_CONNECTION_MODE connection_mode, const void* IPAddress_or_SN_or_VMELink, 
 				int VMEConetNode, const char* VMEBaseAddress, int32_t* handle);
 			*(void**)(&connect2495_2) = dlsym(h_lib_instance, "CAEN_PLU_OpenDevice2");
 #endif
