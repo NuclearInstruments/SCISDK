@@ -36,12 +36,13 @@ var searchData=
   ['configure_20all_20channels_20of_20the_20board_33',['Configure all channels of the board',['../md_docs_2boards_2x5560se.html#autotoc_md303',1,'']]],
   ['connecting_20to_20a_20board_34',['8.4 Connecting to a board',['../index.html#autotoc_md25',1,'']]],
   ['connecting_20to_20board_35',['9.5 Connecting to board',['../index.html#autotoc_md34',1,'']]],
-  ['control_36',['control',['../md_docs_2boards_2openscope.html#autotoc_md286',1,'Run Control'],['../md_docs_2boards_2opendpp.html#autotoc_md280',1,'Run Control']]],
-  ['counter_37',['counter',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a4bb3a754a4fd4a870c2f65567ab15037',1,'SCISDK_DIGITIZER_DECODED_BUFFER']]],
-  ['counters_38',['counters',['../md_docs_2spectrum.html#autotoc_md142',1,'Reset counters'],['../md_docs_22dhistogram.html#autotoc_md163',1,'Reset counters']]],
-  ['create_20a_20custom_20application_39',['CREATE A CUSTOM APPLICATION',['../index.html#autotoc_md17',1,'']]],
-  ['csharp_40',['CSharp',['../md_docs_2digitizer.html#autotoc_md101',1,'']]],
-  ['custom_20application_41',['CREATE A CUSTOM APPLICATION',['../index.html#autotoc_md17',1,'']]],
-  ['custom_20packet_20driver_42',['Custom Packet driver',['../md_docs_2custompacket.html',1,'']]],
-  ['custompacket_2emd_43',['custompacket.md',['../custompacket_8md.html',1,'']]]
+  ['connection_36',['Connection',['../md_docs_2boards_2_v2495.html#autotoc_md314',1,'']]],
+  ['control_37',['control',['../md_docs_2boards_2openscope.html#autotoc_md286',1,'Run Control'],['../md_docs_2boards_2opendpp.html#autotoc_md280',1,'Run Control']]],
+  ['counter_38',['counter',['../struct_s_c_i_s_d_k___d_i_g_i_t_i_z_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a4bb3a754a4fd4a870c2f65567ab15037',1,'SCISDK_DIGITIZER_DECODED_BUFFER']]],
+  ['counters_39',['counters',['../md_docs_22dhistogram.html#autotoc_md163',1,'Reset counters'],['../md_docs_2spectrum.html#autotoc_md142',1,'Reset counters']]],
+  ['create_20a_20custom_20application_40',['CREATE A CUSTOM APPLICATION',['../index.html#autotoc_md17',1,'']]],
+  ['csharp_41',['CSharp',['../md_docs_2digitizer.html#autotoc_md101',1,'']]],
+  ['custom_20application_42',['CREATE A CUSTOM APPLICATION',['../index.html#autotoc_md17',1,'']]],
+  ['custom_20packet_20driver_43',['Custom Packet driver',['../md_docs_2custompacket.html',1,'']]],
+  ['custompacket_2emd_44',['custompacket.md',['../custompacket_8md.html',1,'']]]
 ];

@@ -125,7 +125,21 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2_v2495.html',''); ini
   <div class="headertitle"><div class="title">V2495 Board Driver</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md313"></a> This board is still not supported by SciSDK </p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md313"></a> </p>
+<h1><a class="anchor" id="autotoc_md314"></a>
+Connection</h1>
+<h2><a class="anchor" id="autotoc_md315"></a>
+Ethernet</h2>
+<p><code>sdk.AddNewDevice("eth:&lt;IP OR HOSTNAME&gt;", "V2495", "RegisterFileV2495.json", "board0");</code></p>
+<h2><a class="anchor" id="autotoc_md316"></a>
+Ethernet</h2>
+<p><code>sdk.AddNewDevice("usb:&lt;PID&gt;", "V2495", "RegisterFileV2495.json", "board0");</code></p>
+<h2><a class="anchor" id="autotoc_md317"></a>
+V4718ETH</h2>
+<p><code>sdk.AddNewDevice("V4718ETH:&lt;IP OR HOSTNAME OF CONTROLLER&gt;:&lt;VME BASE ADDRESS&gt;", "V2495", "RegisterFileV2495.json", "board0");</code></p>
+<h2><a class="anchor" id="autotoc_md318"></a>
+V4718USB</h2>
+<p><code>sdk.AddNewDevice("V4718USB:&lt;PID OF CONTROLLER&gt;:&lt;VME BASE ADDRESS&gt;", "V2495", "RegisterFileV2495.json", "board0");</code> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

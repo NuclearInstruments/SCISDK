@@ -367,7 +367,14 @@ var NAVTREE =
         ] ]
       ] ]
     ] ],
-    [ "V2495 Board Driver", "md_docs_2boards_2_v2495.html", null ],
+    [ "V2495 Board Driver", "md_docs_2boards_2_v2495.html", [
+      [ "Connection", "md_docs_2boards_2_v2495.html#autotoc_md314", [
+        [ "Ethernet", "md_docs_2boards_2_v2495.html#autotoc_md315", null ],
+        [ "Ethernet", "md_docs_2boards_2_v2495.html#autotoc_md316", null ],
+        [ "V4718ETH", "md_docs_2boards_2_v2495.html#autotoc_md317", null ],
+        [ "V4718USB", "md_docs_2boards_2_v2495.html#autotoc_md318", null ]
+      ] ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -393,8 +400,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_n_i_error_code_8h.html",
-"md_docs_2custompacket.html#autotoc_md119",
-"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_i_x_e_l.html#a6e44972f39539c7b53ac3de787af5ea9"
+"md_docs_2custompacket.html#autotoc_md114",
+"struct_s_c_i_s_d_k___c_i_t_i_r_o_c___p_a_c_k_e_t.html#ab50ff681c68ed772edd226c2d311cf20"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
