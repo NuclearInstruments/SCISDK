@@ -32,7 +32,7 @@ bd_dt5771::bd_dt5771(SciSDK_HAL* hal, json j, string path) : SciSDK_Node(hal, j,
 	}
 
 	RegisterParameter("boardapi/digitalio/LEMO0.impedance", "set digital lemo input impedance", SciSDK_Paramcb::Type::str, listOfDigitalImpedance, this);
-	RegisterParameter("boardapi/digitalio/LEMO1.impedance", "set digital lemo input impedance", SciSDK_Paramcb::Type::str, listOfDigitalImpedance, this);
+	//RegisterParameter("boardapi/digitalio/LEMO1.impedance", "set digital lemo output impedance", SciSDK_Paramcb::Type::str, listOfDigitalImpedance, this);
 	RegisterParameter("boardapi/digitizer/timeout", "digitizer timeout in ms", SciSDK_Paramcb::Type::d, this);
 	RegisterParameter("boardapi/buffer_type", "return the buffer type to be allocated for the current configuration", SciSDK_Paramcb::Type::str, this);
 }
@@ -168,16 +168,16 @@ NI_RESULT bd_dt5771::ISetParamString(string name, string value)
 		}
 	}
 
-	for (int i = 0; i < 2; i++) {
-		if (name == "digitalio/LEMO" + std::to_string(i) + ".impedance") {
+	for (int i = 0; i < 1; i++) {
+		if (name == "digitalio/LEMO0.impedance") {
 			if (value == "50r") {
-				dlemo[i].r50 = true;
+				dlemo.r50 = true;
 			}
 			else {
-				dlemo[i].r50 = false;
+				dlemo.r50 = false;
 			}
 
-			int ret = _hal->ConfigurationRegisterSet((int)dlemo[i].r50 ? 1 : 0, DT5771_IR_DTERM_SET , i);
+			int ret = _hal->ConfigurationRegisterSet((int)dlemo.r50 ? 1 : 0, DT5771_IR_DTERM_SET , i);
 			if (ret) {
 				return NI_ERROR_INTERFACE;
 			}
@@ -220,9 +220,9 @@ NI_RESULT bd_dt5771::IGetParamString(string name, string* value) {
         }
     }
 
-	for (int i = 0; i < 2; i++) {
-		if (name == "digitalio/LEMO" + std::to_string(i) + ".impedance") {
-			*value = dlemo[i].r50 ? "50r" : "hi"; 
+	for (int i = 0; i < 1; i++) {
+		if (name == "digitalio/LEMO0.impedance") {
+			*value = dlemo.r50 ? "50r" : "hi"; 
 			return NI_OK;
 		}
 	}

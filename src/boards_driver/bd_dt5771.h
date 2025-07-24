@@ -71,6 +71,6 @@ private:
 
     struct {
         bool r50;
-    }dlemo[2];
+    }dlemo;
 };
 #endif 
