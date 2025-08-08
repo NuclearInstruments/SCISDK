@@ -56,7 +56,7 @@ SciSDK_Spectrum::SciSDK_Spectrum(SciSDK_HAL *hal, json j, string path) : SciSDK_
 NI_RESULT SciSDK_Spectrum::ISetParamU32(string name, uint32_t value) {
 
 	if (name == "rebin") {
-		if ((value < 0) || (value > 7))
+		if ((value < 0) || (value > 15))
 			return NI_PARAMETER_OUT_OF_RANGE;
 		rebin = value;
 		return ConfigureSpectrum();
