@@ -247,7 +247,8 @@ void DemoV2495_USB_LogicAnalyser() {
 	//TEST SCOPE
 	res = sdk.AddNewDevice("usb:62702", "V2495", "E:/GIT/s800-fw/library/RegisterFile.json", "board0");
 	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.acq_mode", "blocking"));
-	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.trigger_mode", "software"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.trigger_mode", "edge"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.trigger_rising_mask", "00000000000000000000000000000000000000000100"));
 	SCISDK_LOGICANALYSER_DECODED_BUFFER* logic_evnt;
 	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/LogicAnalyser_0", T_BUFFER_TYPE_DECODED, (void**)&logic_evnt));
 	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/LogicAnalyser_0.start", ""));

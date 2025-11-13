@@ -13,8 +13,25 @@ SciSDK_LogicAnalyser::SciSDK_LogicAnalyser(SciSDK_HAL *hal, json j, string path)
 {
 	address.base = (uint32_t)j.at("Address");
 	for (auto& r : j.at("Registers")) {
-		if ((string)r.at("Name") == "STATUS") address.status = (uint32_t)r.at("Address");
-		if ((string)r.at("Name") == "CONFIG") address.config = (uint32_t)r.at("Address");
+		string reg_name = (string)r.at("Name");
+		if (reg_name == "STATUS") address.status = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG") address.config = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG0") address.config0 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG1") address.config1 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG2") address.config2 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG3") address.config3 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG4") address.config4 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG5") address.config5 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG6") address.config6 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG7") address.config7 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG8") address.config8 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIG9") address.config9 = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGA") address.configa = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGB") address.configb = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGC") address.configc = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGD") address.configd = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGE") address.confige = (uint32_t)r.at("Address");
+		else if (reg_name == "CONFIGF") address.configf = (uint32_t)r.at("Address");
 	}
 
 	// nsamples in JSON is the total number of words to read from FIFO
@@ -35,13 +52,20 @@ SciSDK_LogicAnalyser::SciSDK_LogicAnalyser(SciSDK_HAL *hal, json j, string path)
 	// Allocate buffer for total_words
 	__buffer = (uint32_t *)malloc(total_words * sizeof(uint32_t));
 
+	// Initialize trigger masks to all zeros (no triggers enabled by default)
+	trigger_rising_mask = string(settings.ntraces, '0');
+	trigger_falling_mask = string(settings.ntraces, '0');
+
 	isRunning = false;
 
-	const std::list<std::string> listOfTriggerMode = { "software","signal" };
-	RegisterParameter("trigger_mode", "set trigger mode: software or signal", SciSDK_Paramcb::Type::str, listOfTriggerMode, this);
+	const std::list<std::string> listOfTriggerMode = { "software","external","edge" };
+	RegisterParameter("trigger_mode", "set trigger mode: software, external or edge", SciSDK_Paramcb::Type::str, listOfTriggerMode, this);
 	const std::list<std::string> listOfAcqMode = { "blocking","non-blocking" };
 	RegisterParameter("acq_mode", "set data acquisition mode", SciSDK_Paramcb::Type::str, listOfAcqMode, this);
 	RegisterParameter("timeout", "set acquisition timeout in blocking mode (ms)", SciSDK_Paramcb::Type::I32, this);
+
+	RegisterParameter("trigger_rising_mask", "rising edge trigger enable mask (string of 0/1, one per trace)", SciSDK_Paramcb::Type::str, this);
+	RegisterParameter("trigger_falling_mask", "falling edge trigger enable mask (string of 0/1, one per trace)", SciSDK_Paramcb::Type::str, this);
 
 	RegisterParameter("ntraces", "number of digital traces", SciSDK_Paramcb::Type::I32, this);
 	RegisterParameter("nsamples", "number of samples", SciSDK_Paramcb::Type::I32, this);
@@ -73,8 +97,12 @@ NI_RESULT SciSDK_LogicAnalyser::ISetParamString(string name, string value) {
 			trigger_mode = TRIGGER_MODE::SOFTWARE;
 			return NI_OK;
 		}
-		else if (value == "signal") {
-			trigger_mode = TRIGGER_MODE::SIGNAL;
+		else if (value == "external") {
+			trigger_mode = TRIGGER_MODE::EXTERNAL;
+			return NI_OK;
+		}
+		else if (value == "edge") {
+			trigger_mode = TRIGGER_MODE::EDGE;
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -89,6 +117,32 @@ NI_RESULT SciSDK_LogicAnalyser::ISetParamString(string name, string value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "trigger_rising_mask") {
+		// Validate: must be string of '0' and '1' with length == ntraces
+		if (value.length() != settings.ntraces) {
+			return NI_PARAMETER_OUT_OF_RANGE;
+		}
+		for (char c : value) {
+			if (c != '0' && c != '1') {
+				return NI_PARAMETER_OUT_OF_RANGE;
+			}
+		}
+		trigger_rising_mask = value;
+		return NI_OK;
+	}
+	else if (name == "trigger_falling_mask") {
+		// Validate: must be string of '0' and '1' with length == ntraces
+		if (value.length() != settings.ntraces) {
+			return NI_PARAMETER_OUT_OF_RANGE;
+		}
+		for (char c : value) {
+			if (c != '0' && c != '1') {
+				return NI_PARAMETER_OUT_OF_RANGE;
+			}
+		}
+		trigger_falling_mask = value;
+		return NI_OK;
 	}
 
 	return NI_INVALID_PARAMETER;
@@ -120,8 +174,12 @@ NI_RESULT SciSDK_LogicAnalyser::IGetParamString(string name, string *value) {
 			*value = "software";
 			return NI_OK;
 		}
-		else if (trigger_mode == TRIGGER_MODE::SIGNAL) {
-			*value = "signal";
+		else if (trigger_mode == TRIGGER_MODE::EXTERNAL) {
+			*value = "external";
+			return NI_OK;
+		}
+		else if (trigger_mode == TRIGGER_MODE::EDGE) {
+			*value = "edge";
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
@@ -136,6 +194,14 @@ NI_RESULT SciSDK_LogicAnalyser::IGetParamString(string name, string *value) {
 			return NI_OK;
 		}
 		else return NI_PARAMETER_OUT_OF_RANGE;
+	}
+	else if (name == "trigger_rising_mask") {
+		*value = trigger_rising_mask;
+		return NI_OK;
+	}
+	else if (name == "trigger_falling_mask") {
+		*value = trigger_falling_mask;
+		return NI_OK;
 	}
 	else if (name == "buffer_type") {
 		*value = "SCISDK_LOGICANALYSER_DECODED_BUFFER";
@@ -272,22 +338,76 @@ NI_RESULT SciSDK_LogicAnalyser::ReadData(void *buffer) {
 	return NI_OK;
 }
 
+NI_RESULT SciSDK_LogicAnalyser::WriteTriggerMasks() {
+	// Convert trigger masks from strings to 256-bit values (8x32-bit registers)
+	// TRIGGER_RISING_ENABLE = CONFIG7 & CONFIG6 & CONFIG5 & CONFIG4 & CONFIG3 & CONFIG2 & CONFIG1 & CONFIG0
+	// TRIGGER_FALLING_ENABLE = CONFIGF & CONFIGE & CONFIGD & CONFIGC & CONFIGB & CONFIGA & CONFIG9 & CONFIG8
+
+	uint32_t rising_regs[8] = {0};
+	uint32_t falling_regs[8] = {0};
+
+	// Convert string to bit array (LSB first)
+	for (size_t i = 0; i < trigger_rising_mask.length() && i < 256; i++) {
+		if (trigger_rising_mask[i] == '1') {
+			rising_regs[i / 32] |= (1 << (i % 32));
+		}
+	}
+
+	for (size_t i = 0; i < trigger_falling_mask.length() && i < 256; i++) {
+		if (trigger_falling_mask[i] == '1') {
+			falling_regs[i / 32] |= (1 << (i % 32));
+		}
+	}
+
+	// Write rising edge masks to CONFIG0-7
+	int r0 = _hal->WriteReg(rising_regs[0], address.config0);
+	int r1 = _hal->WriteReg(rising_regs[1], address.config1);
+	int r2 = _hal->WriteReg(rising_regs[2], address.config2);
+	int r3 = _hal->WriteReg(rising_regs[3], address.config3);
+	int r4 = _hal->WriteReg(rising_regs[4], address.config4);
+	int r5 = _hal->WriteReg(rising_regs[5], address.config5);
+	int r6 = _hal->WriteReg(rising_regs[6], address.config6);
+	int r7 = _hal->WriteReg(rising_regs[7], address.config7);
+
+	// Write falling edge masks to CONFIG8-F
+	int r8 = _hal->WriteReg(falling_regs[0], address.config8);
+	int r9 = _hal->WriteReg(falling_regs[1], address.config9);
+	int ra = _hal->WriteReg(falling_regs[2], address.configa);
+	int rb = _hal->WriteReg(falling_regs[3], address.configb);
+	int rc = _hal->WriteReg(falling_regs[4], address.configc);
+	int rd = _hal->WriteReg(falling_regs[5], address.configd);
+	int re = _hal->WriteReg(falling_regs[6], address.confige);
+	int rf = _hal->WriteReg(falling_regs[7], address.configf);
+
+	if (r0 == 0 && r1 == 0 && r2 == 0 && r3 == 0 && r4 == 0 && r5 == 0 && r6 == 0 && r7 == 0 &&
+	    r8 == 0 && r9 == 0 && ra == 0 && rb == 0 && rc == 0 && rd == 0 && re == 0 && rf == 0) {
+		return NI_OK;
+	}
+	return NI_ERROR_INTERFACE;
+}
+
 NI_RESULT SciSDK_LogicAnalyser::ConfigureLogicAnalyser() {
 	return NI_OK;
 }
 
 NI_RESULT SciSDK_LogicAnalyser::CmdStart() {
 
+	// Write trigger masks to CONFIG0-F registers
+	NI_RESULT ret = WriteTriggerMasks();
+	if (ret != NI_OK) return ret;
+
 	// Reset logic analyser
 	int r1 = _hal->WriteReg(2, address.config);
 	int r2 = _hal->WriteReg(1, address.config);
 
-	// Configure trigger mode
+	// Configure trigger mode based on selected mode
 	uint32_t triggermode = 0;
 	if (trigger_mode == TRIGGER_MODE::SOFTWARE) {
-		triggermode = 0x10;  // Software trigger
-	} else {
-		triggermode = 1 << 2;  // Signal trigger
+		triggermode = 0x10;  // CONFIG bit 4: software trigger
+	} else if (trigger_mode == TRIGGER_MODE::EXTERNAL) {
+		triggermode = 0x04;  // CONFIG bit 2: external trigger signal
+	} else if (trigger_mode == TRIGGER_MODE::EDGE) {
+		triggermode = 0x08;  // CONFIG bit 3: edge detection on channels
 	}
 	int r3 = _hal->WriteReg(triggermode, address.config);
 
