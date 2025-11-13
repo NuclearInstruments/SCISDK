@@ -506,4 +506,52 @@
 			uint32_t valid_bins;
 		} info;
 	}SCISDK_EMULATOR_ENERGY_SPECTRUM;
+
+	/**
+	 * @brief Logic Analyser decoded data type
+	 * @details This type is used to store decoded data from logic analyser.
+	 * The data in this structure contains raw samples from the logic analyser.
+	 * Each logical sample can occupy multiple 32-bit words if ntraces > 32.
+	 * The user can extract individual signals using bitstart and bitwidth information from ChannelsList in JSON.
+	 *
+	 * Note: nsamples in JSON is the total number of 32-bit words from FIFO.
+	 * The actual number of logical samples = nsamples_json / words_per_sample.
+	 *
+	 * Example with JSON nsamples=2048, 44 digital traces:
+	 * - words_per_sample = 2 (44 traces need 2 words)
+	 * - info.samples = 1024 (logical samples = 2048 / 2)
+	 * - Total array size = 2048 words
+	 *
+	 * data[0] = sample 0, bits 0-31
+	 * data[1] = sample 0, bits 32-43 (remaining 12 bits)
+	 * data[2] = sample 1, bits 0-31
+	 * data[3] = sample 1, bits 32-43
+	 * ...
+	 * data[2046] = sample 1023, bits 0-31
+	 * data[2047] = sample 1023, bits 32-43
+	 *
+	 * To extract signal i from logical sample j:
+	 * 1. Find the word index: word_idx = j * words_per_sample + (bitstart_i / 32)
+	 * 2. Find bit position in word: bit_pos = bitstart_i % 32
+	 * 3. Extract value: value = (data[word_idx] >> bit_pos) & ((1 << bitwidth_i) - 1)
+	 */
+	typedef struct {
+		uint32_t magic;									/**< Magic number to identify the data type*/
+		uint32_t *data;									/**< Pointer to data allocated by the AllocateBuffer function*/
+		uint64_t timecode;								/**< Timecode of the first sample*/
+		struct  {
+			uint32_t samples;							/**< Number of samples in buffer*/
+			uint32_t ntraces;							/**< Number of digital traces (signals) defined in ChannelsList*/
+			uint32_t words_per_sample;					/**< Number of 32-bit words per sample (calculated as (ntraces + 31) / 32)*/
+		} info;
+	}SCISDK_LOGICANALYSER_DECODED_BUFFER;
+
+	/**
+	 * @brief Logic Analyser status structure
+	 * @details This type is used to store logic analyser status
+	 */
+	typedef struct {
+		bool data_available;			/**< True if data is available*/
+		uint32_t status_value;			/**< Raw status value*/
+	}SCISDK_LOGICANALYSER_STATUS;
 #endif

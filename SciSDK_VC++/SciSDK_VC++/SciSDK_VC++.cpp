@@ -240,7 +240,57 @@ void DemoV2495_V4718_ETH() {
 	cout << "Register cc access result: " << v << endl;
 
 }
+void DemoV2495_USB_LogicAnalyser() {
+	string test;
+	int res = 0;
+	uint32_t v;
+	//TEST SCOPE
+	res = sdk.AddNewDevice("usb:62702", "V2495", "E:/GIT/s800-fw/library/RegisterFile.json", "board0");
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/LogicAnalyser_0.trigger_mode", "software"));
+	SCISDK_LOGICANALYSER_DECODED_BUFFER* logic_evnt;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/LogicAnalyser_0", T_BUFFER_TYPE_DECODED, (void**)&logic_evnt));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/LogicAnalyser_0.start", ""));
+	res = sdk.ReadData("board0:/MMCComponents/LogicAnalyser_0", (void*)logic_evnt);
+	if (res == NI_OK) {
+		cout << "Logic Analyser TS: " << logic_evnt->timecode << endl;
 
+		// Apri file output
+		ofstream outfile("logic_analyser_data.txt");
+
+		// I dati sono organizzati così:
+		// data[0] = sample 0, canali 0-31
+		// data[1] = sample 0, canali 32-63 (se ntraces > 32)
+		// data[2] = sample 1, canali 0-31
+		// data[3] = sample 1, canali 32-63
+		// ...
+
+		// Scrivi i dati: ogni riga è un sample, ogni colonna è una trace
+		for (int sample = 0; sample < logic_evnt->info.samples; sample++) {
+			for (int trace = 0; trace < logic_evnt->info.ntraces; trace++) {
+				// Calcola quale word contiene questa trace
+				int word_offset = trace / 32;  // 0 per trace 0-31, 1 per trace 32-63, etc.
+				int bit_idx = trace % 32;       // bit dentro la word
+
+				// Indice nel buffer: sample * words_per_sample + word_offset
+				int data_idx = sample * logic_evnt->info.words_per_sample + word_offset;
+
+				// Estrai il bit
+				uint32_t word = logic_evnt->data[data_idx];
+				uint32_t bit = (word >> bit_idx) & 0x1;
+
+				outfile << bit;
+				if (trace < logic_evnt->info.ntraces - 1) {
+					outfile << "\t";
+				}
+			}
+			outfile << endl;
+		}
+
+		outfile.close();
+		cout << "Dati salvati in logic_analyser_data.txt" << endl;
+	}
+}
 int main()
 {
 	// Print actual executable path
@@ -252,7 +302,7 @@ int main()
 	//OpenDppDemo();
 	//OpenScopeDemo();
 	//DemoSciCompilerOscilloscope();
-	DemoV2495_V4718_ETH();
+	DemoV2495_USB_LogicAnalyser();
 
 	return 0;
 

@@ -24,6 +24,7 @@
 #include "scisdk_frame.h"
 #include "scisdk_DT5550W_citirocframe.h"
 #include "scisdk_DT5550W_petirocframe.h"
+#include "scisdk_logicanalyser.h"
 #include "boards_driver/bd_feelib.h"
 #include "boards_driver/bd_dt1260.h"
 #include "boards_driver/bd_dt4810.h"
@@ -513,6 +514,9 @@ NI_RESULT SciSDK_Device::BuildTree(json rs, string parent) {
 						}
 						else if (ToUpper(r.at("Type")) == "PETIROCFRAME") {
 							mmcs.push_back(new SciSDK_DT5550W_PetirocFrame(_hal, r, parent + "/" + (string)it.key()));
+						}
+						else if (ToUpper(r.at("Type")) == "LOGICANALYZER") {
+							mmcs.push_back(new SciSDK_LogicAnalyser(_hal, r, parent + "/" + (string)it.key()));
 						}
 					}
 				}

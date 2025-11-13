@@ -174,6 +174,7 @@
     <ClInclude Include="..\..\src\scisdk_frame.h" />
     <ClInclude Include="..\..\src\scisdk_hal.h" />
     <ClInclude Include="..\..\src\scisdk_list.h" />
+    <ClInclude Include="..\..\src\scisdk_logicanalyser.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope.h" />
     <ClInclude Include="..\..\src\scisdk_oscilloscope_dual.h" />
     <ClInclude Include="..\..\src\scisdk_rate_meter.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="..\..\src\scisdk_frame.cpp" />
     <ClCompile Include="..\..\src\scisdk_hal.cpp" />
     <ClCompile Include="..\..\src\scisdk_list.cpp" />
+    <ClCompile Include="..\..\src\scisdk_logicanalyser.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope.cpp" />
     <ClCompile Include="..\..\src\scisdk_oscilloscope_dual.cpp" />
     <ClCompile Include="..\..\src\scisdk_rate_meter.cpp" />

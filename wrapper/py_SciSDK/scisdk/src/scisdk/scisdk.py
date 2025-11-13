@@ -229,8 +229,11 @@ class SciSDK:
                 buffer_pointer = ctypes.POINTER(FEScopePacket)
                 buffer_type = 1
             elif type == "SCISDK_FE_OPENDPP_EVENT":
-                buffer_pointer = ctypes.POINTER(FEOpenDppPacket)  
-                buffer_type = 1    
+                buffer_pointer = ctypes.POINTER(FEOpenDppPacket)
+                buffer_type = 1
+            elif type == "SCISDK_LOGICANALYSER_DECODED_BUFFER":
+                buffer_pointer = ctypes.POINTER(LogicAnalyserDecodedBuffer)
+                buffer_type = 1
             else:
                 raise Exception("Isn't a valid buffer type") 
 
@@ -309,7 +312,9 @@ class SciSDK:
         elif type(buffer) == FEScopePacket:
             read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FEScopePacket), ctypes.c_void_p]    
         elif type(buffer) == FEOpenDppPacket:
-            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FEOpenDppPacket), ctypes.c_void_p]    
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(FEOpenDppPacket), ctypes.c_void_p]
+        elif type(buffer) == LogicAnalyserDecodedBuffer:
+            read_data_api.argtypes = [ctypes.c_char_p, ctypes.POINTER(LogicAnalyserDecodedBuffer), ctypes.c_void_p]
         else:
             raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
 
@@ -376,6 +381,9 @@ class SciSDK:
             buffer_pointer = ctypes.POINTER(FEScopePacket)
         elif type(buffer) == FEOpenDppPacket:
             buffer_pointer = ctypes.POINTER(FEOpenDppPacket)
+        elif type(buffer) == LogicAnalyserDecodedBuffer:
+            buffer_pointer = ctypes.POINTER(LogicAnalyserDecodedBuffer)
+            buffer_type = 1
         else:
             raise Exception(type(buffer).__name__ + " isn't a valid buffer type") 
 

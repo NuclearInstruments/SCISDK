@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/GIT/scisdk/wrapper/py_SciSDK/scisdk/src/scisdk/**)",
+      "Read(//e/GIT/scisdk/wrapper/py_SciSDK/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

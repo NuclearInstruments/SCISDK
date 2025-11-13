@@ -380,6 +380,22 @@ class EmulatorEnergySpectrum(ctypes.Structure):
         self.c_array = (ctypes.c_uint32 * num_bins)()
         self.data = ctypes.cast(self.c_array, ctypes.POINTER(ctypes.c_uint32))
 
+# Logic Analyser decoded buffer
+class LogicAnalyserDecodedBufferInfo(ctypes.Structure):
+    _fields_ = [
+        ('samples', ctypes.c_uint32),
+        ('ntraces', ctypes.c_uint32),
+        ('words_per_sample', ctypes.c_uint32)
+    ]
+
+class LogicAnalyserDecodedBuffer(ctypes.Structure):
+    _fields_ = [
+        ('magic', ctypes.c_uint32),
+        ('data', ctypes.POINTER(ctypes.c_uint32)),
+        ('timecode', ctypes.c_uint64),
+        ('info', LogicAnalyserDecodedBufferInfo)
+    ]
+
 class NIErrors:
     NI_OK = 0x00000000
     NI_ERROR_GENERIC = 0x00000001

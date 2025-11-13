@@ -203,5 +203,8 @@
     <ClCompile Include="..\..\src\boards_driver\bd_v2495.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\scisdk_logicanalyser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
