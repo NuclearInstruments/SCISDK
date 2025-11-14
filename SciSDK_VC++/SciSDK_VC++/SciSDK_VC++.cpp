@@ -7,6 +7,8 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <iomanip>
+#include <fstream>
 SciSDK sdk;
 
 void OpenDppDemo() {
@@ -259,14 +261,14 @@ void DemoV2495_USB_LogicAnalyser() {
 		// Apri file output
 		ofstream outfile("logic_analyser_data.txt");
 
-		// I dati sono organizzati così:
+		// I dati sono organizzati cosï¿½:
 		// data[0] = sample 0, canali 0-31
 		// data[1] = sample 0, canali 32-63 (se ntraces > 32)
 		// data[2] = sample 1, canali 0-31
 		// data[3] = sample 1, canali 32-63
 		// ...
 
-		// Scrivi i dati: ogni riga è un sample, ogni colonna è una trace
+		// Scrivi i dati: ogni riga ï¿½ un sample, ogni colonna ï¿½ una trace
 		for (int sample = 0; sample < logic_evnt->info.samples; sample++) {
 			for (int trace = 0; trace < logic_evnt->info.ntraces; trace++) {
 				// Calcola quale word contiene questa trace
@@ -292,6 +294,90 @@ void DemoV2495_USB_LogicAnalyser() {
 		cout << "Dati salvati in logic_analyser_data.txt" << endl;
 	}
 }
+
+void DemoV2495_USB_RegisterPerformance() {
+	string test;
+	int res = 0;
+	uint32_t v;
+
+	// Connect to board
+	res = sdk.AddNewDevice("usb:62702", "V2495", "E:/GIT/s800-fw/library/RegisterFile.json", "board0");
+	if (res != NI_OK) {
+		sdk.p_error(res);
+		return;
+	}
+
+	cout << "=== Frequency Meter Register Read Performance Test ===" << endl;
+	cout << "Reading 48 counters (FRQ + CNT registers) x 10 iterations" << endl << endl;
+
+	// Arrays to store register values
+	uint32_t frq_values[48];
+	uint32_t cnt_values[48];
+
+	// Warmup read
+	for (int i = 0; i < 48; i++) {
+		string frq_path = "board0:/Registers/page_freq_meter_counter_" + to_string(i) + "_FRQ";
+		sdk.GetRegister(frq_path, &frq_values[i]);
+	}
+
+	// Performance measurement: 10 groups of reads
+	const int num_iterations = 10;
+	double total_time_ms = 0.0;
+
+	for (int iter = 0; iter < num_iterations; iter++) {
+		auto start_time = chrono::high_resolution_clock::now();
+
+		// Read all FRQ registers
+		for (int i = 0; i < 48; i++) {
+			string frq_path = "board0:/Registers/page_freq_meter_counter_" + to_string(i) + "_FRQ";
+			res = sdk.GetRegister(frq_path, &frq_values[i]);
+			if (res != NI_OK) {
+				cout << "Error reading " << frq_path << endl;
+			}
+		}
+
+		// Read all CNT registers
+		for (int i = 0; i < 48; i++) {
+			string cnt_path = "board0:/Registers/page_freq_meter_counter_" + to_string(i) + "_CNT";
+			res = sdk.GetRegister(cnt_path, &cnt_values[i]);
+			if (res != NI_OK) {
+				cout << "Error reading " << cnt_path << endl;
+			}
+		}
+
+		auto end_time = chrono::high_resolution_clock::now();
+		chrono::duration<double, milli> elapsed = end_time - start_time;
+		double iteration_time_ms = elapsed.count();
+		total_time_ms += iteration_time_ms;
+
+		cout << "Iteration " << (iter + 1) << ": " << fixed << setprecision(2)
+		     << iteration_time_ms << " ms" << endl;
+	}
+
+	// Calculate and display statistics
+	double average_time_ms = total_time_ms / num_iterations;
+	double time_per_register_us = (average_time_ms * 1000.0) / 96.0; // 96 total registers (48 FRQ + 48 CNT)
+	double reads_per_second = (96.0 * 1000.0) / average_time_ms;
+
+	cout << endl << "=== Performance Summary ===" << endl;
+	cout << "Total registers read per iteration: 96 (48 FRQ + 48 CNT)" << endl;
+	cout << "Number of iterations: " << num_iterations << endl;
+	cout << "Average time per iteration: " << fixed << setprecision(2) << average_time_ms << " ms" << endl;
+	cout << "Average time per register: " << fixed << setprecision(2) << time_per_register_us << " us" << endl;
+	cout << "Throughput: " << fixed << setprecision(0) << reads_per_second << " register reads/second" << endl;
+
+	// Display some sample values from last iteration
+	cout << endl << "=== Sample Values (last iteration) ===" << endl;
+	for (int i = 0; i < 5; i++) {
+		cout << "Counter " << i << " - FRQ: " << frq_values[i]
+		     << ", CNT: " << cnt_values[i] << endl;
+	}
+	cout << "..." << endl;
+	for (int i = 45; i < 48; i++) {
+		cout << "Counter " << i << " - FRQ: " << frq_values[i]
+		     << ", CNT: " << cnt_values[i] << endl;
+	}
+}
 int main()
 {
 	// Print actual executable path
@@ -303,8 +389,8 @@ int main()
 	//OpenDppDemo();
 	//OpenScopeDemo();
 	//DemoSciCompilerOscilloscope();
-	DemoV2495_USB_LogicAnalyser();
-
+	//DemoV2495_USB_LogicAnalyser();
+	DemoV2495_USB_RegisterPerformance();
 	return 0;
 
 }
