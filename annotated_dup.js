@@ -21,6 +21,8 @@ var annotated_dup =
     [ "SCISDK_FRAME_PACKET", "struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t.html", "struct_s_c_i_s_d_k___f_r_a_m_e___p_a_c_k_e_t" ],
     [ "SCISDK_FRAME_RAW_BUFFER", "struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___f_r_a_m_e___r_a_w___b_u_f_f_e_r" ],
     [ "SCISDK_LIST_RAW_BUFFER", "struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___l_i_s_t___r_a_w___b_u_f_f_e_r" ],
+    [ "SCISDK_LOGICANALYSER_DECODED_BUFFER", "struct_s_c_i_s_d_k___l_o_g_i_c_a_n_a_l_y_s_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___l_o_g_i_c_a_n_a_l_y_s_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
+    [ "SCISDK_LOGICANALYSER_STATUS", "struct_s_c_i_s_d_k___l_o_g_i_c_a_n_a_l_y_s_e_r___s_t_a_t_u_s.html", "struct_s_c_i_s_d_k___l_o_g_i_c_a_n_a_l_y_s_e_r___s_t_a_t_u_s" ],
     [ "SCISDK_OSCILLOSCOPE_DECODED_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___d_e_c_o_d_e_d___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___d_e_c_o_d_e_d___b_u_f_f_e_r" ],
     [ "SCISDK_OSCILLOSCOPE_DUAL_RAW_BUFFER", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r.html", "struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___r_a_w___b_u_f_f_e_r" ],

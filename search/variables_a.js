@@ -4,5 +4,6 @@ var searchData=
   ['n_5fallocated_5fsamples_1',['n_allocated_samples',['../struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a8a53b70c6fa000f454fc6d3412119945',1,'SCISDK_FE_SCOPE_EVENT']]],
   ['n_5fchannels_2',['n_channels',['../struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a5e496631ec311bd52adb1ba33a12f027',1,'SCISDK_FE_SCOPE_EVENT']]],
   ['n_5fsamples_3',['n_samples',['../struct_s_c_i_s_d_k___f_e___s_c_o_p_e___e_v_e_n_t.html#a747fc803a73bd126432e636c8133097b',1,'SCISDK_FE_SCOPE_EVENT']]],
-  ['nchannels_4',['nchannels',['../struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r.html#a8b391c2ee4d6aedb2cb8fe393c702b5c',1,'SCISDK_RM_RAW_BUFFER']]]
+  ['nchannels_4',['nchannels',['../struct_s_c_i_s_d_k___r_m___r_a_w___b_u_f_f_e_r.html#a8b391c2ee4d6aedb2cb8fe393c702b5c',1,'SCISDK_RM_RAW_BUFFER']]],
+  ['ntraces_5',['ntraces',['../struct_s_c_i_s_d_k___l_o_g_i_c_a_n_a_l_y_s_e_r___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a0dc65f296309c945187fa3449f26cb43',1,'SCISDK_LOGICANALYSER_DECODED_BUFFER']]]
 ];
