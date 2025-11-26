@@ -190,6 +190,38 @@ void DemoSciCompilerList() {
 	
 }
 
+
+
+
+void DemoSciCompilerList2() {
+	int res = 0;
+	res = sdk.AddNewDevice("usb:10500", "DT1260", "C:/temp/list_test/library/RegisterFile.json", "board0");
+
+	SCISDK_LIST_RAW_BUFFER* ddb;
+	sdk.p_error(sdk.AllocateBuffer("board0:/MMCComponents/List_0", T_BUFFER_TYPE_RAW, (void**)&ddb, 1000));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.acq_mode", "blocking"));
+	sdk.p_error(sdk.SetParameter("board0:/MMCComponents/List_0.thread", "false"));
+	sdk.p_error(sdk.ExecuteCommand("board0:/MMCComponents/List_0.start", ""));
+
+	for (int i = 0; i < 10; ++i)
+	{
+		res = sdk.ReadData("board0:/MMCComponents/List_0", (void*)ddb);
+		if (res == NI_OK) {
+			uint32_t* p;
+			p = (uint32_t*)ddb->data;
+			cout << "----- " << ddb->info.valid_samples / 4 << " -----" << endl;
+			for (int i = 0; i < ddb->info.valid_samples / 4; i++) {
+				cout << std::hex << p[i] << endl;
+			}
+		}
+
+	}
+
+
+	exit(0);
+
+}
+
 void DemoSciCompilerBoardApi() {
 	int res = 0;
 	res = sdk.AddNewDevice("usb:10500", "dt1260", "DT1260Frame.json", "board0");
@@ -390,7 +422,8 @@ int main()
 	//OpenScopeDemo();
 	//DemoSciCompilerOscilloscope();
 	//DemoV2495_USB_LogicAnalyser();
-	DemoV2495_USB_RegisterPerformance();
+	//DemoV2495_USB_RegisterPerformance();
+	DemoSciCompilerList2();
 	return 0;
 
 }

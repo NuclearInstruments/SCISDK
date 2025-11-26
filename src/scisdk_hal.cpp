@@ -116,7 +116,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 		}
 	}
 	if ((model == "V2740") || (model == "DT2740") || (model == "V2745") || (model == "DT2745")
-		|| (model == "V2730") || (model == "DT2730") ) {
+		|| (model == "V2730") || (model == "DT2730") || (model == "V2751") || (model == "DT2751")) {
 		_model = BOARD_MODEL::X2740;
 #ifdef _MSC_VER 
 		h_lib_instance = LoadLibrary(L"CAEN_FELib.dll");
