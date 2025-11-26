@@ -130,7 +130,7 @@ Source: scisdk\wrapper\LabView\*; DestDir: {code:GetDir|0}; Flags: 64bit recurse
 
 [Icons]
 Name: "{group}\SciSDK User Guide"; Filename: "{app}\docs\index.html"; WorkingDir: "{app}\docs\"
-Name: "{group}\SciSDK Examples"; Filename: "{app}\examples"; WorkingDir: "{app}"; Flags: foldershortcut
+Name: "{group}\SciSDK Examples"; Filename: "{app}\examples"; WorkingDir: "{app}"
 
 [Run]
 Filename: "{tmp}\VC_redist.x86.exe"; Parameters: "/q /norestart"; \
