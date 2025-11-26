@@ -14,7 +14,7 @@ pages:
 
   stage: pages
 
-  image: registry.lanni/pages/doxygen:latest
+  image: harbor.nuclearinstruments.eu/library/doxygen:1.1
 
   tags:
     - docker-linux
@@ -35,7 +35,7 @@ push_github:
   stage: push
  
 
-  image: registry.lanni/nibuntu/services-20.04:latest
+  image: harbor.nuclearinstruments.eu/nibuntu/services-22.04:2
 
   tags:
     - docker-linux
@@ -51,7 +51,7 @@ push_github:
 
 docs_nirelease:
   stage: upload_pages_nirelease
-  image: registry.lanni/apps/release-manager:latest
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
   dependencies: 
     - pages
 
@@ -72,7 +72,7 @@ docs_nirelease:
 
 nirelease-source:
   stage: upload_code
-  image: registry.lanni/apps/release-manager:latest
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
 
   tags:
     - docker-linux
@@ -89,7 +89,7 @@ nirelease-source:
 
 build_vs2022_windows:
   stage: build
-  image: registry.lanni/microsoft/win10-vc-build-tools-2022:latest
+  image: harbor.nuclearinstruments.eu/windows/win10-vc-build-tools-2022:1
   script:
     - ./build.ps1 $CI_COMMIT_TAG
   tags:
@@ -107,7 +107,7 @@ build_vs2022_windows:
 
 build_zynq:
   stage: build
-  image: registry.lanni/nibuntu/console-20.04:latest
+  image: harbor.nuclearinstruments.eu/nibuntu/console-20.04:3.0
 
   tags:
     - docker-linux
@@ -136,7 +136,7 @@ build_ubuntu_all_arch:
   variables:
       DOCKER_IMAGE_MAP: "18.04=bionic,20.04=focal,22.04=jammy"
   
-  image: registry.lanni/nibuntu/build-$DOCKER_IMAGE:latest
+  image: harbor.nuclearinstruments.eu/nibuntu/build-$DOCKER_IMAGE:latest
   #image: registry.lanni/nibuntu/build-20.04:latest
   #variables:
   #  LINUXRELEASE: "focal"
@@ -178,7 +178,7 @@ build_ubuntu_all_arch:
 
 nireleasewindows:
   stage: release_win
-  image: registry.lanni/apps/release-manager:latest
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
 
   tags:
     - docker-linux
@@ -202,7 +202,7 @@ build_setup:
   dependencies: 
   - nireleasewindows  
 
-  image: registry.lanni/microsoft/innosetup:latest
+  image: harbor.nuclearinstruments.eu/windows/innosetup:1
   script:
     - .\build_setup.ps1 $CI_COMMIT_TAG
   tags:
@@ -238,7 +238,7 @@ digital_signature:
 
 nirelease:
   stage: release
-  image: registry.lanni/apps/release-manager:latest
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
   dependencies: 
     - build_zynq  
     - build_ubuntu_all_arch
@@ -277,7 +277,7 @@ nirelease:
 
 deb_push:
   stage: pck_push
-  image: registry.lanni/apps/release-manager:latest
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
 
   tags:
     - docker-linux
