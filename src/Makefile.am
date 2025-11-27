@@ -85,6 +85,7 @@ libscisdk_la_SOURCES =    \
 						scisdk_register.cpp \
 						scisdk_spectrum.cpp \
 						scisdk_2dhistogram.cpp \
+						scisdk_logicanalyser.cpp \
 						boards_driver/bd_dt1260.cpp \
  						boards_driver/bd_dt4810.cpp \						
  						boards_driver/bd_dt5771.cpp \

@@ -1,5 +1,6 @@
 import ctypes
 import os
+import errno
 from scisdk.scisdk_defines import *
 
 
@@ -7,34 +8,102 @@ class SciSDK:
     scisdk_dll = None
     lib_ptr = None
     libname = None
-
+    
     def __init__(self) -> None:
-        #os.path.dirname(__file__) + "\\
-        libname = ""
-
+        # Determina il nome della libreria in base al sistema operativo
         if os.name == 'nt':
             self.libname = "SciSDK_DLL.dll"
         else:
             self.libname = "libscisdk.so"
-
+        
         try:
             self.scisdk_dll = ctypes.CDLL(self.libname)
+            init_lib_api = self.scisdk_dll.SCISDK_InitLib
+            init_lib_api.restype = ctypes.c_void_p
+            self.lib_ptr = init_lib_api()            
         except OSError as e:
-            if e.errno == os.errno.ENOENT:
-                print("Error: " + self.libname + " not found")
-            elif e.errno == os.errno.EINVAL:
-                print("Error: " + self.libname + " has the wrong architecture for the current process")
-            elif e.errno == os.errno.ELIBBAD:
-                print("Error:" + self.libname + " has missing dependencies")
+            self._handle_load_error(e)
+            raise e
+    
+    def _handle_load_error(self, e: OSError) -> None:
+        """Gestisce gli errori di caricamento della libreria con messaggi comprensibili."""
+        
+        error_code = getattr(e, 'errno', None)
+        
+        # Messaggio base di installazione
+        install_msg = (
+            "\n"
+            "Please make sure that SciSDK is correctly installed.\n"
+            "This pip package only contains the Python wrapper.\n"
+            "You need to install the full SciSDK package separately from:\n"
+            "  https://www.sci-compiler.com/user-guide/readout/scisdk/"
+        )
+        
+        # Messaggio specifico per piattaforma
+        if os.name == 'nt':
+            path_hint = (
+                "\nOn Windows, ensure that:\n"
+                "  - SciSDK is installed\n"
+                "  - The DLL path is in your PATH environment variable\n"
+                "  - You're using the correct architecture (32/64 bit)"
+            )
+        elif sys.platform == 'darwin':
+            path_hint = (
+                "\nOn macOS, ensure that:\n"
+                "  - SciSDK is installed\n"
+                "  - The library is in /usr/local/lib or DYLD_LIBRARY_PATH is set"
+            )
+        else:
+            path_hint = (
+                "\nOn Linux, ensure that:\n"
+                "  - SciSDK is installed\n"
+                "  - The library is in /usr/lib, /usr/local/lib, or LD_LIBRARY_PATH is set\n"
+                "  - Run 'sudo ldconfig' after installation"
+            )
+        
+        # Determina il tipo di errore
+        if error_code == errno.ENOENT or "cannot open shared object" in str(e).lower() or "not found" in str(e).lower():
+            print(f"Error: {self.libname} not found")
+            print(install_msg)
+            print(path_hint)
+        
+        elif error_code == errno.EINVAL or "wrong architecture" in str(e).lower() or "wrong ELF class" in str(e).lower():
+            print(f"Error: {self.libname} has the wrong architecture for the current process")
+            print(f"Python architecture: {8 * ctypes.sizeof(ctypes.c_void_p)}-bit")
+            print("Make sure you have installed the matching SciSDK version (32/64 bit).")
+        
+        elif (hasattr(errno, 'ELIBBAD') and error_code == errno.ELIBBAD) or "undefined symbol" in str(e).lower():
+            print(f"Error: {self.libname} has missing dependencies")
+            print("Some required libraries may not be installed.")
+            if os.name != 'nt':
+                print("Try running: ldd " + self.libname + " to check dependencies")
+        
+        elif os.name == 'nt' and hasattr(e, 'winerror'):
+            # Gestione errori specifici Windows
+            winerror = e.winerror
+            if winerror == 126:  # ERROR_MOD_NOT_FOUND
+                print(f"Error: {self.libname} or one of its dependencies not found")
+                print(install_msg)
+                print(path_hint)
+            elif winerror == 193:  # ERROR_BAD_EXE_FORMAT
+                print(f"Error: {self.libname} has incompatible architecture")
+                print(f"Python architecture: {8 * ctypes.sizeof(ctypes.c_void_p)}-bit")
+                print("Make sure you have installed the matching SciSDK version.")
             else:
-                print("Error: unable to load libscisdk.so: " + str(e))
-            
+                print(f"Error: unable to load {self.libname}")
+                print(f"Windows error code: {winerror}")
+                print(f"Details: {e}")
+                print(install_msg)
+        
+        else:
+            print(f"Error: unable to load {self.libname}")
+            print(f"Details: {e}")
+            print(install_msg)
+            print(path_hint)
 
 
 
-        init_lib_api = self.scisdk_dll.SCISDK_InitLib
-        init_lib_api.restype = ctypes.c_void_p
-        self.lib_ptr = init_lib_api()
+
         
         
     def AddNewDevice(self, device_path: str, device_model: str, json_file_path: str, name: str) -> int:
