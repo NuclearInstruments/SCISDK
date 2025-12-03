@@ -200,7 +200,7 @@ nireleasewindows:
 
 run-get-lib-windows:
   image: mcr.microsoft.com/windows/servercore:ltsc2022
-  stage: build
+  stage: setup
   tags:
     - windows
   script:
