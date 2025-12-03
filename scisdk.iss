@@ -82,14 +82,18 @@ Source: "dt5771\x64\DT5771_SDKLib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags
 Source: "dt5771\x86\DT5771_SDKLib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "dt5771\x64d\DT5771_SDKLib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
 Source: "dt5771\x86d\DT5771_SDKLib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags:  recursesubdirs; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags:  recursesubdirs; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "artifacts\caenlib\bin\x86_64\*"; DestDir: "{app}\bin\x64\Release\"; Flags: ignoreversion recursesubdirs; Components: program
+Source: "artifacts\caenlib\bin\x86\*"; DestDir: "{app}\bin\Win32\Debug\"; Flags: ignoreversion recursesubdirs; Components: program
+
+
 Source: "scisdk\bin\x64\Release\SciSDK_Labview.dll"; DestDir: "{app}\bin\x64\Release\"; Flags: 64bit ignoreversion recursesubdirs; Components: program
 Source: "scisdk\bin\x64\Debug\SciSDK_Labview.dll"; DestDir: "{app}\bin\x64\Debug\"; Flags: 64bit ignoreversion recursesubdirs; Components: program
 Source: "scisdk\src\NIErrorCode.h"; DestDir: "{app}\src\"; Flags: ignoreversion recursesubdirs; Components: program
@@ -107,8 +111,10 @@ Source: "x5560\x64\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit; Components
 Source: "x5560\x64\libsodium.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "x5560\x64\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
 Source: "dt5771\x64\DT5771_SDKLib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
-Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+;Source: "tmp\caen\vs_output\x86_64\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 64bit; Components: program
+
+Source: "artifacts\caenlib\bin\x86_64\*"; DestDir: "{sys}"; Flags: 64bit; Components: program
 
 Source: "scisdk\bin\Win32\Release\SciSDK_DLL.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "dt1260\Win32\Release\SCIDK_Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
@@ -116,8 +122,11 @@ Source: "x5560\x86\R5560_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit; Components
 Source: "x5560\x86\libsodium.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "x5560\x86\libzmq-v140-mt-4_3_4.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
 Source: "dt5771\x86\DT5771_SDKLib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
-Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_Dig2Lib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+;Source: "tmp\caen\vs_output\x86\CAEN_FELib.dll"; DestDir: "{sys}"; Flags: 32bit; Components: program
+
+Source: "artifacts\caenlib\bin\x86\*"; DestDir: "{sys}"; Flags: 32bit; Components: program
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 Source: ".\Redist\VC_redist.x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Components: program
