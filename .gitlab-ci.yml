@@ -18,11 +18,11 @@ run-get-lib-windows:
     - windows
   script:
     # Create directories for artifacts
-    - New-Item -ItemType Directory -Path "artifacts\bin\x86" -Force
-    - New-Item -ItemType Directory -Path "artifacts\bin\x86_64" -Force
-    - New-Item -ItemType Directory -Path "artifacts\include" -Force
-    - New-Item -ItemType Directory -Path "artifacts\lib\x86" -Force
-    - New-Item -ItemType Directory -Path "artifacts\lib\x86_64" -Force
+    - New-Item -ItemType Directory -Path "artifacts\caenlib\bin\x86" -Force
+    - New-Item -ItemType Directory -Path "artifacts\caenlib\bin\x86_64" -Force
+    - New-Item -ItemType Directory -Path "artifacts\caenlib\include" -Force
+    - New-Item -ItemType Directory -Path "artifacts\caenlib\lib\x86" -Force
+    - New-Item -ItemType Directory -Path "artifacts\caenlib\lib\x86_64" -Force
     # Get dependencies
     - '[System.Net.WebRequest]::DefaultWebProxy = [System.Net.WebRequest]::GetSystemWebProxy()'
     - '[System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials'
@@ -30,38 +30,38 @@ run-get-lib-windows:
     - Invoke-WebRequest "https://caen.it/wp-json/caen/v1/download-file?file_id=10690" -Headers @{"Authorization"="Bearer ${CAEN_WEBSITE_API_BEARER}"} -OutFile artifacts_fe.zip -UserAgent "curl/7.83.1"
     - Expand-Archive -Path artifacts_fe.zip -DestinationPath .
     - 'Start-Process -FilePath ".\CAEN FELib*.exe" -ArgumentList "/VERYSILENT /NORESTART /NOICONS /COMPONENTS=`"dll,lib`"" -Wait'
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\bin\x86\*.dll" -Destination "artifacts\bin\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\bin\x86_64\*.dll" -Destination "artifacts\bin\x86_64\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\include\*" -Destination "artifacts\include\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\lib\x86\*.lib" -Destination "artifacts\lib\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\lib\x86_64\*.lib" -Destination "artifacts\lib\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\bin\x86\*.dll" -Destination "artifacts\caenlib\bin\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\bin\x86_64\*.dll" -Destination "artifacts\caenlib\bin\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\include\*" -Destination "artifacts\caenlib\include\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\lib\x86\*.lib" -Destination "artifacts\caenlib\lib\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN FELib\lib\x86_64\*.lib" -Destination "artifacts\caenlib\lib\x86_64\" -Recurse -Force
     # - CAEN Dig2
     - Invoke-WebRequest "https://caen.it/wp-json/caen/v1/download-file?file_id=10833" -Headers @{"Authorization"="Bearer ${CAEN_WEBSITE_API_BEARER}"} -OutFile artifacts_dig2.zip -UserAgent "curl/7.83.1"
     - Expand-Archive -Path artifacts_dig2.zip -DestinationPath .
     - 'Start-Process -FilePath ".\CAEN Dig2*.exe" -ArgumentList "/VERYSILENT /NORESTART /NOICONS /COMPONENTS=`"dll`"" -Wait'
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN Dig2\bin\x86\*.dll" -Destination "artifacts\bin\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN Dig2\bin\x86_64\*.dll" -Destination "artifacts\bin\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN Dig2\bin\x86\*.dll" -Destination "artifacts\caenlib\bin\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Digitizers\CAEN Dig2\bin\x86_64\*.dll" -Destination "artifacts\caenlib\bin\x86_64\" -Recurse -Force
     # - CAEN VME
     - Invoke-WebRequest "https://caen.it/wp-json/caen/v1/download-file?file_id=8635" -Headers @{"Authorization"="Bearer ${CAEN_WEBSITE_API_BEARER}"} -OutFile artifacts_vme.zip -UserAgent "curl/7.83.1"
     - Expand-Archive -Path artifacts_vme.zip -DestinationPath .
     - 'Start-Process -FilePath ".\CAENVMELib*.exe" -ArgumentList "/VERYSILENT /NORESTART /NOICONS /COMPONENTS=`"program,libs`"" -Wait'
-    - Copy-Item -Path "C:\Program Files\CAEN\VME\lib\x86\*.dll" -Destination "artifacts\bin\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\VME\lib\x86_64\*.dll" -Destination "artifacts\bin\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\VME\lib\x86\*.dll" -Destination "artifacts\caenlib\bin\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\VME\lib\x86_64\*.dll" -Destination "artifacts\caenlib\bin\x86_64\" -Recurse -Force
     # - CAEN Comm
     - Invoke-WebRequest "https://caen.it/wp-json/caen/v1/download-file?file_id=8294" -Headers @{"Authorization"="Bearer ${CAEN_WEBSITE_API_BEARER}"} -OutFile artifacts_comm.zip -UserAgent "curl/7.83.1"
     - Expand-Archive -Path artifacts_comm.zip -DestinationPath .
     - 'Start-Process -FilePath ".\CAENComm*.exe" -ArgumentList "/VERYSILENT /NORESTART /NOICONS /COMPONENTS=`"program,libs`"" -Wait'
-    - Copy-Item -Path "C:\Program Files\CAEN\Comm\lib\x86\*.dll" -Destination "artifacts\bin\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\Comm\lib\x86_64\*.dll" -Destination "artifacts\bin\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Comm\lib\x86\*.dll" -Destination "artifacts\caenlib\bin\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\Comm\lib\x86_64\*.dll" -Destination "artifacts\caenlib\bin\x86_64\" -Recurse -Force
     # - CAEN PLU
     - Invoke-WebRequest "https://caen.it/wp-json/caen/v1/download-file?file_id=10100" -Headers @{"Authorization"="Bearer ${CAEN_WEBSITE_API_BEARER}"} -OutFile artifacts_plu.zip -UserAgent "curl/7.83.1"
     - Expand-Archive -Path artifacts_plu.zip -DestinationPath .
     - 'Start-Process -FilePath ".\CAENPLU*.exe" -ArgumentList "/VERYSILENT /NORESTART /NOICONS /COMPONENTS=`"program,libs`"" -Wait'
-    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86\*.dll" -Destination "artifacts\bin\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86_64\*.dll" -Destination "artifacts\bin\x86_64\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\include\*" -Destination "artifacts\include\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86\*.lib" -Destination "artifacts\lib\x86\" -Recurse -Force
-    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86_64\*.lib" -Destination "artifacts\lib\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86\*.dll" -Destination "artifacts\caenlib\bin\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86_64\*.dll" -Destination "artifacts\caenlib\bin\x86_64\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\include\*" -Destination "artifacts\caenlib\include\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86\*.lib" -Destination "artifacts\caenlib\lib\x86\" -Recurse -Force
+    - Copy-Item -Path "C:\Program Files\CAEN\PLULibrary\lib\x86_64\*.lib" -Destination "artifacts\caenlib\lib\x86_64\" -Recurse -Force
   artifacts:
     paths:
       - artifacts/
