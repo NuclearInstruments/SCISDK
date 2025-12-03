@@ -24,5 +24,5 @@ python -m nirelease --pull -u SciSDK/rev-A/release/sw-windows-lib/scisdk-full-wi
 Expand-Archive -LiteralPath ./tmp/scisdk-full-win-x86_x64/scisdk-win-full.zip -DestinationPath ./scisdk/ -Force
 
 $param1=$args[0]
-
+tree
 iscc /Qp /DMyAppVersion=$param1 scisdk.iss
