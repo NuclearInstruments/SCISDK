@@ -259,8 +259,8 @@ run-get-lib-windows:
 build_setup:
   stage: setup
   dependencies: 
-  - nireleasewindows  
-  - run-get-lib-windows
+    - nireleasewindows  
+    - run-get-lib-windows
   
   image: harbor.nuclearinstruments.eu/windows/innosetup:1
   script:
@@ -280,7 +280,7 @@ build_setup:
 digital_signature:
   stage: sign
   dependencies: 
-  - build_setup  
+    - build_setup  
   script:
     - sign_executable.cmd "output/SciSDKSetup.exe"
   tags:
