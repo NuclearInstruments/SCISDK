@@ -6,6 +6,7 @@ stages:
   - build
   - release_win
   - setup
+  - setup-2
   - sign
   - release
   - pck_push
@@ -257,7 +258,7 @@ run-get-lib-windows:
     - if: $CI_COMMIT_TAG
 
 build_setup:
-  stage: setup
+  stage: setup-2
   dependencies: 
     - nireleasewindows  
     - run-get-lib-windows
