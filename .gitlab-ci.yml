@@ -189,7 +189,7 @@ push_github:
 build_setup:
   stage: setup
   dependencies: 
-    - nireleasewindows  
+    # - nireleasewindows  # Is it really necessary?
     - run-get-lib-windows
   
   image: harbor.nuclearinstruments.eu/windows/innosetup:1
