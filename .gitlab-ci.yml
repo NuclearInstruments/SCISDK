@@ -56,7 +56,8 @@ pages:
   when: always
   artifacts:
     paths:
-      # - public
+      # Include public for page deployment
+      - public
       - scisdk_docs.zip
 
 
