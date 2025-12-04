@@ -51,7 +51,7 @@ include:
         - ni_release_file: ni/ni-release-setup.yaml
           gitlab_release_name: 'ni-release-setup'
 
-      rules: 
+      job_rules: 
         - if: $CI_COMMIT_TAG
 
 
@@ -74,7 +74,7 @@ include:
         - ni_release_file: .ni/ni-release-windows-full.yaml
           gitlab_release_name: 'ni-release-windows-full'
 
-      rules: 
+      job_rules: 
         - if: $CI_COMMIT_TAG
 
 
@@ -89,7 +89,7 @@ include:
         - ni_release_file: .ni/ni-release-source.yaml
           gitlab_release_name: 'ni-release-source'
 
-      rules: 
+      job_rules: 
         - if: $CI_COMMIT_TAG
 
 
@@ -112,5 +112,5 @@ include:
         - ni_release_file: .ni/ni-release-docs.yaml
           gitlab_release_name: 'ni-release-docs'
 
-      rules: 
+      job_rules: 
         - if: $CI_COMMIT_TAG
