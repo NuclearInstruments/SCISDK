@@ -229,7 +229,7 @@ nirelease:
   dependencies: 
     - build_zynq  
     # - build_ubuntu_all_arch
-    - $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
+    - ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
     - digital_signature
 
   tags:
