@@ -131,3 +131,5 @@ deploy_pages:
     - aws s3 sync --delete . s3://sci-sdk-docs
     - aws cloudfront create-invalidation --distribution-id ${SCISDK_DOCS_AWS_DISTRIBUTION_ID} --paths '/*'
 
+  rules: 
+    - if: $CI_COMMIT_TAG
