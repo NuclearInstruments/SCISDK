@@ -43,28 +43,6 @@ include:
 
         - echo "Publishing for release  $LINUXRELEASE" 
 
-        # - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${LINUXRELEASE}"
-
-        # POST deb
-        # - OS=ubuntu
-        # - |
-        #   response=$( \
-        #     curl --location '${NI_PACKAGE_REGISTRY_URL}/$OS/upload' \
-        #     --header 'Authorization: ${NI_PACKAGE_REGISTRY_TOKEN}' \
-        #     --form 'file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb"' \
-        #     --form 'distribution=${LINUXRELEASE}"' \
-        #     -s -w "\n%{http_code}" \
-        #   )
-        #   http_code=$(tail -n1 <<< "$response")
-        #   echo $http_code
-          
-        # # Raise exception if return code is not 200
-        # - |
-        #   if [ "$http_code" != "200" ]; then
-        #     exit 1
-        #   fi
-
-
         - |
           OS=ubuntu
 
@@ -111,35 +89,6 @@ include:
           fi
 
       rules: $[[ inputs.rules ]]
-
-
-
-# deb_push:
-  # # stage: $[[ inputs.stage ]]
-  # # image: harbor.nuclearinstruments.eu/apps/release-manager:2
-  # # tags:
-  # #   - docker-linux
-  # #   - light
-
-    
-  # # dependencies: 
-  # #   - build_ubuntu_all_arch
-
-  # # parallel:
-  # #     matrix:
-  # #       - DOCKER_IMAGE: ["18.04", "20.04", "22.04", "24.04"]
-  # #         ARCHITECTURE: ["amd64", "i386", "arm64", "armhf"]
-  # # variables:
-  # #     DOCKER_IMAGE_MAP: "18.04=bionic,20.04=focal,22.04=jammy,24.04=noble"
-
-  # script:
-  #   - ls -l
-  #   - ls -l debs/
-  #   - export LINUXRELEASE=$(echo "$DOCKER_IMAGE_MAP" | awk -F, -v linuxrelease="$DOCKER_IMAGE" '{for(i=1;i<=NF;i++) if ($i ~ linuxrelease) print $i}' | cut -d'=' -f2)
-  #   - echo "Publishing for release  $LINUXRELEASE" 
-  #   - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${LINUXRELEASE}"
-
-  # rules: $[[ inputs.rules ]]
 
 
 
