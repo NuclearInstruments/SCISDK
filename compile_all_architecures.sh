@@ -33,7 +33,7 @@ echo "Version updated in src/scisdk_version.h to $version"
 autoreconf -if
 BUILD="$(echo $MACHTYPE | sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")"
 
-if [ "$ARCHITECTURE" = "x64" ]; then
+if [ "$ARCHITECTURE" = "amd64" ]; then
     #compile x64 (native)
     rm -rf build_x64
     mkdir -p build_x64

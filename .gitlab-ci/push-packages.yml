@@ -33,7 +33,7 @@ include:
         - docker-linux
         - light
       dependencies: 
-        # Should match name in .gitlab-ci/build-jobs.yml
+        # MUST match name in .gitlab-ci/build-jobs.yml. Cannot do with VARIABLES
         - build_ubuntu_all_arch
 
       script:

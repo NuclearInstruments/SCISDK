@@ -227,9 +227,9 @@ nirelease:
   dependencies: 
     - build_zynq  
 
-    # Should match name in .gitlab-ci/build-jobs.yml
+    # MUST match name in .gitlab-ci/build-jobs.yml. Cannot do with VARIABLES
     - build_ubuntu_all_arch
-    
+
     - digital_signature
 
   tags:
