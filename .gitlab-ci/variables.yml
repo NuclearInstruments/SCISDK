@@ -1,0 +1,2 @@
+variables:
+  BUILD_UBUNTU_ALL_ARCH_JOB_NAME: build_ubuntu_all_arch

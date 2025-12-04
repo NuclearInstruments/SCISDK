@@ -11,11 +11,11 @@ stages:
   - release
   - push-packages
 
-variables:
-  BUILD_UBUNTU_ALL_ARCH_JOB_NAME: build_ubuntu_all_arch
 
 
 include:
+
+  - local: .gitlab-ci/variables.yml
 
   # Build Jobs
   - local: .gitlab-ci/build-jobs.yml
