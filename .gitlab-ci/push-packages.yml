@@ -83,10 +83,10 @@ include:
 
             response=$( \
               curl -X POST \
-              --location '${NI_PACKAGE_REGISTRY_URL}/$OS/upload' \
-              --header 'Authorization: ${NI_PACKAGE_REGISTRY_TOKEN}' \
-              --form 'file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb' \
-              --form 'distribution=${LINUXRELEASE}' \
+              --location "${NI_PACKAGE_REGISTRY_URL}/$OS/upload" \
+              --header "Authorization: ${NI_PACKAGE_REGISTRY_TOKEN}" \
+              --form "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" \
+              --form "distribution=${LINUXRELEASE}" \
               -s -w "\n%{http_code}" \
             )
             http_code=$(tail -n1 <<< "$response")
