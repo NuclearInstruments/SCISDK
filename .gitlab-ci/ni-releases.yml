@@ -48,7 +48,7 @@ include:
           gitlab_release_name: 'ni-release-zynq'
         - ni_release_file: .ni/ni-release-linux.yaml
           gitlab_release_name: 'ni-release-linux'
-        - ni_release_file: ni/ni-release-setup.yaml
+        - ni_release_file: .ni/ni-release-setup.yaml
           gitlab_release_name: 'ni-release-setup'
 
       job_rules: 
