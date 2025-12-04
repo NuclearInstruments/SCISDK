@@ -67,7 +67,7 @@ build_zynq:
 
 
 
-$[[ build_ubuntu_all_arch_job_name ]]:
+$[[ inputs.build_ubuntu_all_arch_job_name ]]:
   stage: $[[ inputs.stage ]]
   tags:
     - docker-linux
