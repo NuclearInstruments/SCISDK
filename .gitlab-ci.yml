@@ -11,14 +11,15 @@ stages:
   - release
   - push-packages
 
-variables:
-  BUILD_UBUNTU_ALL_ARCH_JOB_NAME: build_ubuntu_all_arch
+variables
 
 
 include:
 
   # Build Jobs
   - local: .gitlab-ci/build-jobs.yml
+    inputs:
+      build_ubuntu_all_arch_job_name: $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
 
 
   # Push packages Jobs
@@ -229,7 +230,7 @@ nirelease:
   dependencies: 
     - build_zynq  
     # - build_ubuntu_all_arch
-    - ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
+    - $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
     - digital_signature
 
   tags:

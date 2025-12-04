@@ -3,6 +3,9 @@
 spec:
   inputs:
     # --- Required ---
+    build_ubuntu_all_arch_job_name:
+      type: string
+      description: "Name of the build_ubuntu_all_arch job"
 
 
     # --- Optional ---
@@ -64,7 +67,7 @@ build_zynq:
 
 
 
-"${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}":
+$[[ build_ubuntu_all_arch_job_name ]]:
   stage: $[[ inputs.stage ]]
   tags:
     - docker-linux
