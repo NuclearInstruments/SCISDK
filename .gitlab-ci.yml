@@ -15,17 +15,14 @@ stages:
 include:
 
   # Build Jobs
-  - local: .gitlab-ci/build-jons.yml
+  - local: .gitlab-ci/build-jobs.yml
 
       
 
 
 pages:
-
   stage: pages
-
   image: harbor.nuclearinstruments.eu/library/doxygen:1.1
-
   tags:
     - docker-linux
     - light
@@ -36,21 +33,18 @@ pages:
     - mv docs/html/* public/
     
   when: always
-
   artifacts:
     paths:
       - public
 
+
+
 push_github:
   stage: push
- 
-
   image: harbor.nuclearinstruments.eu/nibuntu/services-22.04:2
-
   tags:
     - docker-linux
     - light
-
 
   script:
     - git config --global --add safe.directory '*'
