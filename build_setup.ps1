@@ -11,7 +11,7 @@ try {
 
     # python -m nirelease --pull -u SciSDK/rev-A/sub/sw-docs/SciSDKDocs/ -o tmp
     # Expand-Archive -LiteralPath ./tmp/SciSDKDocs/scisdk_docs.zip -DestinationPath ./scisdk/ -Force
-    Expand-Archive -LiteralPath ./scisdk_docs.zip -DestinationPath ./scisdk/ -Force
+    Expand-Archive -LiteralPath ./scisdk_docs.zip -DestinationPath ./scisdk/ -Force  -Verbose
 
 
     New-Item -Path "." -Name "redist" -ItemType "directory" -Force
@@ -27,10 +27,10 @@ try {
 
     # python -m nirelease --pull -u SciSDK/rev-A/release/sw-windows-lib/scisdk-full-win-x86_x64/ -o tmp
     # Expand-Archive -LiteralPath ./tmp/scisdk-full-win-x86_x64/scisdk-win-full.zip -DestinationPath ./scisdk/ -Force
-    Expand-Archive -LiteralPath ./output/scisdk-full.zip -DestinationPath ./scisdk/ -Force
+    Expand-Archive -LiteralPath ./output/scisdk-full.zip -DestinationPath ./scisdk/ -Force  -Verbose
 
     $param1=$args[0]
-    tree
+    # tree
     iscc /Qp /DMyAppVersion=$param1 scisdk.iss
 
 } catch {

@@ -46,14 +46,14 @@ pages:
     - mkdir -p public
     - mv docs/html/* public/
 
-    # TODO: TEMPORARY WAITING FOR A DEDICATED JOB OR IMAGE
-    - echo "password" | sudo -S apt update
-    - echo "password" | sudo -S apt install zip -y
+    # # TODO: TEMPORARY WAITING FOR A DEDICATED JOB OR IMAGE
+    # - echo "password" | sudo -S apt update
+    # - echo "password" | sudo -S apt install zip -y
     # - mv public scisdk_docs
+    
     - cp -r public scisdk_docs
     - zip -r scisdk_docs.zip scisdk_docs
 
-    
   when: always
   artifacts:
     paths:
