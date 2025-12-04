@@ -33,7 +33,8 @@ include:
         - docker-linux
         - light
       dependencies: 
-        - ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
+        # Should match name in .gitlab-ci/build-jobs.yml
+        - build_ubuntu_all_arch
 
       script:
         # Debug print

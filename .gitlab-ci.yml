@@ -15,13 +15,9 @@ stages:
 
 include:
 
-  - local: .gitlab-ci/variables.yml
 
   # Build Jobs
   - local: .gitlab-ci/build-jobs.yml
-    inputs:
-      build_ubuntu_all_arch_job_name: ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
-
 
   # Push packages Jobs
   - local: .gitlab-ci/push-packages.yml
@@ -230,8 +226,10 @@ nirelease:
   image: harbor.nuclearinstruments.eu/apps/release-manager:2
   dependencies: 
     - build_zynq  
-    # - build_ubuntu_all_arch
-    - ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
+
+    # Should match name in .gitlab-ci/build-jobs.yml
+    - build_ubuntu_all_arch
+    
     - digital_signature
 
   tags:
