@@ -97,7 +97,7 @@ include:
   # Pages on nirelease
   - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
     inputs:
-      job_name: pages
+      job_name: docs_nirelease
       stage: $[[ inputs.stage ]]
 
       job_dependencies:
