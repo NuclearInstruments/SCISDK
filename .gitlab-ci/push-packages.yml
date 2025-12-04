@@ -33,7 +33,7 @@ include:
         - docker-linux
         - light
       dependencies: 
-        - $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
+        - ${BUILD_UBUNTU_ALL_ARCH_JOB_NAME}
 
       script:
         # Debug print
