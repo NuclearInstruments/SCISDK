@@ -13,12 +13,6 @@ spec:
       description: "Stage name for the package push jobs"
       default: push-packages
 
-    # Dependencies
-    dependencies:
-      type: string
-      description: "Dependencies"
-      default: build_ubuntu_all_arch
-
     # Rules
     rules:
       type: array
@@ -38,7 +32,7 @@ include:
       runner_tags:
         - docker-linux
         - light
-      dependencies: $[[ inputs.dependencies ]]
+      dependencies: $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
 
       script:
         # Debug print
@@ -49,12 +43,23 @@ include:
         - echo "Publishing for release  $LINUXRELEASE" 
         # - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${LINUXRELEASE}"
 
+        # POST deb
         - |
-          TODO:
-          CURL CON AUTENTICAZIONE
-          CHECK RETURN CODE
-
-
+          response=$( \
+            curl --location '${NI_PACKAGE_REGISTRY_URL}'' \
+            --header 'Authorization: ${NI_PACKAGE_REGISTRY_TOKEN}' \
+            --form 'file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb"' \
+            --form 'distribution=${LINUXRELEASE}"' \
+            -s -w "\n%{http_code}" \
+          )
+          http_code=$(tail -n1 <<< "$response")
+          echo $http_code
+          
+        # Raise exception if return code is not 200
+        - |
+          if [ "$http_code" != "200" ]; then
+            exit 1
+          fi
 
       rules: $[[ inputs.rules ]]
 
