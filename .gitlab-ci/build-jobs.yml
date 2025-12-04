@@ -1,3 +1,5 @@
+# This yml file contains all the CICD Jobs in charge of building the SciSDK
+
 spec:
   inputs:
     # --- Required ---
@@ -6,9 +8,9 @@ spec:
     # --- Optional ---
 
     # Job Stages
-    job_stage:
+    stage:
       type: string
-      description: "The stage where to run the select_sci_compiler_version job"
+      description: "Stage name for the build jobs"
       default: build
 
     # Rules
@@ -24,7 +26,7 @@ spec:
 
 
 build_vs2022_windows:
-  stage: $[[ inputs.job_stage ]]
+  stage: $[[ inputs.stage ]]
   image: harbor.nuclearinstruments.eu/windows/win10-vc-build-tools-2022:1
   tags:
     - docker-windows
@@ -43,7 +45,7 @@ build_vs2022_windows:
 
 
 build_zynq:
-  stage: $[[ inputs.job_stage ]]
+  stage: $[[ inputs.stage ]]
   image: harbor.nuclearinstruments.eu/nibuntu/console-20.04:3.0
   tags:
     - docker-linux
@@ -63,7 +65,7 @@ build_zynq:
 
 
 build_ubuntu_all_arch:
-  stage: $[[ inputs.job_stage ]]
+  stage: $[[ inputs.stage ]]
   tags:
     - docker-linux
     - heavy

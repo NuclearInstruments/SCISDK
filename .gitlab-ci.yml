@@ -9,13 +9,17 @@ stages:
   - setup-2
   - sign
   - release
-  - pck_push
+  - push-packages
 
 
 include:
 
   # Build Jobs
   - local: .gitlab-ci/build-jobs.yml
+
+
+  # Push packages Jobs
+  - local: .gitlab-ci/push-packages.yml
 
       
 
@@ -255,44 +259,5 @@ nirelease:
     - if: $CI_COMMIT_TAG
   when: on_success
 
-deb_push:
-  stage: pck_push
-  image: harbor.nuclearinstruments.eu/apps/release-manager:2
 
-  tags:
-    - docker-linux
-    - light
 
-    
-  dependencies: 
-    - build_ubuntu_all_arch
-
-  parallel:
-      matrix:
-        - DOCKER_IMAGE: ["18.04", "20.04", "22.04", "24.04"]
-          ARCHITECTURE: ["amd64", "i386", "arm64", "armhf"]
-  variables:
-      DOCKER_IMAGE_MAP: "18.04=bionic,20.04=focal,22.04=jammy,24.04=noble"
-
-  script:
-    - ls -l
-    - ls -l debs/
-    - export LINUXRELEASE=$(echo "$DOCKER_IMAGE_MAP" | awk -F, -v linuxrelease="$DOCKER_IMAGE" '{for(i=1;i<=NF;i++) if ($i ~ linuxrelease) print $i}' | cut -d'=' -f2)
-    - echo "Publishing for release  $LINUXRELEASE" 
-    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_${ARCHITECTURE}.deb" -F "distribution=${LINUXRELEASE}"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-i386.deb" -F "distribution=jammy"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-arm64.deb" -F "distribution=jammy"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-22.04-armhf.deb" -F "distribution=jammy"
-
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-20.04-x64.deb" -F "distribution=focal"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-20.04-i386.deb" -F "distribution=focal"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-20.04-arm64.deb" -F "distribution=focal"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-20.04-armhf.deb" -F "distribution=focal"
-
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-x64.deb" -F "distribution=bionic"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-i386.deb" -F "distribution=bionic"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-arm64.deb" -F "distribution=bionic"
-#    - curl -X POST "http://packages-ubuntu.lanni/api/upload" -F "file=@./debs/scisdk-18.04-armhf.deb" -F "distribution=bionic"
-
-  rules:
-    - if: $CI_COMMIT_TAG
