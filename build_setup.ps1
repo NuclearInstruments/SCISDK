@@ -20,8 +20,9 @@ Invoke-WebRequest http://installers.lanni/windows_sw/vc_redist/VC_redist.x86.exe
 New-Item -Path "." -Name "Drivers" -ItemType "directory" -Force
 Invoke-WebRequest http://installers.lanni/windows_sw/ftdi_driver/d2xx_setup.exe -OutFile Drivers/d2xx_setup.exe
 Invoke-WebRequest http://installers.lanni/windows_sw/ftdi_driver/d3xx_setup.exe -OutFile Drivers/d3xx_setup.exe
-python -m nirelease --pull -u SciSDK/rev-A/release/sw-windows-lib/scisdk-full-win-x86_x64/ -o tmp
-Expand-Archive -LiteralPath ./tmp/scisdk-full-win-x86_x64/scisdk-win-full.zip -DestinationPath ./scisdk/ -Force
+# python -m nirelease --pull -u SciSDK/rev-A/release/sw-windows-lib/scisdk-full-win-x86_x64/ -o tmp
+# Expand-Archive -LiteralPath ./tmp/scisdk-full-win-x86_x64/scisdk-win-full.zip -DestinationPath ./scisdk/ -Force
+Expand-Archive -LiteralPath ./output/scisdk-full.zip -DestinationPath ./scisdk/ -Force
 
 $param1=$args[0]
 tree

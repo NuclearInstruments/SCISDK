@@ -26,8 +26,8 @@ build_vs2022_windows:
     - ./build.ps1 $CI_COMMIT_TAG
 
   artifacts:
-    untracked: false
-    name: windows
+    # untracked: false
+    # name: windows
     paths:
       - output\scisdk-full.zip  
 
