@@ -1,59 +1,37 @@
-# This yml file contains all the CICD Jobs in charge of performing nirelease pushes
-
-spec:
-  inputs:
-    # --- Required ---
-
-
-    # --- Optional ---
-
-    # Job Stages
-    stage:
-      type: string
-      description: "Stage name for the package jobs"
-      default: release
-
-
----
-
+# Build and digitally sign Windows setup
 
 build_setup:
   stage: setup
+  image: harbor.nuclearinstruments.eu/windows/innosetup:1
+  tags:
+    - docker-windows
   dependencies: 
-    # - nireleasewindows  # Is it really necessary? Yes :(
     - build_vs2022_windows
     - pages
     - run-get-lib-windows
   
-  image: harbor.nuclearinstruments.eu/windows/innosetup:1
   script:
     - .\build_setup.ps1 $CI_COMMIT_TAG
-  tags:
-    - docker-windows
   artifacts:
-    untracked: false
-    name: windows
     paths:
       - output/*.exe    
-    expire_in: 1 week 
   rules:
     - if: $CI_COMMIT_TAG
 
 
 digital_signature:
   stage: sign
-  dependencies: 
-    - build_setup  
-  script:
-    - sign_executable.cmd "output/SciSDKSetup.exe"
   tags:
     - windows-signature
+  dependencies: 
+    - build_setup  
+
+  script:
+    - sign_executable.cmd "output/SciSDKSetup.exe"
+
   artifacts:
-    untracked: false
-    expire_in: "30 days"
     paths:
       - output/SciSDKSetup.exe
   rules:
     - if: $CI_COMMIT_TAG
 
-  when: on_success
