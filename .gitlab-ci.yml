@@ -45,11 +45,18 @@ pages:
     - doxygen
     - mkdir -p public
     - mv docs/html/* public/
+
+    # TODO: TEMPORARY WAITING FOR A DEDICATED JOB OR IMAGE
+    - sudo apt update && sudo apt install zip -y
+    - mv public scisdk_docs
+    - zip -r scisdk_docs.zip scisdk_docs
+
     
   when: always
   artifacts:
     paths:
-      - public
+      # - public
+      - scisdk_docs.zip
 
 
 
@@ -191,6 +198,7 @@ build_setup:
   dependencies: 
     # - nireleasewindows  # Is it really necessary? Yes :(
     - build_vs2022_windows
+    - pages
     - run-get-lib-windows
   
   image: harbor.nuclearinstruments.eu/windows/innosetup:1

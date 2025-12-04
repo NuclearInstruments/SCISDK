@@ -104,9 +104,9 @@ include:
         - pages
 
       # TODO: Decide if really required and eventually to move in a dedicated pack job
-      before_script:
-        - mv public scisdk_docs
-        - zip -r scisdk_docs.zip scisdk_docs
+      # before_script:
+      #   - mv public scisdk_docs
+      #   - zip -r scisdk_docs.zip scisdk_docs
 
       ni_release_files: 
         - ni_release_file: .ni/ni-release-docs.yaml
