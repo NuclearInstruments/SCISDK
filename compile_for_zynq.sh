@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 # Controlla se è stato fornito almeno un argomento
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <version>"
