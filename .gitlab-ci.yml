@@ -1,7 +1,8 @@
 stages:
   - pages
+  - pages-deploy
   - push
-  
+
   - retrieve-dependencies
   - build
   - setup
@@ -58,6 +59,20 @@ pages:
       - public
       - scisdk_docs.zip
 
+
+deploy_pages:
+  stage: pages-deploy
+  image: harbor.nuclearinstruments.eu/apps/release-manager:latest
+  tags:
+    - docker-linux
+    - light
+  dependencies: 
+    - pages
+
+  script:
+    - cd public
+    - aws s3 sync --delete . s3://sci-sdk-docs
+    - aws cloudfront create-invalidation --distribution-id ${SCISDK_DOCS_AWS_DISTRIBUTION_ID} --paths '/*'
 
 
 push_github:
