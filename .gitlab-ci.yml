@@ -47,7 +47,7 @@ pages:
     - mv docs/html/* public/
 
     # TODO: TEMPORARY WAITING FOR A DEDICATED JOB OR IMAGE
-    - sudo -S apt update && sudo _S apt install zip -y
+    - sudo -S apt update && sudo -S apt install zip -y
     - mv public scisdk_docs
     - zip -r scisdk_docs.zip scisdk_docs
 
