@@ -99,3 +99,9 @@ html.dark-mode .bordered_image object[type="image/svg+xml"] /* doxygen 1.9.3 */ 
 .title_screenshot .caption {
     display: none;
 }
+
+#nav-sync {
+    display: none !important;
+    pointer-events: none;
+    user-select: none;
+  }
