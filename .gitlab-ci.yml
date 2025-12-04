@@ -36,7 +36,7 @@ include:
 
 pages:
   stage: pages
-  image: harbor.nuclearinstruments.eu/library/doxygen:1.1
+  image: harbor.nuclearinstruments.eu/library/doxygen:1
   tags:
     - docker-linux
     - light
@@ -50,7 +50,7 @@ pages:
     # - echo "password" | sudo -S apt update
     # - echo "password" | sudo -S apt install zip -y
     # - mv public scisdk_docs
-    
+
     - cp -r public scisdk_docs
     - zip -r scisdk_docs.zip scisdk_docs
 
