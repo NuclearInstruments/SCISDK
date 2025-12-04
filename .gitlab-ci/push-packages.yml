@@ -32,7 +32,8 @@ include:
       runner_tags:
         - docker-linux
         - light
-      dependencies: $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
+      dependencies: 
+        - $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
 
       script:
         # Debug print
