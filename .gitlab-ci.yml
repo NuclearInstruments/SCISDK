@@ -228,7 +228,8 @@ nirelease:
   image: harbor.nuclearinstruments.eu/apps/release-manager:2
   dependencies: 
     - build_zynq  
-    - build_ubuntu_all_arch
+    # - build_ubuntu_all_arch
+    - $BUILD_UBUNTU_ALL_ARCH_JOB_NAME
     - digital_signature
 
   tags:
