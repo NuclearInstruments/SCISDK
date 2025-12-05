@@ -193,7 +193,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">SciSDK Library
    </div>
-   <div id="projectbrief">SDK for SciCompiler projects</div>
+   <div id="projectbrief">SDK for Sci-Compiler projects</div>
   </td>
  </tr>
  </tbody>
@@ -267,11 +267,11 @@ $(document).ready(function(){initNavTree('md_docs_2boards_2opendpp.html',''); in
 <li>VX2730</li>
 <li>DT2730</li>
 </ul>
-<p>The SciCompiler project must be created as DPP project. Scope firmware uses the OpenScope driver.</p>
+<p>The Sci-Compiler project must be created as DPP project. Scope firmware uses the OpenScope driver.</p>
 <h1><a class="anchor" id="autotoc_md278"></a>
 Access to board endpoints</h1>
 <p>Refere to the Board endpoint driver documentation to understand how to configure and read board specific parameters.</p>
-<p>Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project. This board parameters are accessible through the following path:</p>
+<p>Each board has a specific API set to configure framework paramenters that are outside the scope of Sci-Compiler project. This board parameters are accessible through the following path:</p>
 <p><code>board0:/boardapi/</code></p>
 <p>This path is a virtual path that is mapped to the board specific framework control endpoint. All read/write operations are performed directly to the board SDK and it is managed by the SDK.</p>
 <p>For FELib compatible board (CAEN X274X) the board specific API is accessible through the following path:</p>
@@ -359,7 +359,7 @@ Read Data Loop</h1>
 </div><!-- fragment --><p> In case of success the function will return one event at the time.</p>
 <h1><a class="anchor" id="autotoc_md282"></a>
 Code Examples</h1>
-<p>Configure the board to readout channel 0,1,2 and store the data in a csv file, trigger comes from SciCompiler trigger to each channel FIFO.</p>
+<p>Configure the board to readout channel 0,1,2 and store the data in a csv file, trigger comes from Sci-Compiler trigger to each channel FIFO.</p>
 <div class="fragment"><div class="line">++</div>
 <div class="line">   <span class="keywordtype">void</span>* _sdk = <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#a491b12b67faeecd218d29c0031094092">SCISDK_InitLib</a>();</div>
 <div class="line"> </div>
@@ -435,8 +435,8 @@ Code Examples</h1>
 <div class="line">       }</div>
 <div class="line">   }</div>
 <div class="line">   out.close();</div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a30c87ee142b0ba8afa0ad3e008903477"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a30c87ee142b0ba8afa0ad3e008903477">SCISDK_AddNewDevice</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle)</div><div class="ttdoc">Connect to and hardware device. The function tries to connect to the device, decode the SciCompiler j...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or route the value...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a30c87ee142b0ba8afa0ad3e008903477"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a30c87ee142b0ba8afa0ad3e008903477">SCISDK_AddNewDevice</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char *JSONFwFilePath, char *Name, void *handle)</div><div class="ttdoc">Connect to and hardware device. The function tries to connect to the device, decode the Sci-Compiler ...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a491b12b67faeecd218d29c0031094092"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a491b12b67faeecd218d29c0031094092">SCISDK_InitLib</a></div><div class="ttdeci">SCISDK_DLL_API void * SCISDK_InitLib()</div><div class="ttdoc">Initialize the SciSDK handles accolating the resources. This function must be called before any other...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac9e9b4e1a5d91597095829bd13eafa30"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac9e9b4e1a5d91597095829bd13eafa30">SCISDK_s_error</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_s_error(int err_no, char **value, void *handle)</div><div class="ttdoc">Convert the returned error code in a human readable string explaining the error.</div></div>

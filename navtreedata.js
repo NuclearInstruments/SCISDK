@@ -26,7 +26,7 @@ var NAVTREE =
 [
   [ "SciSDK Library", "index.html", [
     [ "SciSDK Library Introduction", "index.html", "index" ],
-    [ "SciCompiler internal bus", "md_docs_2mmc.html", null ],
+    [ "Sci-Compiler internal bus", "md_docs_2mmc.html", null ],
     [ "Simple Register", "md_docs_2registers.html", [
       [ "Endpoint", "md_docs_2registers.html#autotoc_md40", null ],
       [ "Methods", "md_docs_2registers.html#autotoc_md41", null ],

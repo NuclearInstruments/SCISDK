@@ -193,7 +193,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">SciSDK Library
    </div>
-   <div id="projectbrief">SDK for SciCompiler projects</div>
+   <div id="projectbrief">SDK for Sci-Compiler projects</div>
   </td>
  </tr>
  </tbody>
@@ -259,10 +259,10 @@ $(document).ready(function(){initNavTree('md_docs_2registers.html',''); initResi
   <div class="headertitle"><div class="title">Simple Register</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md39"></a> The register is the most simple configurable element in SciCompiler. A register contains a 32 bit value and can be read or write.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md39"></a> The register is the most simple configurable element in Sci-Compiler. A register contains a 32 bit value and can be read or write.</p>
 <p>The register support only two simple operation: <b>read</b> and <b>write</b></p>
 <p>A read or write to register is a blocking operation and the execution do not contine till operation is completed.</p>
-<p><em>Pay attention that the register in SciCompiler can be created as Read Only, Write Only and Read Write. A register, in order to be configured ad read write, must be placed two times in the diagram, one in write and one in read mode, in order to readout the written value</em></p>
+<p><em>Pay attention that the register in Sci-Compiler can be created as Read Only, Write Only and Read Write. A register, in order to be configured ad read write, must be placed two times in the diagram, one in write and one in read mode, in order to readout the written value</em></p>
 <h1><a class="anchor" id="autotoc_md40"></a>
 Endpoint</h1>
 <p>The register has a dedicated endpoint</p>
@@ -272,10 +272,10 @@ Endpoint</h1>
 Methods</h1>
 <p>Set a value in the register</p>
 <div class="fragment"><div class="line"><a class="code hl_define" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a>(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span> value, <span class="keywordtype">void</span>* handle);</div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aa47626f5d7384bbce41ea2e8db0b845a"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetRegister(char *Path, uint32_t value, void *handle)</div><div class="ttdoc">Set the value of a register in the SciCompiler generated firmware. This function works only on Simple...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aa47626f5d7384bbce41ea2e8db0b845a"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aa47626f5d7384bbce41ea2e8db0b845a">SCISDK_SetRegister</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetRegister(char *Path, uint32_t value, void *handle)</div><div class="ttdoc">Set the value of a register in the Sci-Compiler generated firmware. This function works only on Simpl...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ae14dc46e0324021b6c0d349568b3a292"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a></div><div class="ttdeci">#define SCISDK_DLL_API</div><div class="ttdef"><b>Definition</b> SciSDK_DLL.h:19</div></div>
 </div><!-- fragment --><p>Get a value in the register </p><div class="fragment"><div class="line"><a class="code hl_define" href="_sci_s_d_k___d_l_l_8h.html#ae14dc46e0324021b6c0d349568b3a292">SCISDK_DLL_API</a> <span class="keywordtype">int</span> <a class="code hl_function" href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">SCISDK_GetRegister</a>(<span class="keywordtype">char</span>* Path, <span class="keywordtype">int</span>*value, <span class="keywordtype">void</span>*handle);</div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aebf1e776060bfe9c20c5c7865774299e"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">SCISDK_GetRegister</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_GetRegister(char *Path, uint32_t *value, void *handle)</div><div class="ttdoc">Get the value of a register in the SciCompiler generated firmware. This function works only on Simple...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aebf1e776060bfe9c20c5c7865774299e"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aebf1e776060bfe9c20c5c7865774299e">SCISDK_GetRegister</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_GetRegister(char *Path, uint32_t *value, void *handle)</div><div class="ttdoc">Get the value of a register in the Sci-Compiler generated firmware. This function works only on Simpl...</div></div>
 </div><!-- fragment --><ul>
 <li><code>Path</code>: the full path of the register</li>
 <li><code>value</code>: value to be set or value read</li>

@@ -17,7 +17,7 @@ var index =
         [ "UPDATE YOUR SYSTEM", "index.html#autotoc_md13", null ],
         [ "INSTALL FTDI", "index.html#autotoc_md14", null ],
         [ "COMPILE SCIDK (DT1260 Libraries)", "index.html#autotoc_md15", null ],
-        [ "COMPILE SCISDK (SciCompiler Development Kit)", "index.html#autotoc_md16", null ],
+        [ "COMPILE SCISDK (Sci-Compiler Development Kit)", "index.html#autotoc_md16", null ],
         [ "CREATE A CUSTOM APPLICATION", "index.html#autotoc_md17", null ]
       ] ]
     ] ],

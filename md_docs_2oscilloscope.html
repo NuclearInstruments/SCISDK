@@ -193,7 +193,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">SciSDK Library
    </div>
-   <div id="projectbrief">SDK for SciCompiler projects</div>
+   <div id="projectbrief">SDK for Sci-Compiler projects</div>
   </td>
  </tr>
  </tbody>
@@ -305,7 +305,7 @@ Trigger</h2>
 <li><b> self trigger </b> acquires data in free running mode. The acquisition is started by the user with the ReadData function</li>
 <li><b> analog </b> trigger the acquisition when the selected analog channel crosses the trigger level. The trigger level can be set with the trigger_level parameter. The polarity of the trigger can be set with the trigger_polarity parameter. Trigger level operare as a leading edge trigger. The trigger is activated when the analog signal crosses the trigger level in the selected polarity.</li>
 <li><b> digital </b> trigger the acquisition when the selected digital channel transitions from 0 to 1 or from 1 to 0. The polarity of the trigger can be set with the trigger_polarity parameter. The channel is selected with the trigger_channel parameter.</li>
-<li><b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the SciCompiler block</li>
+<li><b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the Sci-Compiler block</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md63"></a>
 Acquisition Modes</h2>
@@ -471,7 +471,7 @@ Decoded</h2>
 <td class="markdownTableBodyNone">xxxxxx   </td><td class="markdownTableBodyNone">d3   </td><td class="markdownTableBodyNone">d2   </td><td class="markdownTableBodyNone">d1   </td><td class="markdownTableBodyNone">d0   </td></tr>
 </table>
 <p><code>position</code> : the position of the trigger in the data buffer. The trigger position is the position of the first sample acquired by the oscilloscope after the trigger event. The trigger position is expressed in samples. The samples before the trigger position are the pre-trigger samples.</p>
-<p><code>timecode</code> : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope in SciCompiler.</p>
+<p><code>timecode</code> : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope in Sci-Compiler.</p>
 <p><code>info</code> : it contains information about the oscilloscope buffer. The fields are:</p><ul>
 <li><code>samples_analog</code> : the number of analog samples per channel</li>
 <li><code>samples_digital</code> : the number of digital samples per channel</li>
@@ -506,8 +506,8 @@ C</h2>
 <div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;-------------------------&quot;</span> &lt;&lt; endl;</div>
 <div class="line">}</div>
 <div class="ttc" id="a_n_i_error_code_8h_html_ae749d3c5e8d435a8bc05e47792d996d8"><div class="ttname"><a href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a></div><div class="ttdeci">#define NI_OK</div><div class="ttdef"><b>Definition</b> NIErrorCode.h:8</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or route the value...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or route the value...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_ac3f231d328ae4716a3d5910e00b44d7b"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#ac3f231d328ae4716a3d5910e00b44d7b">SCISDK_AllocateBuffer</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBuffer(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (os...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_aeae6abf2d2a9a72799a64a3aa2d528c1"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#aeae6abf2d2a9a72799a64a3aa2d528c1">SCISDK_ReadData</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ReadData(char *Path, void *buffer, void *handle)</div><div class="ttdoc">Read data from the board for the specific Memory Mapped Componet (oscilloscope, spectrum,...</div></div>
 <div class="ttc" id="ascisdk__defines_8h_html_ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d"><div class="ttname"><a href="scisdk__defines_8h.html#ae862720a4aac4f0f7472fc81ccc2b82ea64ff37ce78751f02ab09b50494a3c14d">T_BUFFER_TYPE_DECODED</a></div><div class="ttdeci">@ T_BUFFER_TYPE_DECODED</div><div class="ttdef"><b>Definition</b> scisdk_defines.h:230</div></div>

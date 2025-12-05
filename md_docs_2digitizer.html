@@ -193,7 +193,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">SciSDK Library
    </div>
-   <div id="projectbrief">SDK for SciCompiler projects</div>
+   <div id="projectbrief">SDK for Sci-Compiler projects</div>
   </td>
  </tr>
  </tbody>
@@ -259,7 +259,7 @@ $(document).ready(function(){initNavTree('md_docs_2digitizer.html',''); initResi
   <div class="headertitle"><div class="title">Wave Digitizer driver</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md88"></a> The Wave Digitizer componet has the function to acquire multiple channels capturing waveform from each one. It is similar to the oscilloscope, but, while the oscilloscope purpose is to monitor the internal process of the firmware, and indeed is not very fast in transfering data, digitizer function is optimized to maximize the speed and the memory usage of the device. In the Wave Digitizer exist a shared memory for all channels for which the Wave Digitizer has been created. At compile time, SciCompiler defines the total size of this memory and the maximum number of channels. At runtime the user can configure if to enable one, two, four channels. The memory will be partitioned in function of the enable channels.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md88"></a> The Wave Digitizer componet has the function to acquire multiple channels capturing waveform from each one. It is similar to the oscilloscope, but, while the oscilloscope purpose is to monitor the internal process of the firmware, and indeed is not very fast in transfering data, digitizer function is optimized to maximize the speed and the memory usage of the device. In the Wave Digitizer exist a shared memory for all channels for which the Wave Digitizer has been created. At compile time, Sci-Compiler defines the total size of this memory and the maximum number of channels. At runtime the user can configure if to enable one, two, four channels. The memory will be partitioned in function of the enable channels.</p>
 <p>It is designed as following: a packet creator block serializes the enabled channels in a common FIFO and transfer data to the PC.</p>
 <p>Every time a start signal is triggered, the timestamp, the hits and user data are captured, and enqueued in the output FIFO.</p>
 <p>It is only possible the specify the number of channels (N) starting from the channel 0. So If N = 2, CH0 and CH1 will be dumped, if N = 4, CH0, CH1, CH2, CH3 will be dumped.</p>
@@ -270,7 +270,7 @@ $(document).ready(function(){initNavTree('md_docs_2digitizer.html',''); initResi
 <li>Only CH0 and CH1 enabled <img src="dgz02.png" alt="" class="inline"/>     <br  />
 </li>
 </ul>
-<p>It is not possible to configre a pre-trigger on the Wave Digitizer. The trigger is always on the first sample. To implement a pre-trigger, it necessary to connect, on each input channel, a delay block with the desired delay (SciCompiler provide fixed and programmable delay block).</p>
+<p>It is not possible to configre a pre-trigger on the Wave Digitizer. The trigger is always on the first sample. To implement a pre-trigger, it necessary to connect, on each input channel, a delay block with the desired delay (Sci-Compiler provide fixed and programmable delay block).</p>
 <p>The readout can be configure to work in two different mode:</p><ul>
 <li>blocking : the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached.</li>
 <li>non-blocking : the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read.</li>
@@ -297,9 +297,9 @@ Parameters</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">buffer_type   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer type: <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___r_a_w___b_u_f_f_e_r.html" title="Oscilloscope raw data type.">SCISDK_OSCILLOSCOPE_RAW_BUFFER</a> or <a class="el" href="struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html" title="Oscilloscope decoded data type.">SCISDK_OSCILLOSCOPE_DECODED_BUFFER</a>   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">channel_count   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer the number of channel created with SciCompiler   </td><td class="markdownTableBodyNone"></td></tr>
+<td class="markdownTableBodyNone">channel_count   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer the number of channel created with Sci-Compiler   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">fifo_size   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer the total number of samples in the output fifo created with SciCompiler   </td><td class="markdownTableBodyNone"></td></tr>
+<td class="markdownTableBodyNone">fifo_size   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">get buffer the total number of samples in the output fifo created with Sci-Compiler   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">max_ch_samples   </td><td class="markdownTableBodyNone">R   </td><td class="markdownTableBodyNone">return the maximum number of samples per channel can be read   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
@@ -311,7 +311,7 @@ Blocking/Non blocking mode</h2>
 <p>In blocking mode the <code>SCISDK_ReadData</code> function will block until the buffer is full or the timeout is reached. In non-blocking mode the <code>SCISDK_ReadData</code> function will return immediately with the number of bytes read. The maximum number of bytes that can be read is the size of the buffer allocated with the function <code>SCISDK_AllocateBuffer</code>. In blocking mode the timeout is set with the <code>timeout</code> parameter. The timeout is expressed in ms. In non-blocking mode the timeout is not used. In both mode, if the buffer is fill with even just a single word the function will return NI_OK. If there is no data at all the read function will return NI_NO_DATA_AVAILABLE.</p>
 <h2><a class="anchor" id="autotoc_md92"></a>
 Enable channels</h2>
-<p>The <code>enabledch</code> parameter is the number of enabled channels. It is only possible the specify the number of channels (N) starting from the channel 0. So If N = 2, CH0 and CH1 will be dumped, if N = 4, CH0, CH1, CH2, CH3 will be dumped. Valid number are from 1 to the maximum number of channels created in SciCompiler.</p>
+<p>The <code>enabledch</code> parameter is the number of enabled channels. It is only possible the specify the number of channels (N) starting from the channel 0. So If N = 2, CH0 and CH1 will be dumped, if N = 4, CH0, CH1, CH2, CH3 will be dumped. Valid number are from 1 to the maximum number of channels created in Sci-Compiler.</p>
 <h1><a class="anchor" id="autotoc_md93"></a>
 Data processing mode</h1>
 <p>The <code>data_processing</code> parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode. In raw mode the data are not processed and the user will receive the raw data from the FPGA. In decode mode the data are processed and the user will receive the data as they are pushed in the FPGA fifo, loosing the concept of packet. The custom packet behavior is the same of the list In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.</p>
@@ -447,8 +447,8 @@ C</h2>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="ttc" id="a_n_i_error_code_8h_html_ae749d3c5e8d435a8bc05e47792d996d8"><div class="ttname"><a href="_n_i_error_code_8h.html#ae749d3c5e8d435a8bc05e47792d996d8">NI_OK</a></div><div class="ttdeci">#define NI_OK</div><div class="ttdef"><b>Definition</b> NIErrorCode.h:8</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
-<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific SciCompiler Memory Mapped Component or route the value ...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a00407547516aa0d9a26f273423366be3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a00407547516aa0d9a26f273423366be3">SCISDK_SetParameterString</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterString(char *Path, char *value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or route the value...</div></div>
+<div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a0f722da8b5e19540555298e0806bb45f"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a0f722da8b5e19540555298e0806bb45f">SCISDK_SetParameterInteger</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_SetParameterInteger(char *Path, int value, void *handle)</div><div class="ttdoc">Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or route the value...</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a16a7364c71d331be2da443c61f7a25f3"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a16a7364c71d331be2da443c61f7a25f3">SCISDK_ExecuteCommand</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_ExecuteCommand(char *Path, char *value, void *handle)</div><div class="ttdoc">Execute a command for the specific Memory Mapped Component device driver/endpoint....</div></div>
 <div class="ttc" id="a_sci_s_d_k___d_l_l_8h_html_a612babf059fa19eaac91fae6da160f85"><div class="ttname"><a href="_sci_s_d_k___d_l_l_8h.html#a612babf059fa19eaac91fae6da160f85">SCISDK_AllocateBufferSize</a></div><div class="ttdeci">SCISDK_DLL_API int SCISDK_AllocateBufferSize(char *Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size)</div><div class="ttdoc">Allocate a buffer to be used to store data from the board for the specific Memory Mapped Componet (li...</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md99"></a>
