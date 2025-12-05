@@ -34,20 +34,12 @@ include:
         - digital_signature
 
 
-      # Pack the tars and debs
-      # TODO: Decide if really required and eventually to move in a dedicated pack job
-      before_script:
-        - cd tars
-        - tar zcvf ../scisdk-lib-ubuntu.tar.gz .
-        - cd ../debs
-        - tar zcvf ../scisdk-deb-ubuntu.tar.gz .
-        - cd ..
-
       ni_release_files: 
+        # Used by pipelines such as dt5771-backend (TODO: Check if really needed)
         - ni_release_file: .ni/ni-release-zynq.yaml
           gitlab_release_name: 'ni-release-zynq'
-        - ni_release_file: .ni/ni-release-linux.yaml
-          gitlab_release_name: 'ni-release-linux'
+
+        # Used by Sci-Compiler/Core
         - ni_release_file: .ni/ni-release-setup.yaml
           gitlab_release_name: 'ni-release-setup'
 
@@ -55,65 +47,6 @@ include:
         - if: $CI_COMMIT_TAG
 
 
-
-  # Nirelease Windows full (without digital signature)
-  - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
-    inputs:
-      job_name: windows-full
-      stage: $[[ inputs.stage ]]
-
-      job_dependencies:
-        - build_vs2022_windows
-
-
-      # TODO: Decide if really required and eventually to move in a dedicated pack job
-      before_script:
-        - mv output/scisdk-full.zip  output/scisdk-win-full.zip
-
-      ni_release_files: 
-        - ni_release_file: .ni/ni-release-windows-full.yaml
-          gitlab_release_name: 'ni-release-windows-full'
-
-      job_rules: 
-        - if: $CI_COMMIT_TAG
-
-
-
-  # All SciSDK Source
-  - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
-    inputs:
-      job_name: upload-source
-      stage: $[[ inputs.stage ]]
-
-      ni_release_files: 
-        - ni_release_file: .ni/ni-release-source.yaml
-          gitlab_release_name: 'ni-release-source'
-
-      job_rules: 
-        - if: $CI_COMMIT_TAG
-
-
-
-  # Pages on nirelease
-  - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
-    inputs:
-      job_name: docs_nirelease
-      stage: $[[ inputs.stage ]]
-
-      job_dependencies:
-        - pages
-
-      # TODO: Decide if really required and eventually to move in a dedicated pack job
-      # before_script:
-      #   - mv public scisdk_docs
-      #   - zip -r scisdk_docs.zip scisdk_docs
-
-      ni_release_files: 
-        - ni_release_file: .ni/ni-release-docs.yaml
-          gitlab_release_name: 'ni-release-docs'
-
-      job_rules: 
-        - if: $CI_COMMIT_TAG
 
   # Deploy pages to AWS S3
   - component: $CI_SERVER_FQDN/cicd-catalogs/aws-s3/cloudfront-static-hosting@~latest
@@ -128,6 +61,110 @@ include:
       folder_to_sync: public
       aws_bucket: $SCISDK_DOCS_AWS_BUCKET
       distribution_id: $SCISDK_DOCS_AWS_DISTRIBUTION_ID
+
+
+  # --- OLD JOBS TO BE REMOVED LATER ---
+
+
+  # # Nirelease builds for zynq, linux and windows setup (digital signature)
+  # - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
+  #   inputs:
+  #     job_name: zynq-linux-windowssetup
+  #     stage: $[[ inputs.stage ]]
+
+  #     job_dependencies:
+  #       - build_zynq  
+
+  #       # MUST match name in .gitlab-ci/build-jobs.yml. Cannot do with VARIABLES
+  #       - build_ubuntu_all_arch
+
+  #       - digital_signature
+
+
+  #     # Pack the tars and debs
+  #     # TODO: Decide if really required and eventually to move in a dedicated pack job
+  #     before_script:
+  #       - cd tars
+  #       - tar zcvf ../scisdk-lib-ubuntu.tar.gz .
+  #       - cd ../debs
+  #       - tar zcvf ../scisdk-deb-ubuntu.tar.gz .
+  #       - cd ..
+
+  #     ni_release_files: 
+  #       - ni_release_file: .ni/ni-release-zynq.yaml
+  #         gitlab_release_name: 'ni-release-zynq'
+  #       - ni_release_file: .ni/ni-release-linux.yaml
+  #         gitlab_release_name: 'ni-release-linux'
+  #       - ni_release_file: .ni/ni-release-setup.yaml
+  #         gitlab_release_name: 'ni-release-setup'
+
+  #     job_rules: 
+  #       - if: $CI_COMMIT_TAG
+
+
+
+  # # Nirelease Windows full (without digital signature)
+  # - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
+  #   inputs:
+  #     job_name: windows-full
+  #     stage: $[[ inputs.stage ]]
+
+  #     job_dependencies:
+  #       - build_vs2022_windows
+
+
+  #     # TODO: Decide if really required and eventually to move in a dedicated pack job
+  #     before_script:
+  #       - mv output/scisdk-full.zip  output/scisdk-win-full.zip
+
+  #     ni_release_files: 
+  #       - ni_release_file: .ni/ni-release-windows-full.yaml
+  #         gitlab_release_name: 'ni-release-windows-full'
+
+  #     job_rules: 
+  #       - if: $CI_COMMIT_TAG
+
+
+
+  # # All SciSDK Source
+  # - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
+  #   inputs:
+  #     job_name: upload-source
+  #     stage: $[[ inputs.stage ]]
+
+  #     ni_release_files: 
+  #       - ni_release_file: .ni/ni-release-source.yaml
+  #         gitlab_release_name: 'ni-release-source'
+
+  #     job_rules: 
+  #       - if: $CI_COMMIT_TAG
+
+
+
+  # # Pages on nirelease
+  # - component: $CI_SERVER_FQDN/cicd-catalogs/ni-release-catalog/ni-release-generic@~latest
+  #   inputs:
+  #     job_name: docs_nirelease
+  #     stage: $[[ inputs.stage ]]
+
+  #     job_dependencies:
+  #       - pages
+
+  #     # TODO: Decide if really required and eventually to move in a dedicated pack job
+  #     # before_script:
+  #     #   - mv public scisdk_docs
+  #     #   - zip -r scisdk_docs.zip scisdk_docs
+
+  #     ni_release_files: 
+  #       - ni_release_file: .ni/ni-release-docs.yaml
+  #         gitlab_release_name: 'ni-release-docs'
+
+  #     job_rules: 
+  #       - if: $CI_COMMIT_TAG
+
+
+
+
 
 
 
