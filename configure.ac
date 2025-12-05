@@ -9,7 +9,7 @@ m4_define([lt_cur], m4_eval(v_maj + v_min))
 m4_define([lt_rev], [v_mic])
 m4_define([lt_age], [v_min])
 # initial information about the project
-AC_INIT([scisdk], [project_version],[abba@nuclearinstruments.eu])
+AC_INIT([scisdk], [project_version],[devops@nuclearinstruments.eu])
 
 # check if the source folder is correct
 AC_CONFIG_SRCDIR([src/SciSDK_DLL.cpp])

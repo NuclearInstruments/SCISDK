@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "scisdk"
 version = "1.5"
 authors = [
-  { name="Andrea Abba", email="abba@nuclearinstruments.eu" },
+  { name="Andrea Abba", email="devops@nuclearinstruments.eu" },
 ]
 description = "SDK for Sci-Compiler generated firmware"
 readme = "README.md"
