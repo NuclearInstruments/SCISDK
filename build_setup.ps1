@@ -1,11 +1,14 @@
 try {
-    python -m nirelease --pull -u DT1260/rev-A/release/sw-lib/DT1260SDK/ -o tmp
+    # python -m nirelease --pull -u DT1260/rev-A/release/sw-lib/DT1260SDK/ -o tmp
     Expand-Archive -LiteralPath ./tmp/DT1260SDK/windows_x86_x64.zip -DestinationPath ./tmp/DT1260SDK/ -Force
     Move-Item -Path ./tmp/DT1260SDK/windows/ -Destination ./dt1260 -force
-    python -m nirelease --pull -u X5560/rev-B/release/sw-lib/X5560SDK/ -o tmp
+
+    # python -m nirelease --pull -u X5560/rev-B/release/sw-lib/X5560SDK/ -o tmp
     Expand-Archive -LiteralPath ./tmp/X5560SDK/windows_x86_x64.zip -DestinationPath ./tmp/X5560SDK/ -Force
     Move-Item -Path ./tmp/X5560SDK/windows/ -Destination ./x5560 -force
-    python -m nirelease --pull -u DT5771/rev-A/release/sw-lib/dt5771sdk-windows/ -o tmp
+    
+    
+    # python -m nirelease --pull -u DT5771/rev-A/release/sw-lib/dt5771sdk-windows/ -o tmp
     Expand-Archive -LiteralPath ./tmp/dt5771sdk-windows/windows_x86_x64.zip -DestinationPath ./tmp/dt5771sdk-windows/ -Force
     Move-Item -Path ./tmp/dt5771sdk-windows/windows/ -Destination ./dt5771 -force
 

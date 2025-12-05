@@ -17,6 +17,27 @@ spec:
 ---
 
 
+# Perform all the pulls of nirelease artifacts
+nirelease-pull:
+  stage: $[[ inputs.stage ]]
+  image: harbor.nuclearinstruments.eu/apps/release-manager:2
+  tags:
+    - docker-linux
+    - light
+
+  script:
+    - nirelease --pull -u DT1260/rev-A/release/sw-lib/DT1260SDK/ -o tmp
+    - nirelease --pull -u X5560/rev-B/release/sw-lib/X5560SDK/ -o tmp
+    - nirelease --pull -u DT5771/rev-A/release/sw-lib/dt5771sdk-windows/ -o tmp
+
+  artifacts:
+    paths:
+      - tmp/
+  rules: 
+    - if: $CI_COMMIT_TAG
+
+
+
 run-get-lib-windows:
   stage: $[[ inputs.stage ]]
   image: harbor.nuclearinstruments.eu/microsoft/windows/servercore:ltsc2022
@@ -75,3 +96,6 @@ run-get-lib-windows:
       - artifacts/
   rules: 
     - if: $CI_COMMIT_TAG
+
+
+

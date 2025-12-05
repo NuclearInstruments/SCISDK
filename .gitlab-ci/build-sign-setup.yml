@@ -9,6 +9,7 @@ build_setup:
     - build_vs2022_windows
     - pages
     - run-get-lib-windows
+    - nirelease-pull
   
   script:
     - .\build_setup.ps1 $CI_COMMIT_TAG

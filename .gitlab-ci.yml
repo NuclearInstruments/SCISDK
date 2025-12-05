@@ -15,7 +15,7 @@ include:
 
   # Retrieve dependencies
   # Stage: retrieve-dependencies
-  - local: .gitlab-ci/get-caen-lib-windows.yml
+  - local: .gitlab-ci/retrieve-artifacts.yml
 
   # Build Jobs
   # Stage: build
