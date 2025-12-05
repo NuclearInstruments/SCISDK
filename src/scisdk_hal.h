@@ -65,7 +65,7 @@ public:
 		uint32_t timeout_ms,
 		uint32_t *written_data);
 
-	NI_RESULT SciSDK_HAL::ReadDataDMA(uint8_t* buffer,
+	NI_RESULT ReadDataDMA(uint8_t* buffer,
 		uint32_t length,
 		uint32_t dma_channel,
 		uint32_t timeout_ms,
