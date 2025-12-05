@@ -1,7 +1,7 @@
 # Wave Digitizer driver
 
 The Wave Digitizer componet has the function to acquire multiple channels capturing waveform from each one. It is similar to the oscilloscope, but, while the oscilloscope purpose is to monitor the internal process of the firmware, and indeed is not very fast in transfering data, digitizer function is optimized to maximize the speed and the memory usage of the device.
-In the Wave Digitizer exist a shared memory for all channels for which the Wave Digitizer has been created. At compile time, SciCompiler defines the total size of this memory and the maximum number of channels. At runtime the user can configure if to enable one, two, four channels. The memory will be partitioned in function of the enable channels.
+In the Wave Digitizer exist a shared memory for all channels for which the Wave Digitizer has been created. At compile time, Sci-Compiler defines the total size of this memory and the maximum number of channels. At runtime the user can configure if to enable one, two, four channels. The memory will be partitioned in function of the enable channels.
 
 It is designed as following: a packet creator block serializes the enabled channels in a common FIFO and transfer data to the PC.
 
@@ -17,7 +17,7 @@ Example with four channels:
 - Only CH0 and CH1 enabled
 ![](img/dgz02.png)  
 
-It is not possible to configre a pre-trigger on the Wave Digitizer. The trigger is always on the first sample. To implement a pre-trigger, it necessary to connect, on each input channel, a delay block with the desired delay (SciCompiler provide fixed and programmable delay block).
+It is not possible to configre a pre-trigger on the Wave Digitizer. The trigger is always on the first sample. To implement a pre-trigger, it necessary to connect, on each input channel, a delay block with the desired delay (Sci-Compiler provide fixed and programmable delay block).
 
 
 
@@ -44,8 +44,8 @@ The following parameters can be configured:
 | data_processing       | R/W        | set data processing mode: raw, decode                                                    | decode        |
 | enabledch             | R/W        | number of enabled channels.                                                              | --all ch--    |
 | buffer_type           | R          | get buffer type: SCISDK_OSCILLOSCOPE_RAW_BUFFER or SCISDK_OSCILLOSCOPE_DECODED_BUFFER    |               |
-| channel_count         | R          | get buffer the number of channel created with SciCompiler                                |               |
-| fifo_size             | R          | get buffer the total number of samples in the output fifo created with SciCompiler       |               |
+| channel_count         | R          | get buffer the number of channel created with Sci-Compiler                                |               |
+| fifo_size             | R          | get buffer the total number of samples in the output fifo created with Sci-Compiler       |               |
 | max_ch_samples        | R          | return the maximum number of samples per channel can be read                             |               |
 
 ### Acquisition length
@@ -63,7 +63,7 @@ If there is no data at all the read function will return NI_NO_DATA_AVAILABLE.
 
 ### Enable channels
 The `enabledch` parameter is the number of enabled channels. It is only possible the specify the number of channels (N) starting from the channel 0. So If N = 2, CH0 and CH1 will be dumped, if N = 4, CH0, CH1, CH2, CH3 will be dumped.
-Valid number are from 1 to the maximum number of channels created in SciCompiler.
+Valid number are from 1 to the maximum number of channels created in Sci-Compiler.
 
 ## Data processing mode
 The `data_processing` parameter can be used to set the data processing mode. The data processing mode can be set to raw or decode.

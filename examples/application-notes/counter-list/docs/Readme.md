@@ -1,4 +1,4 @@
-# Using SciCompiler and SciSDK to implement a pulse counter reading a list
+# Using Sci-Compiler and SciSDK to implement a pulse counter reading a list
 
 ## Experimental setup
 We used the following setup to test the counter reading a list.
@@ -14,7 +14,7 @@ It is connected to the HV Module, the DT5533E, to channel 1 with a BNC cable.
 
 Both the modules are also connected to the computer. The digitizer is connected with a micro USB cable. The HV Module is connected with a USB type B cable.
 
-## SciCompiler firmware
+## Sci-Compiler firmware
 At first, we put an **Analog Input** box and select A0 as the analog signal input.
 
 Before connecting the input signal to the oscilloscope, we put a **Polarity Inverter** box. The signal has a negative polarity so we invert it, because it is easier to work with positive signals. We also add a **Register Read** box (**pol**) to set the inversion.

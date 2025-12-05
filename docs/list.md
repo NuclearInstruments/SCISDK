@@ -11,7 +11,7 @@ On the PC side a buffer can be allocated using the `SCISDK_AllocateBuffer` funct
 
 Because the List is a FIFO is not possible to know a priori the number of bytes that will be transferred. The  `SCISDK_AllocateBuffer` take indeed an extra parameter to specify the size of the buffer (in FPGA word) on the PC side; the `SCISDK_ReadData` function will try to read the maximum number of bytes that can fit in the buffer. 
 
-*It is important to note that the buffer size is specified in FPGA word and not in bytes. The FPGA word size is specified in SciCompiler and it is the size of the data input signal. This is always a multiple of 32 bits (DWORD). All transfer will always be done with a size multiple of the FPGA word size (input signal size). This ensure that is not possible to read partial world that will corrupt data in an urecoverable way*
+*It is important to note that the buffer size is specified in FPGA word and not in bytes. The FPGA word size is specified in Sci-Compiler and it is the size of the data input signal. This is always a multiple of 32 bits (DWORD). All transfer will always be done with a size multiple of the FPGA word size (input signal size). This ensure that is not possible to read partial world that will corrupt data in an urecoverable way*
 
 The readout can be configure to work in two different mode:
 - blocking : the `SCISDK_ReadData` function will block until the buffer is full or the timeout is reached.
@@ -84,7 +84,7 @@ SCISDK_AllocateBuffer(<path to list>, T_BUFFER_TYPE_RAW, (void**)&list_data, <nu
 ```
 
 The buffer allocated with the `SCISDK_AllocateBuffer` function has a last size parameters containing the number of word the user want to allocate in the buffer.
-For example if the user create in SciCompiler a list with 64 bit words and want to allocate a buffer with 1000 words, the function will allocate a buffer with 8000 bytes. The  `SCISDK_ReadData` function will try to fill the buffer with 8000 bytes (1000 words * 8 bytes) each time is called.+
+For example if the user create in Sci-Compiler a list with 64 bit words and want to allocate a buffer with 1000 words, the function will allocate a buffer with 8000 bytes. The  `SCISDK_ReadData` function will try to fill the buffer with 8000 bytes (1000 words * 8 bytes) each time is called.+
 It is crtical to ensure that the transfer will always be aligned to the word size to avoid to read partial words with irrecoverable data loss.
 
 This example allocate a buffer with 1000 words:

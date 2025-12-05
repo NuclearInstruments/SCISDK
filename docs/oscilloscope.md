@@ -41,7 +41,7 @@ Trigger level operare as a leading edge trigger. The trigger is activated when t
 
 - <b> digital </b> trigger the acquisition when the selected digital channel transitions from 0 to 1 or from 1 to 0. The polarity of the trigger can be set with the trigger_polarity parameter. The channel is selected with the trigger_channel parameter.
 
-- <b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the SciCompiler block
+- <b> ext </b> trigger the acquisition when the external trigger is received. The external trigger is applied to the START input on the Sci-Compiler block
 
 ### Acquisition Modes
 Following acquisition modes are available:
@@ -190,7 +190,7 @@ The format of the 8 bit digital word is the following:
 
 `position` : the position of the trigger in the data buffer. The trigger position is the position of the first sample acquired by the oscilloscope after the trigger event. The trigger position is expressed in samples. The samples before the trigger position are the pre-trigger samples.
 
-`timecode` : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope in SciCompiler.
+`timecode` : the timecode of the trigger event. The timecode is expressed in time code units and depends by what is connected to the timecode input of the oscilloscope in Sci-Compiler.
 
 `info` : it contains information about the oscilloscope buffer. The fields are:
 - `samples_analog` : the number of analog samples per channel

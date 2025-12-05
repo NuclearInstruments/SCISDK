@@ -17,7 +17,7 @@
   
 # scisdk (1.2.64)
   * fixed openscope X27XX Python support
-  * spectrum limit mode time/counts now works (require new scicompiler)
+  * spectrum limit mode time/counts now works (require new Sci-Compiler)
   * updated linux FElib file names
 
 # scisdk (1.2.57)
@@ -184,7 +184,7 @@
 * Integrated FE CAEN board control part
 * Fixed minor issues on the CAEN part
 * Added bd_feelib and started BE API support
-* Integrated FEElib for scicompiler support
+* Integrated FEElib for Sci-Compiler support
 * Added dt1260 driver and started x5560
 * Fixed buffer bugs
 * Other allocation issues in the wrapper fixed

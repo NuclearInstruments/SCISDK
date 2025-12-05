@@ -45,12 +45,12 @@ if [ "$ARCHITECTURE" = "amd64" ]; then
     -s dir -t deb \
     -p ../../debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_amd64.deb \
     --name scisdk \
-    --license agpl3 \
+    --license MIT \
     --version $CI_COMMIT_TAG \
     --architecture x86_64 \
-    --description "Nuclear Instruments SciCompiler SDK" \
+    --description "Nuclear Instruments Sci-Compiler SDK" \
     --url "https://github.com/NuclearInstruments/SCISDK" \
-    --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
+    --maintainer "Nuclear Instruments <devops@nuclearinstruments.eu>" \
     .    
     tar zcvf ../../tars/scisdk-$DOCKER_IMAGE-x64.tar.gz .
     cd ../..
@@ -66,12 +66,12 @@ elif [ "$ARCHITECTURE" = "i386" ]; then
     -s dir -t deb \
     -p ../../debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_i386.deb \
     --name scisdk \
-    --license agpl3 \
+    --license MIT \
     --version $CI_COMMIT_TAG \
     --architecture i386 \
-    --description "Nuclear Instruments SciCompiler SDK" \
+    --description "Nuclear Instruments Sci-Compiler SDK" \
     --url "https://github.com/NuclearInstruments/SCISDK" \
-    --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
+    --maintainer "Nuclear Instruments <devops@nuclearinstruments.eu>" \
     .    
     tar zcvf ../../tars/scisdk-$DOCKER_IMAGE-i386.tar.gz .
     cd ../..
@@ -89,12 +89,12 @@ elif [ "$ARCHITECTURE" = "arm64" ]; then
     -s dir -t deb \
     -p ../../debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_arm64.deb \
     --name scisdk \
-    --license agpl3 \
+    --license MIT \
     --version $CI_COMMIT_TAG \
     --architecture arm64 \
-    --description "Nuclear Instruments SciCompiler SDK" \
+    --description "Nuclear Instruments Sci-Compiler SDK" \
     --url "https://github.com/NuclearInstruments/SCISDK" \
-    --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
+    --maintainer "Nuclear Instruments <devops@nuclearinstruments.eu>" \
     .    
     tar zcvf ../../tars/scisdk-$DOCKER_IMAGE-arm64.tar.gz .
     cd ../..
@@ -112,12 +112,12 @@ elif [ "$ARCHITECTURE" = "armhf" ]; then
     -s dir -t deb \
     -p ../../debs/scisdk_${CI_COMMIT_TAG}_${LINUXRELEASE}_armhf.deb \
     --name scisdk \
-    --license agpl3 \
+    --license MIT \
     --version $CI_COMMIT_TAG \
     --architecture armhf \
-    --description "Nuclear Instruments SciCompiler SDK" \
+    --description "Nuclear Instruments Sci-Compiler SDK" \
     --url "https://github.com/NuclearInstruments/SCISDK" \
-    --maintainer "Andrea Abba <abba@nuclearinstruments.eu>" \
+    --maintainer "Nuclear Instruments <devops@nuclearinstruments.eu>" \
     .    
     tar zcvf ../../tars/scisdk-$DOCKER_IMAGE-armhf.tar.gz .
     cd ../..

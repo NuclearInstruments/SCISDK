@@ -9,15 +9,15 @@ This driver is compatible with the following boards:
 - VX2730
 - DT2730
 
-The SciCompiler project must be created as Scope project. DPP firmware uses the OpenDPP driver.
+The Sci-Compiler project must be created as Scope project. DPP firmware uses the OpenDPP driver.
 
-It is important to note that OpenScope readout endpoint allows a much faster and deeper waveform readout data than Oscilloscope or Digitizer SciCompiler embedded IP. 
+It is important to note that OpenScope readout endpoint allows a much faster and deeper waveform readout data than Oscilloscope or Digitizer Sci-Compiler embedded IP. 
 
 ## Access to board endpoints
 
 Refere to the [Board endpoint driver](board_endpoint.md) documentation to understand how to configure and read board specific parameters.
 
-Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project.
+Each board has a specific API set to configure framework paramenters that are outside the scope of Sci-Compiler project.
 This board parameters are accessible through the following path:
 
 `board0:/boardapi/`

@@ -74,7 +74,7 @@ Every "sample" is composed by two 32 bit words. The first word contains the real
 | Frequency N - RE|
 | Frequency N - IM|
 
-The SciCompiler standard FFT module works in fixed point indeed the number should be considered as integer value (cast to in32_t).
+The Sci-Compiler standard FFT module works in fixed point indeed the number should be considered as integer value (cast to in32_t).
 Power spectrum can be calculated as; 
 sqrt(pow(re,2)+pow(im,2))
 while the phase as:

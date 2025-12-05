@@ -1,7 +1,7 @@
 # Rate Meter
 
 The rate meter is a simple component that allow to measure the rate of incoming signal
-The integration time is configured by SciCompiler at Compile Time.
+The integration time is configured by Sci-Compiler at Compile Time.
 If the inegration time (configured in clock cycles) is multiple of clock period, the measure can be already considered in Hz, KHz, MHz ...
 For example if clock frequency is 125MHz, and integration time is 125e6, the measure is in Hz, if integration time is 125e3, the measure is in KHz, if integration time is 125, the measure is in MHz.
 

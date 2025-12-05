@@ -9,13 +9,13 @@ This driver is compatible with the following boards:
 - VX2730
 - DT2730
 
-The SciCompiler project must be created as DPP project. Scope firmware uses the OpenScope driver.
+The Sci-Compiler project must be created as DPP project. Scope firmware uses the OpenScope driver.
 
 ## Access to board endpoints
 
 Refere to the [Board endpoint driver](board_endpoint.md) documentation to understand how to configure and read board specific parameters.
 
-Each board has a specific API set to configure framework paramenters that are outside the scope of SciCompiler project.
+Each board has a specific API set to configure framework paramenters that are outside the scope of Sci-Compiler project.
 This board parameters are accessible through the following path:
 
 `board0:/boardapi/`
@@ -146,7 +146,7 @@ In case of success the function will return one event at the time.
 
 ## Code Examples
 
-Configure the board to readout channel 0,1,2 and store the data in a csv file, trigger comes from SciCompiler trigger to each channel FIFO.
+Configure the board to readout channel 0,1,2 and store the data in a csv file, trigger comes from Sci-Compiler trigger to each channel FIFO.
 
 ```c++
 	void* _sdk = SCISDK_InitLib();

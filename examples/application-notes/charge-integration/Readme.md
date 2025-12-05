@@ -1,4 +1,4 @@
-# Using SciCompiler and SciSDK to implement a charge integration writing a list and plotting a spectrum
+# Using Sci-Compiler and SciSDK to implement a charge integration writing a list and plotting a spectrum
 
 ## Experimental setup
 We used the following setup to test the charge integration.
@@ -14,7 +14,7 @@ It is connected to the HV Module, the DT5533E, to channel 1 with a BNC cable.
 
 Both the modules are also connected to the computer. The digitizer is connected with a micro USB cable. The HV Module is connected with a USB type B cable.
 
-## SciCompiler firmware
+## Sci-Compiler firmware
 We use in particular these boxes:
 ### Trigger LE
 The **Trigger LE** block generates an output signal when the input signal amplitude exceeds a threshold. The threshold can be specified in the **Treshold** entrance. 

@@ -1,6 +1,6 @@
 # Board Endpoint driver
 
-The SciCompiler design are based on two parts:
+The Sci-Compiler design are based on two parts:
 
 - a framework, which is not configurable by the user 
 - the user firmware, which is the diagram constituting the firmware designed by the user

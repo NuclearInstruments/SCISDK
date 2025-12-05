@@ -40,7 +40,7 @@ SCISDK_DLL_API int SCISDK_FreeLib(void *handle);
 
 /**
  * @brief Connect to and hardware device. The function tries to connect to the device,
- * decode the SciCompiler json file and build the tree of memory mapped resources defined in the JSON file.
+ * decode the Sci-Compiler json file and build the tree of memory mapped resources defined in the JSON file.
  * The function create a node for each resource and add it to the tree. 
  * A top node, with name specified in Name field, for the device is also created and added to the tree.
  * All the nodes found in the json are added as children of the top node.
@@ -84,7 +84,7 @@ SCISDK_DLL_API int SCISDK_AddNewDevice(char *DevicePath, char *DeviceModel, char
 SCISDK_DLL_API int SCISDK_DetachDevice(char* name, void*handle);
 
 /**
- * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function accept a \b string as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -112,7 +112,7 @@ SCISDK_DLL_API int SCISDK_SetParameterString(char* Path, char* value, void* hand
 
 
 /**
- * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function accept a \b integer as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -138,7 +138,7 @@ SCISDK_DLL_API int SCISDK_SetParameterString(char* Path, char* value, void* hand
 SCISDK_DLL_API int SCISDK_SetParameterInteger(char* Path, int value, void*handle);
 
 /**
- * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function accept a \b integer as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -164,7 +164,7 @@ SCISDK_DLL_API int SCISDK_SetParameterInteger(char* Path, int value, void*handle
 SCISDK_DLL_API int SCISDK_SetParameterUInteger(char* Path, uint32_t value, void* handle);
 
 /**
- * @brief Set the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Set the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function accept a \b double as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -191,7 +191,7 @@ SCISDK_DLL_API int SCISDK_SetParameterDouble(char* Path, double value, void*hand
 
 
 /**
- * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Get the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function return a \b string as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -217,7 +217,7 @@ SCISDK_DLL_API int SCISDK_GetParameterString(char* Path, char** value, void* han
 
 
 /**
- * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Get the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function return a \b integer as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -243,7 +243,7 @@ SCISDK_DLL_API int SCISDK_GetParameterInteger(char* Path, int *value, void*handl
 
 
 /**
- * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Get the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function return a \b integer as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -267,7 +267,7 @@ SCISDK_DLL_API int SCISDK_GetParameterInteger(char* Path, int *value, void*handl
  */
 SCISDK_DLL_API int SCISDK_GetParameterUInteger(char* Path, uint32_t* value, void* handle);
 /**
- * @brief Get the value of a parameter for the specific SciCompiler Memory Mapped Component or
+ * @brief Get the value of a parameter for the specific Sci-Compiler Memory Mapped Component or
  * route the value to external board library to set board specific parameters.
  * This function return a \b double as value. Please note that the behaviour of this function
  * is different if the path is a SciSDK managed node or a device specific node managed by the external
@@ -344,13 +344,13 @@ SCISDK_DLL_API int SCISDK_AllocateBuffer(char* Path, T_BUFFER_TYPE buffer_type, 
  * @param handle            Handle to the SciSDK allocated by SCISDK_InitLib()
  * @param size              Size of the buffer to allocate. The size is specified in elements 
  *                          (ie: 1024 for a 1024 list word, where the list word can be 32/64/128.. bits wide, depending
- *                          on the MMC configuration specified in SciCompiler when the list has been created)
+ *                          on the MMC configuration specified in Sci-Compiler when the list has been created)
  * @return                  int error code defined in NIErrorCode.h  
  */
 SCISDK_DLL_API int SCISDK_AllocateBufferSize(char* Path, T_BUFFER_TYPE buffer_type, void **buffer, void *handle, int size);
 
 /**
- * @brief Set the value of a register in the SciCompiler generated firmware.
+ * @brief Set the value of a register in the Sci-Compiler generated firmware.
  * This function works only on Simple Register, not on Register File and Multichannel Register.
  * The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter
  * 
@@ -365,7 +365,7 @@ SCISDK_DLL_API int SCISDK_AllocateBufferSize(char* Path, T_BUFFER_TYPE buffer_ty
 SCISDK_DLL_API int SCISDK_SetRegister(char* Path, uint32_t value, void* handle);
 
 /**
- * @brief Get the value of a register in the SciCompiler generated firmware.
+ * @brief Get the value of a register in the Sci-Compiler generated firmware.
  * This function works only on Simple Register, not on Register File and Multichannel Register.
  * The last two types of register are supported as Memory Mapped Component and they are set/get with Set/GetParameter
  * 

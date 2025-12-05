@@ -1,1 +1,1 @@
-# SciCompiler internal bus
+# Sci-Compiler internal bus

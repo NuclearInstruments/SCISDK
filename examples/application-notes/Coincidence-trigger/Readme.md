@@ -1,10 +1,10 @@
-# Using SciCompiler and SciSDK to implement a coincidence trigger with charge integration; data are saved on a custom packet
+# Using Sci-Compiler and SciSDK to implement a coincidence trigger with charge integration; data are saved on a custom packet
 
 The example shows how to implement a coincidence trigger. We are supposed to have a matrix of scintillator bars (two on the x-axis and two on the y-axis). The system automatically triggers if one of the x-axis bars and one of the y-axis bars are hit. The system also allows to calculate the energy of the hit bars. Every time there is the global trigger (one x and one y bars are hit) it calculates the energy of the signal. The data are saved in a custom packet and sent to the PC every time there is a "valid" energy. The system has also an oscilloscope that allows to see the signals of the bars.
 
 ## Experimental setup
 
-## SciCompiler firmware
+## Sci-Compiler firmware
 
 We use in particular these boxes:
 

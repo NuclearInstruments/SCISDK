@@ -6,7 +6,7 @@
     <version>1.1</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name> 
-    <description>Java wrapper for SciCompiler SDK library</description> 
+    <description>Java wrapper for Sci-Compiler SDK library</description> 
     <url>https://github.com/NuclearInstruments/SCISDK</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

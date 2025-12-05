@@ -22,7 +22,7 @@ A read or write to register is a blocking operation and the execution do not con
 
 *Register in register file can be configure as read only or read/write.*
 
-A vairant of the register file is the multichannel register. The behaviour of the multichannel register is similar to the register file but it allows to configure the number of channels that the register file will have. The number of channels is defined by SciCompiler.
+A vairant of the register file is the multichannel register. The behaviour of the multichannel register is similar to the register file but it allows to configure the number of channels that the register file will have. The number of channels is defined by Sci-Compiler.
 Each register has a common name and a channel number.
 
 ```

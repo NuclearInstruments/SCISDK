@@ -1,12 +1,12 @@
 # Simple Register
 
-The register is the most simple configurable element in SciCompiler. A register contains a 32 bit value and can be read or write.
+The register is the most simple configurable element in Sci-Compiler. A register contains a 32 bit value and can be read or write.
 
 The register support only two simple operation: <b>read</b> and <b>write</b>
 
 A read or write to register is a blocking operation and the execution do not contine till operation is completed.
 
-*Pay attention that the register in SciCompiler can be created as Read Only, Write Only and Read Write. A register, in order to be configured ad read write, must be placed two times in the diagram, one in write and one in read mode, in order to readout the written value*
+*Pay attention that the register in Sci-Compiler can be created as Read Only, Write Only and Read Write. A register, in order to be configured ad read write, must be placed two times in the diagram, one in write and one in read mode, in order to readout the written value*
 
 ## Endpoint
 The register has a dedicated endpoint 

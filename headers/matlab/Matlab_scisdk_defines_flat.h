@@ -22,7 +22,7 @@
 		int32_t *analog;								/**< Pointer to analog data allocated by the AllocateBuffer function*/
 		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
 		uint32_t trigger_position;						/**< Trigger position in samples*/
-		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in Sci-Compiler firmware*/		
 		// info
 		uint32_t samples_analog;					/**< Number of samples in analog buffer*/
 		uint32_t samples_digital;					/**< Number of samples in digital buffer*/
@@ -42,7 +42,7 @@
 		uint32_t *data;									/**< Pointer to data allocated by the AllocateBuffer function*/
 		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
 		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
-		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in Sci-Compiler firmware*/
 		// info
 		uint32_t buffer_size;						/**< Size of the buffer in samples*/
 		uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
@@ -72,7 +72,7 @@
 		int32_t *analog;								/**< Pointer to analog data allocated by the AllocateBuffer function*/
 		uint8_t *digital;								/**< Pointer to digital data allocated by the AllocateBuffer function*/
 		uint32_t trigger_position;						/**< Trigger position in samples*/
-		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/		
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in Sci-Compiler firmware*/		
 		// info 
 		uint32_t samples_analog;					/**< Number of samples in analog buffer*/
 		uint32_t samples_digital;					/**< Number of samples in digital buffer*/
@@ -91,7 +91,7 @@
 		uint32_t *data;									/**< Pointer to data allocated by the AllocateBuffer function*/
 		uint32_t zero_position;							/**< Position of the first sample in the buffer (the sample on which the oscilloscope triggered)*/
 		uint32_t trigger_position;						/**< Trigger position in samples. It's set equal to the pretrigger*/
-		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
+		uint64_t timecode;								/**< Timecode of the first sample. Taken by timecome input in Sci-Compiler firmware*/
 		// info
 		uint32_t buffer_size;						/**< Size of the buffer in samples*/
 		uint32_t samples_analog;					/**< Number of analog samples per channel in the buffer*/
@@ -117,9 +117,9 @@
 		uint32_t magic;							/**< Magic number to identify the data type*/
 		int32_t *analog;						/**< Pointer to analog data allocated by the AllocateBuffer function*/
 		uint64_t hits;							/**< Channel that generate a trigger (hits)*/
-		uint64_t timecode;						/**< Timecode of the first sample. Taken by timecome input in SciCompiler firmware*/
+		uint64_t timecode;						/**< Timecode of the first sample. Taken by timecome input in Sci-Compiler firmware*/
 		uint32_t counter;						/**< Counter progressive value*/
-		uint32_t user;							/**< User value field from SciCompiler IP block*/	
+		uint32_t user;							/**< User value field from Sci-Compiler IP block*/	
 		// info
 		uint32_t samples;					/**< Number of samples allocated in analog buffer*/
 		uint32_t valid_samples;				/**< Number of valid samples in analog buffer*/
@@ -159,7 +159,7 @@
 
 	/**
 	 * @brief Custom Packet body decoded data
-	 * @details Packet structure for custom packet body is defined by SciCompiler Custom Packet Editor
+	 * @details Packet structure for custom packet body is defined by Sci-Compiler Custom Packet Editor
 	 * The user can add a custom number of rows. Every rows is 32 bit wide.
 	 * Inside a row the user can add a custom number of fields. Every field can have a with between 1 and 32 bit.
 	 * It is possible to create filed larger than 32 bit by using multiple rows.
@@ -169,7 +169,7 @@
 	 * It is possible to cast rows to a custom structure to recostruct the original FPGA data layout.
 	 */
 	typedef struct {
-		uint32_t *row;			/**< Pointer to the row data, this express every raw in the event created by SciCompiler*/
+		uint32_t *row;			/**< Pointer to the row data, this express every raw in the event created by Sci-Compiler*/
 		uint32_t n;				/**< Number of row in the event*/
 	}SCISDK_CP_PACKET;
 

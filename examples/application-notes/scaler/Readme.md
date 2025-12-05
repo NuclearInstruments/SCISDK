@@ -1,4 +1,4 @@
-# Using SciCompiler and SciSDK to implement a pulse counter with leading edge trigger
+# Using Sci-Compiler and SciSDK to implement a pulse counter with leading edge trigger
 
 ## Experimental setup
 We used the following setup to test the pulse counter.
@@ -16,7 +16,7 @@ Both the modules are also connected to the computer. The digitizer is connected 
 
 
 
-## SciCompiler firmware
+## Sci-Compiler firmware
 At first, we put an **Analog Input** box and select A0 as the analog signal input.
 
 Before connecting the input signal to the oscilloscope, we put a **Polarity Inverter** box. The signal has negative polarity but it easier to work with positive signals, so we invert the polarity. We add a **Register Read** box (**pol**) and connect it to the Inverter, to set the inversion.

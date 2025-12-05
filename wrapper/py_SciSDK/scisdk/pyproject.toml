@@ -8,7 +8,7 @@ version = "1.5"
 authors = [
   { name="Andrea Abba", email="abba@nuclearinstruments.eu" },
 ]
-description = "SDK for SciCompiler generated firmware"
+description = "SDK for Sci-Compiler generated firmware"
 readme = "README.md"
 requires-python = ">=3.5"
 classifiers = [
@@ -16,7 +16,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-keywords = ["SciCompiler", "firmware", "fpga", "Nuclear Instruments", "CAEN"]
+keywords = ["Sci-Compiler", "firmware", "fpga", "Nuclear Instruments", "CAEN"]
 dependencies = [
 ]
 [project.urls]

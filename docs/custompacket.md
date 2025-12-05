@@ -9,9 +9,9 @@ The custom packet is particular version of the list where the user can define th
 
 In respect to the list the custom packet has a structured data type and can be decoded by the custom packet decoder.
 
-In order to decode the custom packet it is raccomanded that the first dword (32 bit) of the custom packet is a fixed constant. This is the align world, which is exported by SciCompiler and can be used to align the custom packet. Aldo is not mandatory to have an align world, this world reduce the propability that in case of lost data, all data in the packet got lost.
+In order to decode the custom packet it is raccomanded that the first dword (32 bit) of the custom packet is a fixed constant. This is the align world, which is exported by Sci-Compiler and can be used to align the custom packet. Aldo is not mandatory to have an align world, this world reduce the propability that in case of lost data, all data in the packet got lost.
 
-The JSON that SciCompiler generates for the custom packet contains the description for every words.
+The JSON that Sci-Compiler generates for the custom packet contains the description for every words.
 Most of programming language do not allows to define data type at runtime indeed it is necessary that the user define the struct in the source code and cast the data pointer to it.
 When custom packet is used in raw mode, it can be consider a list
 In the end, the custom packet is no more than a list with a wrapper to format the FPGA data word
@@ -22,7 +22,7 @@ On the PC side a buffer can be allocated using the `SCISDK_AllocateBuffer` funct
 **Decoded Mode**
 Because the List is a FIFO is not possible to know a priori the number of bytes that will be transferred. The  `SCISDK_AllocateBuffer` take indeed an extra parameter to specify the size of the buffer (in packets) on the PC side; the `SCISDK_ReadData` function will try to read the maximum number of bytes that can fit in the buffer. 
 
-*It is important to note that the buffer size is specified in packets and not in bytes. The FPGA packet size is specified in SciCompiler (i the example in the figure above the packet size is 5 DWORD, that means 5*32bit = 160bit or 20 bytes). This is always a multiple of 32 bits (DWORD). All transfer will always be done with a size multiple of the FPGA packet size. This ensure that is not possible to read partial packet that will corrupt data in an urecoverable way*
+*It is important to note that the buffer size is specified in packets and not in bytes. The FPGA packet size is specified in Sci-Compiler (i the example in the figure above the packet size is 5 DWORD, that means 5*32bit = 160bit or 20 bytes). This is always a multiple of 32 bits (DWORD). All transfer will always be done with a size multiple of the FPGA packet size. This ensure that is not possible to read partial packet that will corrupt data in an urecoverable way*
 
 **Raw Mode**
 In raw mode the costom packet do not process packet and ignore the information on packet size and structure present in the JSON. 
@@ -85,7 +85,7 @@ Use this mode only if you are sure that the bus is not shared with other readout
 ## Allignment check
 The `check_align_word` parameter can be used to check the packet alignment. If enabled, the `SCISDK_ReadData` function will check if the data are alligned to the packet.
 The alignament algorithm is the following:
-- first check the JSON from SciCompiler if the first word in the packet definition is a constant. This will be the alignament word.
+- first check the JSON from Sci-Compiler if the first word in the packet definition is a constant. This will be the alignament word.
 - read a bounce of data from the FPGA fifo
 - check if the first world in the bounce is the alignament word, if not, discard data until the alignament word is found.
 
@@ -97,7 +97,7 @@ In raw mode the data are not processed and the user will receive the raw data fr
 In decode mode the data are analized, divided in packet and it is possible to check the alignment to an aligment word.
 
 ## DMA
-The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA SciCompiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. If a custom packet is allocated as a DMA custom packet in SciCompiler, SciSDK can only read the endpoint using DMA. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. 
+The X5560 family allows to instantiate up to 1 DMA accelerated custom packet. In order to use DMA, the Custom Packet DMA Sci-Compiler IP MUST be used. Is not possible to use DMA with the standard Custom Packet IP. If a custom packet is allocated as a DMA custom packet in Sci-Compiler, SciSDK can only read the endpoint using DMA. The DMA allocate in the device 16 MWORD (word = 32 bit) FIFO in the DDR3 of the device; this allows to sustain a much higher event rate in respect of the standard custom packet. The DMA buffer is allocated in the device and the data are transferred to the PC using ZMQ socket. 
 On the PC side a user copy buffer can be allocated using the `SCISDK_AllocateBuffer` function. The minimum size of the buffer is 2048 word (8192 bytes). If user specify a buffer size smaller than 2048 word, the function will still allocate 2048 word and return a bigger buffer
 
 DMA Usage example is provided in the example folder of the source code of the library.
@@ -124,7 +124,7 @@ SCISDK_AllocateBuffer(<path to custom packet>, T_BUFFER_TYPE_RAW, (void**)&cp_da
 ```
 
 The buffer allocated with the `SCISDK_AllocateBuffer` function has a last size parameters containing the number of packet the user want to allocate in the buffer.
-For example if the user create in SciCompiler a custom packet with 5 rows (32 bit per row) and want to allocate a buffer with 1000 packets, the function will allocate a buffer with 16000 bytes. The  `SCISDK_ReadData` function will try to fill the buffer with 16000 bytes (1000 words * 16 bytes) each time is called.
+For example if the user create in Sci-Compiler a custom packet with 5 rows (32 bit per row) and want to allocate a buffer with 1000 packets, the function will allocate a buffer with 16000 bytes. The  `SCISDK_ReadData` function will try to fill the buffer with 16000 bytes (1000 words * 16 bytes) each time is called.
 It is crtical to ensure that the transfer will always be aligned to the word size to avoid to read partial words with irrecoverable data loss.
 
 This example allocate a buffer with 1000 packet:

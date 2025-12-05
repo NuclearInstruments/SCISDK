@@ -14,7 +14,7 @@ An energy spectrum has the following parameters taken from the JSON file:
  - the number of bins on Y
  - the number of bits on the z-axis
 
-Number of bins and number of bits define the memory occupancy of the spectrum indeed they are defined at compile time by SciCompiler.
+Number of bins and number of bits define the memory occupancy of the spectrum indeed they are defined at compile time by Sci-Compiler.
 
 
 # Parameters

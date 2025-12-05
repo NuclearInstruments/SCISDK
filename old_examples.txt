@@ -4,7 +4,7 @@
 
 
 
-	//TEST PARTE SCICOMPILER
+	//TEST PARTE Sci-Compiler
 
 	//ACCESSO AI REGISTRI
 	
