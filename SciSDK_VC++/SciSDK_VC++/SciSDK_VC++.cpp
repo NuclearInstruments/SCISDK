@@ -265,7 +265,7 @@ void DemoV2495_V4718_ETH() {
 	uint32_t v;
 
 	//TEST SCOPE
-	res = sdk.AddNewDevice("V4718ETH:v4718.sw:0x32100000", "V2495", "RegisterFileV2495.json", "board0");
+	res = sdk.AddNewDevice("V4718USB:59733:0x32100000", "V2495", "RegisterFileV2495.json", "board0");
 	sdk.SetParameter("board0:/boardapi/gd[0].delay", 100);
 	sdk.p_error(sdk.SetRegister("board0:/Registers/bb", 1));
 	sdk.p_error(sdk.GetRegister("board0:/Registers/aa", &v));
@@ -423,7 +423,8 @@ int main()
 	//DemoSciCompilerOscilloscope();
 	//DemoV2495_USB_LogicAnalyser();
 	//DemoV2495_USB_RegisterPerformance();
-	DemoSciCompilerList2();
+	//DemoSciCompilerList2();
+	DemoV2495_V4718_ETH();
 	return 0;
 
 }

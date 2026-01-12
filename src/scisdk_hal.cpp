@@ -101,7 +101,7 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 #ifdef _MSC_VER 
 		h_lib_instance = LoadLibrary(L"CAEN_PLULib.dll");
 #else
-		h_lib_instance = dlopen("CAEN_PLULib.so", RTLD_LAZY);
+		h_lib_instance = dlopen("libCAEN_PLU.so", RTLD_LAZY);
 		if (!h_lib_instance) {
 			/* fail to load the library */
 			fprintf(stderr, "Error: %s\n", dlerror());
@@ -320,23 +320,29 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 			else if (p[0] == "V1718") {
 				int vme_link = 0;
 				int vme_node = 0;
-				if (p.size() == 3) {
-					int vme_link = stoi(p[2]);
+				if (p.size() < 3) {
+					return NI_INVALID_PARAMETER;
+				}
+				if (p.size() > 3) {
 					int vme_node = stoi(p[3]);
 				}
+				uint32_t pid = stoi(p[1].c_str());
 				mtx.lock();
-				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V1718, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V1718, &pid, vme_node, p[2].c_str(), (int32_t*)_handle);
 				mtx.unlock();
 			}
 			else if (p[0] == "V2718") {
 				int vme_link = 0;
 				int vme_node = 0;
-				if (p.size() == 3) {
-					int vme_link = stoi(p[2]);
+				if (p.size() < 3) {
+					return NI_INVALID_PARAMETER;
+				}
+				if (p.size() > 3) {
 					int vme_node = stoi(p[3]);
 				}
+				uint32_t pid = stoi(p[1].c_str());
 				mtx.lock();
-				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V2718, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V2718, &pid, vme_node, p[2].c_str(), (int32_t*)_handle);
 				mtx.unlock();
 			}
 			else if (p[0] == "V4718ETH") {
@@ -353,30 +359,31 @@ NI_RESULT SciSDK_HAL::Connect(string Path, string model) {
 				mtx.unlock();
 			}
 			else if (p[0] == "V4718USB") {
-				uint32_t vme_base = 0;
+				
 				int vme_node = 0;
-				if (p.size() >= 2) {
-					stringstream ss;
-					ss << std::hex << p[2];
-					uint32_t vme_base;
-					ss >> vme_base;
+				if (p.size() < 3) {
+					return NI_INVALID_PARAMETER;
 				}
-				if (p.size() >= 3) {
+				if (p.size() > 3) {
 					int vme_node = stoi(p[3]);
 				}
+				uint32_t pid = stoi(p[1].c_str());
 				mtx.lock();
-				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V4718_USB, p[1].c_str(),  vme_node, p[2].c_str(), (int32_t*)_handle);
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_V4718_USB, &pid,  vme_node, p[2].c_str(), (int32_t*)_handle);
 				mtx.unlock();
 			}
 			else if (p[0] == "A4818") {
 				int vme_link = 0;
 				int vme_node = 0;
-				if (p.size() == 3) {
-					int vme_link = stoi(p[2]);
+				if (p.size() < 3) {
+					return NI_INVALID_PARAMETER;
+				}
+				if (p.size() > 3) {
 					int vme_node = stoi(p[3]);
 				}
+				uint32_t pid = stoi(p[1].c_str());
 				mtx.lock();
-				result = connect2495(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_A4818, p[1].c_str(), vme_link, vme_node, (int32_t*)_handle);
+				result = connect2495_2(V2495_CONNECTION_MODE::CAEN_PLU_CONNECT_VME_A4818, &pid, vme_node, p[2].c_str(), (int32_t*)_handle);
 				mtx.unlock();
 			}
 			else {
