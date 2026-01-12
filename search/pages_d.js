@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['sci_20compiler_20internal_20bus_0',['Sci-Compiler internal bus',['../md_docs_2mmc.html',1,'']]],
+  ['scicompiler_20internal_20bus_0',['SciCompiler internal bus',['../md_docs_2mmc.html',1,'']]],
   ['scisdk_20library_20introduction_1',['SciSDK Library Introduction',['../index.html',1,'']]],
   ['simple_20register_2',['Simple Register',['../md_docs_2registers.html',1,'']]],
   ['spectrum_3',['spectrum',['../md_docs_2spectrum.html',1,'Energy Spectrum'],['../md_docs_2tof-spectrum.html',1,'Time of Flight Spectrum']]],

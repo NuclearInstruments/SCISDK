@@ -21,7 +21,7 @@ var searchData=
   ['installed_20version_20of_20the_20library_20windows_18',['6.3.1 Verify installed version of the library [Windows]',['../index.html#autotoc_md18',1,'']]],
   ['instantiate_20the_20library_19',['instantiate the library',['../index.html#autotoc_md24',1,'8.3. Instantiate the library'],['../index.html#autotoc_md33',1,'9.4 Instantiate the library']]],
   ['integration_5ftime_20',['integration_time',['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___s_t_a_t_u_s.html#af8442083b7fe1b969039b101c6189e10',1,'SCISDK_SPECTRUM_STATUS']]],
-  ['internal_20bus_21',['Sci-Compiler internal bus',['../md_docs_2mmc.html',1,'']]],
+  ['internal_20bus_21',['SciCompiler internal bus',['../md_docs_2mmc.html',1,'']]],
   ['introduction_22',['introduction',['../index.html#autotoc_md1',1,'1. Introduction'],['../index.html',1,'SciSDK Library Introduction']]],
   ['inttime_23',['inttime',['../struct_s_c_i_s_d_k__2_d_h_i_s_t_o_g_r_a_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a777748977e66691e62a999e3ff2e0031',1,'SCISDK_2DHISTOGRAM_DECODED_BUFFER::inttime'],['../struct_s_c_i_s_d_k___s_p_e_c_t_r_u_m___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a82317b847ff7f4db233f00cb16b5ef7f',1,'SCISDK_SPECTRUM_DECODED_BUFFER::inttime']]],
   ['it_20in_20python_20and_20decode_20it_24',['Dump raw data in C and than open it in python and decode it',['../md_docs_2custompacket.html#autotoc_md134',1,'']]]

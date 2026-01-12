@@ -28,7 +28,7 @@ var searchData=
   ['decoding_20raw_20data_20in_20python_25',['Example of decoding RAW data in Python',['../md_docs_2frame.html#autotoc_md256',1,'']]],
   ['delay_26',['Start delay',['../md_docs_2tof-spectrum.html#autotoc_md173',1,'']]],
   ['desc_27',['DESC',['../struct__t_u_s_b_device.html#a0b9170997b77e53ddbfa8e748f27dc8c',1,'_tUSBDevice']]],
-  ['development_20kit_28',['COMPILE SCISDK (Sci-Compiler Development Kit)',['../index.html#autotoc_md16',1,'']]],
+  ['development_20kit_28',['COMPILE SCISDK (SciCompiler Development Kit)',['../index.html#autotoc_md16',1,'']]],
   ['digital_29',['digital',['../struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_u_a_l___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a2e8c8630895102ec3cb9b8e584f36311',1,'SCISDK_OSCILLOSCOPE_DUAL_DECODED_BUFFER::digital'],['../struct_s_c_i_s_d_k___o_s_c_i_l_l_o_s_c_o_p_e___d_e_c_o_d_e_d___b_u_f_f_e_r.html#a552793b9bd06f3189272e21f481b1b3c',1,'SCISDK_OSCILLOSCOPE_DECODED_BUFFER::digital']]],
   ['digitizer_20driver_30',['Wave Digitizer driver',['../md_docs_2digitizer.html',1,'']]],
   ['digitizer_2emd_31',['digitizer.md',['../digitizer_8md.html',1,'']]],
