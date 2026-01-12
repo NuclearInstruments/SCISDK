@@ -1,3 +1,6 @@
+# scisdk (1.2.141)
+  * V2495 fixed support for USB controller V4718USB
+  
 # scisdk (1.2.77)
   * V2495 support
   * CAEN Board error code mapping
